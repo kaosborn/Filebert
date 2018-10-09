@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5f0471a7-a28c-42ac-9bcf-d283bad61a09</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Mvvm</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DiagsPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDiagsUi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
+  </ItemGroup>
+</Project>

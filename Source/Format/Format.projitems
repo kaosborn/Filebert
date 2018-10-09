@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5caabe2d-eed6-4e95-a20b-24dd785f2a3a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Format</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileFormatVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FormatBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Issue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\ApeFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\AsfFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\AviFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\CueFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\DbFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FileItemVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FilesContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FlacBlockList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FlacFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FlvFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\GifFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\HashedFileVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\HashesContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\IcoFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\JpegFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogBuffer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacTrackVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogXldFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\M3uFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\M4aFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Md5Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\MkvFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\MovFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mp3Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mp3Header.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mp3LameBlock.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mp4Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mpeg1Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mpeg2Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Mpeg4Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\OggFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\PngChunkVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\PngFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\RiffContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\WavFormat.cs" />
+  </ItemGroup>
+</Project>

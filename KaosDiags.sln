@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2041
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDiags", "WpfDiags\WpfDiags.csproj", "{69262B82-195C-4784-9591-AFCAA0921FC9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Crypto", "Source\Crypto\Crypto.shproj", "{7DD83A86-4768-423E-9339-50BBC1ED1487}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mvvm", "Source\Mvvm\Mvvm.shproj", "{5F0471A7-A28C-42AC-9BCF-D283BAD61A09}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Diags", "Source\Diags\Diags.shproj", "{3AF3A1B2-FF76-405A-903E-C9B2DF580300}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SysIo", "Source\SysIo\SysIo.shproj", "{2893FF69-8187-4376-B170-A210C60B5B63}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Format", "Source\Format\Format.shproj", "{5CAABE2D-EED6-4E95-A20B-24DD785F2A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConDiags", "ConDiags\ConDiags.csproj", "{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\SysIo\SysIo.projitems*{2893ff69-8187-4376-b170-a210c60b5b63}*SharedItemsImports = 13
+		Source\Diags\Diags.projitems*{3af3a1b2-ff76-405a-903e-c9b2df580300}*SharedItemsImports = 13
+		Source\Format\Format.projitems*{5caabe2d-eed6-4e95-a20b-24dd785f2a3a}*SharedItemsImports = 13
+		Source\Mvvm\Mvvm.projitems*{5f0471a7-a28c-42ac-9bcf-d283bad61a09}*SharedItemsImports = 13
+		Source\Crypto\Crypto.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\Diags\Diags.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\Format\Format.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\Mvvm\Mvvm.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\SysIo\SysIo.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\Crypto\Crypto.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\Diags\Diags.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\Format\Format.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\SysIo\SysIo.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\Crypto\Crypto.projitems*{7dd83a86-4768-423e-9339-50bbc1ed1487}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DD83A86-4768-423E-9339-50BBC1ED1487} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{5F0471A7-A28C-42AC-9BCF-D283BAD61A09} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{3AF3A1B2-FF76-405A-903E-C9B2DF580300} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{2893FF69-8187-4376-B170-A210C60B5B63} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{5CAABE2D-EED6-4E95-A20B-24DD785F2A3A} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A78269A7-58AF-4709-835E-CA6CC1AE5647}
+	EndGlobalSection
+EndGlobal
