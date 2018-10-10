@@ -58,6 +58,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\FlacControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HashFileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +109,9 @@
     <Compile Include="Controls\Extender.cs" />
     <Compile Include="Controls\FileHeaderControl.xaml.cs">
       <DependentUpon>FileHeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FlacControl.xaml.cs">
+      <DependentUpon>FlacControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HashFileControl.xaml.cs">
       <DependentUpon>HashFileControl.xaml</DependentUpon>

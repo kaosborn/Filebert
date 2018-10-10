@@ -128,19 +128,31 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
+            <TabItem Header=".flac" HorizontalAlignment="Left" Margin="0" Width="55">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Flac}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:FlacControl/>
+            </TabItem>
             <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="65">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding LogEac}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
                 <app:LogEacControl/>
             </TabItem>
-            <TabItem x:Name="m3uTab" Header=".m3u" HorizontalAlignment="Left" Margin="0" Width="57">
+            <TabItem Header=".m3u" HorizontalAlignment="Left">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -162,9 +174,9 @@
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
-                <!--<app:Md5Control/>-->
+                <app:Md5Control/>
             </TabItem>
-            <TabItem x:Name="mp3Tab" Header=".mp3" HorizontalAlignment="Left" Margin="0" Width="57">
+            <TabItem Header=".mp3" HorizontalAlignment="Left">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>

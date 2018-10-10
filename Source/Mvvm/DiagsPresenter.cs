@@ -39,6 +39,7 @@ namespace AppViewModel
 
         public int CurrentTabNumber { get; set; }
         public int JobCounter { get; private set; } = 0;  // For unit tests.
+        public FlacFormat Flac { get; private set; }
         public LogEacFormat LogEac { get; private set; }
         public M3uFormat M3u { get; private set; }
         public Md5Format Md5 { get; private set; }
@@ -142,7 +143,9 @@ namespace AppViewModel
 
             public void RefreshTab (FormatBase fmt)
             {
-                if (fmt is LogEacFormat logEac)
+                if (fmt is FlacFormat flac)
+                    Data.Flac = flac;
+                else if (fmt is LogEacFormat logEac)
                     Data.LogEac = logEac;
                 else if (fmt is M3uFormat m3u)
                     Data.M3u = m3u;
@@ -174,6 +177,8 @@ namespace AppViewModel
             void Job (object sender, DoWorkEventArgs jobArgs)
             {
                 jobArgs.Result = (string) null;
+                firstTInfo = null;
+                firstParsingIx = 0;
 
                 try
                 {

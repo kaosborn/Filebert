@@ -375,40 +375,43 @@ namespace KaosFormat
                 if (Data.Issues.HasFatal)
                     return;
 
-                if ((hashFlags & Hashes.Intrinsic) != 0)
+                if ((hashFlags & Hashes.Intrinsic) != 0 && Data.ActualAudioHeaderCRC8 == null)
                 {
-                    if (Data.ActualAudioHeaderCRC8 == null)
-                    {
-                        var hasher = new Crc8Hasher();
-                        hasher.Append (Data.aHdr);
-                        var hash = hasher.GetHashAndReset();
-                        Data.ActualAudioHeaderCRC8 = hash[0];
+                    var hasher1 = new Crc8Hasher();
+                    hasher1.Append (Data.aHdr);
+                    byte[] hash1 = hasher1.GetHashAndReset();
+                    Data.ActualAudioHeaderCRC8 = hash1[0];
 
-                        if (Data.IsBadHeader)
-                            IssueModel.Add ("CRC-8 check failed on audio header.");
+                    if (Data.IsBadHeader)
+                        IssueModel.Add ("CRC-8 check failed on audio header.");
+
+                    try
+                    {
+                        var hasher2 = new Crc16nHasher();
+                        hasher2.Append (Data.fbs, Data.mediaPosition, Data.FileSize - Data.mediaPosition - 2);
+                        byte[] hash2 = hasher2.GetHashAndReset();
+                        Data.ActualAudioBlockCRC16 = BitConverter.ToUInt16 (hash2, 0);
+                    }
+                    catch (EndOfStreamException ex)
+                    {
+                        IssueModel.Add ("Read failed while checking audio CRC: " + ex.Message, Severity.Fatal);
+                        return;
                     }
 
-                    if (Data.ActualAudioBlockCRC16 == null)
-                        try
-                        {
-                            var hasher = new Crc16nHasher();
-                            hasher.Append (Data.fbs, Data.mediaPosition, Data.FileSize - Data.mediaPosition - 2);
-                            var hash = hasher.GetHashAndReset();
-                            Data.ActualAudioBlockCRC16 = BitConverter.ToUInt16 (hash, 0);
-                        }
-                        catch (EndOfStreamException ex)
-                        {
-                            IssueModel.Add ("Read failed while verifying audio CRC: " + ex.Message, Severity.Fatal);
-                            return;
-                        }
-
-                        if (Data.IsBadDataCRC16)
-                            IssueModel.Add ("CRC-16 check failed on audio data.");
+                    if (Data.ActualAudioBlockCRC16.Value == Data.StoredAudioBlockCRC16 && Data.ActualAudioHeaderCRC8.Value == Data.StoredAudioHeaderCRC8)
+                        Data.ChIssue = Data.CdIssue = IssueModel.Add ("CRC checks successful on audio header and data.", Severity.Noise, IssueTags.Success);
+                    else
+                    {
+                        if (Data.ActualAudioHeaderCRC8.Value != Data.StoredAudioHeaderCRC8)
+                            Data.ChIssue = IssueModel.Add ("CRC-8 check failed on audio header.", Severity.Error, IssueTags.Failure);
                         else
-                            if (Data.IsBadHeader)
-                                IssueModel.Add ("CRC-16 check successful.", Severity.Advisory);
-                            else
-                                IssueModel.Add ("CRC-8, CRC-16 checks successful.", Severity.Noise);
+                            Data.ChIssue = IssueModel.Add ("CRC-8 check successful on audio header.", Severity.Noise, IssueTags.Success);
+
+                        if (Data.ActualAudioBlockCRC16.Value != Data.StoredAudioBlockCRC16)
+                            Data.CdIssue = IssueModel.Add ("CRC-16 check failed on audio data.", Severity.Error, IssueTags.Failure);
+                        else
+                            Data.CdIssue = IssueModel.Add ("CRC-16 check successful on audio data.", Severity.Noise, IssueTags.Success);
+                    }
                 }
 
                 if ((hashFlags & Hashes.PcmMD5) != 0 && Data.actualAudioDataMD5 == null)
@@ -433,9 +436,9 @@ namespace KaosFormat
                             { IssueModel.Add ("Read failed while verifying audio MD5: " + ex.Message, Severity.Fatal); }
 
                             if (Data.IsBadDataMD5)
-                                IssueModel.Add ("MD5 check failed on audio data.");
+                                Data.CmIssue = IssueModel.Add ("MD5 check failed on audio data.", Severity.Error, IssueTags.Failure);
                             else
-                                IssueModel.Add ("MD5 check successful.", Severity.Noise);
+                                Data.CmIssue = IssueModel.Add ("MD5 check successful on audio data.", Severity.Noise, IssueTags.Success);
                         }
                 }
 
@@ -452,7 +455,7 @@ namespace KaosFormat
                         {
                             var hasher = new Crc32rHasher();
                             hasher.Append (br);
-                            var hash = hasher.GetHashAndReset();
+                            byte[] hash = hasher.GetHashAndReset();
                             Data.ActualPcmCRC32 = BitConverter.ToUInt32 (hash, 0);
                         }
                 }
@@ -481,7 +484,7 @@ namespace KaosFormat
         private byte[] mHdr = null;
         private byte[] aHdr = null;
 
-        public readonly FlacBlockList Blocks = new FlacBlockList();
+        public FlacBlockList Blocks { get; private set; } = new FlacBlockList();
 
         public int MetadataBlockStreamInfoSize { get; private set; }
         public int MinBlockSize { get; private set; }
@@ -525,6 +528,10 @@ namespace KaosFormat
 
         public bool IsBadDataCRC16 => ActualAudioBlockCRC16 != null && ActualAudioBlockCRC16.Value != StoredAudioBlockCRC16;
         public bool IsBadDataMD5 => actualAudioDataMD5 != null && ! actualAudioDataMD5.SequenceEqual (storedAudioDataMD5);
+
+        public Issue ChIssue { get; private set; }
+        public Issue CdIssue { get; private set; }
+        public Issue CmIssue { get; private set; }
 
         private FlacFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
