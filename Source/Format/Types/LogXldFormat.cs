@@ -17,6 +17,9 @@ namespace KaosFormat
         public override string[] ValidNames
          => Names;
 
+        public override string LongName
+         => "log (XLD)";
+
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {
             if (StartsWith (hdr, logXldSig))

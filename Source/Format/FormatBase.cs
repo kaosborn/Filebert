@@ -27,8 +27,6 @@ namespace KaosFormat
     [DebuggerDisplay (@"\{{Name}}")]
     public abstract class FormatBase : INotifyPropertyChanged
     {
-        public static readonly Encoding Cp1252 = Encoding.GetEncoding (1252);
-
         public class Model
         {
             protected FormatBase _data;
@@ -282,6 +280,8 @@ namespace KaosFormat
         }
 
 
+        public static readonly Encoding Cp1252 = Encoding.GetEncoding (1252);
+
         protected Stream fbs;
         protected long mediaPosition = -1;
         protected byte[] fBuf;     // May cache entire file.
@@ -321,6 +321,7 @@ namespace KaosFormat
         public abstract string[] ValidNames
         { get; }
 
+        public virtual string LongName => ValidNames[0];
         public virtual bool IsBadHeader => false;
         public virtual bool IsBadData => false;
 

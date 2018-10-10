@@ -14,6 +14,9 @@ namespace KaosFormat
         public override string[] ValidNames
          => Names;
 
+        public override string LongName
+         => "db (Thumbs)";
+
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {
             if (path.EndsWith (System.IO.Path.DirectorySeparatorChar + "thumbs.db", StringComparison.InvariantCultureIgnoreCase))
@@ -53,6 +56,9 @@ namespace KaosFormat
 
         public override string[] ValidNames
          => Names;
+
+        public override string LongName
+         => "db (*hidden*)";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

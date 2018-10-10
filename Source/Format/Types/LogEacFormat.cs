@@ -19,7 +19,8 @@ namespace KaosFormat
         public override string[] ValidNames
          => Names;
 
-        public /*override*/ string LongName => "log (EAC)";
+        public override string LongName
+         => "log (EAC)";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

@@ -128,7 +128,7 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem x:Name="logTab"  Header=".log" HorizontalAlignment="Left" Margin="0" Width="57">
+            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="65">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>

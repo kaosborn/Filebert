@@ -155,9 +155,7 @@ namespace AppViewModel
                 else if (fmt is Md5Format md5)
                     Data.Md5 = md5;
 
-                string n2 = fmt.ValidNames[0];
-                //if fmt.na
-                TabInfo ti = Data.tabInfo[fmt.ValidNames[0]];
+                TabInfo ti = Data.tabInfo[fmt.LongName];
                 Data.CurrentTabNumber = ti.TabPosition;
 
                 Data.RaisePropertyChangedEvent (null);
@@ -181,7 +179,7 @@ namespace AppViewModel
                 {
                     foreach (FormatBase.Model parsing in CheckRoot())
                         if (parsing != null)
-                            if (Data.tabInfo.TryGetValue (parsing.Data.NamedFormat, out TabInfo tInfo))
+                            if (Data.tabInfo.TryGetValue (parsing.Data.LongName, out TabInfo tInfo))
                             {
                                 if (firstTInfo == null)
                                 { firstTInfo = tInfo; firstParsingIx = tInfo.TabPosition; }
