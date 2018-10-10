@@ -72,37 +72,8 @@ namespace KaosFormat
                 return true;
             }
 #endregion
-
         }
 
-
-        private LogEacTrack (int number, string path, string pregap, string peak, string speed,
-                             string quality, uint? testCRC, uint? copyCRC, bool isOK, int? arVersion, int? confidence)
-        {
-            this.Number = number;
-            this.FilePath = path;
-            this.Pregap = pregap;
-            this.Peak = peak;
-            this.Speed = speed;
-            this.Qual = quality;
-            this.TestCRC = testCRC;
-            this.CopyCRC = copyCRC;
-            this.HasOK = isOK;
-            this.AR = arVersion;
-            this.ArConfidence = confidence;
-        }
-
-        //public bool? IsRipOK
-        //{
-        //    get
-        //    {
-        //        if (! HasOK || ! HasQuality || IsBadCRC || CtConfidence < 0) return false;
-        //        if (RipSeverest != null && RipSeverest.Level >= Severity.Error) return false;
-        //        return true;
-        //        //if (MatchModel == null) return null;
-        //        //return ! MatchModel.Data.Issues.HasError;
-        //    }
-        //}
 
         public int Number { get; private set; }
         public string FilePath { get; private set; }
@@ -120,8 +91,22 @@ namespace KaosFormat
         public bool HasQuality => ! String.IsNullOrWhiteSpace (Qual);
         public bool IsBadCRC => CopyCRC != null && TestCRC != null && TestCRC != CopyCRC;
 
-        //private FlacFormat.Model MatchModel = null;
-        //public FlacFormat Match => MatchModel?.Data;
         public Issue RipSeverest { get; private set; }
+
+        private LogEacTrack (int number, string path, string pregap, string peak, string speed,
+                             string quality, uint? testCRC, uint? copyCRC, bool isOK, int? arVersion, int? confidence)
+        {
+            this.Number = number;
+            this.FilePath = path;
+            this.Pregap = pregap;
+            this.Peak = peak;
+            this.Speed = speed;
+            this.Qual = quality;
+            this.TestCRC = testCRC;
+            this.CopyCRC = copyCRC;
+            this.HasOK = isOK;
+            this.AR = arVersion;
+            this.ArConfidence = confidence;
+        }
     }
 }

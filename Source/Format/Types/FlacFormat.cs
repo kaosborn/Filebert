@@ -356,7 +356,6 @@ namespace KaosFormat
                     IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.Fussy);
             }
 
-
             private static Process StartFlac (string name)
             {
                 var px = new Process();
@@ -368,7 +367,6 @@ namespace KaosFormat
                 var isGo = px.Start();
                 return px;
             }
-
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
@@ -541,29 +539,6 @@ namespace KaosFormat
 
         public override bool IsBadData
          => IsBadDataCRC16 || IsBadDataMD5;
-
-        public string GetTag (string name)
-        {
-            name = name.ToLower() + "=";
-            foreach (var item in Blocks.Tags.Lines)
-                if (item.ToLower().StartsWith (name))
-                    return item.Substring (name.Length);
-            return String.Empty;
-        }
-
-
-        public string GetMultiTag (string name)
-        {
-            string result = null;
-            name = name.ToLower() + "=";
-            foreach (var item in Blocks.Tags.Lines)
-                if (item.ToLower().StartsWith (name))
-                    if (result == null)
-                        result = item.Substring (name.Length);
-                    else
-                        result += @"\\" + item.Substring (name.Length);
-            return result;
-        }
 
         public override void GetDetailsBody (IList<string> report, Granularity scope)
         {

@@ -141,30 +141,6 @@ namespace KaosFormat
             }
 
 
-            public Issue TkIssue { get { return Data.TkIssue; } set { Data.TkIssue = value; } }
-
-            public void SetWorkName (string workName)
-            { Data.WorkName = workName; }
-
-            private static string CheckDate (string date)
-            {
-                if ((date.Length != 4 && date.Length != 10) || (! date.StartsWith ("19") && ! date.StartsWith ("20"))
-                                                            || ! Char.IsDigit (date[2]) || ! Char.IsDigit (date[3]))
-                    return "tag not like YYYY or YYYY-MM-DD with YYYY in 1900 to 2099.";
-                return null;
-            }
-
-
-            private void CheckWhite (string tagName, string tagVal)
-            {
-                if (tagVal.StartsWith (" "))
-                    IssueModel.Add (tagName + " tag has leading white space.", Severity.Warning, IssueTags.BadTag);
-                if (tagVal.EndsWith (" "))
-                    IssueModel.Add (tagName + " tag has trailing white space.", Severity.Warning, IssueTags.BadTag);
-                if (tagVal.Contains ("  "))
-                    IssueModel.Add (tagName + " tag has adjacent spaces.", Severity.Warning, IssueTags.BadTag);
-            }
-
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
                 base.CalcHashes (hashFlags, validationFlags);
