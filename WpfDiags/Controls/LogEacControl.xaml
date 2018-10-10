@@ -32,6 +32,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
@@ -47,17 +48,17 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <app:FileHeaderControl Grid.ColumnSpan="4"/>
-        <TextBlock Grid.Row="1" Text="Rip album:"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=RipArtistAlbum, Mode=OneWay}"/>
-        <TextBlock Grid.Row="2" Text="Rip date:"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=RipDate, Mode=OneWay}"/>
-        <TextBlock Grid.Row="3" Text="Drive:"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=Drive, Mode=OneWay}"/>
-        <TextBlock Grid.Row="4" Text="Interface:"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=Interface, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Text="Read mode:"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=ReadModeLong, Mode=OneWay}">
+        <app:FileHeaderControl Grid.ColumnSpan="9"/>
+        <TextBlock Grid.Row="2" Text="Rip album:"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=RipArtistAlbum, Mode=OneWay}"/>
+        <TextBlock Grid.Row="3" Text="Rip date:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=RipDate, Mode=OneWay}"/>
+        <TextBlock Grid.Row="4" Text="Drive:"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Drive, Mode=OneWay}"/>
+        <TextBlock Grid.Row="5" Text="Interface:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Interface, Mode=OneWay}"/>
+        <TextBlock Grid.Row="6" Text="Read mode:"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=ReadModeLong, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -71,8 +72,8 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <TextBlock Grid.Row="6" Text="Gap:"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="7" Text="{Binding Path=GapHandling, Mode=OneWay}">
+        <TextBlock Grid.Row="7" Text="Gap:"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=GapHandling, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -87,14 +88,14 @@
             </TextBox.Style>
         </TextBox>
 
-        <TextBlock Grid.Row="7" Text="Drive offset:"/>
-        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=ReadOffset, Mode=OneWay}"/>
-        <TextBlock Grid.Row="8" Text="Overread:"/>
-        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Path=Overread, Mode=OneWay}"/>
-        <TextBlock Grid.Row="9" Text="Fill missing samples:"/>
-        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Path=FillWithSilence, Mode=OneWay}"/>
-        <TextBlock Grid.Row="10" Text="Delete edge silence:"/>
-        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=TrimSilence, Mode=OneWay}">
+        <TextBlock Grid.Row="8" Text="Drive offset:"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Path=ReadOffset, Mode=OneWay}"/>
+        <TextBlock Grid.Row="9" Text="Overread:"/>
+        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Path=Overread, Mode=OneWay}"/>
+        <TextBlock Grid.Row="10" Text="Fill missing samples:"/>
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=FillWithSilence, Mode=OneWay}"/>
+        <TextBlock Grid.Row="11" Text="Delete edge silence:"/>
+        <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding Path=TrimSilence, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -109,12 +110,12 @@
             </TextBox.Style>
         </TextBox>
 
-        <TextBlock Grid.Row="7" Grid.Column="3" Text="Use nulls in CRCs:"/>
-        <TextBox Grid.Row="7" Grid.Column="4" Text="{Binding Path=CalcWithNulls, Mode=OneWay}"/>
-        <TextBlock Grid.Row="8" Grid.Column="3" Text="Quality:"/>
-        <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding Path=Quality, Mode=OneWay}"/>
-        <TextBlock Grid.Row="9" Grid.Column="3" Text="Normalization:"/>
-        <TextBox Grid.Row="9" Grid.Column="4" Text="{Binding Path=NormalizeTo, Mode=OneWay}">
+        <TextBlock Grid.Row="8" Grid.Column="3" Text="Use nulls in CRCs:"/>
+        <TextBox Grid.Row="8" Grid.Column="4" Text="{Binding Path=CalcWithNulls, Mode=OneWay}"/>
+        <TextBlock Grid.Row="9" Grid.Column="3" Text="Quality:"/>
+        <TextBox Grid.Row="9" Grid.Column="4" Text="{Binding Path=Quality, Mode=OneWay}"/>
+        <TextBlock Grid.Row="10" Grid.Column="3" Text="Normalization:"/>
+        <TextBox Grid.Row="10" Grid.Column="4" Text="{Binding Path=NormalizeTo, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -128,8 +129,8 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <TextBlock Grid.Row="10" Grid.Column="3" Text="Track count:"/>
-        <TextBox Name="tkCount" Grid.Row="10" Grid.Column="4" Text="{Binding Path=GuiTracks.Items.Count, Mode=OneWay}">
+        <TextBlock Grid.Row="11" Grid.Column="3" Text="Track count:"/>
+        <TextBox Name="tkCount" Grid.Row="11" Grid.Column="4" Text="{Binding Path=GuiTracks.Items.Count, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -147,10 +148,10 @@
             </TextBox.Style>
         </TextBox>
 
-        <TextBlock Grid.Row="7" Grid.Column="6" Text="EAC version:"/>
-        <TextBox Grid.Row="7" Grid.Column="7" Text="{Binding Path=EacVersionLong, Mode=OneWay}"/>
-        <TextBlock Grid.Row="8" Grid.Column="6" Text="EAC self-hash:"/>
-        <TextBox Grid.Row="8" Grid.Column="7" Text="{Binding Path=SelfHashLong, Mode=OneWay}">
+        <TextBlock Grid.Row="8" Grid.Column="6" Text="EAC version:"/>
+        <TextBox Grid.Row="8" Grid.Column="7" Text="{Binding Path=EacVersionLong, Mode=OneWay}"/>
+        <TextBlock Grid.Row="9" Grid.Column="6" Text="EAC self-hash:"/>
+        <TextBox Grid.Row="9" Grid.Column="7" Text="{Binding Path=SelfHashLong, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -167,8 +168,8 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <TextBlock Grid.Row="9" Grid.Column="6" Text="AccurateRip:"/>
-        <TextBox Grid.Row="9" Grid.Column="7" Text="{Binding Path=AccurateRipLong, Mode=OneWay}">
+        <TextBlock Grid.Row="10" Grid.Column="6" Text="AccurateRip:"/>
+        <TextBox Grid.Row="10" Grid.Column="7" Text="{Binding Path=AccurateRipLong, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -185,8 +186,8 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <TextBlock Grid.Row="10" Grid.Column="6" Text="CueTools DB:"/>
-        <TextBox Grid.Row="10" Grid.Column="7" Text="{Binding Path=CueToolsLong, Mode=OneWay}">
+        <TextBlock Grid.Row="11" Grid.Column="6" Text="CueTools DB:"/>
+        <TextBox Grid.Row="11" Grid.Column="7" Text="{Binding Path=CueToolsLong, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -204,7 +205,7 @@
             </TextBox.Style>
         </TextBox>
 
-        <ListView Grid.Row="12" Grid.ColumnSpan="8" ItemsSource="{Binding GuiTracks.Items}">
+        <ListView Grid.Row="13" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
                 <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
@@ -246,7 +247,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridSplitter Grid.Row="13" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="14" Grid.ColumnSpan="8"/>
+        <GridSplitter Grid.Row="14" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="15" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>

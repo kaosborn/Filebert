@@ -143,10 +143,6 @@ namespace KaosFormat
 
             public Issue TkIssue { get { return Data.TkIssue; } set { Data.TkIssue = value; } }
 
-            public void SetGuiTracks()
-            { Data.GuiTracks = Data.Tracks; }
-
-
             public void SetWorkName (string workName)
             { Data.WorkName = workName; }
 
@@ -466,7 +462,6 @@ namespace KaosFormat
         private static readonly byte[] logEacSig1x = Encoding.Unicode.GetBytes ("\uFEFFExact Audio Copy V");
 
         public LogEacTrack.Vector Tracks { get; private set; }
-        public LogEacTrack.Vector GuiTracks { get; private set; }
         public string EacVersionText { get; private set; }
         public string RipDate { get; private set; }
         public string Artist { get; private set; }
