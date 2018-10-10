@@ -346,7 +346,7 @@ namespace KaosFormat
                 if (Data.Issues.HasFatal)
                     return;
 
-                if (Data.Lame != null && (hashFlags & Hashes.Intrinsic) != 0 && Data.Lame.ActualDataCrc == null)
+                if ((hashFlags & Hashes.Intrinsic) != 0 && Data.Lame != null && Data.Lame.ActualDataCrc == null)
                 {
                     var hasher = new Crc16rHasher();
                     hasher.Append (Data.fBuf, (int) Data.mediaPosition, Data.Lame.LameHeaderSize);
@@ -357,16 +357,16 @@ namespace KaosFormat
                     hash = hasher.GetHashAndReset();
                     LameModel.SetActualDataCrc (BitConverter.ToUInt16 (hash, 0));
 
-                    if (! Data.IsBadData && ! Data.IsBadHeader)
+                    if (! Data.IsBadDataCrc && ! Data.IsBadHeaderCrc)
                         Data.ChIssue = Data.CdIssue = IssueModel.Add ("CRC-16 checks successful.", Severity.Noise, IssueTags.Success);
                     else
                     {
-                        if (Data.IsBadHeader)
+                        if (Data.IsBadHeaderCrc)
                             Data.ChIssue = IssueModel.Add ("CRC-16 check failed on audio header.", Severity.Error, IssueTags.Failure);
                         else
                             Data.ChIssue = IssueModel.Add ("CRC-16 check successful on audio header.", Severity.Noise, IssueTags.Success);
 
-                        if (Data.IsBadData)
+                        if (Data.IsBadDataCrc)
                             Data.CdIssue = IssueModel.Add ("CRC-16 check failed on audio data.", Severity.Error, IssueTags.Failure);
                         else
                             Data.CdIssue = IssueModel.Add ("CRC-16 check successful on audio data.", Severity.Noise, IssueTags.Success);
@@ -492,18 +492,17 @@ namespace KaosFormat
             }
         }
 
+        public bool IsBadHeaderCrc => Lame != null && Lame.ActualHeaderCrc != null && Lame.ActualHeaderCrc != Lame.StoredHeaderCrc;
+        public bool IsBadDataCrc => Lame != null && Lame.ActualDataCrc != null && Lame.ActualDataCrc != Lame.StoredDataCrc;
+
+        public override bool IsBadHeader => IsBadHeaderCrc;
+        public override bool IsBadData => IsBadDataCrc;
+
         public Issue ChIssue { get; private set; }
         public Issue CdIssue { get; private set; }
 
         private Mp3Format (Model model, Stream stream, string path) : base (model, stream, path)
         { }
-
-        public override bool IsBadHeader
-         => Lame != null && Lame.ActualHeaderCrc != null && Lame.ActualHeaderCrc != Lame.StoredHeaderCrc;
-
-        public override bool IsBadData
-         => Lame != null && Lame.ActualDataCrc != null && Lame.ActualDataCrc != Lame.StoredDataCrc;
-
 
         public override void GetDetailsBody (IList<string> report, Granularity scope)
         {

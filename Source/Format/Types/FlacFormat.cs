@@ -380,9 +380,6 @@ namespace KaosFormat
                     byte[] hash1 = hasher1.GetHashAndReset();
                     Data.ActualAudioHeaderCRC8 = hash1[0];
 
-                    if (Data.IsBadHeader)
-                        IssueModel.Add ("CRC-8 check failed on audio header.");
-
                     try
                     {
                         var hasher2 = new Crc16nHasher();
@@ -396,16 +393,16 @@ namespace KaosFormat
                         return;
                     }
 
-                    if (Data.ActualAudioBlockCRC16.Value == Data.StoredAudioBlockCRC16 && Data.ActualAudioHeaderCRC8.Value == Data.StoredAudioHeaderCRC8)
+                    if (! Data.IsBadDataCRC && ! Data.IsBadHeaderCRC)
                         Data.ChIssue = Data.CdIssue = IssueModel.Add ("CRC checks successful on audio header and data.", Severity.Noise, IssueTags.Success);
                     else
                     {
-                        if (Data.ActualAudioHeaderCRC8.Value != Data.StoredAudioHeaderCRC8)
+                        if (Data.IsBadHeaderCRC)
                             Data.ChIssue = IssueModel.Add ("CRC-8 check failed on audio header.", Severity.Error, IssueTags.Failure);
                         else
                             Data.ChIssue = IssueModel.Add ("CRC-8 check successful on audio header.", Severity.Noise, IssueTags.Success);
 
-                        if (Data.ActualAudioBlockCRC16.Value != Data.StoredAudioBlockCRC16)
+                        if (Data.IsBadDataCRC)
                             Data.CdIssue = IssueModel.Add ("CRC-16 check failed on audio data.", Severity.Error, IssueTags.Failure);
                         else
                             Data.CdIssue = IssueModel.Add ("CRC-16 check successful on audio data.", Severity.Noise, IssueTags.Success);
@@ -524,8 +521,12 @@ namespace KaosFormat
         public UInt32? ActualPcmCRC32 { get; private set; }
         public string ActualPcmCRC32ToHex => ActualPcmCRC32?.ToString ("X8");
 
-        public bool IsBadDataCRC16 => ActualAudioBlockCRC16 != null && ActualAudioBlockCRC16.Value != StoredAudioBlockCRC16;
         public bool IsBadDataMD5 => actualAudioDataMD5 != null && ! actualAudioDataMD5.SequenceEqual (storedAudioDataMD5);
+        public bool IsBadDataCRC => ActualAudioBlockCRC16 != null && ActualAudioBlockCRC16.Value != StoredAudioBlockCRC16;
+        public bool IsBadHeaderCRC => ActualAudioHeaderCRC8 != null && ActualAudioHeaderCRC8.Value != StoredAudioHeaderCRC8;
+
+        public override bool IsBadHeader => IsBadHeaderCRC;
+        public override bool IsBadData => IsBadDataCRC || IsBadDataMD5;
 
         public Issue ChIssue { get; private set; }
         public Issue CdIssue { get; private set; }
@@ -533,12 +534,6 @@ namespace KaosFormat
 
         private FlacFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
-
-        public override bool IsBadHeader
-         => ActualAudioHeaderCRC8 != null && StoredAudioHeaderCRC8 != ActualAudioHeaderCRC8.Value;
-
-        public override bool IsBadData
-         => IsBadDataCRC16 || IsBadDataMD5;
 
         public override void GetDetailsBody (IList<string> report, Granularity scope)
         {
