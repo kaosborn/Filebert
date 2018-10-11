@@ -15,22 +15,23 @@ namespace AppViewModel
     {
         private List<FormatBase> parsings;
         public int TabPosition { get; private set; }
-        public int Index { get; private set; }
         public int Count => parsings.Count;
-        public FormatBase Current => parsings[Index];
+        public FormatBase Current => parsings[index];
+
+        private int index = -1;
+        public int Index
+        {
+            get => index;
+            set { if (parsings.Count > 0 && value >= 0 && value < parsings.Count) index = value; }
+        }
 
         public TabInfo (int tabPosition)
-        { this.TabPosition = tabPosition; this.Index = 0; this.parsings = new List<FormatBase>(); }
+        { this.TabPosition = tabPosition; this.parsings = new List<FormatBase>(); }
 
         public void Add (FormatBase fmt)
-        { Index = parsings.Count; parsings.Add (fmt); }
-
-        public void SetIndex (int index)
-        {
-            if (index >= 0 && index < parsings.Count)
-                Index = index;
-        }
+         => parsings.Add (fmt);
     }
+
 
     // The ViewModel binding class of Model-View-ViewModel.
     public class DiagsPresenter : Diags, INotifyPropertyChanged
@@ -63,7 +64,7 @@ namespace AppViewModel
                 TabInfo ti = Data.CurrentTabFormatInfo;
                 if (ti != null && ti.Count > 0)
                 {
-                    ti.SetIndex (0);
+                    ti.Index = 0;
                     RefreshTab (ti.Current);
                 }
             }
@@ -73,7 +74,7 @@ namespace AppViewModel
                 TabInfo ti = Data.CurrentTabFormatInfo;
                 if (ti != null && ti.Count > 0)
                 {
-                    ti.SetIndex (ti.Index + 1);
+                    ti.Index = ti.Index + 1;
                     RefreshTab (ti.Current);
                 }
             }
@@ -95,9 +96,6 @@ namespace AppViewModel
                 else if (fmt is Md5Format md5)
                     Data.Md5 = md5;
 
-                TabInfo ti = Data.tabInfo[fmt.LongName];
-                Data.CurrentTabNumber = ti.TabPosition;
-
                 Data.RaisePropertyChangedEvent (null);
             }
 
@@ -109,13 +107,11 @@ namespace AppViewModel
                 bg.RunWorkerAsync();
             }
 
-            TabInfo firstTInfo = null;
-            int firstParsingIx = 0;
+            int newTabNumber;
             void Job (object sender, DoWorkEventArgs jobArgs)
             {
                 jobArgs.Result = (string) null;
-                firstTInfo = null;
-                firstParsingIx = 0;
+                newTabNumber = -1;
 
                 try
                 {
@@ -123,8 +119,8 @@ namespace AppViewModel
                         if (parsing != null)
                             if (Data.tabInfo.TryGetValue (parsing.Data.LongName, out TabInfo tInfo))
                             {
-                                if (firstTInfo == null)
-                                { firstTInfo = tInfo; firstParsingIx = tInfo.TabPosition; }
+                                if (newTabNumber < 0)
+                                    newTabNumber = tInfo.TabPosition;
                                 tInfo.Add (parsing.Data);
                             }
                 }
@@ -141,10 +137,20 @@ namespace AppViewModel
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error, Likeliness.None);
 
-                if (firstTInfo != null)
+                for (int ix = 0; ix < Data.tabInfo.Count; ++ix)
                 {
-                    firstTInfo.SetIndex (firstParsingIx);
-                    RefreshTab (firstTInfo.Current);
+                    var ti = Data.tabInfo.Values[ix];
+                    if (ti.Index < 0 && ti.Count > 0)
+                    {
+                        ti.Index = 0;
+                        RefreshTab (Data.tabInfo.Values[ix].Current);
+                    }
+                }
+
+                if (Data.CurrentTabNumber < 1)
+                {
+                    Data.CurrentTabNumber = newTabNumber;
+                    Data.RaisePropertyChangedEvent (null);
                 }
 
                 ++Data.JobCounter;
