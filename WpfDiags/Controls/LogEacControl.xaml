@@ -130,7 +130,7 @@
             </TextBox.Style>
         </TextBox>
         <TextBlock Grid.Row="11" Grid.Column="3" Text="Track count:"/>
-        <TextBox Name="tkCount" Grid.Row="11" Grid.Column="4" Text="{Binding Path=GuiTracks.Items.Count, Mode=OneWay}">
+        <TextBox Name="tkCount" Grid.Row="11" Grid.Column="4" Text="{Binding Path=Tracks.Items.Count, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -234,6 +234,7 @@
                             </GridViewColumn.HeaderContainerStyle>
                         </GridViewColumn>
                         <GridViewColumn Header="Copy CRC" DisplayMemberBinding="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
+                        <GridViewColumn Header="Match" DisplayMemberBinding="{Binding MatchName, Mode=OneWay}"/>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

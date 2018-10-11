@@ -128,7 +128,7 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Header=".flac" HorizontalAlignment="Left" Margin="0" Width="55">
+            <TabItem Header=".flac" HorizontalAlignment="Left">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
