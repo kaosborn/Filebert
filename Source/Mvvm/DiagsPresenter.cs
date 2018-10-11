@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
-using KaosFormat;
 using KaosIssue;
+using KaosFormat;
 using KaosDiags;
 using KaosMvvm;
 
@@ -32,72 +32,9 @@ namespace AppViewModel
         }
     }
 
-    // The ViewModel data of Model-View-ViewModel.
+    // The ViewModel binding class of Model-View-ViewModel.
     public class DiagsPresenter : Diags, INotifyPropertyChanged
     {
-        private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
-
-        public int CurrentTabNumber { get; set; }
-        public int JobCounter { get; private set; } = 0;  // For unit tests.
-        public FlacFormat Flac { get; private set; }
-        public LogEacFormat LogEac { get; private set; }
-        public M3uFormat M3u { get; private set; }
-        public Md5Format Md5 { get; private set; }
-        public Mp3Format Mp3 { get; private set; }
-        public OggFormat Ogg { get; private set; }
-        public Sha1Format Sha1 { get; private set; }
-
-        private TabInfo CurrentTabFormatInfo
-         => tabInfo.Values.FirstOrDefault (v => v.TabPosition == CurrentTabNumber);
-
-        private void AddTabInfo (string formatName, int tabPosition)
-         => tabInfo.Add (formatName, new TabInfo (tabPosition));
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChangedEvent (string propertyName)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler (this, new PropertyChangedEventArgs (propertyName));
-        }
-
-        public ICommand DoBrowse { get; private set; }
-        public ICommand DoParse { get; private set; }
-        public ICommand NavFirst { get; private set; }
-        public ICommand NavNext { get; private set; }
-        public ICommand DoConsoleClear { get; private set; }
-        public ICommand DoConsoleZoomMinus { get; private set; }
-        public ICommand DoConsoleZoomPlus { get; private set; }
-
-        private DiagsPresenter (DiagsPresenter.Model model) : base (model)
-        {
-            this.Scope = Granularity.Verbose;
-            this.HashFlags = Hashes.Intrinsic;
-            this.ValidationFlags = Validations.Exists;
-            this.Response = Interaction.RepairLater;
-
-            this.DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
-            this.DoParse = new RelayCommand (() => model.Parse());
-            this.NavFirst = new RelayCommand (() => model.GetFirst());
-            this.NavNext = new RelayCommand (() => model.GetNext());
-            this.DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
-            this.DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
-            this.DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
-        }
-
-        public Hashes HashToggle
-        {
-            get { return HashFlags; }
-            set { HashFlags = value < 0 ? (HashFlags & (Hashes) value) : (HashFlags | (Hashes) value); }
-        }
-
-        public Validations ValidationToggle
-        {
-            get { return ValidationFlags; }
-            set { ValidationFlags = value < 0 ? (ValidationFlags & value) : (ValidationFlags | (Validations) value); }
-        }
-
-
         // The ViewModel API of Model-View-ViewModel.
         public new class Model : Diags.Model
         {
@@ -212,6 +149,70 @@ namespace AppViewModel
 
                 ++Data.JobCounter;
             }
+        }
+
+
+        private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
+
+        public FlacFormat Flac { get; private set; }
+        public LogEacFormat LogEac { get; private set; }
+        public M3uFormat M3u { get; private set; }
+        public Md5Format Md5 { get; private set; }
+        public Mp3Format Mp3 { get; private set; }
+        public OggFormat Ogg { get; private set; }
+        public Sha1Format Sha1 { get; private set; }
+
+        public int CurrentTabNumber { get; set; }
+        public int JobCounter { get; private set; } = 0;  // For unit tests.
+
+        private TabInfo CurrentTabFormatInfo
+         => tabInfo.Values.FirstOrDefault (v => v.TabPosition == CurrentTabNumber);
+
+        private void AddTabInfo (string formatName, int tabPosition)
+         => tabInfo.Add (formatName, new TabInfo (tabPosition));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChangedEvent (string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler (this, new PropertyChangedEventArgs (propertyName));
+        }
+
+        public Hashes HashToggle
+        {
+            get { return HashFlags; }
+            set { HashFlags = value < 0 ? (HashFlags & (Hashes) value) : (HashFlags | (Hashes) value); }
+        }
+
+        public Validations ValidationToggle
+        {
+            get { return ValidationFlags; }
+            set { ValidationFlags = value < 0 ? (ValidationFlags & value) : (ValidationFlags | (Validations) value); }
+        }
+
+        public ICommand DoBrowse { get; private set; }
+        public ICommand DoParse { get; private set; }
+        public ICommand NavFirst { get; private set; }
+        public ICommand NavNext { get; private set; }
+        public ICommand DoConsoleClear { get; private set; }
+        public ICommand DoConsoleZoomMinus { get; private set; }
+        public ICommand DoConsoleZoomPlus { get; private set; }
+
+        private DiagsPresenter (DiagsPresenter.Model model) : base (model)
+        {
+            Scope = Granularity.Verbose;
+            HashFlags = Hashes.Intrinsic;
+            ValidationFlags = Validations.Exists;
+            Response = Interaction.RepairLater;
+
+            DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
+            DoParse = new RelayCommand (() => model.Parse());
+            NavFirst = new RelayCommand (() => model.GetFirst());
+            NavNext = new RelayCommand (() => model.GetNext());
+            DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
+            DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
+            DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
         }
     }
 }
