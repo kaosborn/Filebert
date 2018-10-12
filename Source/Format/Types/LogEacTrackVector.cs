@@ -23,6 +23,21 @@ namespace KaosFormat
                                  string quality, uint? testCRC, uint? copyCRC, bool hasOK, int? arVersion, int? arConfidence)
                  => Data.items.Add (new LogEacTrack (number, fileName, pregap, peak, speed, quality, testCRC, copyCRC, hasOK, arVersion, arConfidence));
 
+                public string MatchFlac (FlacFormat flac)
+                {
+                    if (flac.ActualPcmCRC32 != null)
+                        foreach (LogEacTrack item in Data.items)
+                            if (item.match == null)
+                                if (item.CopyCRC != flac.ActualPcmCRC32)
+                                    break;
+                                else
+                                {
+                                    item.match = flac;
+                                    return null;
+                                }
+                    return "PCM CRC-32 check mismatch.";
+                }
+
                 public void SetCtConfidence (int number, int confidence)
                  => Data.items[number].CtConfidence = confidence;
             }
@@ -90,6 +105,10 @@ namespace KaosFormat
 
         public bool HasQuality => ! String.IsNullOrWhiteSpace (Qual);
         public bool IsBadCRC => CopyCRC != null && TestCRC != null && TestCRC != CopyCRC;
+        public bool IsRipOK => HasOK && ! IsBadCRC && match != null && match.Issues.MaxSeverity < Severity.Error;
+
+        private FormatBase match = null;
+        public string MatchName => match == null ? null : match.Name;
 
         public Issue RipSeverest { get; private set; }
 

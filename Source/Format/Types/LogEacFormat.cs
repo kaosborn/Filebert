@@ -140,6 +140,36 @@ namespace KaosFormat
                 GetDiagnostics();
             }
 
+            public void SetRpIssue (string err)
+             => Data.RpIssue = IssueModel.Add (err, Severity.Trivia, IssueTags.Fussy);
+
+            public void ValidateRip (IList<FlacFormat.Model> flacModels)
+            {
+                Severity baddest = Severity.NoIssue;
+                if (flacModels.Count != Data.Tracks.Items.Count)
+                    IssueModel.Add ($"Directory contains {flacModels.Count} FLACs, EAC log contains {Data.Tracks.Items.Count} tracks.");
+                else
+                {
+                    for (int ix = 0; ix < flacModels.Count; ++ix)
+                    {
+                        var flac = flacModels[ix].Data;
+                        TracksModel.MatchFlac (flac);
+                        if (baddest < flac.Issues.MaxSeverity)
+                            baddest = flac.Issues.MaxSeverity;
+                    }
+                    if (Data.Tracks.Items.Any (t => t.MatchName == null))
+                        IssueModel.Add ("Missing matched .flac file(s).", Severity.Error, IssueTags.Success);
+                }
+
+                if (baddest < Data.Issues.MaxSeverity)
+                    baddest = Data.Issues.MaxSeverity;
+                if (baddest >= Severity.Error)
+                    Data.RpIssue = IssueModel.Add ("EAC rip check failed.", baddest, IssueTags.Failure);
+                else if (baddest >= Severity.Warning)
+                    Data.RpIssue = IssueModel.Add ("EAC rip check successful with warnings.", baddest, IssueTags.Success);
+                else
+                    Data.RpIssue = IssueModel.Add ("EAC rip check successful!", Severity.Advisory, IssueTags.Success);
+            }
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
@@ -544,6 +574,7 @@ namespace KaosFormat
         public Issue TkIssue { get; private set; }
         public Issue TpIssue { get; private set; }
         public Issue TsIssue { get; private set; }
+        public Issue RpIssue { get; private set; }  // Rip validation result.
 
 
         // FLAC only:

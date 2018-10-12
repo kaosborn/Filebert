@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using KaosIssue;
 using KaosFormat;
@@ -117,12 +118,17 @@ namespace KaosDiags
                 }
             }
 
+            private IList<FlacFormat.Model> flacModels = new List<FlacFormat.Model>();
             private IEnumerable<FormatBase.Model> CheckRootDir()
             {
                 foreach (string dn in new DirTraverser (Data.Root))
                 {
                     var dInfo = new DirectoryInfo (dn);
                     var fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
+
+                    int logCount = fileInfos.Count (i => i.Name.EndsWith (".log"));
+                    //TODO sort fileInfos with .log files last
+                    flacModels.Clear();
 
                     foreach (FileInfo fInfo in fileInfos)
                     {
@@ -133,6 +139,13 @@ namespace KaosDiags
                             var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                             Stream stream = new FileStream (fInfo.FullName, FileMode.Open, access, FileShare.Read);
                             fmtModel = CheckFile (stream, fInfo.FullName, out Severity badness);
+                            if (fmtModel is FlacFormat.Model flacModel)
+                                flacModels.Add (flacModel);
+                            else if (fmtModel is LogEacFormat.Model logModel)
+                                if (logCount > 1)
+                                    logModel.SetRpIssue ("Directory contains more than one .log file.");
+                                else
+                                    logModel.ValidateRip (flacModels);
                             if (badness > Data.Result)
                                 Data.Result = badness;
                         }
