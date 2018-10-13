@@ -147,11 +147,13 @@ namespace KaosDiags
                                 if (fmtModel is FlacFormat.Model flacModel)
                                     flacModels.Add (flacModel);
                                 else if (fmtModel is LogEacFormat.Model logModel)
+                                {
                                     if (logCount > 1)
                                         logModel.SetRpIssue ("Directory contains more than one .log file.");
                                     else
                                         logModel.ValidateRip (flacModels);
-                                //TODO fmtModel.Data.LogMessages();
+                                    ReportIssues (logModel.Data.Issues);
+                                }
                             }
 
                             if (badness > Data.Result)
@@ -303,57 +305,67 @@ namespace KaosDiags
                     Data.OnMessageSend (message, severity);
             }
 
-            public virtual void ReportFormat (FormatBase fb, bool logErrorsToFile=false)
+            private bool reportHasWarn = false, reportHasErr = false;
+            private Granularity reportScope;
+            private int reportIssueCount;
+
+            public void ReportFormat (FormatBase fb)
             {
-                Granularity scope = Data.Scope;
-                if (scope <= Granularity.Long)
+                reportScope = Data.Scope;
+                if (reportScope <= Granularity.Long)
                 {
-                    IList<string> report = fb.GetDetailsHeader (scope);
-                    fb.GetDetailsBody (report, scope);
+                    IList<string> report = fb.GetDetailsHeader (reportScope);
+                    fb.GetDetailsBody (report, reportScope);
 
                     Data.OnMessageSend (String.Empty, Severity.NoIssue);
 
                     foreach (var lx in report)
                         Data.OnMessageSend (lx);
                 }
-                else if (scope > Granularity.Terse)
+                else if (reportScope > Granularity.Terse)
                     if (Data.Response == Interaction.PromptToRepair && fb.Issues.RepairableCount > 0)
-                        scope = Granularity.Terse;
+                        reportScope = Granularity.Terse;
 
-                bool hasWarn = false, hasErr = false;
-                int shownIssuesCount = 0;
+                reportHasWarn = false;
+                reportHasErr = false;
+                reportIssueCount = 0;
+                ReportIssues (fb.Issues);
+            }
 
-                foreach (var item in fb.Issues.Items)
+            public void ReportIssues (Issue.Vector issues)
+            {
+                while (reportIssueCount < issues.Items.Count)
                 {
+                    Issue item = issues.Items[reportIssueCount];
                     Severity severity = item.Level;
                     if (severity == Severity.Warning)
                     {
-                        if (! hasWarn)
+                        if (! reportHasWarn)
                         {
-                            hasWarn = true;
+                            reportHasWarn = true;
                             ++Data.TotalWarnings;
                         }
                     }
                     else if (severity >= Severity.Error)
                     {
-                        if (! hasErr)
+                        if (! reportHasErr)
                         {
-                            hasErr = true;
+                            reportHasErr = true;
                             ++Data.TotalErrors;
                         }
                     }
 
-                    if (item.IsReportable (scope))
+                    if (item.IsReportable (reportScope))
                     {
-                        if (shownIssuesCount == 0)
-                            if (scope <= Granularity.Long)
-                                if (scope == Granularity.Long)
+                        if (reportIssueCount == 0)
+                            if (reportScope <= Granularity.Long)
+                                if (reportScope == Granularity.Long)
                                     Data.OnMessageSend ("Diagnostics:", Severity.NoIssue);
                                 else
                                 { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
-                        ++shownIssuesCount;
+                        ++reportIssueCount;
 
-                        Data.OnMessageSend (item.Message, severity, item.IsRepairable? Likeliness.Probable : Likeliness.None);
+                        Data.OnMessageSend (item.Message, severity, item.IsRepairable ? Likeliness.Probable : Likeliness.None);
                     }
                 }
             }

@@ -105,7 +105,8 @@ namespace KaosFormat
 
         public bool HasQuality => ! String.IsNullOrWhiteSpace (Qual);
         public bool IsBadCRC => CopyCRC != null && TestCRC != null && TestCRC != CopyCRC;
-        public bool IsRipOK => HasOK && ! IsBadCRC && match != null && match.Issues.MaxSeverity < Severity.Error;
+        public bool IsTrackOK => HasOK && HasQuality && ! IsBadCRC;
+        public bool IsRipOK => IsTrackOK && match != null && match.Issues.MaxSeverity < Severity.Error;
 
         private FormatBase match = null;
         public string MatchName => match == null ? null : match.Name;

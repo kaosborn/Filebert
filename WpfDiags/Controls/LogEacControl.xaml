@@ -49,21 +49,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Column="9" Grid.ColumnSpan="9" Grid.RowSpan="9" FontSize="80" Margin="0" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <TextBlock Grid.Column="9" Grid.ColumnSpan="9" Grid.RowSpan="9" FontSize="80" Margin="0,-12,12,0" VerticalAlignment="Top" HorizontalAlignment="Right">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Text" Value="? "/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Advisory}">
-                            <Setter Property="Text" Value="&#x2665; "/>   <!-- solid heart -->
+                            <Setter Property="Text" Value="&#x2665;"/>   <!-- solid heart -->
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Warning}">
-                                <Setter Property="Text" Value="&#x2665; "/>   <!-- solid heart -->
+                                <Setter Property="Text" Value="&#x2665;"/>   <!-- solid heart -->
                                 <Setter Property="Foreground" Value="Yellow"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Error}">
-                            <Setter Property="Text" Value="&#x2612; "/>   <!-- X -->
+                            <Setter Property="Text" Value="&#x2612;"/>   <!-- X -->
                             <Setter Property="Foreground" Value="Red"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -267,12 +266,21 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="false"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsRipOK}" Value="false">
-                            <Setter Property="Foreground" Value="Red"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsRipOK}" Value="true">
+                        <DataTrigger Binding="{Binding IsTrackOK}" Value="true">
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsTrackOK}" Value="False">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=DataContext.IsRipCheckEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type app:WpfDiagsView}}}" Value="true"/>
+                                <Condition Binding="{Binding IsRipOK}" Value="false"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Foreground" Value="Red"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>

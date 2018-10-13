@@ -141,7 +141,7 @@ namespace KaosFormat
             }
 
             public void SetRpIssue (string err)
-             => Data.RpIssue = IssueModel.Add (err, Severity.Trivia, IssueTags.Fussy);
+             => Data.RpIssue = IssueModel.Add (err, Severity.Error, IssueTags.Failure);
 
             public void ValidateRip (IList<FlacFormat.Model> flacModels)
             {
