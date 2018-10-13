@@ -89,8 +89,12 @@ namespace KaosDiags
 
         public bool IsFussy
         {
-            get => (ErrEscalator & IssueTags.Fussy) != 0;
-            set { ErrEscalator = value ? ErrEscalator | IssueTags.Fussy : ErrEscalator & ~ IssueTags.Fussy; }
+            get => (WarnEscalator & IssueTags.ProveWarn) != 0 && (ErrEscalator & IssueTags.Fussy) != 0;
+            set
+            {
+                WarnEscalator = value ? WarnEscalator | IssueTags.ProveWarn : WarnEscalator & ~(IssueTags.ProveWarn);
+                ErrEscalator = value ? ErrEscalator | IssueTags.Fussy : ErrEscalator & ~ IssueTags.Fussy;
+            }
         }
 
         public virtual bool IsRepairEnabled

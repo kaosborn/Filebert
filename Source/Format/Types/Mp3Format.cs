@@ -337,7 +337,7 @@ namespace KaosFormat
                     IssueModel.Add ("Has obsolete Lyrics3v2 block.", Severity.Advisory);
 
                 if (Data.DeadBytes != 0)
-                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.Substandard);
+                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.Fussy);
             }
 
 

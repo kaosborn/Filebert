@@ -22,8 +22,8 @@ namespace KaosIssue
     public enum IssueTags
     {
         None=0, HasId3v1=1, HasId3v24=2, HasApe=4, Substandard=8, Overstandard=0x10,
-        ProveErr=0x100, ProveWarn=0x200, Fussy=0x400,
-        Success=0x01000000, Failure=0x02000000, BadTag=0x04000000, MissingHash=0x08000000
+        ProveWarn=0x100, Fussy=0x200,
+        Success=0x01000000, Failure=0x02000000
     }
 
     public class Issue : INotifyPropertyChanged
