@@ -41,7 +41,7 @@ namespace AppController
         private Granularity scope = Granularity.Advisory;
         private IssueTags warnEscalator = IssueTags.None;
         private IssueTags errEscalator = IssueTags.None;
-        private Hashes hashes = Hashes.Intrinsic;
+        private Hashes hashes = Hashes.Intrinsic|Hashes._WebCheck;
         private Validations validations = Validations.Exists | Validations.MD5 | Validations.SHA1;
 
 
@@ -149,10 +149,11 @@ namespace AppController
                 }
                 else if (args[an].StartsWith ("/h:"))
                 {
-                    var arg = Hashes.None;
-                    argOk = Enum.TryParse<Hashes> (args[an].Substring (3), true, out arg);
+                    var h0 = Hashes.None;
+                    var ap = args[an].Substring (3);
+                    argOk = ! ap.StartsWith ("_") && Enum.TryParse<Hashes> (ap, true, out h0);
                     if (argOk)
-                        hashes = arg;
+                        hashes = h0 & (Hashes._LogCheck - 1);
                 }
                 else if (args[an].StartsWith ("/out:"))
                 {
@@ -161,10 +162,7 @@ namespace AppController
                 }
                 else if (args[an].StartsWith ("/v:"))
                 {
-                    var arg = Validations.None;
-                    argOk = Enum.TryParse<Validations> (args[an].Substring (3), true, out arg);
-                    if (argOk)
-                        validations = arg;
+                    argOk = Enum.TryParse<Validations> (args[an].Substring (3), true, out validations);
                 }
                 else if (args[an].StartsWith ("/w:"))
                 {
@@ -252,7 +250,8 @@ namespace AppController
             Console.WriteLine();
             Console.Write ("Where <hashes> is list of");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
-                Console.Write (" " + name);
+                if (name[0] != '_')
+                    Console.Write (" " + name);
             Console.WriteLine();
 
             Console.WriteLine();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 using KaosIssue;
@@ -14,7 +15,7 @@ namespace KaosDiags
     public delegate void FileVisitEventHandler (string dirName, string fileName);
 
 
-    public partial class Diags
+    public partial class Diags : INotifyPropertyChanged
     {
         public FileFormat.Vector FileFormats { get; protected set; }
 
@@ -56,28 +57,50 @@ namespace KaosDiags
         protected Diags()
          => this.QuestionAsk = QuestionAskDefault;
 
-        public bool IsParanoid
+        public bool IsMd5CheckEnabled
         {
-            get { return (HashFlags & Hashes.PcmMD5) != 0; }
-            set { HashFlags = value ? HashFlags | Hashes.PcmMD5 : HashFlags & ~ Hashes.PcmMD5; }
+            get => (HashFlags & Hashes.PcmMD5) != 0;
+            set
+            {
+                HashFlags = value ? HashFlags | Hashes.PcmMD5 : HashFlags & ~ Hashes.PcmMD5;
+                RaisePropertyChangedEvent (nameof (IsMd5CheckEnabled));
+            }
+        }
+
+        public bool IsRipCheckEnabled
+        {
+            get => (HashFlags & Hashes._LogCheck) != 0;
+            set
+            {
+                HashFlags = value ? HashFlags | Hashes._LogCheck : HashFlags & ~Hashes._LogCheck;
+                RaisePropertyChangedEvent (nameof (IsRipCheckEnabled));
+            }
         }
 
         public bool IsWebCheckEnabled
         {
-            get { return (HashFlags & Hashes.WebCheck) != 0; }
-            set { HashFlags = value ? HashFlags | Hashes.WebCheck : HashFlags & ~ Hashes.WebCheck; }
-        }
-
-        public bool IsBestTags
-        {
-            get { return (ErrEscalator & IssueTags.BadTag) != 0; }
-            set { ErrEscalator = value ? ErrEscalator | IssueTags.BadTag : ErrEscalator & ~ IssueTags.BadTag; }
+            get => (HashFlags & Hashes._WebCheck) != 0;
+            set
+            {
+                HashFlags = value ? HashFlags | Hashes._WebCheck : HashFlags & ~Hashes._WebCheck;
+                RaisePropertyChangedEvent (nameof (IsWebCheckEnabled));
+            }
         }
 
         public bool IsFussy
         {
-            get { return (ErrEscalator & IssueTags.Fussy) != 0; }
+            get => (ErrEscalator & IssueTags.Fussy) != 0;
             set { ErrEscalator = value ? ErrEscalator | IssueTags.Fussy : ErrEscalator & ~ IssueTags.Fussy; }
+        }
+
+        public virtual bool IsRepairEnabled
+        {
+            get => Response != Interaction.None;
+            set
+            {
+                Response = value ? Interaction.PromptToRepair : Interaction.None;
+                RaisePropertyChangedEvent (nameof (IsRepairEnabled));
+            }
         }
 
         public string FormatListText
@@ -96,6 +119,14 @@ namespace KaosDiags
 
                 return sb.ToString();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChangedEvent (string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler (this, new PropertyChangedEventArgs (propertyName));
         }
 
         public IList<string> GetRollups (IList<string> rep, string verb)

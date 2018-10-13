@@ -175,7 +175,7 @@ namespace KaosFormat
             {
                 base.CalcHashes (hashFlags, validationFlags);
 
-                if ((hashFlags & Hashes.WebCheck) != 0)
+                if ((hashFlags & Hashes._WebCheck) != 0)
                     CalcHashWebCheck();
             }
 
@@ -184,7 +184,7 @@ namespace KaosFormat
                 if (Data.storedHash == null)
                 {
                     Severity sev = Data.EacVersionText != null && Data.EacVersionText.StartsWith ("1")? Severity.Warning : Severity.Noise;
-                    Data.ShIssue = IssueModel.Add ("EAC log self-hash not present.", sev, IssueTags.ProveErr|IssueTags.Fussy);
+                    Data.ShIssue = IssueModel.Add ("EAC log self-hash not present.", sev, IssueTags.Fussy);
                 }
                 else
                 {

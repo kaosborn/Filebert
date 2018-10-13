@@ -437,7 +437,7 @@ namespace KaosFormat
                         }
                 }
 
-                if ((hashFlags & Hashes.PcmCRC32) != 0 && Data.ActualPcmCRC32 == null)
+                if ((hashFlags & (Hashes.PcmCRC32|Hashes._LogCheck)) != 0 && Data.ActualPcmCRC32 == null)
                 {
                     Process px = null;
                     try

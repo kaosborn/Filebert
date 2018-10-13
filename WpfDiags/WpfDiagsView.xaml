@@ -7,7 +7,7 @@
         xmlns:format="clr-namespace:KaosFormat"
         xmlns:issue="clr-namespace:KaosIssue"
         mc:Ignorable="d"
-        Title="Filebert" Height="425" Width="475" Style="{DynamicResource darkApp}"
+        Title="Filebert" Height="600" Width="600" Style="{DynamicResource darkApp}"
         Loaded="Window_Loaded"
         DataContext="{Binding Path=DiagsPresenter}">
     <Window.Resources>
@@ -78,7 +78,6 @@
                                 <CheckBox Content="Meta SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MetaSHA1}}" />
                                 <CheckBox Content="Media SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MediaSHA1}}" />
                                 <CheckBox Content="PCM CRC-32" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmCRC32}}" />
-                                <CheckBox Content="PCM MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmMD5}}" />
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
@@ -91,6 +90,18 @@
                                 <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" />
                                 <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}" />
                                 <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}" />
+                            </WrapPanel>
+                        </WrapPanel>
+                    </GroupBox>
+                </WrapPanel>
+                <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <GroupBox Header="EAC rip check" HorizontalAlignment="Left" Margin="3,3,3,3">
+                        <WrapPanel>
+                            <WrapPanel Orientation="Vertical">
+                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsRipCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Fussy" IsChecked="{Binding Path=IsFussy, Mode=TwoWay}"/>
+                                <CheckBox Content="EAC self-hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Enable repairs" IsChecked="{Binding Path=IsRepairEnabled, Mode=TwoWay}" ToolTip="requires internet connection"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>

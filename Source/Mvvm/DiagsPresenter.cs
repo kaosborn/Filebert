@@ -34,7 +34,7 @@ namespace AppViewModel
 
 
     // The ViewModel binding class of Model-View-ViewModel.
-    public class DiagsPresenter : Diags, INotifyPropertyChanged
+    public class DiagsPresenter : Diags
     {
         // The ViewModel API of Model-View-ViewModel.
         public new class Model : Diags.Model
@@ -177,12 +177,10 @@ namespace AppViewModel
         private void AddTabInfo (string formatName, int tabPosition)
          => tabInfo.Add (formatName, new TabInfo (tabPosition));
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChangedEvent (string propertyName)
+        public override bool IsRepairEnabled
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler (this, new PropertyChangedEventArgs (propertyName));
+            get => Response != Interaction.None;
+            set => Response = value ? Interaction.RepairLater : Interaction.None;
         }
 
         public Hashes HashToggle

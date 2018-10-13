@@ -15,11 +15,17 @@ namespace KaosFormat
 
     [Flags]
     public enum Hashes
-    { None=0, Intrinsic=1, FileMD5=2, FileSHA1=4, FileSHA256=8, MetaSHA1=0x10, MediaSHA1=0x20, PcmCRC32=0x40, PcmMD5=0x80, WebCheck=0x100 }
+    {
+        None=0, Intrinsic=1,
+        FileMD5=2, FileSHA1=4, FileSHA1X=8, FileSHA256=0x10,
+        MetaSHA1=0x20, MediaSHA1=0x40,
+        PcmMD5=0x80, PcmCRC32=0x100,
+        _LogCheck=0x200, _WebCheck=0x400
+    }
 
     [Flags]
     public enum Validations
-    { None=0, Exists=1, MD5=2, SHA1=4, SHA256=8 };
+    { None=0, Exists=1, MD5=2, SHA1=4, SHA1X=8, SHA256=16 };
 
     public enum NamingStrategy
     { Manual, ArtistTitle, ShortTitle, UnloadedAlbum }
