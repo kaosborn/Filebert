@@ -92,8 +92,10 @@ namespace KaosDiags
 
             public IEnumerable<FormatBase.Model> CheckRoot()
             {
-                FileAttributes atts;
+                if (String.IsNullOrWhiteSpace (Data.Root))
+                    yield break;
 
+                FileAttributes atts;
                 try
                 { atts = File.GetAttributes (Data.Root); }
                 catch (NotSupportedException)
@@ -139,13 +141,19 @@ namespace KaosDiags
                             var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                             Stream stream = new FileStream (fInfo.FullName, FileMode.Open, access, FileShare.Read);
                             fmtModel = CheckFile (stream, fInfo.FullName, out Severity badness);
-                            if (fmtModel is FlacFormat.Model flacModel)
-                                flacModels.Add (flacModel);
-                            else if (fmtModel is LogEacFormat.Model logModel)
-                                if (logCount > 1)
-                                    logModel.SetRpIssue ("Directory contains more than one .log file.");
-                                else
-                                    logModel.ValidateRip (flacModels);
+
+                            if (Data.IsRipCheckEnabled)
+                            {
+                                if (fmtModel is FlacFormat.Model flacModel)
+                                    flacModels.Add (flacModel);
+                                else if (fmtModel is LogEacFormat.Model logModel)
+                                    if (logCount > 1)
+                                        logModel.SetRpIssue ("Directory contains more than one .log file.");
+                                    else
+                                        logModel.ValidateRip (flacModels);
+                                //TODO fmtModel.Data.LogMessages();
+                            }
+
                             if (badness > Data.Result)
                                 Data.Result = badness;
                         }
