@@ -294,7 +294,7 @@ namespace KaosFormat
                 {
                     if (Data.HasId3v1Phantom)
                         IssueModel.Add ("Has phantom ID3v1 tag block.",
-                            Severity.Warning, IssueTags.Fussy|IssueTags.HasId3v1,
+                            Severity.Warning, IssueTags.FussyErr|IssueTags.HasId3v1,
                             "Remove phantom ID3v1 tag block", RepairPhantomTag);
                     else
                     {
@@ -305,13 +305,13 @@ namespace KaosFormat
                 }
 
                 if (! Data.HasId3v2)
-                    IssueModel.Add ("Missing ID3v2 tags.", Severity.Trivia, IssueTags.Fussy|IssueTags.Substandard);
+                    IssueModel.Add ("Missing ID3v2 tags.", Severity.Trivia, IssueTags.FussyErr|IssueTags.Substandard);
                 else
                 {
                     switch (Data.Id3v2Major)
                     {
                         case 2:
-                            IssueModel.Add ("Has obsolete ID3v2.2 tags.", Severity.Warning, IssueTags.Fussy|IssueTags.Substandard);
+                            IssueModel.Add ("Has obsolete ID3v2.2 tags.", Severity.Warning, IssueTags.FussyErr|IssueTags.Substandard);
                             break;
                         case 3:
                             // Hunky dory!
@@ -326,18 +326,18 @@ namespace KaosFormat
 
                     if (Data.Id3v2TagRepair != null)
                         IssueModel.Add ($"ID3v2 tag size over by 1 (repair with {Data.Id3v2TagRepair}).",
-                            Severity.Warning, IssueTags.Fussy,
+                            Severity.Warning, IssueTags.FussyErr,
                             "Patch EAC induced ID3v2 tag size error", RepairId3v2OffBy1);
                 }
 
                 if (Data.HasApe)
-                    IssueModel.Add ("Has APE tags.", Severity.Trivia, IssueTags.HasApe);
+                    IssueModel.Add ("Has APE tags.", Severity.Trivia, IssueTags.Mp3HasApe);
 
                 if (Data.HasLyrics3)
                     IssueModel.Add ("Has obsolete Lyrics3v2 block.", Severity.Advisory);
 
                 if (Data.DeadBytes != 0)
-                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.Fussy);
+                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.FussyErr);
             }
 
 

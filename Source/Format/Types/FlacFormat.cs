@@ -353,7 +353,7 @@ namespace KaosFormat
                         picPlusPadSize += block.Size;
 
                 if (picPlusPadSize > 512*1024)
-                    IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.Fussy);
+                    IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.FussyErr);
             }
 
             private static Process StartFlac (string name)

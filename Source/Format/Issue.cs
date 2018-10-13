@@ -21,8 +21,8 @@ namespace KaosIssue
     [Flags]
     public enum IssueTags
     {
-        None=0, HasId3v1=1, HasId3v24=2, HasApe=4, Substandard=8, Overstandard=0x10,
-        ProveWarn=0x100, Fussy=0x200,
+        None=0, HasId3v1=1, HasId3v24=2, Mp3HasApe=4, Substandard=8, Overstandard=0x10,
+        FussyWarn=0x100, FussyErr=0x200,
         Success=0x01000000, Failure=0x02000000
     }
 

@@ -99,7 +99,7 @@ namespace KaosFormat
             private void GetDiagnostics()
             {
                 if (Data.storedHash == null)
-                    IssueModel.Add ("No signature.", Severity.Trivia, IssueTags.Fussy);
+                    IssueModel.Add ("No signature.", Severity.Trivia, IssueTags.FussyErr);
             }
         }
 

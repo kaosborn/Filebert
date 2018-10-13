@@ -133,7 +133,7 @@ namespace KaosFormat
 
                     lx = parser.ReadLine();
                     if (! parser.EOF || ! String.IsNullOrEmpty (lx))
-                        IssueModel.Add ("Unexpected content at end of file.", Severity.Warning, IssueTags.Fussy);
+                        IssueModel.Add ("Unexpected content at end of file.", Severity.Warning, IssueTags.FussyErr);
                 }
 
                 parser = null;
@@ -184,7 +184,7 @@ namespace KaosFormat
                 if (Data.storedHash == null)
                 {
                     Severity sev = Data.EacVersionText != null && Data.EacVersionText.StartsWith ("1")? Severity.Warning : Severity.Noise;
-                    Data.ShIssue = IssueModel.Add ("EAC log self-hash not present.", sev, IssueTags.Fussy);
+                    Data.ShIssue = IssueModel.Add ("EAC log self-hash not present.", sev, IssueTags.FussyErr);
                 }
                 else
                 {
@@ -222,11 +222,11 @@ namespace KaosFormat
                                     else if (answer.Contains ("incorrect"))
                                         Data.ShIssue = IssueModel.Add ("EAC log self-hash mismatch, file has been modified.", Severity.Error, IssueTags.Failure);
                                     else
-                                        Data.ShIssue = IssueModel.Add ("EAC log self-hash verify attempt returned unknown result.", Severity.Advisory, IssueTags.Fussy);
+                                        Data.ShIssue = IssueModel.Add ("EAC log self-hash verify attempt returned unknown result.", Severity.Advisory, IssueTags.FussyErr);
                                 }
                     }
                     catch (Exception ex)
-                    { Data.ShIssue = IssueModel.Add ("EAC log self-hash verify attempt failed: " + ex.Message.Trim (null), Severity.Warning, IssueTags.Fussy); }
+                    { Data.ShIssue = IssueModel.Add ("EAC log self-hash verify attempt failed: " + ex.Message.Trim (null), Severity.Warning, IssueTags.FussyErr); }
                 }
             }
 
@@ -250,26 +250,26 @@ namespace KaosFormat
                         Data.DsIssue = IssueModel.Add ("Nonpreferred drive setting: Read mode: " + Data.ReadMode, Severity.Warning, IssueTags.Substandard);
 
                     if (Data.AccurateStream == null || Data.AccurateStream != "Yes")
-                        Data.DsIssue = IssueModel.Add ("Missing drive setting: 'Utilize accurate stream: Yes'." + Data.AccurateStream, Severity.Warning, IssueTags.Fussy);
+                        Data.DsIssue = IssueModel.Add ("Missing drive setting: 'Utilize accurate stream: Yes'." + Data.AccurateStream, Severity.Warning, IssueTags.FussyErr);
 
                     if (Data.DefeatCache == null || Data.DefeatCache != "Yes")
-                        Data.DsIssue = IssueModel.Add ("Missing drive setting: 'Defeat audio cache: Yes'.", Severity.Warning, IssueTags.Fussy);
+                        Data.DsIssue = IssueModel.Add ("Missing drive setting: 'Defeat audio cache: Yes'.", Severity.Warning, IssueTags.FussyErr);
 
                     if (Data.UseC2 == null || Data.UseC2 != "No")
                         Data.DsIssue = IssueModel.Add ("Missing drive setting: 'Make use of C2 pointers: No'.", Severity.Warning, IssueTags.Substandard);
                 }
 
                 if (String.IsNullOrEmpty (Data.ReadOffset))
-                    IssueModel.Add ("Missing 'Read offset correction'.", Severity.Trivia, IssueTags.ProveWarn);
+                    IssueModel.Add ("Missing 'Read offset correction'.", Severity.Trivia, IssueTags.FussyWarn);
 
                 if (Data.FillWithSilence != null && Data.FillWithSilence != "Yes")
-                    IssueModel.Add ("Missing 'Fill up missing offset samples with silence: Yes'.", Severity.Trivia, IssueTags.ProveWarn);
+                    IssueModel.Add ("Missing 'Fill up missing offset samples with silence: Yes'.", Severity.Trivia, IssueTags.FussyWarn);
 
                 if (Data.Quality != null && Data.Quality != "High")
                     IssueModel.Add ("Missing 'Quality: High'.", Severity.Advisory, IssueTags.Substandard);
 
                 if (Data.TrimSilence == null || Data.TrimSilence != "No")
-                    Data.TsIssue = IssueModel.Add ("Missing 'Delete leading and trailing silent blocks: No'.", Severity.Warning, IssueTags.Fussy);
+                    Data.TsIssue = IssueModel.Add ("Missing 'Delete leading and trailing silent blocks: No'.", Severity.Warning, IssueTags.FussyErr);
 
                 if (Data.CalcWithNulls != null && Data.CalcWithNulls != "Yes")
                     IssueModel.Add ("Missing 'Null samples used in CRC calculations: Yes'.");
@@ -277,27 +277,27 @@ namespace KaosFormat
                 if (Data.GapHandling != null)
                     if (Data.GapHandling != "Appended to previous track")
                     {
-                        IssueTags gapTag = IssueTags.Fussy;
+                        IssueTags gapTag = IssueTags.FussyErr;
                         if (Data.GapHandling != "Not detected, thus appended to previous track")
-                            gapTag |= IssueTags.Fussy;
+                            gapTag |= IssueTags.FussyErr;
 
                         Data.GpIssue = IssueModel.Add ("Gap handling preferred setting is 'Appended to previous track'.", Severity.Advisory, gapTag);
                     }
 
                 if (Data.Id3Tag == "Yes")
-                    IssueModel.Add ("Append ID3 tags preferred setting is 'No'.", Severity.NoIssue, IssueTags.Fussy);
+                    IssueModel.Add ("Append ID3 tags preferred setting is 'No'.", Severity.NoIssue, IssueTags.FussyErr);
 
                 if (Data.ReadOffset == "0" && Data.Drive.Contains ("not found in database"))
-                    IssueModel.Add ("Unknown drive with offset '0'.", Severity.Advisory, IssueTags.Fussy);
+                    IssueModel.Add ("Unknown drive with offset '0'.", Severity.Advisory, IssueTags.FussyErr);
 
                 if (Data.NormalizeTo != null)
-                    Data.NzIssue = IssueModel.Add ("Use of normalization considered harmful.", Severity.Warning, IssueTags.Fussy);
+                    Data.NzIssue = IssueModel.Add ("Use of normalization considered harmful.", Severity.Warning, IssueTags.FussyErr);
 
                 if (Data.SampleFormat != null && Data.SampleFormat != "44.100 Hz; 16 Bit; Stereo")
                     IssueModel.Add ("Missing 'Sample format: 44.100 Hz; 16 Bit; Stereo'.", Severity.Warning, IssueTags.Substandard);
 
                 if (Data.IsRangeRip)
-                    IssueModel.Add ("Range rip detected.", Severity.Advisory, IssueTags.ProveWarn);
+                    IssueModel.Add ("Range rip detected.", Severity.Advisory, IssueTags.FussyWarn);
                 else
                 {
                     if (! Data.Tracks.IsNearlyAllPresent())
@@ -314,7 +314,7 @@ namespace KaosFormat
                     }
                 }
 
-                var tpTag = IssueTags.Fussy;
+                var tpTag = IssueTags.FussyErr;
                 var arTag = IssueTags.None;
                 var arSev = Severity.Trivia;
                 if (Data.AccurateRipConfidence != null)
@@ -334,7 +334,7 @@ namespace KaosFormat
                 var ctSev = Severity.Trivia;
                 var ctTag = IssueTags.None;
                 if (Data.CueToolsConfidence == null)
-                    ctTag = IssueTags.Fussy;
+                    ctTag = IssueTags.FussyErr;
                 else if (Data.CueToolsConfidence.Value < 0)
                     ctSev = Severity.Error;
                 else if (Data.CueToolsConfidence.Value == 0)
@@ -349,7 +349,7 @@ namespace KaosFormat
 
                 var kt = Data.Tracks.Items.Where (it => it.TestCRC != null).Count();
                 if (kt == 0)
-                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.Fussy | tpTag);
+                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.FussyErr | tpTag);
                 else if (kt < Data.Tracks.Items.Count)
                     Data.TpIssue = IssueModel.Add ("Test pass incomplete.", Severity.Error, IssueTags.Failure);
                 else if (Data.Tracks.Items.All (it => it.TestCRC == it.CopyCRC))

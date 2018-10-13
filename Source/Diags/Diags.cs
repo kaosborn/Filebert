@@ -89,11 +89,11 @@ namespace KaosDiags
 
         public bool IsFussy
         {
-            get => (WarnEscalator & IssueTags.ProveWarn) != 0 && (ErrEscalator & IssueTags.Fussy) != 0;
+            get => (WarnEscalator & IssueTags.FussyWarn) != 0 && (ErrEscalator & IssueTags.FussyErr) != 0;
             set
             {
-                WarnEscalator = value ? WarnEscalator | IssueTags.ProveWarn : WarnEscalator & ~(IssueTags.ProveWarn);
-                ErrEscalator = value ? ErrEscalator | IssueTags.Fussy : ErrEscalator & ~ IssueTags.Fussy;
+                WarnEscalator = value ? WarnEscalator | IssueTags.FussyWarn : WarnEscalator & ~(IssueTags.FussyWarn);
+                ErrEscalator = value ? ErrEscalator | IssueTags.FussyErr : ErrEscalator & ~ IssueTags.FussyErr;
             }
         }
 
