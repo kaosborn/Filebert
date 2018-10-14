@@ -274,7 +274,7 @@
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=DataContext.IsRipCheckEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type app:WpfDiagsView}}}" Value="true"/>
+                                <Condition Binding="{Binding Path=DataContext.HasRpIssue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="true"/>
                                 <Condition Binding="{Binding IsRipOK}" Value="false"/>
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>

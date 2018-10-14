@@ -565,6 +565,8 @@ namespace KaosFormat
         public string SelfHashLong
          => storedHash==null? (EacVersionText==null || EacVersionText.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
 
+        public bool HasRpIssue => RpIssue != null;
+
         public Issue DsIssue { get; private set; }
         public Issue NzIssue { get; private set; }
         public Issue ShIssue { get; private set; }
