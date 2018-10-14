@@ -18,16 +18,19 @@
                             <Style TargetType="Button">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding HasRepairer}" Value="false">
-                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsRepairable}" Value="false">
-                                        <Setter Property="IsEnabled" Value="false" />
+                                        <Setter Property="IsEnabled" Value="false"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=DataContext.IsRepairable, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="false">
+                                        <Setter Property="IsEnabled" Value="false"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
-                    <TextBlock Text="{Binding Path=FixedMessage}" />
+                    <TextBlock Text="{Binding Path=FixedMessage}"/>
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>

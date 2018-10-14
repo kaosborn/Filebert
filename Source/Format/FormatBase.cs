@@ -301,6 +301,7 @@ namespace KaosFormat
         public long MediaCount { get; protected set; }
         public Likeliness Watermark { get; protected set; }
         public Issue.Vector Issues { get; protected set; }
+        public bool IsRepairable => fbs != null;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged (string propName)
