@@ -560,7 +560,6 @@ namespace KaosFormat
             }
         }
 
-
         private byte[] storedHash;
         public string SelfHashLong
          => storedHash==null? (EacVersionText==null || EacVersionText.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
@@ -576,92 +575,12 @@ namespace KaosFormat
         public Issue TkIssue { get; private set; }
         public Issue TpIssue { get; private set; }
         public Issue TsIssue { get; private set; }
-        public Issue RpIssue { get; private set; }  // Rip validation result.
+        public Issue RpIssue { get; private set; }  // Rip check result.
 
-
-        // FLAC only:
-        public string CalcedAlbumArtist { get; private set; }
-        public string TaggedAlbumArtist { get; private set; }
-        public string TaggedAlbum { get; private set; }
-        public string TaggedDate { get; private set; }
-        public string TaggedOrg { get; private set; }
-        public string TaggedDisc { get; private set; }
-        public string TaggedDiscTotal { get; private set; }
-        public string TaggedReleaseDate { get; private set; }
-        public string TaggedEdition { get; private set; }
-        public string TaggedSubtitle { get; private set; }
-        public string WorkName { get; private set; }
         public Encoding Codepage { get; private set; }
 
         private LogEacFormat (Model model, Stream stream, string path) : base (model, stream, path)
          => this.Tracks = model.TracksModel.Data;
-
-        public string GetCleanWorkName (NamingStrategy strategy)
-        {
-            string dirtyName;
-            string date = TaggedDate?? "(NoDate)";
-            bool isVarious = CalcedAlbumArtist == null || (CalcedAlbumArtist.ToLower()+' ').StartsWith("various ");
-
-            switch (strategy)
-            {
-                case NamingStrategy.ArtistTitle:
-                    dirtyName = (CalcedAlbumArtist?? "(Various)") + " - " + date + " - " + TaggedAlbum;
-                    break;
-
-                case NamingStrategy.ShortTitle:
-                    if (isVarious)
-                        dirtyName = TaggedAlbum + " - " + date;
-                    else
-                        dirtyName = CalcedAlbumArtist + " - " + date + " - " + TaggedAlbum;
-                    break;
-
-                case NamingStrategy.UnloadedAlbum:
-                    var sb = new StringBuilder();
-                    var albumArtist = CalcedAlbumArtist?? "(Various)";
-
-                    if (! isVarious)
-                    { sb.Append (albumArtist); sb.Append (' '); }
-
-                    var relDate = TaggedReleaseDate?? date;
-                    if (! isVarious)
-                    { sb.Append ("- "); sb.Append (relDate); sb.Append (' '); }
-
-                    sb.Append ("- ");
-                    sb.Append (TaggedAlbum);
-                    var punct = " [";
-                    if (TaggedReleaseDate != null && TaggedDate != null)
-                    { sb.Append (punct); sb.Append (TaggedDate); punct = " "; }
-                    if (TaggedEdition != null)
-                    { sb.Append (punct); sb.Append (TaggedEdition); punct = ", "; }
-                    if (TaggedOrg != null)
-                    {
-                        if (TaggedOrg == "Mobile Fidelity Sound Lab")
-                        { sb.Append (punct); sb.Append ("MFSL"); punct = ", "; }
-                    }
-                    if (punct != " [")
-                        sb.Append (']');
-
-
-                    if (TaggedDisc != null && (TaggedDisc != "1" || TaggedDiscTotal != "1"))
-                    {
-                        sb.Append (" (Disc " + TaggedDisc + ')');
-                        if (TaggedSubtitle != null)
-                            sb.Append (" (" + TaggedSubtitle + ')');
-                    }
-
-                    if (isVarious)
-                    { sb.Append (" - "); sb.Append (relDate); }
-
-                    dirtyName = sb.ToString();
-                    break;
-
-                default:
-                    dirtyName = WorkName;
-                    break;
-            }
-
-            return Map1252.ToClean1252FileName (dirtyName);
-        }
 
         public override bool IsBadData
          => ShIssue != null && ShIssue.Failure;
@@ -684,7 +603,6 @@ namespace KaosFormat
 
             report.Add ($"Rip album = {RipArtistAlbum}");
             report.Add ($"Rip date = {RipDate}");
-            if (CalcedAlbumArtist != null) report.Add ($"Derived artist = {CalcedAlbumArtist}");
 
             report.Add ($"Drive = {Drive}");
             report.Add ($"Interface = {Interface}");

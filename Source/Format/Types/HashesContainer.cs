@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using KaosIssue;
 using KaosCrypto;
 
@@ -108,7 +107,7 @@ namespace KaosFormat
                                     int got = tfs.Read (hdr, 0, hdr.Length);
                                     Mp3Format.Model fmt = Mp3Format.CreateModel (tfs, hdr, targetName);
                                     if (fmt == null)
-                                        // Only MP3 supported for now.
+                                        // TODO support more than MP3
                                         IssueModel.Add ("Unexpected file format.");
                                     else
                                     {

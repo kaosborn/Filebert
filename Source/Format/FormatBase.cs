@@ -113,7 +113,6 @@ namespace KaosFormat
                 }
             }
 
-
             protected void CalcMark (bool assumeProbable=false)
             {
                 byte[] buf = null;
@@ -161,7 +160,6 @@ namespace KaosFormat
                 }
             }
 
-
             public string Rename (string newName)
             {
                 string p1 = System.IO.Path.GetDirectoryName (Data.Path);
@@ -180,7 +178,6 @@ namespace KaosFormat
 
                 return null;
             }
-
 
             /// <summary>Attempt to change this file's extension to Names[0].</summary>
             /// <returns>Error text if failure; null if success.</returns>
@@ -211,7 +208,6 @@ namespace KaosFormat
                 return null;
             }
 
-
             protected void ResetFile()
             {
                 Data.fileMD5 = null;
@@ -220,7 +216,6 @@ namespace KaosFormat
                 Data.metaSHA1 = null;
                 Data.FileSize = Data.fbs==null? 0 : Data.fbs.Length;
             }
-
 
             public string TrimWatermark (bool isFinalRepair)
             {
@@ -245,7 +240,6 @@ namespace KaosFormat
                 return result;
             }
 
-
             private string TrimWatermarkUpdate()
             {
                 string result = null;
@@ -261,7 +255,6 @@ namespace KaosFormat
                 return result;
             }
 
-
             protected void TruncateExcess()
             {
                 Data.fbs.SetLength (Data.FileSize - Data.ExcessSize);
@@ -270,10 +263,8 @@ namespace KaosFormat
                 Data.excess = null;
             }
 
-
             public void ClearFile()
             { Data.fbs = null; }
-
 
             public void CloseFile()
             {
@@ -484,7 +475,6 @@ namespace KaosFormat
             return model;
         }
 
-
         public IList<string> GetDetailsHeader (Granularity scope)
         {
             var report = new List<string>();
@@ -516,7 +506,6 @@ namespace KaosFormat
 
             return report;
         }
-
 
         public virtual void GetDetailsBody (IList<string> report, Granularity scope)
         {
