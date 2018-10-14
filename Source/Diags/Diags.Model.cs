@@ -120,17 +120,14 @@ namespace KaosDiags
                 }
             }
 
-            private IList<FlacFormat.Model> flacModels = new List<FlacFormat.Model>();
             private IEnumerable<FormatBase.Model> CheckRootDir()
             {
                 foreach (string dn in new DirTraverser (Data.Root))
                 {
                     var dInfo = new DirectoryInfo (dn);
-                    var fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
-
-                    int logCount = fileInfos.Count (i => i.Name.EndsWith (".log"));
-                    //TODO sort fileInfos with .log files last
-                    flacModels.Clear();
+                    FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
+                    var flacModels = new List<FlacFormat.Model>();
+                    int logCount = SortDir (fileInfos);
 
                     foreach (FileInfo fInfo in fileInfos)
                     {
@@ -251,6 +248,32 @@ namespace KaosDiags
 
                 resultCode = fmt.Issues.MaxSeverity;
                 return fmtModel;
+            }
+
+            private int SortDir (FileInfo[] fileInfos)
+            {
+                Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
+
+                int logCount = fileInfos.Count (i => i.Name.EndsWith (".log"));
+                if (logCount > 0 && Data.IsRipCheckEnabled)
+                {
+                    int toSwap = logCount;
+                    int dest = fileInfos.Length - 1;
+                    for (int ix = dest; ix >= 0; --ix)
+                        if (fileInfos[ix].Name.EndsWith (".log"))
+                        {
+                            if (ix != dest)
+                            {
+                                FileInfo temp = fileInfos[ix];
+                                fileInfos[ix] = fileInfos[dest];
+                                fileInfos[dest] = temp;
+                            }
+                            if (--toSwap <= 0)
+                                break;
+                            --dest;
+                        }
+                }
+                return logCount;
             }
 
             public void ResetTotals()
