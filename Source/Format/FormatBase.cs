@@ -97,19 +97,15 @@ namespace KaosFormat
 
                 if ((hashFlags & Hashes.MetaSHA1) != 0 && Data.metaSHA1 == null)
                 {
-                    if (Data.MediaCount == 0 && Data.fileSHA1 != null)
-                        Data.metaSHA1 = Data.fileSHA1;
+                    var hasher = new Sha1Hasher();
+                    var suffixPos = Data.mediaPosition + Data.MediaCount;
+
+                    if (hitCache)
+                        hasher.Append (Data.fBuf, 0, (int) Data.mediaPosition, (int) suffixPos, (int) (Data.FileSize - suffixPos));
                     else
-                    {
-                        var hasher = new Sha1Hasher();
-                        var suffixPos = Data.mediaPosition + Data.MediaCount;
-                        if (Data.mediaPosition > 0 || suffixPos < Data.FileSize)
-                            if (hitCache)
-                                hasher.Append (Data.fBuf, 0, (int) Data.mediaPosition, (int) suffixPos, (int) (Data.FileSize - suffixPos));
-                            else
-                                hasher.Append (Data.fbs, 0, Data.mediaPosition, suffixPos, Data.FileSize - suffixPos);
-                        Data.metaSHA1 = hasher.GetHashAndReset();
-                    }
+                        hasher.Append (Data.fbs, 0, Data.mediaPosition, suffixPos, Data.FileSize - suffixPos);
+
+                    Data.metaSHA1 = hasher.GetHashAndReset();
                 }
             }
 
@@ -446,6 +442,12 @@ namespace KaosFormat
                     FormatBase fmt = model.Data;
                     if (! fmt.Issues.HasFatal)
                     {
+                        if (fmt.mediaPosition < 0)
+                        {
+                            fmt.mediaPosition = 0;
+                            fmt.MediaCount = fmt.FileSize;
+                        }
+
                         model.CalcHashes (hashFlags, validationFlags);
 
                         if (isMisname)
