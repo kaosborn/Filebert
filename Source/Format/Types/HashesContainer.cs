@@ -99,22 +99,14 @@ namespace KaosFormat
 
                             if (item.Style == HashStyle.Media)
                                 if (mediaHash == Hashes.None)
-                                    IssueModel.Add ("Unexpected media hash on item " + (index+1) + ".");
+                                    IssueModel.Add ($"Unknown hash type on item {index+1}.");
                                 else
                                 {
-                                    var hdr = new byte[0x3F];
-                                    tfs.Position = 0;
-                                    int got = tfs.Read (hdr, 0, hdr.Length);
-                                    Mp3Format.Model fmt = Mp3Format.CreateModel (tfs, hdr, targetName);
-                                    if (fmt == null)
-                                        // TODO support more than MP3
-                                        IssueModel.Add ("Unexpected file format.");
+                                    var fmtModel = FormatBase.Model.Create (tfs, targetName, mediaHash);
+                                    if (fmtModel == null)
+                                        IssueModel.Add ("Unknown file format.");
                                     else
-                                    {
-                                        fmt.CalcHashes (mediaHash, Validations.None);
-                                        fmt.CloseFile();
-                                        hash = fmt.Data.MediaSHA1;
-                                    }
+                                        hash = fmtModel.Data.MediaSHA1;
                                 }
                             else
                             {

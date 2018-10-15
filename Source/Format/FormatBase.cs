@@ -25,7 +25,7 @@ namespace KaosFormat
 
     [Flags]
     public enum Validations
-    { None=0, Exists=1, MD5=2, SHA1=4, SHA1X=8, SHA256=16 };
+    { None=0, Exists=1, MD5=2, SHA1=4, SHA256=16 };
 
     public enum NamingStrategy
     { Manual, ArtistTitle, ShortTitle, UnloadedAlbum }
@@ -41,6 +41,14 @@ namespace KaosFormat
 
             public Model()
              => IssueModel = new Issue.Vector.Model();
+
+            static public Model Create (Stream fs, string path, Hashes hashFlags)
+            {
+                var model = CreateModel (FormatVector.Items, fs, path, hashFlags, 0, null, out bool isKnown, out FileFormat actual);
+                if (model != null)
+                    model.CloseFile();
+                return model;
+            }
 
             public virtual void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
@@ -273,6 +281,7 @@ namespace KaosFormat
         }
 
 
+        public static FileFormat.Vector FormatVector { get; internal set; }
         public static readonly Encoding Cp1252 = Encoding.GetEncoding (1252);
 
         protected Stream fbs;
