@@ -178,8 +178,8 @@ namespace KaosDiags
                 FormatBase.Model fmtModel = null;
                 try
                 {
-                    fmtModel = FormatBase.CreateModel (Data.FileFormats.Items, stream, path, Data.HashFlags, Data.ValidationFlags,
-                                                       Data.Filter, out isKnownExtension, out trueFormat);
+                    fmtModel = FormatBase.Model.Create (stream, path, Data.HashFlags, Data.ValidationFlags,
+                                                        Data.Filter, out isKnownExtension, out trueFormat);
                 }
 #pragma warning disable 0168
                 catch (Exception ex)

@@ -25,7 +25,7 @@ namespace KaosFormat
 
     [Flags]
     public enum Validations
-    { None=0, Exists=1, MD5=2, SHA1=4, SHA256=16 };
+    { None=0, Exists=1, MD5=2, SHA1=4, SHA256=8 };
 
     public enum NamingStrategy
     { Manual, ArtistTitle, ShortTitle, UnloadedAlbum }
@@ -44,9 +44,131 @@ namespace KaosFormat
 
             static public Model Create (Stream fs, string path, Hashes hashFlags)
             {
-                var model = CreateModel (FormatVector.Items, fs, path, hashFlags, 0, null, out bool isKnown, out FileFormat actual);
+                var model = Create (fs, path, hashFlags, 0, null, out bool isKnown, out FileFormat actual);
                 if (model != null)
                     model.CloseFile();
+                return model;
+            }
+
+            /// <summary>
+            /// Factory method for various file formats.
+            /// </summary>
+            /// <param name="formats">Candidate formats for result.</param>
+            /// <param name="fs0">Handle to stream of unknown type.</param>
+            /// <param name="path">Full name of fs0.</param>
+            /// <returns>Abstract superclass of new instance.</returns>
+            static public Model Create (Stream fs0, string path,
+                Hashes hashFlags, Validations validationFlags, string filter,
+                out bool isKnown, out FileFormat actual)
+            {
+                isKnown = false;
+                actual = null;
+
+                FormatBase.Model model = null;
+                var isMisname = false;
+                var ext = System.IO.Path.GetExtension (path);
+                if (ext.Length < 2)
+                    return null;
+                ext = ext.Substring(1).ToLower();
+
+                var hdr = new byte[0x2C];
+
+                try
+                {
+                    // Max size of first read is kinda arbitrary.
+                    fs0.Read (hdr, 0, hdr.Length);
+
+                    using (var scan = FormatVector.Items.GetEnumerator())
+                    {
+                        for (FileFormat other = null;;)
+                        {
+                            if (scan.MoveNext())
+                            {
+                                if (scan.Current.Names.Contains (ext))
+                                {
+                                    isKnown = true;
+                                    if (scan.Current.Subname != null && scan.Current.Subname[0] == '*')
+                                        other = scan.Current;
+                                    else
+                                    {
+                                        model = scan.Current.ModelFactory (fs0, hdr, path);
+                                        if (model != null)
+                                        {
+                                            actual = scan.Current;
+                                            break;
+                                        }
+                                    }
+                                }
+                                continue;
+                            }
+
+                            if (! isKnown && filter == null)
+                                return null;
+
+                            if (other != null)
+                            {
+                                actual = other;
+                                if (other.Subname[0] == '*')
+                                    return null;
+                                model = other.ModelFactory (fs0, hdr, path);
+                                break;
+                            }
+
+                            scan.Reset();
+                            do
+                            {
+                                if (! scan.MoveNext())
+                                    return null;
+                                if (scan.Current.Names.Contains (ext))
+                                    continue;
+                                model = scan.Current.ModelFactory (fs0, hdr, path);
+                            }
+                            while (model == null);
+
+                            actual = scan.Current;
+                            isKnown = true;
+                            isMisname = true;
+                            break;
+                        }
+                    }
+
+                    if (model != null)
+                    {
+                        FormatBase fmt = model.Data;
+                        if (! fmt.Issues.HasFatal)
+                        {
+                            if (fmt.mediaPosition < 0)
+                            {
+                                fmt.mediaPosition = 0;
+                                fmt.MediaCount = fmt.FileSize;
+                            }
+
+                            model.CalcHashes (hashFlags, validationFlags);
+
+                            if (isMisname)
+                            {
+                                // This repair should go last because it must close the file.
+                                ++actual.TotalMisnamed;
+                                model.IssueModel.Add ("True file format is ." + actual.PrimaryName, Severity.Warning, 0,
+                                                      "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, true);
+                            }
+                        }
+
+                        if (fs0.CanWrite && ! fmt.Issues.HasError && fmt.Issues.RepairableCount > 0)
+                            fs0 = null;  // Keeps it open.
+                        fmt.fBuf = null;
+                    }
+                }
+                finally
+                {
+                    if (fs0 != null)
+                    {
+                        if (model != null)
+                            model.Data.fbs = null;
+                        fs0.Dispose();
+                    }
+                }
+
                 return model;
             }
 
@@ -361,129 +483,6 @@ namespace KaosFormat
                     return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// Factory method for various file formats.
-        /// </summary>
-        /// <param name="formats">Candidate formats for result.</param>
-        /// <param name="fs0">Handle to stream of unknown type.</param>
-        /// <param name="path">Full name of fs0.</param>
-        /// <returns>Abstract superclass of new instance.</returns>
-        static public FormatBase.Model CreateModel
-        (IList<FileFormat> formats, Stream fs0, string path,
-            Hashes hashFlags, Validations validationFlags, string filter,
-            out bool isKnown, out FileFormat actual)
-        {
-            isKnown = false;
-            actual = null;
-
-            FormatBase.Model model = null;
-            var isMisname = false;
-            var ext = System.IO.Path.GetExtension (path);
-            if (ext.Length < 2)
-                return null;
-            ext = ext.Substring(1).ToLower();
-
-            var hdr = new byte[0x2C];
-
-            try
-            {
-                // Max size of first read is kinda arbitrary.
-                fs0.Read (hdr, 0, hdr.Length);
-
-                using (var scan = formats.GetEnumerator())
-                {
-                    for (FileFormat other = null;;)
-                    {
-                        if (scan.MoveNext())
-                        {
-                            if (scan.Current.Names.Contains (ext))
-                            {
-                                isKnown = true;
-                                if (scan.Current.Subname != null && scan.Current.Subname[0] == '*')
-                                    other = scan.Current;
-                                else
-                                {
-                                    model = scan.Current.ModelFactory (fs0, hdr, path);
-                                    if (model != null)
-                                    {
-                                        actual = scan.Current;
-                                        break;
-                                    }
-                                }
-                            }
-                            continue;
-                        }
-
-                        if (! isKnown && filter == null)
-                            return null;
-
-                        if (other != null)
-                        {
-                            actual = other;
-                            if (other.Subname[0] == '*')
-                                return null;
-                            model = other.ModelFactory (fs0, hdr, path);
-                            break;
-                        }
-
-                        scan.Reset();
-                        do
-                        {
-                            if (! scan.MoveNext())
-                                return null;
-                            if (scan.Current.Names.Contains (ext))
-                                continue;
-                            model = scan.Current.ModelFactory (fs0, hdr, path);
-                        }
-                        while (model == null);
-
-                        actual = scan.Current;
-                        isKnown = true;
-                        isMisname = true;
-                        break;
-                    }
-                }
-
-                if (model != null)
-                {
-                    FormatBase fmt = model.Data;
-                    if (! fmt.Issues.HasFatal)
-                    {
-                        if (fmt.mediaPosition < 0)
-                        {
-                            fmt.mediaPosition = 0;
-                            fmt.MediaCount = fmt.FileSize;
-                        }
-
-                        model.CalcHashes (hashFlags, validationFlags);
-
-                        if (isMisname)
-                        {
-                            // This repair should go last because it must close the file.
-                            ++actual.TotalMisnamed;
-                            model.IssueModel.Add ("True file format is ." + actual.PrimaryName, Severity.Warning, 0,
-                                                  "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, true);
-                        }
-                    }
-
-                    if (fs0.CanWrite && ! fmt.Issues.HasError && fmt.Issues.RepairableCount > 0)
-                        fs0 = null;  // Keeps it open.
-                    fmt.fBuf = null;
-                }
-            }
-            finally
-            {
-                if (fs0 != null)
-                {
-                    if (model != null)
-                        model.Data.fbs = null;
-                    fs0.Dispose();
-                }
-            }
-
-            return model;
         }
 
         public IList<string> GetDetailsHeader (Granularity scope)
