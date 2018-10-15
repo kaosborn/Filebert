@@ -49,6 +49,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\PngFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\RiffContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1xFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\Sha256Format.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\WavFormat.cs" />
   </ItemGroup>
 </Project>
