@@ -208,7 +208,7 @@ namespace AppViewModel
             Scope = Granularity.Verbose;
             HashFlags = Hashes.Intrinsic;
             ValidationFlags = Validations.Exists;
-            Response = Interaction.RepairLater;
+            Response = Interaction.None;
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoParse = new RelayCommand (() => model.Parse());

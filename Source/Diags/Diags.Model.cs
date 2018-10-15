@@ -18,7 +18,7 @@ namespace KaosDiags
             public FileFormat.Vector.Model FormatModel;
 
             public Model (string root, string filter=null, string exclusion=null,
-                Interaction action=Interaction.None, Granularity scope=Granularity.Summary,
+                Interaction action=Interaction.None, Granularity scope=Granularity.Detail,
                 IssueTags warnEscalator=IssueTags.None, IssueTags errEscalator=IssueTags.None)
                 : this()
             {

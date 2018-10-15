@@ -141,7 +141,7 @@ namespace AppController
                 }
                 else if (args[an].StartsWith ("/g:"))
                 {
-                    var arg = Granularity.Summary;
+                    var arg = Granularity.Detail;
                     argOk = Enum.TryParse<Granularity> (args[an].Substring (3), true, out arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
                     if (argOk)
@@ -149,11 +149,11 @@ namespace AppController
                 }
                 else if (args[an].StartsWith ("/h:"))
                 {
-                    var h0 = Hashes.None;
-                    var ap = args[an].Substring (3);
-                    argOk = ! ap.StartsWith ("_") && Enum.TryParse<Hashes> (ap, true, out h0);
+                    var arg = Hashes.None;
+                    argOk = Enum.TryParse<Hashes> (args[an].Substring (3), true, out arg);
+                    argOk = argOk && arg == (arg & (Hashes._LogCheck - 1));
                     if (argOk)
-                        hashes = h0 & (Hashes._LogCheck - 1);
+                        hashes = arg;
                 }
                 else if (args[an].StartsWith ("/out:"))
                 {

@@ -8,7 +8,7 @@ using KaosMvvm;
 namespace KaosIssue
 {
     public enum Granularity
-    { Detail, Long, Verbose, Advisory, Terse, Quiet, Summary };
+    { Detail, Long, Verbose, Advisory, Terse, Quiet };
 
     public enum Severity
     {

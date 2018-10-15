@@ -7,7 +7,7 @@
         xmlns:format="clr-namespace:KaosFormat"
         xmlns:issue="clr-namespace:KaosIssue"
         mc:Ignorable="d"
-        Title="Filebert" Height="600" Width="600" Style="{DynamicResource darkApp}"
+        Title="Filebert" Height="640" Width="640" Style="{DynamicResource darkApp}"
         Loaded="Window_Loaded"
         DataContext="{Binding Path=DiagsPresenter}">
     <Window.Resources>
@@ -95,7 +95,7 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="EAC rip check" HorizontalAlignment="Left" Margin="3,3,3,3">
+                    <GroupBox Header="EAC rips" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsRipCheckEnabled, Mode=TwoWay}"/>
