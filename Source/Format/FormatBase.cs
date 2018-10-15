@@ -27,9 +27,6 @@ namespace KaosFormat
     public enum Validations
     { None=0, Exists=1, MD5=2, SHA1=4, SHA256=8 };
 
-    public enum NamingStrategy
-    { Manual, ArtistTitle, ShortTitle, UnloadedAlbum }
-
     [DebuggerDisplay (@"\{{Name}}")]
     public abstract class FormatBase : INotifyPropertyChanged
     {

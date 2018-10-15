@@ -256,17 +256,5 @@ namespace KaosDiags
             if (FileVisit != null)
                 FileVisit (directoryName, fileName);
         }
-
-        public static string FormatDomainVersionText
-        {
-            get
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                string result = assembly.GetName().Version.ToString();
-                if (result.Length > 3 && result.EndsWith (".0"))
-                    result = result.Substring (0, result.Length-2);
-                return result;
-            }
-        }
     }
 }
