@@ -144,10 +144,11 @@ namespace KaosFormat
 
                             if (isMisname)
                             {
-                                // This repair should go last because it must close the file.
+                                // This repair goes last because it must close the file.
                                 ++actual.TotalMisnamed;
-                                model.IssueModel.Add ("True file format is ." + actual.PrimaryName, Severity.Warning, 0,
-                                                      "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, true);
+                                fmt.FfIssue = model.IssueModel.Add
+                                    ($"True file format is .{actual.PrimaryName}.", Severity.Warning, 0,
+                                      "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, isFinalRepairer:true);
                             }
                         }
 
@@ -417,6 +418,7 @@ namespace KaosFormat
         public Likeliness Watermark { get; protected set; }
         public Issue.Vector Issues { get; protected set; }
         public bool IsRepairable => fbs != null;
+        public Issue FfIssue { get; private set; }  // Wrong file format.
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged (string propName)

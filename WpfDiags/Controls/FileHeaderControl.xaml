@@ -26,7 +26,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="File name:"/>
-        <TextBox Grid.Column="1" Text="{Binding Path=Name, Mode=OneWay}"/>
+        <TextBox Grid.Column="1" Text="{Binding Path=Name, Mode=OneWay}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FfIssue.HasRepairer}" Value="true">
+                            <Setter Property="Background" Value="Yellow"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding FfIssue.IsRepairSuccessful}" Value="true">
+                            <Setter Property="Background" Value="Chartreuse"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <TextBlock Grid.Row="1" Text="File MD5:">
             <TextBlock.Style>
                 <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
