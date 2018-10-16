@@ -331,12 +331,12 @@ namespace KaosDiags
 
             private bool reportHasWarn = false, reportHasErr = false;
             private Granularity reportScope;
-            private int reportIssueCount;
+            private int reportIssueIndex;
 
             public void ReportFormat (FormatBase fb)
             {
                 reportScope = Data.Scope;
-                if (reportScope <= Granularity.Long)
+                if (reportScope == Granularity.Detail)
                 {
                     IList<string> report = fb.GetDetailsHeader (reportScope);
                     fb.GetDetailsBody (report, reportScope);
@@ -352,15 +352,15 @@ namespace KaosDiags
 
                 reportHasWarn = false;
                 reportHasErr = false;
-                reportIssueCount = 0;
+                reportIssueIndex = 0;
                 ReportIssues (fb.Issues);
             }
 
             public void ReportIssues (Issue.Vector issues)
             {
-                while (reportIssueCount < issues.Items.Count)
+                while (reportIssueIndex < issues.Items.Count)
                 {
-                    Issue item = issues.Items[reportIssueCount];
+                    Issue item = issues.Items[reportIssueIndex];
                     Severity severity = item.Level;
                     if (severity == Severity.Warning)
                     {
@@ -381,16 +381,13 @@ namespace KaosDiags
 
                     if (item.IsReportable (reportScope))
                     {
-                        if (reportIssueCount == 0)
-                            if (reportScope <= Granularity.Long)
-                                if (reportScope == Granularity.Long)
-                                    Data.OnMessageSend ("Diagnostics:", Severity.NoIssue);
-                                else
-                                { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
-                        ++reportIssueCount;
+                        if (reportIssueIndex == 0)
+                            if (reportScope <= Granularity.Detail)
+                            { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
 
                         Data.OnMessageSend (item.Message, severity, item.IsRepairable ? Likeliness.Probable : Likeliness.None);
                     }
+                    ++reportIssueIndex;
                 }
             }
 

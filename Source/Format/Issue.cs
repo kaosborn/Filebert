@@ -7,16 +7,11 @@ using KaosMvvm;
 
 namespace KaosIssue
 {
-    public enum Granularity
-    { Detail, Long, Verbose, Advisory, Terse, Quiet };
-
     public enum Severity
-    {
-        NoIssue, Noise=Granularity.Long,
-        Trivia=Granularity.Verbose, Advisory=Granularity.Advisory,
-        Warning=Granularity.Terse, Error=Granularity.Quiet,
-        Fatal
-    };
+    { NoIssue, Noise, Trivia, Advisory, Warning, Error, Fatal };
+
+    public enum Granularity
+    { Detail=Severity.Noise, Verbose, Advisory, Terse, Quiet };
 
     [Flags]
     public enum IssueTags
