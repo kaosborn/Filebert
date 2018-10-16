@@ -39,7 +39,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="9"/>
             <ColumnDefinition Width="Auto"/>

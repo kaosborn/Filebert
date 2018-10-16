@@ -139,7 +139,7 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Header=".flac" HorizontalAlignment="Left">
+            <TabItem Header=".flac" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -151,7 +151,7 @@
                 </TabItem.Style>
                 <app:FlacControl/>
             </TabItem>
-            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="65">
+            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="65" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -187,7 +187,7 @@
                 </TabItem.Style>
                 <app:Md5Control/>
             </TabItem>
-            <TabItem Header=".mp3" HorizontalAlignment="Left">
+            <TabItem Header=".mp3" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -199,7 +199,7 @@
                 </TabItem.Style>
                 <app:Mp3Control x:Name="mp3Ctrl"/>
             </TabItem>
-            <TabItem x:Name="oggTab" Header=".ogg" HorizontalAlignment="Left">
+            <TabItem x:Name="oggTab" Header=".ogg" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
