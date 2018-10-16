@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using KaosIssue;
@@ -12,6 +13,28 @@ namespace AppView
         private readonly string[] args;
         private DiagsPresenter.Model viewModel;
 
+        public static string ProductText
+        {
+            get
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                object[] attributes = assembly.GetCustomAttributes (typeof (AssemblyProductAttribute), false);
+                return attributes.Length == 0 ? String.Empty : ((AssemblyProductAttribute) attributes[0]).Product;
+            }
+        }
+
+        public static string VersionText
+        {
+            get
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                string result = assembly.GetName().Version.ToString();
+                if (result.Length > 3 && result.EndsWith (".0"))
+                    result = result.Substring (0, result.Length-2);
+                return result;
+            }
+        }
+
         public WpfDiagsView (string[] args)
         {
             this.args = args;
@@ -22,20 +45,20 @@ namespace AppView
         {
             var sb = new StringBuilder();
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-            sb.Append ($"\nUsage:\n  {exe} [/g:granularity] [/h:hashes] [/fussy] [/R] [<fileOrFolderName>]\n");
+            sb.Append ($"\nUsage:\n{exe} [/g:<granularity>] [/h:<hashes>] [/fussy] [/R] [<fileOrFolderName>]\n\n");
 
-            sb.Append ("\nWhere <hashes> from");
+            sb.Append ("Where <granularity> from");
+            foreach (var name in Enum.GetNames (typeof (Granularity)))
+            { sb.Append (" "); sb.Append (name); }
+            sb.Append ("\n");
+
+            sb.Append ("Where <hashes> from");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
                 if (name[0] != '_')
                 { sb.Append (" "); sb.Append (name); }
             sb.Append ("\n");
 
-            sb.Append ("\nWhere <granularity> from");
-            foreach (var name in Enum.GetNames (typeof (Granularity)))
-                { sb.Append (" "); sb.Append (name); }
-            sb.Append ("\n");
-
-            sb.Append ("\nWhere <fileOrFolderName> is a file or directory name without wildcards.\n");
+            sb.Append ("Where <fileOrFolderName> is a file or directory name without wildcards.\n");
             sb.Append ("\n");
 
             consoleBox.Text += sb.ToString();
@@ -102,6 +125,7 @@ namespace AppView
             viewModel.Data.HashFlags = Hashes.Intrinsic;
 
             ParseArgs();
+            Title = $"{ProductText} v{VersionText}";
             DataContext = viewModel.Data;
         }
     }
