@@ -487,8 +487,20 @@ namespace KaosFormat
         public IList<string> GetDetailsHeader (Granularity scope)
         {
             var report = new List<string>();
-            if (scope >= Granularity.Verbose)
+            if (scope > Granularity.Detail)
+            {
+                if (mediaSHA1 != null)
+                    report.Add ($"{MediaSHA1ToHex} :{Name}");
+                if (metaSHA1 != null)
+                    report.Add ($"{NonmediaSHA1ToHex} ?{Name}");
+                if (fileMD5 != null)
+                    report.Add ($"{FileMD5ToHex} *{Name}");
+                if (fileSHA1 != null)
+                    report.Add ($"{FileSHA1ToHex} *{Name}");
+                if (fileSHA256 != null)
+                    report.Add ($"{FileSHA256ToHex} *{Name}");
                 return report;
+            }
 
             if (mediaSHA1 != null)
             {
@@ -510,8 +522,7 @@ namespace KaosFormat
             if (fileSHA256 != null)
                 report.Add ($"File SHA256={FileSHA256ToHex}");
 
-            if (scope <= Granularity.Detail)
-                report.Add ($"File size = {FileSize}");
+            report.Add ($"File size = {FileSize}");
 
             return report;
         }

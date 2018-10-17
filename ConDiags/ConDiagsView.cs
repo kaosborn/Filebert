@@ -84,7 +84,7 @@ namespace AppView
                 fileShown = true;
 
                 if (totalFilesReported != 0)
-                    if (diags.Scope < Granularity.Verbose)
+                    if (diags.Scope == Granularity.Detail)
                     { Trace.WriteLine (String.Empty); Trace.WriteLine (controller.DetailSeparator); }
                     else if (! dirShown)
                         Trace.WriteLine (String.Empty);
@@ -95,6 +95,8 @@ namespace AppView
 
                     if (! String.IsNullOrEmpty (diags.CurrentDirectory))
                     {
+                        if (diags.IsDigestForm)
+                            Trace.Write ("; ");
                         Trace.Write (diags.CurrentDirectory);
                         if (diags.CurrentDirectory[diags.CurrentDirectory.Length-1] != Path.DirectorySeparatorChar)
                             Trace.Write (Path.DirectorySeparatorChar);
@@ -102,11 +104,14 @@ namespace AppView
                     Trace.WriteLine (String.Empty);
                 }
 
-                Trace.WriteLine (diags.CurrentFile);
+                if (! diags.IsDigestForm)
+                    Trace.WriteLine (diags.CurrentFile);
             }
 
             if (message != null)
             {
+                if (diags.IsDigestForm && severity != Severity.NoIssue)
+                    Trace.Write ("; ");
                 if (prefix != null)
                     Trace.Write (prefix);
                 Trace.WriteLine (message);

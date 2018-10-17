@@ -39,6 +39,8 @@ namespace KaosDiags
         public IssueTags WarnEscalator { get; set; }
         public IssueTags ErrEscalator { get; set; }
         public Severity Result { get; private set; } = Severity.NoIssue;
+        public bool IsDigestForm => Scope != Granularity.Detail
+                    && ((HashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0);
 
         public string CurrentFile { get; private set; }
         public string CurrentDirectory { get; private set; }

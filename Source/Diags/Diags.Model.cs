@@ -336,19 +336,18 @@ namespace KaosDiags
             public void ReportFormat (FormatBase fb)
             {
                 reportScope = Data.Scope;
+                IList<string> report = fb.GetDetailsHeader (reportScope);
                 if (reportScope == Granularity.Detail)
                 {
-                    IList<string> report = fb.GetDetailsHeader (reportScope);
                     fb.GetDetailsBody (report, reportScope);
-
                     Data.OnMessageSend (String.Empty, Severity.NoIssue);
-
-                    foreach (var lx in report)
-                        Data.OnMessageSend (lx);
                 }
                 else if (reportScope > Granularity.Terse)
                     if (Data.Response == Interaction.PromptToRepair && fb.Issues.RepairableCount > 0)
                         reportScope = Granularity.Terse;
+
+                foreach (var lx in report)
+                    Data.OnMessageSend (lx);
 
                 reportHasWarn = false;
                 reportHasErr = false;

@@ -77,7 +77,7 @@ namespace AppView
                 fileShown = true;
 
                 if (totalLinesReported != 0)
-                    if (viewModel.Data.Scope < Granularity.Verbose)
+                    if (viewModel.Data.Scope == Granularity.Detail)
                         consoleBox.AppendText ("\n\n---- ---- ---- ---- ----\n");
                     else if (! dirShown)
                         consoleBox.AppendText ("\n");
@@ -88,6 +88,8 @@ namespace AppView
 
                     if (! string.IsNullOrEmpty (viewModel.Data.CurrentDirectory))
                     {
+                        if (viewModel.Data.IsDigestForm)
+                            consoleBox.AppendText ("; ");
                         consoleBox.AppendText (viewModel.Data.CurrentDirectory);
                         if (viewModel.Data.CurrentDirectory[viewModel.Data.CurrentDirectory.Length-1] != System.IO.Path.DirectorySeparatorChar)
                             consoleBox.AppendText (System.IO.Path.DirectorySeparatorChar.ToString());
@@ -95,12 +97,18 @@ namespace AppView
                     consoleBox.AppendText ("\n");
                 }
 
-                consoleBox.AppendText (viewModel.Data.CurrentFile);
+                if (viewModel.Data.Scope == Granularity.Detail || !viewModel.Data.IsDigestForm)
+                {
+                    consoleBox.AppendText (viewModel.Data.CurrentFile);
+                    consoleBox.AppendText ("\n");
+                }
             }
 
-            consoleBox.AppendText ("\n");
+            if (viewModel.Data.IsDigestForm && severity != Severity.NoIssue)
+                consoleBox.AppendText ("; ");
             consoleBox.AppendText (Issue.GetPrefix (severity));
             consoleBox.AppendText (message);
+            consoleBox.AppendText ("\n");
             ++totalLinesReported;
         }
     }
