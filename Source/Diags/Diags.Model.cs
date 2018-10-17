@@ -277,26 +277,6 @@ namespace KaosDiags
                 return logCount;
             }
 
-            public void ResetTotals()
-            {
-                Data.TotalFiles = 0;
-                Data.TotalRepairable = 0;
-                Data.TotalErrors = 0;
-                Data.TotalWarnings = 0;
-                Data.TotalSignable = 0;
-
-                FormatModel.ResetTotals();
-            }
-
-            public void SetCurrentFile (string baseName, Granularity stickyScope)
-            {
-                Data.CurrentFile = baseName;
-                Data.OnFileVisit (Data.CurrentDirectory, baseName);
-
-                if (stickyScope >= Data.Scope)
-                    Data.OnMessageSend (null);
-            }
-
             public void SetCurrentFile (string baseName)
             {
                 Data.CurrentFile = baseName;
@@ -308,25 +288,6 @@ namespace KaosDiags
                 Data.CurrentFile = fileName;
                 Data.CurrentDirectory = directoryName;
                 Data.OnFileVisit (directoryName, fileName);
-            }
-
-            public void SetCurrentDirectory (string directoryName)
-            {
-                Data.CurrentFile = null;
-                Data.CurrentDirectory = directoryName;
-                Data.OnFileVisit (directoryName, null);
-            }
-
-            public virtual void ReportLine (string message, Severity severity = Severity.Error, bool logErrToFile = false)
-            {
-                if (Data.CurrentFile != null)
-                    if (severity >= Severity.Error)
-                        ++Data.TotalErrors;
-                    else if (severity == Severity.Warning)
-                        ++Data.TotalWarnings;
-
-                if ((int) severity >= (int) Data.Scope)
-                    Data.OnMessageSend (message, severity);
             }
 
             private bool reportHasWarn = false, reportHasErr = false;

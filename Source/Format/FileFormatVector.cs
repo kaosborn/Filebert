@@ -26,21 +26,6 @@ namespace KaosFormat
                     Comparison<FileFormat> comp = (f1, f2) => String.CompareOrdinal (f1.LongName, f2.LongName);
                     Data.items.Sort (comp);
                 }
-
-                public void ResetTotals()
-                {
-                    foreach (var format in Data.items)
-                    {
-                        format.TrueTotal = 0;
-                        format.TotalConverted = 0;
-                        format.TotalCreated = 0;
-                        format.TotalDataErrors = 0;
-                        format.TotalHeaderErrors = 0;
-                        format.TotalMisnamed = 0;
-                        format.TotalMissing = 0;
-                        format.TotalSigned = 0;
-                    }
-                }
             }
 
 
