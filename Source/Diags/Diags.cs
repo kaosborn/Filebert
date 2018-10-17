@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
 using System.Text;
 using KaosIssue;
 using KaosFormat;
@@ -30,17 +29,14 @@ namespace KaosDiags
         public string ProductVersion { get; set; }
 
         public string Root { get; set; }
-        public string Filter { get; private set; }
-        public string Exclusion { get; private set; }
+        public string Filter { get; set; }
+        public string Exclusion { get; set; }
         public Interaction Response { get; protected set; }
         public Granularity Scope { get; set; }
-        public Hashes HashFlags { get; set; }
         public Validations ValidationFlags { get; set; }
         public IssueTags WarnEscalator { get; set; }
         public IssueTags ErrEscalator { get; set; }
         public Severity Result { get; private set; } = Severity.NoIssue;
-        public bool IsDigestForm => Scope != Granularity.Detail
-                    && ((HashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0);
 
         public string CurrentFile { get; private set; }
         public string CurrentDirectory { get; private set; }
@@ -59,32 +55,42 @@ namespace KaosDiags
         protected Diags()
          => this.QuestionAsk = QuestionAskDefault;
 
-        public bool IsMd5CheckEnabled
+        public bool IsDigestForm => Scope != Granularity.Detail
+                    && (hashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0;
+
+        private Hashes hashFlags = 0;
+        public Hashes HashFlags
         {
-            get => (HashFlags & Hashes.PcmMD5) != 0;
+            get => hashFlags;
+            set => hashFlags = value | (hashFlags & (Hashes) 0x7FFF0000);
+        }
+
+        public bool IsPcmMD5CheckEnabled
+        {
+            get => (hashFlags & Hashes.PcmMD5) != 0;
             set
             {
-                HashFlags = value ? HashFlags | Hashes.PcmMD5 : HashFlags & ~ Hashes.PcmMD5;
-                RaisePropertyChangedEvent (nameof (IsMd5CheckEnabled));
+                hashFlags = value ? hashFlags | Hashes.PcmMD5 : hashFlags & ~ Hashes.PcmMD5;
+                RaisePropertyChangedEvent (nameof (IsPcmMD5CheckEnabled));
             }
         }
 
         public bool IsRipCheckEnabled
         {
-            get => (HashFlags & Hashes._LogCheck) != 0;
+            get => (hashFlags & Hashes._LogCheck) != 0;
             set
             {
-                HashFlags = value ? HashFlags | Hashes._LogCheck : HashFlags & ~Hashes._LogCheck;
+                hashFlags = value ? hashFlags | Hashes._LogCheck : hashFlags & ~Hashes._LogCheck;
                 RaisePropertyChangedEvent (nameof (IsRipCheckEnabled));
             }
         }
 
         public bool IsWebCheckEnabled
         {
-            get => (HashFlags & Hashes._WebCheck) != 0;
+            get => (hashFlags & Hashes._WebCheck) != 0;
             set
             {
-                HashFlags = value ? HashFlags | Hashes._WebCheck : HashFlags & ~Hashes._WebCheck;
+                hashFlags = value ? hashFlags | Hashes._WebCheck : hashFlags & ~Hashes._WebCheck;
                 RaisePropertyChangedEvent (nameof (IsWebCheckEnabled));
             }
         }

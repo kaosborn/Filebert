@@ -27,23 +27,11 @@ namespace AppController
         private IConDiagsViewFactory viewFactory;
         private string[] args;
         private Diags.Model model;
-
         private bool waitForKeyPress = false;
-        private int? notifyEvery = null;
-        public int NotifyEvery { get; private set; }
+        private string mirrorName = null;
+        public int NotifyEvery { get; private set; } = 1;
         public string DetailSeparator => "---- ---- ---- ---- ----";
         public string SessionSeparator => "==== ==== ==== ==== ====";
-
-        private string filter = null;
-        private string mirrorName = null;
-        private string exclusion = null;
-        private Interaction action = Interaction.None;
-        private Granularity scope = Granularity.Advisory;
-        private IssueTags warnEscalator = IssueTags.None;
-        private IssueTags errEscalator = IssueTags.None;
-        private Hashes hashes = Hashes.Intrinsic|Hashes._WebCheck;
-        private Validations validations = Validations.Exists | Validations.MD5 | Validations.SHA1;
-
 
         public ConDiagsController (string[] args, IConDiagsViewFactory viewFactory)
         {
@@ -53,10 +41,16 @@ namespace AppController
 
         public int Run()
         {
+            model = new Diags.Model (null);
+            model.Data.Scope = Granularity.Advisory;
+            model.Data.HashFlags = Hashes.Intrinsic;
+            model.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
+
             int exitCode = ParseArgs (args);
             if (exitCode == 0)
             {
-                NotifyEvery = notifyEvery ?? (scope < Granularity.Verbose? 0 : 1);
+                if (model.Data.Scope == Granularity.Detail)
+                    NotifyEvery = 0;
 
                 if (mirrorName != null)
                     try
@@ -68,18 +62,12 @@ namespace AppController
                         Trace.Listeners.Add (mirrorWriter);
                     }
                     catch (Exception)
-                    {
-                        Console.Error.WriteLine ("Ignoring malformed <mirror>");
-                    }
+                    { Console.Error.WriteLine ("Ignoring malformed <mirror>"); }
 
-                if (scope <= Granularity.Verbose)
-                { Trace.WriteLine (ProductText + " v" + VersionText); Trace.WriteLine (String.Empty); }
+                if (model.Data.Scope <= Granularity.Verbose)
+                { Trace.WriteLine ($"{ProductText} v{VersionText}"); Trace.WriteLine (String.Empty); }
 
-                model = new Diags.Model (args[args.Length-1], filter, exclusion, action, scope, warnEscalator, errEscalator);
                 viewFactory.Create (this, model.Data);
-
-                model.Data.HashFlags = hashes;
-                model.Data.ValidationFlags = validations;
 
                 exitCode = (int) Severity.NoIssue;
                 string err = null;
@@ -89,6 +77,8 @@ namespace AppController
 #endif
                     foreach (FormatBase.Model fmtModel in model.CheckRoot())
                     { }
+                    if (! model.Data.IsDigestForm)
+                        model.Data.OnReportClose();
                     exitCode = (int) model.Data.Result;
 #if ! DEBUG
                 }
@@ -118,93 +108,115 @@ namespace AppController
 
         private int ParseArgs (string[] Args)
         {
-
-            if (args.Length==0 || args[0]=="/?" || args[0]=="/help" || args[0]=="-help")
+            if (args.Length==0 || args[0]=="/?" || args[0]=="/help" || args[0]=="-?" || args[0]=="-help")
             {
                 ShowUsage();
-                return 1;
+                return (int) Severity.Noise;
             }
 
-            for (int an = 0; an < args.Length-1; ++an)
+            for (int ix = 0; ix < args.Length; ++ix)
             {
                 bool argOk = false;
 
-                if (args[an]==@"/R")
+                if (args[ix] == "/R")
                 {
-                    action = Interaction.PromptToRepair;
+                    model.Data.IsRepairEnabled = true;
                     argOk = true;
                 }
-                else if (args[an].StartsWith ("/f:"))
+                else if (args[ix].StartsWith ("/f:"))
                 {
-                    filter = args[an].Substring (3);
+                    model.Data.Filter = args[ix].Substring (3);
                     argOk = true;
                 }
-                else if (args[an].StartsWith ("/g:"))
+                else if (args[ix].StartsWith ("/g:"))
                 {
-                    var arg = Granularity.Detail;
-                    argOk = Enum.TryParse<Granularity> (args[an].Substring (3), true, out arg);
+                    argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out Granularity arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
                     if (argOk)
-                        scope = arg;
+                        model.Data.Scope = arg;
                 }
-                else if (args[an].StartsWith ("/h:"))
+                else if (args[ix].StartsWith ("/h:"))
                 {
-                    var arg = Hashes.None;
-                    argOk = Enum.TryParse<Hashes> (args[an].Substring (3), true, out arg);
+                    argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
                     argOk = argOk && arg == (arg & (Hashes._LogCheck - 1));
                     if (argOk)
-                        hashes = arg;
+                        model.Data.HashFlags = arg;
                 }
-                else if (args[an].StartsWith ("/out:"))
+                else if (args[ix].StartsWith ("/out:"))
                 {
-                    mirrorName = args[an].Substring (5).Trim(null);
-                    argOk = mirrorName.Length > 0;
-                }
-                else if (args[an].StartsWith ("/v:"))
-                {
-                    argOk = Enum.TryParse<Validations> (args[an].Substring (3), true, out validations);
-                }
-                else if (args[an].StartsWith ("/w:"))
-                {
-                    var arg = IssueTags.None;
-                    argOk = Enum.TryParse<IssueTags> (args[an].Substring (3), true, out arg);
+                    var arg = args[ix].Substring (5).Trim(null);
+                    argOk = arg.Length > 0;
                     if (argOk)
-                        warnEscalator = arg;
+                        mirrorName = arg;
                 }
-                else if (args[an].StartsWith ("/e:"))
+                else if (args[ix].StartsWith ("/v:"))
                 {
-                    var arg = IssueTags.None;
-                    argOk = Enum.TryParse<IssueTags> (args[an].Substring (3), true, out arg);
+                    argOk = Enum.TryParse<Validations> (args[ix].Substring (3), true, out Validations arg);
                     if (argOk)
-                        errEscalator = arg;
+                        model.Data.ValidationFlags = arg;
                 }
-                else if (args[an].StartsWith ("/p:"))
+                else if (args[ix].StartsWith ("/w:"))
                 {
-                    argOk = int.TryParse (args[an].Substring (3), out int arg);
+                    argOk = Enum.TryParse<IssueTags> (args[ix].Substring (3), true, out IssueTags arg);
                     if (argOk)
-                        notifyEvery = arg;
+                        model.Data.WarnEscalator = arg;
                 }
-                else if (args[an].StartsWith ("/x:"))
+                else if (args[ix].StartsWith ("/e:"))
                 {
-                    var arg = args[an].Substring (3);
+                    argOk = Enum.TryParse<IssueTags> (args[ix].Substring (3), true, out IssueTags arg);
+                    if (argOk)
+                        model.Data.ErrEscalator = arg;
+                }
+                else if (args[ix] == "/ripcheck")
+                {
+                    model.Data.IsRipCheckEnabled = true;
+                    argOk = true;
+                }
+                else if (args[ix] == "/webcheck")
+                {
+                    model.Data.IsWebCheckEnabled = true;
+                    argOk = true;
+                }
+                else if (args[ix].StartsWith ("/p:"))
+                {
+                    argOk = int.TryParse (args[ix].Substring (3), out int arg);
+                    if (argOk)
+                        NotifyEvery = arg;
+                }
+                else if (args[ix].StartsWith ("/x:"))
+                {
+                    var arg = args[ix].Substring (3);
                     argOk = ! String.IsNullOrWhiteSpace (arg);
                     if (argOk)
-                        exclusion = arg;
+                        model.Data.Exclusion = arg;
                 }
-                else if (args[an] == "/k")
+                else if (args[ix] == "/k")
                 {
                     waitForKeyPress = true;
                     argOk = true;
                 }
+                else if (ix == args.Length - 1)
+                {
+                    var arg = args[ix].Trim(null);
+                    argOk = arg.Length > 0 && (arg[0] != '/' || Path.DirectorySeparatorChar == '/');
+                    if (argOk)
+                        model.Data.Root = arg;
+                }
 
                 if (! argOk)
                 {
-                    Console.Error.WriteLine ("Invalid argument: " + args[an]);
-                    return 1;
+                    Console.Error.WriteLine ("Invalid argument: " + args[ix]);
+                    return (int) Severity.Fatal;
                 }
             }
 
-            return 0;
+            if (String.IsNullOrEmpty (model.Data.Root))
+            {
+                Console.Error.WriteLine ("Missing <fileOrFolderName>");
+                return (int) Severity.Fatal;
+            }
+
+            return (int) Severity.NoIssue;
         }
 
         public static string ProductText
@@ -229,14 +241,14 @@ namespace AppController
             }
         }
 
-        private static void ShowUsage()
+        private void ShowUsage()
         {
             string exe = Process.GetCurrentProcess().ProcessName;
 
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/g:<granularity>] [/h:<hashes>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/x:<exclusion>] [/k] <fileOrDirectory>");
+            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/g:<granularity>] [/h:<hashes>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/ripcheck] [/webcheck] [/x:<exclusion>] [/k] <fileOrDirectory>");
 
             Console.WriteLine();
             Console.WriteLine("Where <fileOrDirectory> is a file or directory name without wildcards.");
@@ -283,7 +295,7 @@ namespace AppController
             Console.WriteLine ("Use /g:detail to display maximum diagnostics.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /h:FileMD5,FileSHA1 to calculate file MD5 and SHA1 hashes.");
+            Console.WriteLine ("Use /h:FileMD5,FileSHA1 to generate file MD5 and SHA1 hashes.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /k to wait for keypress before exiting.");
@@ -295,7 +307,7 @@ namespace AppController
             Console.WriteLine ("Use /p:0 to suppress the progress counter.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /v:0 to only parse digests and perform no hash checks.");
+            Console.WriteLine ("Use /v:0 to only parse digests and perform no hash validations.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /x:@ to ignore all paths that include the at sign.");
@@ -306,9 +318,6 @@ namespace AppController
 
             foreach (var line in helpText)
                 Console.WriteLine (line);
-
-            // Create a dummy model just to get a format list.
-            var model = new Diags.Model (null);
 
             Console.WriteLine ();
             Console.WriteLine ("The following file extensions are supported:");

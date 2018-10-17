@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -45,7 +46,7 @@ namespace AppView
         {
             var sb = new StringBuilder();
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-            sb.Append ($"\nUsage:\n{exe} [/g:<granularity>] [/h:<hashes>] [/fussy] [/R] [<fileOrFolderName>]\n\n");
+            sb.Append ($"\nUsage:\n{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/ripcheck] [/webcheck] [<fileOrFolderName>]\n\n");
 
             sb.Append ("Where <granularity> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
@@ -66,66 +67,83 @@ namespace AppView
 
         private int ParseArgs()
         {
-            if (args.Length > 0 && (args[0]=="/?" || args[0]=="/help" || args[0]=="-help"))
+            if (args.Length > 0 && (args[0]=="/?" || args[0]=="/help" || args[0]=="-?" || args[0]=="-help"))
             {
                 ShowUsage();
-                return 1;
+                return (int) Severity.Noise;
             }
 
             for (int ix = 0; ix < args.Length; ++ix)
             {
                 bool argOk = false;
 
-                if (args[ix].StartsWith ("/g:"))
+                if (args[ix] == "/R")
                 {
-                    var arg = Granularity.Detail;
-                    argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out arg);
+                    viewModel.Data.IsRepairEnabled = true;
+                    argOk = true;
+                }
+                else if (args[ix].StartsWith ("/g:"))
+                {
+                    argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out Granularity arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
                     if (argOk)
                         viewModel.Data.Scope = arg;
                 }
                 if (args[ix].StartsWith ("/h:"))
                 {
-                    var arg = Hashes.None;
-                    argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out arg);
+                    argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
                     argOk = argOk && arg == (arg & (Hashes._LogCheck - 1));
                     if (argOk)
                         viewModel.Data.HashFlags = arg;
                 }
-                else if (args[ix] == @"/fussy")
+                else if (args[ix] == "/fussy")
                 {
                     viewModel.Data.IsFussy = true;
                     argOk = true;
                 }
-                else if (args[ix] == @"/R")
+                else if (args[ix].StartsWith ("/v:"))
                 {
-                    viewModel.Data.IsRepairEnabled = true;
+                    argOk = Enum.TryParse<Validations> (args[ix].Substring (3), true, out Validations arg);
+                    if (argOk)
+                        viewModel.Data.ValidationFlags = arg;
+                }
+                else if (args[ix] == "/ripcheck")
+                {
+                    viewModel.Data.IsRipCheckEnabled = true;
                     argOk = true;
                 }
-                else if (! args[ix].StartsWith ("/") && ix == args.Length-1)
+                else if (args[ix] == "/webcheck")
                 {
-                    viewModel.Data.Root = args[ix];
+                    viewModel.Data.IsWebCheckEnabled = true;
                     argOk = true;
+                }
+                else if (ix == args.Length - 1)
+                {
+                    var arg = args[ix].Trim (null);
+                    argOk = arg.Length > 0 && (arg[0] != '/' || Path.DirectorySeparatorChar == '/');
+                    if (argOk)
+                        viewModel.Data.Root = arg;
                 }
 
                 if (! argOk)
                 {
-                    consoleBox.Text = "Invalid argument: " + args[ix] + "\n";
+                    consoleBox.Text = $"Invalid argument: {args[ix]}\n";
                     ShowUsage();
-                    return 1;
+                    return (int) Severity.Error;
                 }
             }
-            return 0;
+
+            return (int) Severity.NoIssue;
         }
 
         public void Window_Loaded (object sender, RoutedEventArgs ea)
         {
-            viewModel = new DiagsPresenter.Model (this);
-            viewModel.Data.Scope = Granularity.Detail;
-            viewModel.Data.HashFlags = Hashes.Intrinsic;
-
-            ParseArgs();
             Title = $"{ProductText} v{VersionText}";
+            viewModel = new DiagsPresenter.Model (this);
+            viewModel.Data.Scope = Granularity.Advisory;
+            viewModel.Data.HashFlags = Hashes.Intrinsic;
+            viewModel.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
+            ParseArgs();
             DataContext = viewModel.Data;
         }
     }
