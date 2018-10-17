@@ -8,116 +8,8 @@ namespace KaosFormat
 {
     public class HashedFile: INotifyPropertyChanged
     {
-        private HashedFile (string name, byte[] storedHash, HashStyle style, byte[] actualHash = null)
-        {
-            this.storedHash = storedHash;
-            this.actualHash = actualHash;
-            this.FileName = name;
-            this.IsMatch = null;
-            this.IsFound = null;
-            this.IsRelative = ! Path.IsPathRooted (name);
-            this.Style = style;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged (string propName)
-        { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
-
-        private static readonly string[] ModeTexts = new string[] { "?", "Text", "Binary", "Media", "Meta" };
-        private string oldFileName;
-        private byte[] storedHash, actualHash;
-
-        public bool IsRelative { get; private set; }
-        public bool? IsFound { get; private set; }
-        public bool? IsMatch { get; private set; }
-        public HashStyle Style { get; private set; }
-        public string ModeText => ModeTexts[(int) Style];
-
-        public string FileName { get; private set; }
-        public string OldFileName => oldFileName;
-
-        public byte[] StoredHash
-        {
-            get
-            {
-                if (storedHash == null)
-                    return null;
-                var result = new byte[storedHash.Length];
-                Array.Copy (storedHash, result, result.Length);
-                return result;
-            }
-        }
-
-        public byte[] ActualHash
-        {
-            get
-            {
-                if (actualHash == null)
-                    return null;
-                var result = new byte[actualHash.Length];
-                Array.Copy (actualHash, result, result.Length);
-                return result;
-            }
-        }
-
-        public bool IsOriginalMatch => IsMatch == true && IsRelative && oldFileName == null;
-        public bool IsRenamedMatch => IsMatch == true && IsRelative && oldFileName != null;
-        public bool NotFoundOrNotMatch => IsFound == false || IsMatch == false;
-
-        public string StoredHashToHex => StoredHash == null ? null : ConvertTo.ToHexString (StoredHash);
-        public string ActualHashToHex => actualHash == null ? null : ConvertTo.ToHexString (actualHash);
-
-        public override string ToString() => FileName;
-
-
         public class Vector
         {
-            public int HashLength { get; private set; }
-            public string BaseDir { get; private set; }
-            public int FoundCount { get; private set; }
-            public int MatchCount { get; private set; }
-
-            public string GetPath (int index)
-            {
-                HashedFile item = items[index];
-                if (item.IsRelative == true)
-                    return BaseDir + item.FileName;
-                else
-                    return item.FileName;
-            }
-
-            private readonly ObservableCollection<HashedFile> items;
-            public ReadOnlyObservableCollection<HashedFile> Items { get; private set; }
-
-            public Vector (string baseDir, int hashLength)
-            {
-                this.items = new ObservableCollection<HashedFile>();
-                this.Items = new ReadOnlyObservableCollection<HashedFile> (this.items);
-
-                this.HashLength = hashLength;
-
-                this.BaseDir = Path.GetDirectoryName (baseDir);
-                if (! this.BaseDir.EndsWith (Path.DirectorySeparatorChar.ToString()))
-                    this.BaseDir += Path.DirectorySeparatorChar;
-            }
-
-            public HashedFile LookupByExtension (string ext)
-            {
-                foreach (var item in items)
-                    if (item.FileName.ToLower().EndsWith (ext))
-                        return item;
-                return null;
-            }
-
-            public int LookupIndexByExtension (string ext)
-            {
-                for (var ix = 0; ix < items.Count; ++ix)
-                    if (items[ix].FileName.ToLower().EndsWith (ext))
-                        return ix;
-                return -1;
-            }
-
-
             public class Model
             {
                 public readonly Vector Data;
@@ -218,6 +110,114 @@ namespace KaosFormat
                     }
                 }
             }
+
+
+            public int HashLength { get; private set; }
+            public string BaseDir { get; private set; }
+            public int FoundCount { get; private set; }
+            public int MatchCount { get; private set; }
+
+            public string GetPath (int index)
+            {
+                HashedFile item = items[index];
+                if (item.IsRelative == true)
+                    return BaseDir + item.FileName;
+                else
+                    return item.FileName;
+            }
+
+            private readonly ObservableCollection<HashedFile> items;
+            public ReadOnlyObservableCollection<HashedFile> Items { get; private set; }
+
+            public Vector (string baseDir, int hashLength)
+            {
+                this.items = new ObservableCollection<HashedFile>();
+                this.Items = new ReadOnlyObservableCollection<HashedFile> (this.items);
+
+                this.HashLength = hashLength;
+
+                this.BaseDir = Path.GetDirectoryName (baseDir);
+                if (! this.BaseDir.EndsWith (Path.DirectorySeparatorChar.ToString()))
+                    this.BaseDir += Path.DirectorySeparatorChar;
+            }
+
+            public HashedFile LookupByExtension (string ext)
+            {
+                foreach (var item in items)
+                    if (item.FileName.ToLower().EndsWith (ext))
+                        return item;
+                return null;
+            }
+
+            public int LookupIndexByExtension (string ext)
+            {
+                for (var ix = 0; ix < items.Count; ++ix)
+                    if (items[ix].FileName.ToLower().EndsWith (ext))
+                        return ix;
+                return -1;
+            }
         }
+
+
+        private HashedFile (string name, byte[] storedHash, HashStyle style, byte[] actualHash = null)
+        {
+            this.storedHash = storedHash;
+            this.actualHash = actualHash;
+            this.FileName = name;
+            this.IsMatch = null;
+            this.IsFound = null;
+            this.IsRelative = ! Path.IsPathRooted (name);
+            this.Style = style;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged (string propName)
+        { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
+
+        private static readonly string[] ModeTexts = new string[] { "?", "Text", "Binary", "Media", "Meta" };
+        private string oldFileName;
+        private byte[] storedHash, actualHash;
+
+        public bool IsRelative { get; private set; }
+        public bool? IsFound { get; private set; }
+        public bool? IsMatch { get; private set; }
+        public HashStyle Style { get; private set; }
+        public string ModeText => ModeTexts[(int) Style];
+
+        public string FileName { get; private set; }
+        public string OldFileName => oldFileName;
+
+        public byte[] StoredHash
+        {
+            get
+            {
+                if (storedHash == null)
+                    return null;
+                var result = new byte[storedHash.Length];
+                Array.Copy (storedHash, result, result.Length);
+                return result;
+            }
+        }
+
+        public byte[] ActualHash
+        {
+            get
+            {
+                if (actualHash == null)
+                    return null;
+                var result = new byte[actualHash.Length];
+                Array.Copy (actualHash, result, result.Length);
+                return result;
+            }
+        }
+
+        public bool IsOriginalMatch => IsMatch == true && IsRelative && oldFileName == null;
+        public bool IsRenamedMatch => IsMatch == true && IsRelative && oldFileName != null;
+        public bool NotFoundOrNotMatch => IsFound == false || IsMatch == false;
+
+        public string StoredHashToHex => StoredHash == null ? null : ConvertTo.ToHexString (StoredHash);
+        public string ActualHashToHex => actualHash == null ? null : ConvertTo.ToHexString (actualHash);
+
+        public override string ToString() => FileName;
     }
 }

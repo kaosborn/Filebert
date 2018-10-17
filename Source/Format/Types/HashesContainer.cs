@@ -116,7 +116,7 @@ namespace KaosFormat
 
                             HashedModel.SetActualHash (index, hash);
                             if (item.IsMatch == false)
-                                IssueModel.Add (Data.HasherName + " mismatch on '" + item.FileName + "'.");
+                                IssueModel.Add ($"{Data.HasherName} mismatch on '{item.FileName}'.");
                         }
                     }
                     catch (FileNotFoundException ex)
@@ -133,13 +133,13 @@ namespace KaosFormat
                     }
                 }
 
-                string tx = Data.HasherName + " validation of "  + Data.HashedFiles.Items.Count + " file";
+                string tx = $"{Data.HasherName} validation of {Data.HashedFiles.Items.Count} file";
                 if (Data.HashedFiles.Items.Count != 1)
                     tx += "s";
                 if (base.Data.Issues.MaxSeverity < Severity.Error)
                     tx += " successful.";
                 else
-                    tx += " failed with " + Data.HashedFiles.FoundCount + " found and " + Data.HashedFiles.MatchCount + " matched.";
+                    tx += $" failed with {Data.HashedFiles.FoundCount} found and {Data.HashedFiles.MatchCount} matched.";
 
                 IssueModel.Add (tx, Severity.Advisory);
             }

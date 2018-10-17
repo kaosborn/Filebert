@@ -37,7 +37,7 @@ namespace KaosFormat
                             var name = item.Name;
 
                             if (Data.AllowNonFile && (name.StartsWith ("http:") || name.StartsWith ("https:")))
-                                IssueModel.Add ("Ignoring URL '" + name + "'.", Severity.Trivia);
+                                IssueModel.Add ($"Ignoring URL '{name}'.", Severity.Trivia);
                             else
                             {
                                 try
@@ -45,7 +45,7 @@ namespace KaosFormat
                                     if (! System.IO.Path.IsPathRooted (name))
                                         name = Data.Files.RootDir + System.IO.Path.DirectorySeparatorChar + name;
                                     else if (Data.ForbidRooted)
-                                        IssueModel.Add ("File is rooted: '" + item.Name + "'.");
+                                        IssueModel.Add ($"File is rooted: '{item.Name}'.");
                                 }
                                 catch (ArgumentException ex)
                                 {
@@ -60,7 +60,7 @@ namespace KaosFormat
                                 FilesModel.SetIsFound (ix, isFound);
                                 if (! isFound)
                                 {
-                                    IssueModel.Add ("Missing file '" + item.Name + "'.");
+                                    IssueModel.Add ($"Missing file '{item.Name}'.");
                                     ++notFoundTotal;
                                 }
                             }
@@ -68,11 +68,11 @@ namespace KaosFormat
 
                         var sfx = Data.Files.Items.Count == 1? String.Empty : "s";
 
-                        var tx = "Existence check" + sfx + " of "  + Data.Files.Items.Count + " file" + sfx;
+                        var tx = $"Existence check{sfx} of {Data.Files.Items.Count} file{sfx}";
                         if (notFoundTotal == 0)
                             tx += " successful.";
                         else
-                            tx += " failed with " + notFoundTotal + " not found.";
+                            tx += $" failed with {notFoundTotal} not found.";
 
                         IssueModel.Add (tx, notFoundTotal == 0? Severity.Advisory : Severity.Error);
                     }
