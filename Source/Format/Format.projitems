@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FileFormatVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormatBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Issue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\ApeFormat.cs" />
@@ -18,19 +18,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\AviFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\CueFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\DbFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\FileItemVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\FileItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\FilesContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\FlacBlockList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\FlacFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\FlvFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\GifFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\HashedFileVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\HashedFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\HashesContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\IcoFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\JpegFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacTrackVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogXldFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M3uFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M4aFormat.cs" />
@@ -45,7 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\Mpeg2Format.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Mpeg4Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\OggFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Types\PngChunkVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\PngChunk.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\PngFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\RiffContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1Format.cs" />
