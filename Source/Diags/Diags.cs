@@ -85,6 +85,8 @@ namespace KaosDiags
             }
         }
 
+        public bool IsMp3RipCheckEnabled { get; set; }
+
         public bool IsWebCheckEnabled
         {
             get => (hashFlags & Hashes._WebCheck) != 0;

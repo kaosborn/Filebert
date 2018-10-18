@@ -99,6 +99,7 @@
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsRipCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Check hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires web connection"/>
                             </WrapPanel>
                         </WrapPanel>
@@ -125,7 +126,7 @@
                     </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
-            <Button Content=" Parse " Grid.Row="1" Grid.Column="2" Command="{Binding DoParse}" IsDefault="True" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button Content=" Check " Grid.Row="1" Grid.Column="2" Command="{Binding DoParse}" IsDefault="True" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button Content=" First " Grid.Row="2" Grid.Column="2" Command="{Binding NavFirst}" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button Content=" Next " Grid.Row="3" Grid.Column="2" Command="{Binding NavNext}" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Grid>

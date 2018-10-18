@@ -167,9 +167,14 @@ namespace AppController
                     if (argOk)
                         model.Data.ErrEscalator = arg;
                 }
-                else if (args[ix] == "/ripcheck")
+                else if (args[ix] == "/flacrip")
                 {
                     model.Data.IsRipCheckEnabled = true;
+                    argOk = true;
+                }
+                else if (args[ix] == "/mp3rip")
+                {
+                    model.Data.IsMp3RipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/webcheck")
@@ -248,10 +253,10 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/g:<granularity>] [/h:<hashes>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/ripcheck] [/webcheck] [/x:<exclusion>] [/k] <fileOrDirectory>");
+            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/g:<granularity>] [/h:<hashes>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
-            Console.WriteLine("Where <fileOrDirectory> is a file or directory name without wildcards.");
+            Console.WriteLine("Where <fileOrFolder> is a file or directory name without wildcards.");
             Console.WriteLine();
 
             Console.Write ("Where <granularity> from");

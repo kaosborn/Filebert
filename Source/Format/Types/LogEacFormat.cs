@@ -143,32 +143,58 @@ namespace KaosFormat
             public void SetRpIssue (string err)
              => Data.RpIssue = IssueModel.Add (err, Severity.Error, IssueTags.Failure);
 
-            public void ValidateRip (IList<FlacFormat.Model> flacModels)
+            public void ValidateRip (IList<FlacFormat> flacs)
             {
-                Severity baddest = Severity.NoIssue;
-                if (flacModels.Count != Data.Tracks.Items.Count)
-                    IssueModel.Add ($"Directory contains {flacModels.Count} FLACs, EAC log contains {Data.Tracks.Items.Count} tracks.");
-                else
+                Data.IsLosslessRip = true;
+                if (flacs.Count != Data.Tracks.Items.Count)
+                    Data.TkIssue = IssueModel.Add ($"Directory contains {flacs.Count} FLACs, EAC log contains {Data.Tracks.Items.Count} tracks.");
+
+                Severity baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
+                if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count ())
                 {
-                    for (int ix = 0; ix < flacModels.Count; ++ix)
-                    {
-                        var flac = flacModels[ix].Data;
-                        TracksModel.MatchFlac (flac);
-                        if (baddest < flac.Issues.MaxSeverity)
-                            baddest = flac.Issues.MaxSeverity;
-                    }
-                    if (Data.Tracks.Items.Any (t => t.MatchName == null))
-                        IssueModel.Add ("Missing matched .flac file(s).", Severity.Error, IssueTags.Success);
+                    IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.FussyErr);
+                    if (baddest < IssueModel.Data.MaxSeverity)
+                        baddest = IssueModel.Data.MaxSeverity;
                 }
+
+                for (int ix = 0; ix < flacs.Count; ++ix)
+                    TracksModel.MatchFlac (flacs[ix]);
+
+                if (Data.TkIssue == null && Data.Tracks.Items.Any (t => t.MatchName == null))
+                    IssueModel.Add ("Missing matched .flac file(s).", Severity.Error, IssueTags.Success);
 
                 if (baddest < Data.Issues.MaxSeverity)
                     baddest = Data.Issues.MaxSeverity;
                 if (baddest >= Severity.Error)
-                    Data.RpIssue = IssueModel.Add ("EAC rip check failed.", baddest, IssueTags.Failure);
+                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check failed.", baddest, IssueTags.Failure);
                 else if (baddest >= Severity.Warning)
-                    Data.RpIssue = IssueModel.Add ("EAC rip check successful with warnings.", baddest, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check successful with warnings.", baddest, IssueTags.Success);
                 else
-                    Data.RpIssue = IssueModel.Add ("EAC rip check successful!", Severity.Advisory, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
+            }
+
+            public void ValidateRip (IList<Mp3Format> mp3s)
+            {
+                Data.IsLosslessRip = false;
+                if (mp3s.Count != Data.Tracks.Items.Count)
+                    Data.RpIssue = Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} MP3s, EAC log contains {Data.Tracks.Items.Count} tracks.", Severity.Error, IssueTags.Failure);
+                else
+                {
+                    Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
+                    if (mp3s.Count != mp3s.Where (tk => tk.Lame != null && tk.Lame.ActualDataCrc != null).Count())
+                    {
+                        IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.FussyErr);
+                        if (baddest < IssueModel.Data.MaxSeverity)
+                            baddest = IssueModel.Data.MaxSeverity;
+                    }
+
+                    if (baddest >= Severity.Error)
+                        Data.RpIssue = IssueModel.Add ("EAC MP3 rip check failed.", baddest, IssueTags.Failure);
+                    else if (baddest >= Severity.Warning)
+                        Data.RpIssue = IssueModel.Add ("EAC MP3 rip check successful with warnings.", baddest, IssueTags.Success);
+                    else
+                        Data.RpIssue = IssueModel.Add ($"EAC MP3 rip check okay!", Severity.Advisory, IssueTags.Success);
+                }
             }
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
@@ -565,6 +591,7 @@ namespace KaosFormat
          => storedHash==null? (EacVersionText==null || EacVersionText.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
 
         public bool HasRpIssue => RpIssue != null;
+        public bool? IsLosslessRip { get; private set; } = null;
 
         public Issue DsIssue { get; private set; }
         public Issue NzIssue { get; private set; }

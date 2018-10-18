@@ -46,7 +46,7 @@ namespace AppView
         {
             var sb = new StringBuilder();
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-            sb.Append ($"\nUsage:\n{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/ripcheck] [/webcheck] [<fileOrFolderName>]\n\n");
+            sb.Append ($"\nUsage:\n{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]\n\n");
 
             sb.Append ("Where <granularity> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
@@ -107,9 +107,14 @@ namespace AppView
                     if (argOk)
                         viewModel.Data.ValidationFlags = arg;
                 }
-                else if (args[ix] == "/ripcheck")
+                else if (args[ix] == "/flacrip")
                 {
                     viewModel.Data.IsRipCheckEnabled = true;
+                    argOk = true;
+                }
+                else if (args[ix] == "/mp3rip")
+                {
+                    viewModel.Data.IsMp3RipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/webcheck")
