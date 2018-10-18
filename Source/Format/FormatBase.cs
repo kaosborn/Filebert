@@ -75,7 +75,7 @@ namespace KaosFormat
                     // Max size of first read is kinda arbitrary.
                     fs0.Read (hdr, 0, hdr.Length);
 
-                    using (var scan = FormatVector.Items.GetEnumerator())
+                    using (var scan = KaosDiags.Diags.FileFormats.Items.GetEnumerator())
                     {
                         for (FileFormat other = null;;)
                         {
@@ -401,7 +401,6 @@ namespace KaosFormat
         }
 
 
-        public static FileFormat.Vector FormatVector { get; internal set; }
         public static readonly Encoding Cp1252 = Encoding.GetEncoding (1252);
 
         protected Stream fbs;

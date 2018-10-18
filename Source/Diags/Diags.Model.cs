@@ -36,7 +36,6 @@ namespace KaosDiags
             {
                 FormatModel = new FileFormat.Vector.Model();
                 LoadFormats();
-                FormatBase.FormatVector = FormatModel.Data;
             }
 
             // Interrogate the assembly for any classes to add to the list of file formats. They:

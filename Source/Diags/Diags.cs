@@ -16,7 +16,7 @@ namespace KaosDiags
 
     public partial class Diags : INotifyPropertyChanged
     {
-        public FileFormat.Vector FileFormats { get; protected set; }
+        public static FileFormat.Vector FileFormats { get; private set; }
 
         public Func<string,bool?> QuestionAsk;
         public Func<string,string,char> InputChar;
@@ -50,7 +50,7 @@ namespace KaosDiags
         public int ExpectedFiles { get; set; }
 
         protected Diags (Model model) : this()
-         => this.FileFormats = model.FormatModel.Data;
+         => FileFormats = model.FormatModel.Data;
 
         protected Diags()
          => this.QuestionAsk = QuestionAskDefault;
