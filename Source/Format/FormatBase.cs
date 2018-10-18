@@ -39,7 +39,7 @@ namespace KaosFormat
             public Model()
              => IssueModel = new Issue.Vector.Model();
 
-            static public Model Create (Stream fs, string path, Hashes hashFlags)
+            public static Model Create (Stream fs, string path, Hashes hashFlags)
             {
                 var model = Create (fs, path, hashFlags, 0, null, out bool isKnown, out FileFormat actual);
                 if (model != null)
@@ -54,7 +54,7 @@ namespace KaosFormat
             /// <param name="fs0">Handle to stream of unknown type.</param>
             /// <param name="path">Full name of fs0.</param>
             /// <returns>Abstract superclass of new instance.</returns>
-            static public Model Create (Stream fs0, string path,
+            public static Model Create (Stream fs0, string path,
                 Hashes hashFlags, Validations validationFlags, string filter,
                 out bool isKnown, out FileFormat actual)
             {
@@ -449,7 +449,7 @@ namespace KaosFormat
         public virtual bool IsBadData => false;
 
         protected byte[] metaSHA1 = null;
-        public string NonmediaSHA1ToHex => metaSHA1==null ? null : ConvertTo.ToHexString (metaSHA1);
+        public string MetaSHA1ToHex => metaSHA1==null ? null : ConvertTo.ToHexString (metaSHA1);
 
         protected byte[] mediaSHA1 = null;
         public byte[] MediaSHA1 { get { var cp = new byte[mediaSHA1.Length]; mediaSHA1.CopyTo (cp, 0); return cp; } }
@@ -491,7 +491,7 @@ namespace KaosFormat
                 if (mediaSHA1 != null)
                     report.Add ($"{MediaSHA1ToHex} :{Name}");
                 if (metaSHA1 != null)
-                    report.Add ($"{NonmediaSHA1ToHex} ?{Name}");
+                    report.Add ($"{MetaSHA1ToHex} ?{Name}");
                 if (fileMD5 != null)
                     report.Add ($"{FileMD5ToHex} *{Name}");
                 if (fileSHA1 != null)
@@ -510,7 +510,7 @@ namespace KaosFormat
             }
 
             if (metaSHA1 != null)
-                report.Add ($"Meta SHA1 = {NonmediaSHA1ToHex}");
+                report.Add ($"Meta SHA1 = {MetaSHA1ToHex}");
 
             if (fileMD5 != null)
                 report.Add ($"File MD5  = {FileMD5ToHex}");

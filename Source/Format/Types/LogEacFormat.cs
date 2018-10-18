@@ -390,7 +390,7 @@ namespace KaosFormat
                 StringBuilder m1 = new StringBuilder(), m2 = new StringBuilder(), m3 = new StringBuilder();
                 foreach (LogEacTrack tk in Data.Tracks.Items)
                 {
-                    if (! tk.HasOK)
+                    if (! tk.HasOk)
                     {
                         if (r1a < 0) r1a = tk.Number;
                         r1b = tk.Number;
@@ -404,7 +404,7 @@ namespace KaosFormat
                         r1a = -1;
                     }
  
-                    if (tk.HasOK && ! tk.HasQuality)
+                    if (tk.HasOk && ! tk.HasQuality)
                     {
                         if (r2a < 0) r2a = tk.Number;
                         r2b = tk.Number;
@@ -478,7 +478,7 @@ namespace KaosFormat
                     var tk = TracksModel.Data.Items[trackIndex];
 
                     if (tk.RipSeverest == null || tk.RipSeverest.Level < Severity.Error)
-                        if (! tk.HasOK)
+                        if (! tk.HasOk)
                             TracksModel.SetSeverest (trackIndex, i1);
                         else if (! tk.HasQuality)
                             TracksModel.SetSeverest (trackIndex, i2);
@@ -668,7 +668,7 @@ namespace KaosFormat
                     { sb.Append (" | "); sb.Append (tk.Qual); }
                     if (tk.CopyCRC != null)
                         sb.AppendFormat (" | {0:X8}", tk.CopyCRC);
-                    if (! tk.HasOK)
+                    if (! tk.HasOk)
                         sb.Append (" *BAD*");
                     report.Add (sb.ToString());
                 }

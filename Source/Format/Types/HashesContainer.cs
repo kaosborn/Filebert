@@ -7,7 +7,7 @@ using KaosCrypto;
 
 namespace KaosFormat
 {
-    public enum HashStyle { Undefined, Text, Binary, Media };
+    public enum HashMode { Undefined, Text, Binary, Media };
 
     public abstract class HashesContainer : FormatBase
     {
@@ -41,24 +41,24 @@ namespace KaosFormat
                     }
 
                     // Try typical format with hash first.
-                    var style = HashStyle.Undefined;
+                    var mode = HashMode.Undefined;
                     if (lx[Data.HashedFiles.HashLength*2]==' ')
                     {
-                        var styleChar = lx[Data.HashedFiles.HashLength*2+1];
-                        if (styleChar==GetStyleChar (HashStyle.Text))
-                            style = HashStyle.Text;
-                        else if (styleChar==GetStyleChar (HashStyle.Binary))
-                            style = HashStyle.Binary;
-                        else if (styleChar==GetStyleChar (HashStyle.Media))
-                            style = HashStyle.Media;
+                        var modeChar = lx[Data.HashedFiles.HashLength*2+1];
+                        if (modeChar==GetModeChar (HashMode.Text))
+                            mode = HashMode.Text;
+                        else if (modeChar==GetModeChar (HashMode.Binary))
+                            mode = HashMode.Binary;
+                        else if (modeChar==GetModeChar (HashMode.Media))
+                            mode = HashMode.Media;
 
-                        if (style != HashStyle.Undefined)
+                        if (mode != HashMode.Undefined)
                         {
                             var hash = ConvertTo.FromHexStringToBytes (lx, 0, Data.HashedFiles.HashLength);
                             if (hash != null)
                             {
                                 var targetName = lx.Substring (Data.HashedFiles.HashLength*2 + 2);
-                                HashedModel.Add (targetName, hash, style);
+                                HashedModel.Add (targetName, hash, mode);
                                 continue;
                             }
                         }
@@ -71,7 +71,7 @@ namespace KaosFormat
                         if (hash != null)
                         {
                             var targetName = lx.Substring (0, lx.Length-Data.HashedFiles.HashLength*2-1);
-                            HashedModel.Add (targetName, hash, HashStyle.Binary);
+                            HashedModel.Add (targetName, hash, HashMode.Binary);
                             continue;
                         }
                     }
@@ -97,7 +97,7 @@ namespace KaosFormat
                             HashedModel.SetIsFound (index, true);
                             byte[] hash = null;
 
-                            if (item.Style == HashStyle.Media)
+                            if (item.Mode == HashMode.Media)
                                 if (mediaHash == Hashes.None)
                                     IssueModel.Add ($"Unknown hash type on item {index+1}.");
                                 else
@@ -146,8 +146,8 @@ namespace KaosFormat
         }
 
 
-        private static readonly char[] styleChar = new char[] { '?', ' ', '*', ':' };
-        public static char GetStyleChar (HashStyle hashStyle) => styleChar[(int) hashStyle];
+        private static readonly char[] modeChar = new char[] { '?', ' ', '*', ':' };
+        public static char GetModeChar (HashMode mode) => modeChar[(int) mode];
 
         public HashedFile.Vector HashedFiles { get; private set; }
         public Validations Validation { get; protected set; }
@@ -172,7 +172,7 @@ namespace KaosFormat
             report.Add ($"{HasherName} count = {HashedFiles.Items.Count}");
 
             foreach (HashedFile item in HashedFiles.Items)
-                report.Add (item.StoredHashToHex + ' ' + GetStyleChar (item.Style) + item.FileName);
+                report.Add (item.StoredHashToHex + ' ' + GetModeChar (item.Mode) + item.FileName);
         }
     }
 }

@@ -145,13 +145,13 @@ namespace KaosDiags
                             else if (fmtModel is Mp3Format.Model mp3Model)
                                 mp3s.Add (mp3Model.Data);
                             else if (fmtModel is LogEacFormat.Model logModel)
-                                if (Data.IsRipCheckEnabled || Data.IsMp3RipCheckEnabled)
+                                if (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled)
                                 {
                                     if (logCount > 1)
                                         logModel.SetRpIssue ("Folder contains more than one .log file.");
                                     else if (flacs.Count > 0 && mp3s.Count > 0)
                                         logModel.SetRpIssue ("Folder contains both .flac and .mp3 files.");
-                                    else if (! Data.IsMp3RipCheckEnabled || Data.IsRipCheckEnabled && flacs.Count > 0)
+                                    else if (! Data.IsMp3RipCheckEnabled || Data.IsFlacRipCheckEnabled && flacs.Count > 0)
                                         logModel.ValidateRip (flacs);
                                     else
                                         logModel.ValidateRip (mp3s);
@@ -260,7 +260,7 @@ namespace KaosDiags
                 Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
 
                 int logCount = fileInfos.Count (i => i.Name.EndsWith (".log"));
-                if (logCount > 0 && (Data.IsRipCheckEnabled || Data.IsMp3RipCheckEnabled))
+                if (logCount > 0 && (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled))
                 {
                     int toSwap = logCount;
                     int dest = fileInfos.Length - 1;

@@ -109,7 +109,7 @@ namespace AppView
                 }
                 else if (args[ix] == "/flacrip")
                 {
-                    viewModel.Data.IsRipCheckEnabled = true;
+                    viewModel.Data.IsFlacRipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/mp3rip")

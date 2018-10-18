@@ -17,10 +17,10 @@ namespace KaosFormat
                 public Model (string filePath, int hashLength)
                  => Data = new Vector (filePath, hashLength);
 
-                public void Add (string name, byte[] storedHash, HashStyle hashStyle)
+                public void Add (string name, byte[] storedHash, HashMode hashStyle)
                  => Data.items.Add (new HashedFile (name, storedHash, hashStyle));
 
-                public void AddActual (string name, byte[] storedActualHash, HashStyle hashStyle=HashStyle.Binary)
+                public void AddActual (string name, byte[] storedActualHash, HashMode hashStyle=HashMode.Binary)
                 {
                     var item = new HashedFile (name, storedActualHash, hashStyle, storedActualHash);
                     Data.items.Add (item);
@@ -159,7 +159,7 @@ namespace KaosFormat
         }
 
 
-        private HashedFile (string name, byte[] storedHash, HashStyle style, byte[] actualHash = null)
+        private HashedFile (string name, byte[] storedHash, HashMode mode, byte[] actualHash = null)
         {
             this.storedHash = storedHash;
             this.actualHash = actualHash;
@@ -167,7 +167,7 @@ namespace KaosFormat
             this.IsMatch = null;
             this.IsFound = null;
             this.IsRelative = ! Path.IsPathRooted (name);
-            this.Style = style;
+            this.Mode = mode;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -181,8 +181,8 @@ namespace KaosFormat
         public bool IsRelative { get; private set; }
         public bool? IsFound { get; private set; }
         public bool? IsMatch { get; private set; }
-        public HashStyle Style { get; private set; }
-        public string ModeText => ModeTexts[(int) Style];
+        public HashMode Mode { get; private set; }
+        public string ModeText => ModeTexts[(int) Mode];
 
         public string FileName { get; private set; }
         public string OldFileName => oldFileName;

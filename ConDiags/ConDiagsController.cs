@@ -169,7 +169,7 @@ namespace AppController
                 }
                 else if (args[ix] == "/flacrip")
                 {
-                    model.Data.IsRipCheckEnabled = true;
+                    model.Data.IsFlacRipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/mp3rip")

@@ -74,7 +74,7 @@ namespace KaosFormat
             public bool AllHasOK()
             {
                 foreach (var item in items)
-                    if (! item.HasOK)
+                    if (! item.HasOk)
                         return false;
                 return true;
             }
@@ -82,7 +82,7 @@ namespace KaosFormat
             public bool AllHasOkWithQuality()
             {
                 foreach (var item in items)
-                    if (! item.HasOK || String.IsNullOrWhiteSpace (item.Qual))
+                    if (! item.HasOk || String.IsNullOrWhiteSpace (item.Qual))
                         return false;
                 return true;
             }
@@ -98,15 +98,15 @@ namespace KaosFormat
         public string Qual { get; private set; }
         public UInt32? TestCRC { get; private set; }
         public UInt32? CopyCRC { get; private set; }
-        public bool HasOK { get; private set; }
+        public bool HasOk { get; private set; }
         public int? AR { get; private set; }
         public int? ArConfidence { get; private set; }
         public int? CtConfidence { get; private set; }
 
         public bool HasQuality => ! String.IsNullOrWhiteSpace (Qual);
         public bool IsBadCRC => CopyCRC != null && TestCRC != null && TestCRC != CopyCRC;
-        public bool IsTrackOK => HasOK && HasQuality && ! IsBadCRC;
-        public bool IsRipOK => IsTrackOK && match != null && match.Issues.MaxSeverity < Severity.Error;
+        public bool IsTrackOk => HasOk && HasQuality && ! IsBadCRC;
+        public bool IsRipOk => IsTrackOk && match != null && match.Issues.MaxSeverity < Severity.Error;
 
         private FormatBase match = null;
         public string MatchName => match == null ? null : match.Name;
@@ -114,7 +114,7 @@ namespace KaosFormat
         public Issue RipSeverest { get; private set; }
 
         private LogEacTrack (int number, string path, string pregap, string peak, string speed,
-                             string quality, uint? testCRC, uint? copyCRC, bool isOK, int? arVersion, int? confidence)
+                             string quality, uint? testCRC, uint? copyCRC, bool isOk, int? arVersion, int? confidence)
         {
             this.Number = number;
             this.FilePath = path;
@@ -124,7 +124,7 @@ namespace KaosFormat
             this.Qual = quality;
             this.TestCRC = testCRC;
             this.CopyCRC = copyCRC;
-            this.HasOK = isOK;
+            this.HasOk = isOk;
             this.AR = arVersion;
             this.ArConfidence = confidence;
         }
