@@ -22,7 +22,7 @@
             <GridView>
                 <GridView.Columns>
                     <GridViewColumn Header="File name" DisplayMemberBinding="{Binding FileName, Mode=OneWay}"/>
-                    <GridViewColumn Header="Mode" DisplayMemberBinding="{Binding ModeText, Mode=OneWay}"/>
+                    <GridViewColumn Header="Mode" DisplayMemberBinding="{Binding ModeName, Mode=OneWay}"/>
                     <GridViewColumn Header="Stored hash" DisplayMemberBinding="{Binding StoredHashToHex, Mode=OneWay}"/>
                     <GridViewColumn Header="Actual hash" DisplayMemberBinding="{Binding ActualHashToHex, Mode=OneWay}"/>
                 </GridView.Columns>

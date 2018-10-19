@@ -449,6 +449,7 @@ namespace KaosFormat
         public virtual bool IsBadData => false;
 
         protected byte[] metaSHA1 = null;
+        public byte[] MetaSHA1 { get { var cp = new byte[metaSHA1.Length]; metaSHA1.CopyTo (cp, 0); return cp; } }
         public string MetaSHA1ToHex => metaSHA1==null ? null : ConvertTo.ToHexString (metaSHA1);
 
         protected byte[] mediaSHA1 = null;

@@ -174,7 +174,7 @@ namespace KaosFormat
         public void NotifyPropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
-        private static readonly string[] ModeTexts = new string[] { "?", "Text", "Binary", "Media", "Meta" };
+        private static readonly string[] ModeNames = new string[] { "?", "Text", "Binary", "Media", "Meta" };
         private string oldFileName;
         private byte[] storedHash, actualHash;
 
@@ -182,7 +182,7 @@ namespace KaosFormat
         public bool? IsFound { get; private set; }
         public bool? IsMatch { get; private set; }
         public HashMode Mode { get; private set; }
-        public string ModeText => ModeTexts[(int) Mode];
+        public string ModeName => ModeNames[(int) Mode];
 
         public string FileName { get; private set; }
         public string OldFileName => oldFileName;

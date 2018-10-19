@@ -7,7 +7,7 @@ using KaosCrypto;
 
 namespace KaosFormat
 {
-    public enum HashMode { Undefined, Text, Binary, Media };
+    public enum HashMode { Undefined, Text, Binary, Media, Meta };
 
     public abstract class HashesContainer : FormatBase
     {
@@ -41,33 +41,31 @@ namespace KaosFormat
                     }
 
                     // Try typical format with hash first.
-                    var mode = HashMode.Undefined;
+                    byte[] hash = null;
                     if (lx[Data.HashedFiles.HashLength*2]==' ')
                     {
                         var modeChar = lx[Data.HashedFiles.HashLength*2+1];
-                        if (modeChar==GetModeChar (HashMode.Text))
-                            mode = HashMode.Text;
-                        else if (modeChar==GetModeChar (HashMode.Binary))
-                            mode = HashMode.Binary;
-                        else if (modeChar==GetModeChar (HashMode.Media))
-                            mode = HashMode.Media;
 
-                        if (mode != HashMode.Undefined)
-                        {
-                            var hash = ConvertTo.FromHexStringToBytes (lx, 0, Data.HashedFiles.HashLength);
-                            if (hash != null)
+                        for (int modeIx = 1; modeIx < modeChars.Length; ++modeIx)
+                            if (modeChar == modeChars[modeIx])
                             {
-                                var targetName = lx.Substring (Data.HashedFiles.HashLength*2 + 2);
-                                HashedModel.Add (targetName, hash, mode);
-                                continue;
+                                hash = ConvertTo.FromHexStringToBytes (lx, 0, Data.HashedFiles.HashLength);
+                                if (hash != null)
+                                {
+                                    var targetName = lx.Substring (Data.HashedFiles.HashLength*2 + 2);
+                                    HashedModel.Add (targetName, hash, (HashMode) modeIx);
+                                    break;
+                                }
                             }
-                        }
+
+                        if (hash != null)
+                            continue;
                     }
 
                     // Fall back to layout with name followed by hash.
                     if (lx[lx.Length-Data.HashedFiles.HashLength*2-1]==' ')
                     {
-                        var hash = ConvertTo.FromHexStringToBytes (lx, lx.Length-Data.HashedFiles.HashLength*2, Data.HashedFiles.HashLength);
+                        hash = ConvertTo.FromHexStringToBytes (lx, lx.Length-Data.HashedFiles.HashLength*2, Data.HashedFiles.HashLength);
                         if (hash != null)
                         {
                             var targetName = lx.Substring (0, lx.Length-Data.HashedFiles.HashLength*2-1);
@@ -87,7 +85,7 @@ namespace KaosFormat
                 for (int index = 0; index < Data.HashedFiles.Items.Count; ++index)
                 {
                     HashedFile item = Data.HashedFiles.Items[index];
-                    string msg = null;
+                    string err = null;
                     var targetName = Data.HashedFiles.GetPath (index);
 
                     try
@@ -97,21 +95,21 @@ namespace KaosFormat
                             HashedModel.SetIsFound (index, true);
                             byte[] hash = null;
 
-                            if (item.Mode == HashMode.Media)
-                                if (mediaHash == Hashes.None)
-                                    IssueModel.Add ($"Unknown hash type on item {index+1}.");
-                                else
-                                {
-                                    var fmtModel = FormatBase.Model.Create (tfs, targetName, mediaHash);
-                                    if (fmtModel == null)
-                                        IssueModel.Add ("Unknown file format.");
-                                    else
-                                        hash = fmtModel.Data.MediaSHA1;
-                                }
-                            else
+                            if (item.Mode == HashMode.Text || item.Mode == HashMode.Binary)
                             {
                                 hasher.Append (tfs);
                                 hash = hasher.GetHashAndReset();
+                            }
+                            else if (! (hasher is Sha1Hasher))
+                                IssueModel.Add ("Nonfile hashes not supported for this type.");
+                            else
+                            {
+                                var h0 = item.Mode == HashMode.Meta ? Hashes.MetaSHA1 : Hashes.MediaSHA1;
+                                var fmtModel = FormatBase.Model.Create (tfs, targetName, h0);
+                                if (fmtModel == null)
+                                    IssueModel.Add ($"Unknown file format item #{index+1}.");
+                                else
+                                    hash = item.Mode == HashMode.Meta ? fmtModel.Data.MetaSHA1 : fmtModel.Data.MediaSHA1;
                             }
 
                             HashedModel.SetActualHash (index, hash);
@@ -120,16 +118,16 @@ namespace KaosFormat
                         }
                     }
                     catch (FileNotFoundException ex)
-                    { msg = ex.Message.TrimEnd (null); }
+                    { err = ex.Message.TrimEnd (null); }
                     catch (IOException ex)
-                    { msg = ex.Message.TrimEnd (null); }
+                    { err = ex.Message.TrimEnd (null); }
                     catch (UnauthorizedAccessException ex)
-                    { msg = ex.Message.TrimEnd (null); }
+                    { err = ex.Message.TrimEnd (null); }
 
-                    if (msg != null)
+                    if (err != null)
                     {
                         HashedModel.SetIsFound (index, false);
-                        IssueModel.Add (msg);
+                        IssueModel.Add (err);
                     }
                 }
 
@@ -146,14 +144,12 @@ namespace KaosFormat
         }
 
 
-        private static readonly char[] modeChar = new char[] { '?', ' ', '*', ':' };
-        public static char GetModeChar (HashMode mode) => modeChar[(int) mode];
+        private static readonly string modeChars = "! *:?";
+        private Encoding encoding;
 
         public HashedFile.Vector HashedFiles { get; private set; }
         public Validations Validation { get; protected set; }
         public string HasherName => Validation.ToString();
-
-        private Encoding encoding;
 
         protected HashesContainer (Model model, Stream stream, string path, Encoding encoding = null) : base (model, stream, path)
         {
@@ -172,7 +168,7 @@ namespace KaosFormat
             report.Add ($"{HasherName} count = {HashedFiles.Items.Count}");
 
             foreach (HashedFile item in HashedFiles.Items)
-                report.Add (item.StoredHashToHex + ' ' + GetModeChar (item.Mode) + item.FileName);
+                report.Add (item.StoredHashToHex + ' ' + modeChars[(int) item.Mode] + item.FileName);
         }
     }
 }
