@@ -81,7 +81,9 @@ namespace AppViewModel
 
             public void RefreshTab (FormatBase fmt)
             {
-                if (fmt is FlacFormat flac)
+                if (fmt is CueFormat cue)
+                    Data.Cue = cue;
+                else if (fmt is FlacFormat flac)
                     Data.Flac = flac;
                 else if (fmt is LogEacFormat logEac)
                     Data.LogEac = logEac;
@@ -164,6 +166,7 @@ namespace AppViewModel
 
         private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
 
+        public CueFormat Cue { get; private set; }
         public FlacFormat Flac { get; private set; }
         public LogEacFormat LogEac { get; private set; }
         public M3uFormat M3u { get; private set; }

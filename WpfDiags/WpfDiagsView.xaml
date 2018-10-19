@@ -169,6 +169,18 @@
                     </GroupBox>
                 </DockPanel>
             </TabItem>
+            <TabItem Header=".cue" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Cue}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:CueControl/>
+            </TabItem>
             <TabItem Header=".flac" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -181,7 +193,7 @@
                 </TabItem.Style>
                 <app:FlacControl/>
             </TabItem>
-            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="65" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="76" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
