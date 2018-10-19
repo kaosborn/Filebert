@@ -232,7 +232,6 @@ namespace KaosFormat
                         hasher.Append (Data.fBuf, 0, (int) Data.mediaPosition, (int) suffixPos, (int) (Data.FileSize - suffixPos));
                     else
                         hasher.Append (Data.fbs, 0, Data.mediaPosition, suffixPos, Data.FileSize - suffixPos);
-
                     Data.metaSHA1 = hasher.GetHashAndReset();
                 }
             }
@@ -451,6 +450,7 @@ namespace KaosFormat
         protected byte[] metaSHA1 = null;
         public byte[] MetaSHA1 { get { var cp = new byte[metaSHA1.Length]; metaSHA1.CopyTo (cp, 0); return cp; } }
         public string MetaSHA1ToHex => metaSHA1==null ? null : ConvertTo.ToHexString (metaSHA1);
+        public bool HasMetaSHA1 => metaSHA1 != null;
 
         protected byte[] mediaSHA1 = null;
         public byte[] MediaSHA1 { get { var cp = new byte[mediaSHA1.Length]; mediaSHA1.CopyTo (cp, 0); return cp; } }
