@@ -241,7 +241,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Is OK" DisplayMemberBinding="{Binding HasOK, Mode=OneWay}"/>
+                        <GridViewColumn Header="Is OK" DisplayMemberBinding="{Binding HasOk, Mode=OneWay}"/>
                         <GridViewColumn Header="Test CRC" x:Name="testCRC" DisplayMemberBinding="{Binding TestCRC, StringFormat={}{0:X8}, Mode=OneWay}">
                             <GridViewColumn.HeaderContainerStyle>
                                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
@@ -266,19 +266,19 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="false"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsTrackOK}" Value="true">
+                        <DataTrigger Binding="{Binding IsTrackOk}" Value="true">
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsTrackOK}" Value="False">
+                        <DataTrigger Binding="{Binding IsTrackOk}" Value="False">
                             <Setter Property="Foreground" Value="Red"/>
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Path=DataContext.IsLosslessRip, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="true"/>
-                                <Condition Binding="{Binding IsRipOK}" Value="false"/>
+                                <Condition Binding="{Binding IsRipOk}" Value="false"/>
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Foreground" Value="LightPink"/>
+                                <Setter Property="Foreground" Value="Red"/>
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                     </Style.Triggers>

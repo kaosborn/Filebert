@@ -98,7 +98,7 @@
                     <GroupBox Header="EAC rips" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsRipCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Check hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires web connection"/>
                             </WrapPanel>
