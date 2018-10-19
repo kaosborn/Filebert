@@ -103,6 +103,7 @@ namespace AppViewModel
 
             public void Parse()
             {
+                Data.IsBusy = true;
                 var bg = new BackgroundWorker();
                 bg.DoWork += Job;
                 bg.RunWorkerCompleted += JobCompleted;
@@ -156,6 +157,7 @@ namespace AppViewModel
                 }
 
                 ++Data.JobCounter;
+                Data.IsBusy = false;
             }
         }
 
@@ -170,6 +172,17 @@ namespace AppViewModel
         public OggFormat Ogg { get; private set; }
         public Sha1Format Sha1 { get; private set; }
         public Sha1xFormat Sha1x { get; private set; }
+
+        private bool isBusy = false;
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                isBusy = value;
+                RaisePropertyChangedEvent (nameof (IsBusy));
+            }
+        }
 
         public int CurrentTabNumber { get; set; }
         public int JobCounter { get; private set; } = 0;  // For unit tests.

@@ -126,7 +126,18 @@
                     </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
-            <Button Content=" Check " Grid.Row="1" Grid.Column="2" Command="{Binding DoParse}" IsDefault="True" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button Content=" Check " Grid.Row="1" Grid.Column="2" Command="{Binding DoParse}" IsDefault="True" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="true"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="true">
+                                <Setter Property="IsEnabled" Value="false"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Content=" First " Grid.Row="2" Grid.Column="2" Command="{Binding NavFirst}" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button Content=" Next " Grid.Row="3" Grid.Column="2" Command="{Binding NavNext}" Margin="6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Grid>
