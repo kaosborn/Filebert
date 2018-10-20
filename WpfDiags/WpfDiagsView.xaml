@@ -230,6 +230,18 @@
                 </TabItem.Style>
                 <app:Md5Control/>
             </TabItem>
+            <TabItem Header=".mkv" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Mkv}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:MkvControl/>
+            </TabItem>
             <TabItem Header=".mp3" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">

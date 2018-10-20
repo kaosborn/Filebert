@@ -89,6 +89,8 @@ namespace AppViewModel
                     Data.LogEac = logEac;
                 else if (fmt is M3uFormat m3u)
                     Data.M3u = m3u;
+                else if (fmt is MkvFormat mkv)
+                    Data.Mkv = mkv;
                 else if (fmt is Mp3Format mp3)
                     Data.Mp3 = mp3;
                 else if (fmt is OggFormat ogg)
@@ -152,7 +154,7 @@ namespace AppViewModel
                     }
                 }
 
-                if (Data.CurrentTabNumber < 1)
+                if (Data.CurrentTabNumber < 1 && newTabNumber >= 0)
                 {
                     Data.CurrentTabNumber = newTabNumber;
                     Data.RaisePropertyChangedEvent (null);
@@ -171,6 +173,7 @@ namespace AppViewModel
         public LogEacFormat LogEac { get; private set; }
         public M3uFormat M3u { get; private set; }
         public Md5Format Md5 { get; private set; }
+        public MkvFormat Mkv { get; private set; }
         public Mp3Format Mp3 { get; private set; }
         public OggFormat Ogg { get; private set; }
         public Sha1Format Sha1 { get; private set; }

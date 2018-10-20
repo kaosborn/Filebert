@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="AppView.MkvControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:app="clr-namespace:AppView"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="475"
+             DataContext="{Binding Path=Mkv}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto" MinHeight="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <app:FileHeaderControl Grid.ColumnSpan="9"/>
+        <TextBlock Grid.Row="1" Text="EBML version:"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=EbmlVersionText, Mode=OneWay}"/>
+        <TextBlock Grid.Row="2" Text="Codecs:"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Codecs, Mode=OneWay}"/>
+        <TextBlock Grid.Row="3" Text="Total CRCs:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=CrcCount, Mode=OneWay}"/>
+        <TextBlock Grid.Row="4" Text="Verified CRCs:"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=GoodCrcCount, Mode=OneWay}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CdIssue.Success}" Value="true">
+                            <Setter Property="Background" Value="LightGreen"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CdIssue.Failure}" Value="true">
+                            <Setter Property="Background" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBlock Grid.Row="5" Text="Layout:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Layout, Mode=OneWay}"/>
+        <GridSplitter Grid.Row="7" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="8" Grid.ColumnSpan="9"/>
+    </Grid>
+</UserControl>

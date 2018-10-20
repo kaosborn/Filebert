@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using KaosIssue;
 
 namespace KaosFormat
@@ -143,11 +144,14 @@ namespace KaosFormat
             public void SetRpIssue (string err)
              => Data.RpIssue = IssueModel.Add (err, Severity.Error, IssueTags.Failure);
 
-            public void ValidateRip (IList<FlacFormat> flacs)
+            public void ValidateRip (IList<FlacFormat> flacs, bool checkTags)
             {
                 Data.IsLosslessRip = true;
-                if (flacs.Count != Data.Tracks.Items.Count)
+                if (flacs.Count != Data.Tracks.Items.Count || flacs.Count == 0)
+                {
                     Data.TkIssue = IssueModel.Add ($"Directory contains {flacs.Count} FLACs, EAC log contains {Data.Tracks.Items.Count} tracks.");
+                    return;
+                }
 
                 Severity baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
                 if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count ())
@@ -159,9 +163,10 @@ namespace KaosFormat
 
                 for (int ix = 0; ix < flacs.Count; ++ix)
                     TracksModel.MatchFlac (flacs[ix]);
-
                 if (Data.TkIssue == null && Data.Tracks.Items.Any (t => t.MatchName == null))
-                    IssueModel.Add ("Missing matched .flac file(s).", Severity.Error, IssueTags.Success);
+                    Data.TkIssue = IssueModel.Add ("CRC-32 against FLAC failed.", Severity.Error, IssueTags.Success);
+                else if (checkTags)
+                    CheckFlacTags (flacs);
 
                 if (baddest < Data.Issues.MaxSeverity)
                     baddest = Data.Issues.MaxSeverity;
@@ -173,6 +178,65 @@ namespace KaosFormat
                     Data.RpIssue = IssueModel.Add ("EAC FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
             }
 
+            void CheckFlacTags (IList<FlacFormat> flacs)
+            {
+                int prevTrackNum = -1;
+                foreach (FlacFormat flac in flacs)
+                {
+                    var trackTag = flac.GetTag ("TRACKNUMBER");
+
+                    var integerRegex = new Regex ("^([0-9]+)", RegexOptions.Compiled);
+                    MatchCollection reMatches = integerRegex.Matches (trackTag);
+                    string trackTagCapture = reMatches.Count == 1 ? reMatches[0].Groups[1].ToString() : trackTag;
+
+                    if (! int.TryParse (trackTagCapture, out int trackNum))
+                        IssueModel.Add ($"Invalid TRACKNUMBER '{trackTag}'.");
+                    else
+                    {
+                        if (prevTrackNum >= 0 && trackNum != prevTrackNum + 1)
+                            IssueModel.Add ($"Gap in TRACKNUMBER tags near '{trackTag}'.");
+                        prevTrackNum = trackNum;
+                    }
+                }
+
+                bool? isSameAA = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUMARTIST");
+                if (isSameAA == false)
+                    IssueModel.Add ("Inconsistent ALBUMARTIST tag.");
+
+                if (isSameAA == null)
+                {
+                    bool? isSameArtist = FlacFormat.IsFlacTagsAllSame (flacs, "ARTIST");
+                    if (isSameArtist == false)
+                        IssueModel.Add ("Inconsistent ARTIST or missing ALBUMARTIST.", Severity.Warning, IssueTags.BadTag);
+                    else if (isSameArtist == null)
+                        IssueModel.Add ("Missing ARTIST.", Severity.Warning, IssueTags.BadTag);
+                }
+
+                bool? isSameAlbum = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUM");
+                if (isSameAlbum == false)
+                    IssueModel.Add ("Inconsistent ALBUM tag.");
+                else if (isSameAlbum == null)
+                    IssueModel.Add ("Missing ALBUM tag.", Severity.Warning, IssueTags.BadTag);
+
+                bool? isSameDate = FlacFormat.IsFlacTagsAllSame (flacs, "DATE");
+                if (isSameDate == false)
+                    IssueModel.Add ("Inconsistent DATE tag.");
+                else if (isSameDate == null)
+                    IssueModel.Add ("Missing DATE tag.", Severity.Warning, IssueTags.BadTag);
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "ORGANIZATION") == false)
+                    IssueModel.Add ("Inconsistent ORGANIZATION tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "BARCODE") == false)
+                    IssueModel.Add ("Inconsistent BARCODE tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "CATALOGNUMBER") == false)
+                    IssueModel.Add ("Inconsistent BARCODE tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCTOTAL") == false)
+                    IssueModel.Add ("Inconsistent DISCTOTAL tag.");
+            }
+
             public void ValidateRip (IList<Mp3Format> mp3s)
             {
                 Data.IsLosslessRip = false;
@@ -182,11 +246,10 @@ namespace KaosFormat
                 {
                     Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
                     if (mp3s.Count != mp3s.Where (tk => tk.Lame != null && tk.Lame.ActualDataCrc != null).Count())
-                    {
                         IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.FussyErr);
-                        if (baddest < IssueModel.Data.MaxSeverity)
-                            baddest = IssueModel.Data.MaxSeverity;
-                    }
+
+                    if (baddest < IssueModel.Data.MaxSeverity)
+                        baddest = IssueModel.Data.MaxSeverity;
 
                     if (baddest >= Severity.Error)
                         Data.RpIssue = IssueModel.Add ("EAC MP3 rip check failed.", baddest, IssueTags.Failure);
@@ -216,7 +279,7 @@ namespace KaosFormat
                 {
                     string boundary = "---------------------------" + DateTime.Now.Ticks;
                     string header = "Content-Disposition: form-data; name=\"LogFile\"; filename=\""
-                                    + "SubmittedByMediags.log\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+                                    + "SubmittedByConDiags.log\"\r\nContent-Type: application/octet-stream\r\n\r\n";
 
                     byte[] bndBuf = Encoding.UTF8.GetBytes ("\r\n--" + boundary + "\r\n");
                     byte[] hdrBuf = Encoding.UTF8.GetBytes (header);
@@ -375,7 +438,7 @@ namespace KaosFormat
 
                 var kt = Data.Tracks.Items.Where (it => it.TestCRC != null).Count();
                 if (kt == 0)
-                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.FussyErr | tpTag);
+                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.FussyWarn | tpTag);
                 else if (kt < Data.Tracks.Items.Count)
                     Data.TpIssue = IssueModel.Add ("Test pass incomplete.", Severity.Error, IssueTags.Failure);
                 else if (Data.Tracks.Items.All (it => it.TestCRC == it.CopyCRC))
