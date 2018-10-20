@@ -564,7 +564,7 @@ namespace KaosFormat
                 if (Data.Issues.HasFatal)
                     return;
 
-                if ((hashFlags & Hashes.Intrinsic) != 0)
+                if ((hashFlags & Hashes.Intrinsic) != 0 && Data.badCrcCount == null)
                 {
                     Data.badCrcCount = 0;
                     foreach (var master in Data.layout)
@@ -582,6 +582,12 @@ namespace KaosFormat
                                     ++Data.badCrcCount;
                             }
                         }
+
+                    if (Data.CrcCount > 0)
+                        if (Data.badCrcCount == 0)
+                            Data.CdIssue = IssueModel.Add ("CRC checks successful.", Severity.Noise, IssueTags.Success);
+                        else
+                            Data.CdIssue = IssueModel.Add ("CRC check failure.", Severity.Error, IssueTags.Failure);
                 }
 
                 base.CalcHashes (hashFlags, validationFlags);
@@ -803,64 +809,24 @@ namespace KaosFormat
         public int CrcCount { get; private set; }
         private int? badCrcCount = null;
         public bool HasMisplacedAttachment { get; private set; }
-
-        private MkvFormat (Model model, Stream stream, string path) : base (model, stream, path)
-        { }
+        public string EbmlVersionText => EbmlVersion < 0 ? "?" : EbmlVersion.ToString();
+        public string Codecs => String.Join (", ", segment.GetAsciis ("CodecID"));
+        public int? GoodCrcCount => badCrcCount == null ? (int?) null : CrcCount - badCrcCount.Value;
 
         public override bool IsBadData
          => badCrcCount != null && badCrcCount.Value != 0;
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public Issue CdIssue { get; private set; }
+
+        private MkvFormat (Model model, Stream stream, string path) : base (model, stream, path)
+        { }
+
+        private string layoutText = null;
+        public String Layout
         {
-            var sb = new StringBuilder();
-
-            if (scope <= Granularity.Detail)
+            get
             {
-                if (report.Count != 0)
-                    report.Add (String.Empty);
-
-                var ver = EbmlVersion;
-                var readVer = EbmlReadVersion;
-                var maxIdLen = EbmlMaxIdLength;
-                var maxSizeLen = EbmlMaxSizeLength;
-
-                sb.Append ("EBML v" + (ver < 0? "?" : ver.ToString()));
-                sb.AppendLine (", EBML read v" + (readVer < 0? "?" : readVer.ToString()));
-                sb.Append ("Max ID len=" + (maxIdLen < 0? "?" : maxIdLen.ToString()));
-                sb.AppendLine (", max size len=" + (maxSizeLen < 0? "?" : maxSizeLen.ToString()));
-                sb.Append ("Doc type " + DocType);
-                sb.AppendLine (", Doc type v" + DocTypeVersion + ", Doc type read v" + DocTypeReadVersion);
-                report.Add (sb.ToString());
-            }
-
-            report.Add ("Codecs:");
-            foreach (var cx in segment.GetAsciis ("CodecID"))
-                report.Add ("  " + cx);
-
-            if (scope <= Granularity.Detail)
-            {
-                report.Add (String.Empty);
-                report.Add ("CRCs:");
-                foreach (var master in layout)
-                    foreach (var trace in master.GetNodeTraces ("CRC-32"))
-                    {
-                        sb.Clear();
-                        var top = trace.Peek();
-                        var node = top.Node.Nodes[top.Index] as EbmlNodeCRC;
-                        sb.AppendFormat ("  stored={0:X8}, actual={1:X8}, size={2}: ", node.StoredCRC32, node.ActualCRC32, node.Count);
-                        sb.AppendEbmlStack (trace);
-                        report.Add (sb.ToString());
-                    }
-            }
-
-            if (scope < Granularity.Verbose)
-            {
-                if (scope <= Granularity.Detail)
-                    report.Add (String.Empty);
-                report.Add ("Layout:");
-                report.Add ("  " + rootSig.Name);
-                sb.Append ("  " + segmentSig.Name);
-
+                var sb = new StringBuilder();
                 using (var it = segment.Nodes.GetEnumerator())
                 {
                     var prev = String.Empty;
@@ -871,7 +837,7 @@ namespace KaosFormat
                         prev = it.Current.Element.Name;
 
                         sb.Clear();
-                        sb.Append ("    |"); 
+                        sb.Append ('|');
                         for (;;)
                         {
                             var ok = it.MoveNext();
@@ -894,13 +860,60 @@ namespace KaosFormat
                                 prev = it.Current.Element.Name;
                             }
                         }
-                        report.Add (sb.ToString());
                     }
                 }
 
                 if (HasMisplacedAttachment)
-                    report.Add ("  " + attachSig.Name);
+                {
+                    sb.Append (" Misattachment (");
+                    sb.Append (attachSig.Name);
+                    sb.Append (") |");
+                }
+
+                layoutText = sb.ToString();
+                return layoutText;
             }
+        }
+
+        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        {
+            var sb = new StringBuilder();
+
+            if (report.Count != 0)
+                report.Add (String.Empty);
+
+            var ver = EbmlVersion;
+            var readVer = EbmlReadVersion;
+            var maxIdLen = EbmlMaxIdLength;
+            var maxSizeLen = EbmlMaxSizeLength;
+
+            sb.Append ($"EBML v{EbmlVersionText}");
+            sb.AppendLine (", EBML read v" + (readVer < 0? "?" : readVer.ToString()));
+            sb.Append ("Max ID len=" + (maxIdLen < 0? "?" : maxIdLen.ToString()));
+            sb.AppendLine (", max size len=" + (maxSizeLen < 0? "?" : maxSizeLen.ToString()));
+            sb.Append ("Doc type " + DocType);
+            sb.AppendLine (", Doc type v" + DocTypeVersion + ", Doc type read v" + DocTypeReadVersion);
+            report.Add (sb.ToString());
+
+            report.Add ("Codecs:");
+            foreach (var cx in segment.GetAsciis ("CodecID"))
+                report.Add ("  " + cx);
+
+            report.Add (String.Empty);
+            report.Add ("CRCs:");
+            foreach (var master in layout)
+                foreach (var trace in master.GetNodeTraces ("CRC-32"))
+                {
+                    sb.Clear();
+                    var top = trace.Peek();
+                    var node = top.Node.Nodes[top.Index] as EbmlNodeCRC;
+                    sb.AppendFormat ($"  stored={node.StoredCRC32:X8}, actual={node.ActualCRC32:X8}, size={node.Count}: ");
+                    sb.AppendEbmlStack (trace);
+                    report.Add (sb.ToString());
+                }
+
+            report.Add (String.Empty);
+            report.Add ($"Layout: {Layout}");
         }
     }
 }
