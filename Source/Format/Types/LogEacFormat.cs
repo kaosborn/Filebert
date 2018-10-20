@@ -675,7 +675,7 @@ namespace KaosFormat
         public override bool IsBadData
          => ShIssue != null && ShIssue.Failure;
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (scope <= Granularity.Detail && report.Count > 0)
                 report.Add (String.Empty);

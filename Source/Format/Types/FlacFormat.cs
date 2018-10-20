@@ -437,7 +437,7 @@ namespace KaosFormat
                         }
                 }
 
-                if ((hashFlags & (Hashes.PcmCRC32|Hashes._LogCheck)) != 0 && Data.ActualPcmCRC32 == null)
+                if ((hashFlags & (Hashes.PcmCRC32|Hashes._FlacMatch)) != 0 && Data.ActualPcmCRC32 == null)
                 {
                     Process px = null;
                     try
@@ -560,7 +560,7 @@ namespace KaosFormat
             return false;
         }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (report.Count > 0 && scope <= Granularity.Detail)
                 report.Add (String.Empty);

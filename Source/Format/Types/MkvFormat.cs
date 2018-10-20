@@ -875,7 +875,7 @@ namespace KaosFormat
             }
         }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             var sb = new StringBuilder();
 

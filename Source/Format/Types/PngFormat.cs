@@ -218,7 +218,7 @@ namespace KaosFormat
         public override bool IsBadData
          => BadCrcCount != null && BadCrcCount.Value != 0;
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             report.Add ($"Dimensions = {Width}x{Height}");
             report.Add ($"Color type = {ColorType} ({ColorTypeText})");

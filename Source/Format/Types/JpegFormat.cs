@@ -205,7 +205,7 @@ namespace KaosFormat
             this.AppNames = new ReadOnlyCollection<string> (this.appNames);
         }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (report.Count > 0 && scope <= Granularity.Detail)
                 report.Add (String.Empty);

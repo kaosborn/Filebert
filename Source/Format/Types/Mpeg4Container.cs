@@ -147,7 +147,7 @@ namespace KaosFormat
         protected Mpeg4Container (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (report.Count != 0)
                 report.Add (String.Empty);

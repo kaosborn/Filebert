@@ -92,7 +92,7 @@ namespace AppView
                 if (args[ix].StartsWith ("/h:"))
                 {
                     argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
-                    argOk = argOk && arg == (arg & (Hashes._LogCheck - 1));
+                    argOk = argOk && arg == (arg & (Hashes._FlacMatch - 1));
                     if (argOk)
                         viewModel.Data.HashFlags = arg;
                 }
@@ -145,7 +145,7 @@ namespace AppView
         {
             Title = $"{ProductText} v{VersionText}";
             viewModel = new DiagsPresenter.Model (this);
-            viewModel.Data.Scope = Granularity.Advisory;
+            viewModel.Data.Scope = Granularity.Lucid;
             viewModel.Data.HashFlags = Hashes.Intrinsic;
             viewModel.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
             ParseArgs();

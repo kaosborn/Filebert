@@ -25,7 +25,7 @@ namespace KaosFormat
         private Mpeg1Format (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
          => report.Add ("Format = MPEG-1 (CDXA)");
     }
 }

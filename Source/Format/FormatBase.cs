@@ -20,7 +20,7 @@ namespace KaosFormat
         FileMD5=2, FileSHA1=4, FileSHA256=8,
         MetaSHA1=0x10, MediaSHA1=0x20,
         PcmMD5=0x100, PcmCRC32=0x200,
-        _LogCheck=0x10000, _WebCheck=0x20000
+        _FlacMatch=0x10000, _WebCheck=0x20000
     }
 
     [Flags]
@@ -484,7 +484,7 @@ namespace KaosFormat
             return true;
         }
 
-        public IList<string> GetDetailsHeader (Granularity scope)
+        public IList<string> GetReportHeader (Granularity scope)
         {
             var report = new List<string>();
             if (scope > Granularity.Detail)
@@ -527,7 +527,7 @@ namespace KaosFormat
             return report;
         }
 
-        public virtual void GetDetailsBody (IList<string> report, Granularity scope)
+        public virtual void GetReportDetail (IList<string> report, Granularity scope)
         {
             var sb = new StringBuilder ("(");
             using (var it = ((IEnumerable<string>) ValidNames).GetEnumerator())

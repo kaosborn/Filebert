@@ -157,7 +157,7 @@ namespace KaosFormat
             this.HashedFiles = model.HashedModel.Data;
         }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (scope > Granularity.Detail)
                 return;

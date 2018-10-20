@@ -77,10 +77,10 @@ namespace KaosDiags
 
         public bool IsFlacRipCheckEnabled
         {
-            get => (hashFlags & Hashes._LogCheck) != 0;
+            get => (hashFlags & Hashes._FlacMatch) != 0;
             set
             {
-                hashFlags = value ? hashFlags | Hashes._LogCheck : hashFlags & ~Hashes._LogCheck;
+                hashFlags = value ? hashFlags | Hashes._FlacMatch : hashFlags & ~Hashes._FlacMatch;
                 RaisePropertyChangedEvent (nameof (IsFlacRipCheckEnabled));
             }
         }

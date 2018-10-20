@@ -42,7 +42,7 @@ namespace AppController
         public int Run()
         {
             model = new Diags.Model (null);
-            model.Data.Scope = Granularity.Advisory;
+            model.Data.Scope = Granularity.Lucid;
             model.Data.HashFlags = Hashes.Intrinsic;
             model.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
 
@@ -138,7 +138,7 @@ namespace AppController
                 else if (args[ix].StartsWith ("/h:"))
                 {
                     argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
-                    argOk = argOk && arg == (arg & (Hashes._LogCheck - 1));
+                    argOk = argOk && arg == (arg & (Hashes._FlacMatch - 1));
                     if (argOk)
                         model.Data.HashFlags = arg;
                 }

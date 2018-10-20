@@ -301,10 +301,10 @@ namespace KaosDiags
             public void ReportFormat (FormatBase fb)
             {
                 reportScope = Data.Scope;
-                IList<string> report = fb.GetDetailsHeader (reportScope);
+                IList<string> report = fb.GetReportHeader (reportScope);
                 if (reportScope == Granularity.Detail)
                 {
-                    fb.GetDetailsBody (report, reportScope);
+                    fb.GetReportDetail (report, reportScope);
                     Data.OnMessageSend (String.Empty, Severity.NoIssue);
                 }
                 else if (reportScope > Granularity.Terse)

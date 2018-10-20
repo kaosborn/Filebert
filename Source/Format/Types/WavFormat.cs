@@ -163,9 +163,9 @@ namespace KaosFormat
         private WavFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
-            base.GetDetailsBody (report, scope);
+            base.GetReportDetail (report, scope);
 
             if (ActualCRC32 != null)
                 report.Add ($"Actual CRC-32 = 0x{ActualCRC32:X8}");

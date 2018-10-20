@@ -88,7 +88,7 @@ namespace KaosFormat
         private Mpeg2Format (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             report.Add ("Format = MPEG-2");
             report.Add ($"Is VOB = {IsVOB}");

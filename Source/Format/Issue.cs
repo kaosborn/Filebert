@@ -11,7 +11,7 @@ namespace KaosIssue
     { NoIssue, Noise, Trivia, Advisory, Warning, Error, Fatal };
 
     public enum Granularity
-    { Detail=Severity.Noise, Verbose, Advisory, Terse, Quiet };
+    { Detail=Severity.Noise, Verbose, Lucid, Terse, Quiet };
 
     [Flags]
     public enum IssueTags

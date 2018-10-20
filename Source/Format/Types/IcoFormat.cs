@@ -142,7 +142,7 @@ namespace KaosFormat
             this.Icons = new ReadOnlyCollection<IconItem> (this.icons);
         }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             if (report.Count > 0)
                 report.Add (String.Empty);

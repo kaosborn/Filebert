@@ -59,7 +59,7 @@
                     <GroupBox Header="Console" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel Orientation="Vertical">
                             <RadioButton Content="Terse" Margin="3,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Terse}}" ToolTip="shorter report"/>
-                            <RadioButton Content="Advisory" Margin="3,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Advisory}}" ToolTip="short report"/>
+                            <RadioButton Content="Lucid" Margin="3,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Lucid}}" ToolTip="short report"/>
                             <RadioButton Content="Verbose" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Verbose}}" ToolTip="now we're talking"/>
                             <RadioButton Content="Detail" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Detail}}" ToolTip="walls of text"/>
                         </WrapPanel>

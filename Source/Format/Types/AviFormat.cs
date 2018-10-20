@@ -63,9 +63,9 @@ namespace KaosFormat
         private AviFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetDetailsBody (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report, Granularity scope)
         {
-            base.GetDetailsBody (report, scope);
+            base.GetReportDetail (report, scope);
             if (report.Count > 0 && scope <= Granularity.Detail)
                     report.Add (String.Empty);
 
