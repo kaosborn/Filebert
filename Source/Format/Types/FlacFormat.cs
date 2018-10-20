@@ -535,6 +535,31 @@ namespace KaosFormat
         private FlacFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
+        public string GetTag (string name)
+        {
+            name = name.ToLower() + "=";
+            foreach (var item in Blocks.Tags.Lines)
+                if (item.ToLower().StartsWith (name))
+                    return item.Substring (name.Length);
+            return String.Empty;
+        }
+
+        public static bool? IsFlacTagsAllSame (IList<FlacFormat> flacs, string flacTag)
+        {
+            if (flacs.Count == 0)
+                return null;
+
+            var val0 = flacs[0].GetTag (flacTag);
+            if (! String.IsNullOrEmpty (val0))
+                return flacs.All (x => x.GetTag (flacTag) == val0);
+
+            var isAllEmpty = flacs.All (x => String.IsNullOrEmpty (x.GetTag (flacTag)));
+            if (isAllEmpty)
+                return null;
+
+            return false;
+        }
+
         public override void GetDetailsBody (IList<string> report, Granularity scope)
         {
             if (report.Count > 0 && scope <= Granularity.Detail)

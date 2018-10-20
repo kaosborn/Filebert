@@ -152,7 +152,7 @@ namespace KaosDiags
                                     else if (flacs.Count > 0 && mp3s.Count > 0)
                                         logModel.SetRpIssue ("Folder contains both .flac and .mp3 files.");
                                     else if (! Data.IsMp3RipCheckEnabled || Data.IsFlacRipCheckEnabled && flacs.Count > 0)
-                                        logModel.ValidateRip (flacs);
+                                        logModel.ValidateRip (flacs, Data.IsFlacTagsCheckEnabled);
                                     else
                                         logModel.ValidateRip (mp3s);
                                     ReportIssues (logModel.Data.Issues);

@@ -95,12 +95,13 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="EAC rips" HorizontalAlignment="Left" Margin="3,3,3,3">
+                    <GroupBox Header="EAC rip checks" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
-                                <CheckBox Content="Check hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires web connection"/>
+                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Log hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires web connection"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
