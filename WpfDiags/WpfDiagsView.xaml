@@ -182,6 +182,18 @@
                 </TabItem.Style>
                 <app:CueControl/>
             </TabItem>
+            <TabItem Header=".avi" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Avi}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:AviControl/>
+            </TabItem>
             <TabItem Header=".flac" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">

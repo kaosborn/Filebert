@@ -81,7 +81,9 @@ namespace AppViewModel
 
             public void RefreshTab (FormatBase fmt)
             {
-                if (fmt is CueFormat cue)
+                if (fmt is AviFormat avi)
+                    Data.Avi = avi;
+                else if (fmt is CueFormat cue)
                     Data.Cue = cue;
                 else if (fmt is FlacFormat flac)
                     Data.Flac = flac;
@@ -168,6 +170,7 @@ namespace AppViewModel
 
         private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
 
+        public AviFormat Avi { get; private set; }
         public CueFormat Cue { get; private set; }
         public FlacFormat Flac { get; private set; }
         public LogEacFormat LogEac { get; private set; }

@@ -59,6 +59,7 @@ namespace KaosFormat
         public int Width { get; private set; }
         public int Height { get; private set; }
         public string Codec {get; private set; }
+        public string Dimensions => Width.ToString() + 'x' + Height;
 
         private AviFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
@@ -66,11 +67,11 @@ namespace KaosFormat
         public override void GetReportDetail (IList<string> report, Granularity scope)
         {
             base.GetReportDetail (report, scope);
-            if (report.Count > 0 && scope <= Granularity.Detail)
-                    report.Add (String.Empty);
+            if (report.Count > 0)
+                report.Add (String.Empty);
 
             report.Add ($"Codec = {Codec}");
-            report.Add ($"Resolution = {Width}x{Height}");
+            report.Add ($"Dimensions = {Dimensions}");
             if (scope <= Granularity.Detail)
                 report.Add ($"Streams = {StreamCount}");
         }
