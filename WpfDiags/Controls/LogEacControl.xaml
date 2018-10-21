@@ -49,7 +49,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Column="9" Grid.ColumnSpan="9" Grid.RowSpan="9" FontSize="80" Margin="0,-12,12,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <TextBlock Grid.Column="9" Grid.ColumnSpan="9" Grid.RowSpan="12" FontSize="80" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Right">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>
@@ -167,7 +167,6 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-
         <TextBlock Grid.Row="8" Grid.Column="6" Text="EAC version:"/>
         <TextBox Grid.Row="8" Grid.Column="7" Text="{Binding Path=EacVersionLong, Mode=OneWay}"/>
         <TextBlock Grid.Row="9" Grid.Column="6" Text="EAC self-hash:"/>
@@ -231,7 +230,7 @@
                 <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
             </ListView.Resources>
             <ListView.View>
-                <GridView x:Name="logColumnsGv">
+                <GridView>
                     <GridView.Columns>
                         <GridViewColumn Header="Index" DisplayMemberBinding="{Binding Number, Mode=OneWay}"/>
                         <GridViewColumn Header="Quality">
