@@ -240,14 +240,30 @@ namespace KaosFormat
             public void ValidateRip (IList<Mp3Format> mp3s)
             {
                 Data.IsLosslessRip = false;
-                if (mp3s.Count != Data.Tracks.Items.Count)
+                if (mp3s.Count != Data.Tracks.Items.Count || mp3s.Count == 0)
                     Data.RpIssue = Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} MP3s, EAC log contains {Data.Tracks.Items.Count} tracks.", Severity.Error, IssueTags.Failure);
                 else
                 {
-                    Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
                     if (mp3s.Count != mp3s.Where (tk => tk.Lame != null && tk.Lame.ActualDataCrc != null).Count())
                         IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.FussyErr);
 
+                    if (mp3s[0].Lame != null)
+                    {
+                        string profile = mp3s[0].Lame.Profile;
+                        for (int ix = 1; ; ++ix)
+                        {
+                            if (ix == mp3s.Count)
+                            { IssueModel.Add ($"MP3 rip profile is {profile}.", Severity.Advisory); break; }
+
+                            if (mp3s[ix].Lame == null || mp3s[ix].Lame.Profile != profile)
+                            {
+                                IssueModel.Add ("Inconsistent MP3 encoder settings.", Severity.Warning, IssueTags.FussyErr);
+                                break;
+                            }
+                        }
+                    }
+
+                    Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
                     if (baddest < IssueModel.Data.MaxSeverity)
                         baddest = IssueModel.Data.MaxSeverity;
 
