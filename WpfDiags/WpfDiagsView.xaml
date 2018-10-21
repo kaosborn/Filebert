@@ -55,21 +55,11 @@
             </DockPanel>
             <Button Content=" Browse..." Grid.Row="0" Grid.Column="2" Command="{Binding DoBrowse}" Margin="6,6,6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <WrapPanel Grid.Row="1" Grid.RowSpan="3">
-                <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Console" HorizontalAlignment="Left" Margin="3,3,3,3">
-                        <WrapPanel Orientation="Vertical">
-                            <RadioButton Content="Terse" Margin="3,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Terse}}" ToolTip="warnings and errors only"/>
-                            <RadioButton Content="Lucid" Margin="3,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Lucid}}" ToolTip="includes advisories"/>
-                            <RadioButton Content="Verbose" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Verbose}}" ToolTip="getting noisey"/>
-                            <RadioButton Content="Detail" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Detail}}" ToolTip="walls of text"/>
-                        </WrapPanel>
-                    </GroupBox>
-                </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <GroupBox Header="Generate" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Intrinsic" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.Intrinsic}}"/>
+                                <CheckBox Content="Intrinsics" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.Intrinsic}}"/>
                                 <CheckBox Content="File MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileMD5}}"/>
                                 <CheckBox Content="File SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA1}}"/>
                                 <CheckBox Content="File SHA256" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA256}}"/>
@@ -156,11 +146,18 @@
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.ColumnSpan="2">
                         <StackPanel>
-                            <Button Content=" Clear " Margin="6,12,6,6" Command="{Binding DoConsoleClear}"/>
+                            <Label Content="Report" Margin="6,6,0,0"/>
+                            <RadioButton Content="Quiet" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Quiet}}" ToolTip="errors only"/>
+                            <RadioButton Content="Terse" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Terse}}" ToolTip="warnings and errors only"/>
+                            <RadioButton Content="Lucid" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Lucid}}" ToolTip="includes advisories"/>
+                            <RadioButton Content="Verbose" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Verbose}}" ToolTip="getting noisey"/>
+                            <RadioButton Content="Detail" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Detail}}" ToolTip="walls of text"/>
+                            <Label Content="Zoom" Margin="0,6,0,0" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content=" - " Command="{Binding DoConsoleZoomMinus}" Margin="6,6,3,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
-                                <Button Content=" + " Command="{Binding DoConsoleZoomPlus}" Margin="3,6,6,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
+                                <Button Content=" - " Command="{Binding DoConsoleZoomMinus}" Margin="6,3,3,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
+                                <Button Content=" + " Command="{Binding DoConsoleZoomPlus}" Margin="3,3,6,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
                             </StackPanel>
+                            <Button Content=" Clear " Margin="6,6,6,6" Command="{Binding DoConsoleClear}"/>
                         </StackPanel>
                         <GroupBox Header="Output">
                             <TextBox x:Name="consoleBox">
