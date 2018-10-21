@@ -109,6 +109,7 @@ namespace AppViewModel
 
             public void Parse()
             {
+                Data.Progress = "Starting...";
                 Data.IsBusy = true;
                 var bg = new BackgroundWorker();
                 bg.DoWork += Job;
@@ -126,12 +127,15 @@ namespace AppViewModel
                 {
                     foreach (FormatBase.Model parsing in CheckRoot())
                         if (parsing != null)
+                        {
+                            Data.Progress = parsing.Data.Name;
                             if (Data.tabInfo.TryGetValue (parsing.Data.LongName, out TabInfo tInfo))
                             {
                                 if (newTabNumber < 0)
                                     newTabNumber = tInfo.TabPosition;
                                 tInfo.Add (parsing.Data);
                             }
+                    }
                 }
                 catch (IOException ex)
                 { jobArgs.Result = ex.Message; }
@@ -156,6 +160,7 @@ namespace AppViewModel
                     }
                 }
 
+                Data.Progress = null;
                 if (Data.CurrentTabNumber < 1 && newTabNumber >= 0)
                 {
                     Data.CurrentTabNumber = newTabNumber;
@@ -201,6 +206,17 @@ namespace AppViewModel
 
         private void AddTabInfo (string formatName, int tabPosition)
          => tabInfo.Add (formatName, new TabInfo (tabPosition));
+
+        private string progress = "Ready";
+        public string Progress
+        {
+            get => progress;
+            private set
+            {
+                progress = value?? "Ready";
+                RaisePropertyChangedEvent (nameof (Progress));
+            }
+        }
 
         public override bool IsRepairEnabled
         {

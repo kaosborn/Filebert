@@ -144,31 +144,44 @@
         </Grid>
         <TabControl x:Name="infoTabs" Grid.Row="1" VerticalContentAlignment="Stretch" SelectedIndex="{Binding CurrentTabNumber}">
             <TabItem Header="Console">
-                <DockPanel>
-                    <StackPanel>
-                        <Button Content=" Clear " Margin="6,12,6,6" Command="{Binding DoConsoleClear}"/>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content=" - " Command="{Binding DoConsoleZoomMinus}" Margin="6,6,3,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
-                            <Button Content=" + " Command="{Binding DoConsoleZoomPlus}" Margin="3,6,6,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel Grid.ColumnSpan="2">
+                        <StackPanel>
+                            <Button Content=" Clear " Margin="6,12,6,6" Command="{Binding DoConsoleClear}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content=" - " Command="{Binding DoConsoleZoomMinus}" Margin="6,6,3,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
+                                <Button Content=" + " Command="{Binding DoConsoleZoomPlus}" Margin="3,6,6,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <GroupBox Header="Output">
-                        <TextBox x:Name="consoleBox">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
-                                    <Setter Property="FontFamily" Value="Lucida Console"/>
-                                    <Setter Property="FontSize" Value="10"/>
-                                    <Setter Property="Foreground" Value="Cyan"/>
-                                    <Setter Property="Background" Value="Black"/>
-                                    <Setter Property="IsReadOnly" Value="True"/>
-                                    <Setter Property="IsTabStop" Value="False"/>
-                                    <Setter Property="Focusable" Value="True"/>
-                                    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                    </GroupBox>
-                </DockPanel>
+                        <GroupBox Header="Output">
+                            <TextBox x:Name="consoleBox">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="FontFamily" Value="Lucida Console"/>
+                                        <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="Foreground" Value="Cyan"/>
+                                        <Setter Property="Background" Value="Black"/>
+                                        <Setter Property="IsReadOnly" Value="True"/>
+                                        <Setter Property="IsTabStop" Value="False"/>
+                                        <Setter Property="Focusable" Value="True"/>
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </GroupBox>
+                    </DockPanel>
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
+                    <TextBlock Text="{Binding Progress}" Grid.Row="2" Grid.ColumnSpan="2"/>
+                </Grid>
             </TabItem>
             <TabItem Header=".cue" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
