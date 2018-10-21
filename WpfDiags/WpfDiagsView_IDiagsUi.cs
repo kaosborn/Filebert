@@ -104,9 +104,16 @@ namespace AppView
                 }
             }
 
-            if (viewModel.Data.IsDigestForm && severity != Severity.NoIssue)
-                consoleBox.AppendText ("; ");
-            consoleBox.AppendText (Issue.GetPrefix (severity));
+            if (severity != Severity.NoIssue)
+            {
+                if (viewModel.Data.IsDigestForm)
+                    consoleBox.AppendText ("; ");
+                if (severity <= Severity.Advisory)
+                    consoleBox.AppendText ("  ");
+                else
+                    consoleBox.AppendText (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
+            }
+
             consoleBox.AppendText (message);
             consoleBox.AppendText ("\n");
             ++totalLinesReported;

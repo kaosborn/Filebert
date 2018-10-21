@@ -129,16 +129,6 @@ namespace KaosIssue
         }
 
 
-        public static string GetPrefix (Severity severity)
-        {
-            if (severity == Severity.NoIssue)
-                return String.Empty;
-            else if (severity <= Severity.Advisory)
-                return "  ";
-            else
-                return severity <= Severity.Warning ? "- " : "* ";
-        }
-
         private readonly Vector.Model owner;
 
         public int Index { get; private set; }
