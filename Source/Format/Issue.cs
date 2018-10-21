@@ -129,7 +129,7 @@ namespace KaosIssue
         }
 
 
-        private readonly Vector.Model owner;
+        private readonly Vector.Model model;
 
         public int Index { get; private set; }
         public string Message { get; private set; }
@@ -151,7 +151,7 @@ namespace KaosIssue
         private Issue (Vector.Model owner, string message, Severity level=Severity.Advisory, IssueTags tag=IssueTags.None,
                       string prompt=null, Func<bool,string> repairer=null, bool isFinalRepairer=false)
         {
-            this.owner = owner;
+            this.model = owner;
             this.Index = owner.Data.Items.Count;
             this.Message = message;
             this.BaseLevel = level;
@@ -170,9 +170,9 @@ namespace KaosIssue
             {
                 Severity result = BaseLevel;
                 if (result < Severity.Error)
-                    if ((Tag & owner.Data.ErrEscalator) != 0)
+                    if ((Tag & model.Data.ErrEscalator) != 0)
                         result = Severity.Error;
-                    else if ((Tag & owner.Data.WarnEscalator) != 0)
+                    else if ((Tag & model.Data.WarnEscalator) != 0)
                         result = Severity.Warning;
                 return result;
             }
@@ -196,7 +196,7 @@ namespace KaosIssue
         public bool Failure => (Tag & IssueTags.Failure) != 0;
         public bool Success => (Tag & IssueTags.Success) != 0;
         public bool HasRepairer => Repairer != null;
-        public bool IsRepairable => owner.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null;
+        public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null;
         public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
         public override string ToString() => FixedMessage;
     }

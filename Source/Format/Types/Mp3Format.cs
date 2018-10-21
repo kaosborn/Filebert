@@ -383,7 +383,7 @@ namespace KaosFormat
                 if (Data.fbs == null || Data.Issues.MaxSeverity >= Severity.Error || ! Data.HasId3v1Phantom)
                     return "Invalid attempt";
 
-                string result = null;
+                string err = null;
                 try
                 {
                     TruncateExcess();
@@ -396,11 +396,11 @@ namespace KaosFormat
                         CloseFile();
                 }
                 catch (UnauthorizedAccessException ex)
-                { result = ex.Message.TrimEnd (null); }
+                { err = ex.Message.TrimEnd (null); }
                 catch (IOException ex)
-                { result = ex.Message.TrimEnd (null); }
+                { err = ex.Message.TrimEnd (null); }
 
-                return result;
+                return err;
             }
 
 
@@ -413,7 +413,7 @@ namespace KaosFormat
                 // Assume values at 6,7 always 0.
                 var bb = new byte[] { (byte) ((Data.actualId3v2DataSize >> 7) & 0x7F), (byte) (Data.actualId3v2DataSize & 0x7F) };
 
-                string result = null;
+                string err = null;
                 try
                 {
                     Data.fbs.Position = 8;
@@ -425,11 +425,11 @@ namespace KaosFormat
                         CloseFile();
                 }
                 catch (UnauthorizedAccessException ex)
-                { result = ex.Message.TrimEnd (null); }
+                { err = ex.Message.TrimEnd (null); }
                 catch (IOException ex)
-                { result = ex.Message.TrimEnd (null); }
+                { err = ex.Message.TrimEnd (null); }
 
-                return result;
+                return err;
             }
         }
 
