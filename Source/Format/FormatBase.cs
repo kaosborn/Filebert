@@ -342,40 +342,29 @@ namespace KaosFormat
 
             public string TrimWatermark (bool isFinalRepair)
             {
-                if (Data.Issues.MaxSeverity >= Severity.Error || Data.Watermark != Likeliness.Probable)
+                if (Data.fbs == null || Data.Issues.MaxSeverity >= Severity.Error || Data.Watermark != Likeliness.Probable)
                     return "Invalid attempt";
 
-                string result = null;
-                if (Data.fbs != null)
-                    result = TrimWatermarkUpdate();
-                else
-                    try
-                    {
-                        using (Data.fbs = new FileStream (Data.Path, FileMode.Open, FileAccess.Write, FileShare.Read))
-                        {
-                            result = TrimWatermarkUpdate();
-                            if (isFinalRepair)
-                                CloseFile();
-                        }
-                    }
-                    finally { Data.fbs = null; }
+                string err = TrimWatermarkUpdate();
+                if (isFinalRepair)
+                    CloseFile();
 
-                return result;
+                return err;
             }
 
             private string TrimWatermarkUpdate()
             {
-                string result = null;
+                string err = null;
                 try
                 {
                     TruncateExcess();
                     Data.Watermark = Likeliness.None;
                 }
                 catch (UnauthorizedAccessException ex)
-                { result = ex.Message.TrimEnd (null); }
+                { err = ex.Message.TrimEnd (null); }
                 catch (IOException ex)
-                { result = ex.Message.TrimEnd (null); }
-                return result;
+                { err = ex.Message.TrimEnd (null); }
+                return err;
             }
 
             protected void TruncateExcess()
@@ -387,7 +376,7 @@ namespace KaosFormat
             }
 
             public void ClearFile()
-            { Data.fbs = null; }
+             => Data.fbs = null;
 
             public void CloseFile()
             {
