@@ -117,11 +117,11 @@ namespace AppViewModel
                 bg.RunWorkerAsync();
             }
 
-            int newTabNumber;
+            int newTabInfoIx, newTabInfoFmtIx;
             void Job (object sender, DoWorkEventArgs jobArgs)
             {
                 jobArgs.Result = (string) null;
-                newTabNumber = -1;
+                newTabInfoIx = newTabInfoFmtIx = -1;
 
                 try
                 {
@@ -131,8 +131,8 @@ namespace AppViewModel
                             Data.Progress = parsing.Data.Name;
                             if (Data.tabInfo.TryGetValue (parsing.Data.LongName, out TabInfo tInfo))
                             {
-                                if (newTabNumber < 0)
-                                    newTabNumber = tInfo.TabPosition;
+                                if (newTabInfoIx < 0 || parsing is LogEacFormat.Model)
+                                { newTabInfoIx = tInfo.TabPosition-1; newTabInfoFmtIx = tInfo.Count; }
                                 tInfo.Add (parsing.Data);
                             }
                     }
@@ -161,10 +161,11 @@ namespace AppViewModel
                 }
 
                 Data.Progress = null;
-                if (Data.CurrentTabNumber < 1 && newTabNumber >= 0)
+                if (newTabInfoIx >= 0)
                 {
-                    Data.CurrentTabNumber = newTabNumber;
-                    Data.RaisePropertyChangedEvent (null);
+                    Data.CurrentTabNumber = newTabInfoIx+1;
+                    Data.tabInfo.Values[newTabInfoIx].Index = newTabInfoFmtIx;
+                    RefreshTab (Data.tabInfo.Values[newTabInfoIx].Current);
                 }
 
                 ++Data.JobCounter;
