@@ -98,6 +98,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Mp4Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\OggControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +117,10 @@
     <Page Include="Controls\ThemeDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\WavControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfDiagsView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +164,9 @@
     <Compile Include="Controls\Mp3Control.xaml.cs">
       <DependentUpon>Mp3Control.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Mp4Control.xaml.cs">
+      <DependentUpon>Mp4Control.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\OggControl.xaml.cs">
       <DependentUpon>OggControl.xaml</DependentUpon>
     </Compile>
@@ -164,6 +175,9 @@
     </Compile>
     <Compile Include="Controls\Sha1xControl.xaml.cs">
       <DependentUpon>Sha1xControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WavControl.xaml.cs">
+      <DependentUpon>WavControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValueConverters.cs" />
     <Compile Include="WpfDiagsView_IDiagsUi.cs" />

@@ -180,18 +180,6 @@
                     <TextBlock Text="{Binding Progress}" Grid.Row="2" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header=".cue" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
-                <TabItem.Style>
-                    <Style TargetType="TabItem">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Cue}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TabItem.Style>
-                <app:CueControl/>
-            </TabItem>
             <TabItem Header=".avi" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -203,6 +191,18 @@
                     </Style>
                 </TabItem.Style>
                 <app:AviControl/>
+            </TabItem>
+            <TabItem Header=".cue" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Cue}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:CueControl/>
             </TabItem>
             <TabItem Header=".flac" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
@@ -276,7 +276,19 @@
                 </TabItem.Style>
                 <app:Mp3Control/>
             </TabItem>
-            <TabItem Header=".ogg" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".mp4" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Mp4}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:Mp4Control/>
+            </TabItem>
+            <TabItem Header=".ogg" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -311,6 +323,18 @@
                     </Style>
                 </TabItem.Style>
                 <app:Sha1xControl/>
+            </TabItem>
+            <TabItem Header=".wav" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Wav}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:WavControl/>
             </TabItem>
         </TabControl>
     </Grid>

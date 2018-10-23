@@ -6,7 +6,7 @@ using KaosCrypto;
 
 namespace KaosFormat
 {
-    enum WaveCompression
+    public enum WaveCompression
     { Unknown=0, PCM=1, MS_ADPCM=2, ITUG711alaw=6, ITUG711Âµlaw=7, IMA_ADPCM=17, GSM610=49, MPEG=80}
 
     // www.sonicspot.com/guide/wavefiles.html (broken?)
@@ -151,7 +151,7 @@ namespace KaosFormat
         public bool HasTags { get; private set; }
 
         private byte[] actualMediaMD5;
-        public string ActualMediaMD5ToHex => ConvertTo.ToHexString (actualMediaMD5);
+        public string ActualMediaMD5ToHex => actualMediaMD5 == null ? null : ConvertTo.ToHexString (actualMediaMD5);
 
         public int CompCode { get; private set; }
         public int ChannelCount { get; private set; }
@@ -159,6 +159,23 @@ namespace KaosFormat
         public uint AverageBPS { get; private set; }
         public int BlockAlign { get; private set; }
         public int BitsPerSample { get; private set; }
+
+        public WaveCompression Compression => (WaveCompression) CompCode;
+
+        private string layout = null;
+        public String Layout
+        {
+            get
+            {
+                if (layout == null)
+                {
+                    layout = "| Audio |";
+                    if (HasTags)
+                        layout += " Tags |";
+                }
+                return layout;
+            }
+        }
 
         private WavFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
@@ -172,21 +189,14 @@ namespace KaosFormat
             if (actualMediaMD5 != null)
                 report.Add ($"Actual PCM data MD5 = {ActualMediaMD5ToHex}");
 
-            report.Add ($"Compression = {(WaveCompression) CompCode}");
+            report.Add ($"Compression = {Compression}");
             report.Add ($"Number of channels = {ChannelCount}");
             report.Add ($"Sample rate = {SampleRate} Hz");
 
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ($"Average bytes per second = {AverageBPS}");
-                report.Add ($"Block align = {BlockAlign} bytes per sample slice");
-                report.Add ($"Significant bits per sample = {BitsPerSample}");
-
-                string lx = "Layout = | Audio |";
-                if (HasTags)
-                    lx += " Tags |";
-                report.Add (lx);
-            }
+            report.Add ($"Average bytes per second = {AverageBPS}");
+            report.Add ($"Block align = {BlockAlign} bytes per sample slice");
+            report.Add ($"Significant bits per sample = {BitsPerSample}");
+            report.Add ($"Layout = {Layout}");
         }
     }
 }
