@@ -67,7 +67,8 @@
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Meta SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MetaSHA1}}"/>
                                 <CheckBox Content="Media SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MediaSHA1}}"/>
-                                <CheckBox Content="PCM CRC-32" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmCRC32}}"/>
+                                <CheckBox Content="PCM MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmMD5}}" ToolTip="for .flac, .wav"/>
+                                <CheckBox Content="PCM CRC-32" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmCRC32}}" ToolTip="for .flac, .wav"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
@@ -76,10 +77,10 @@
                     <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,3,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, etc."/>
-                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}"/>
-                                <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}"/>
-                                <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}"/>
+                                <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8"/>
+                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" ToolTip="for .md5"/>
+                                <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}" ToolTip="for .sha1, .sha1x"/>
+                                <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}" ToolTip="for .sha256"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
@@ -89,7 +90,7 @@
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
-                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}"/>
+                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}" ToolTip="by CRC-32"/>
                                 <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Log hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires internet connection"/>
                             </WrapPanel>
@@ -192,7 +193,7 @@
                 </TabItem.Style>
                 <app:AviControl/>
             </TabItem>
-            <TabItem Header=".cue" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".cue" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -204,7 +205,7 @@
                 </TabItem.Style>
                 <app:CueControl/>
             </TabItem>
-            <TabItem Header=".flac" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".flac" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -216,7 +217,7 @@
                 </TabItem.Style>
                 <app:FlacControl/>
             </TabItem>
-            <TabItem Header=".log (EAC)" HorizontalAlignment="Left" Margin="0" Width="76" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".log (EAC)" Width="76" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -228,7 +229,7 @@
                 </TabItem.Style>
                 <app:LogEacControl/>
             </TabItem>
-            <TabItem Header=".m3u" HorizontalAlignment="Left">
+            <TabItem Header=".m3u">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -240,7 +241,7 @@
                 </TabItem.Style>
                 <app:M3uControl/>
             </TabItem>
-            <TabItem Header=".md5" HorizontalAlignment="Left">
+            <TabItem Header=".md5">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -252,7 +253,7 @@
                 </TabItem.Style>
                 <app:Md5Control/>
             </TabItem>
-            <TabItem Header=".mkv" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".mkv" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -264,7 +265,7 @@
                 </TabItem.Style>
                 <app:MkvControl/>
             </TabItem>
-            <TabItem Header=".mp3" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".mp3" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -300,7 +301,7 @@
                 </TabItem.Style>
                 <app:OggControl/>
             </TabItem>
-            <TabItem Header=".sha1" HorizontalAlignment="Left">
+            <TabItem Header=".sha1">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
@@ -312,7 +313,7 @@
                 </TabItem.Style>
                 <app:Sha1Control/>
             </TabItem>
-            <TabItem Header=".sha1x" HorizontalAlignment="Left">
+            <TabItem Header=".sha1x">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
