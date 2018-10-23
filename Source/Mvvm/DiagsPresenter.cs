@@ -101,10 +101,14 @@ namespace AppViewModel
                     Data.Mp4 = mp4;
                 else if (fmt is OggFormat ogg)
                     Data.Ogg = ogg;
+                else if (fmt is PngFormat png)
+                    Data.Png = png;
                 else if (fmt is Sha1Format sha1)
                     Data.Sha1 = sha1;
                 else if (fmt is Sha1xFormat sha1x)
                     Data.Sha1x = sha1x;
+                else if (fmt is Sha256Format sha256)
+                    Data.Sha256 = sha256;
                 else if (fmt is WavFormat wav)
                     Data.Wav = wav;
 
@@ -190,8 +194,10 @@ namespace AppViewModel
         public Mp3Format Mp3 { get; private set; }
         public Mp4Format Mp4 { get; private set; }
         public OggFormat Ogg { get; private set; }
+        public PngFormat Png { get; private set; }
         public Sha1Format Sha1 { get; private set; }
         public Sha1xFormat Sha1x { get; private set; }
+        public Sha256Format Sha256 { get; private set; }
         public WavFormat Wav { get; private set; }
 
         private bool isBusy = false;

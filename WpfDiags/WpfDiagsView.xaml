@@ -301,6 +301,18 @@
                 </TabItem.Style>
                 <app:OggControl/>
             </TabItem>
+            <TabItem Header=".png" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Png}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:PngControl/>
+            </TabItem>
             <TabItem Header=".sha1">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -324,6 +336,18 @@
                     </Style>
                 </TabItem.Style>
                 <app:Sha1xControl/>
+            </TabItem>
+            <TabItem Header=".sha256">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Sha256}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:Sha256Control/>
             </TabItem>
             <TabItem Header=".wav" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>

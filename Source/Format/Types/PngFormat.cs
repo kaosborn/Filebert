@@ -169,11 +169,23 @@ namespace KaosFormat
                     }
 
                     var sb = new StringBuilder();
-                    sb.Append (Data.Chunks.Items.Count - Data.BadCrcCount);
-                    sb.Append (" of ");
-                    sb.Append (Data.Chunks.Items.Count);
-                    sb.Append (" CRC checks successful.");
-                    IssueModel.Add (sb.ToString(), Data.BadCrcCount==0? Severity.Noise : Severity.Error);
+                    sb.Append ("CRC checks on ");
+
+                    if (Data.BadCrcCount != 0)
+                    {
+                        sb.Append (Data.BadCrcCount);
+                        sb.Append (" of ");
+                        sb.Append (Data.Chunks.Items.Count);
+                        sb.Append (" chunks failed.");
+                    }
+                    else
+                    {
+                        sb.Append (Data.Chunks.Items.Count);
+                        sb.Append (" chunks successful.");
+                    }
+
+                    Data.CdIssue = IssueModel.Add (sb.ToString(), Data.BadCrcCount==0? Severity.Noise : Severity.Error,
+                                                                  Data.BadCrcCount==0? IssueTags.Success : IssueTags.Failure);
                 }
 
                 base.CalcHashes (hashFlags, validationFlags);
@@ -195,6 +207,11 @@ namespace KaosFormat
         public float? Gamma { get; private set; }
         public int? BadCrcCount { get; private set; }
 
+        public string Dimensions => Width.ToString() + "x" + Height;
+        public int ChunkCount => Chunks.Items.Count;
+        public int? GoodChunkCount => BadCrcCount == null ? (int?) null : Chunks.Items.Count - BadCrcCount.Value;
+        public override bool IsBadData => BadCrcCount != null && BadCrcCount.Value != 0;
+
         public string ColorTypeText
         {
             get
@@ -207,6 +224,8 @@ namespace KaosFormat
             }
         }
 
+        public Issue CdIssue { get; private set; }
+
         public PngFormat (Model model, Stream stream, string path) : base (model, stream, path)
         {
             this.BadCrcCount = null;
@@ -215,20 +234,13 @@ namespace KaosFormat
             this.Texts = new ReadOnlyObservableCollection<string> (this.texts);
         }
 
-        public override bool IsBadData
-         => BadCrcCount != null && BadCrcCount.Value != 0;
-
         public override void GetReportDetail (IList<string> report, Granularity scope)
         {
-            report.Add ($"Dimensions = {Width}x{Height}");
+            report.Add ($"Dimensions = {Dimensions}");
             report.Add ($"Color type = {ColorType} ({ColorTypeText})");
-
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ("Gamma = " + (Gamma == null? "None" : Gamma.ToString()));
-                report.Add ($"Bit depth = {BitDepth}");
-                report.Add ($"Interlace method = {InterlaceMethod}");
-            }
+            report.Add ("Gamma = " + (Gamma == null? "None" : Gamma.ToString()));
+            report.Add ($"Bit depth = {BitDepth}");
+            report.Add ($"Interlace method = {InterlaceMethod}");
 
             if (Texts.Count > 0)
             {
@@ -239,31 +251,28 @@ namespace KaosFormat
                     report.Add ("  " + text);
             }
 
-            if (scope <= Granularity.Detail)
+            report.Add (String.Empty);
+            var sb = new StringBuilder();
+            int num = 0;
+            foreach (PngChunk chunk in Chunks.Items)
             {
-                report.Add (String.Empty);
-                var sb = new StringBuilder();
-                int num = 0;
-                foreach (PngChunk chunk in Chunks.Items)
-                {
-                    ++num;
-                    sb.Clear();
-                    sb.Append ("Chunk ");
-                    sb.Append (num.ToString());
-                    sb.AppendLine (":");
-                    sb.Append ("  type = ");
-                    sb.AppendLine (chunk.Type);
-                    sb.Append ("  size = ");
-                    sb.AppendLine (chunk.Size.ToString());
-                    sb.Append ($"  stored CRC-32 = 0x{chunk.StoredCRC:X8}");
-                    sb.AppendLine();
-                    sb.Append ("  actual CRC-32 = ");
-                    if (chunk.ActualCRC == null)
-                        sb.Append ('?');
-                    else
-                        sb.Append ($"0x{chunk.ActualCRC.Value:X8}");
-                    report.Add (sb.ToString());
-                }
+                ++num;
+                sb.Clear();
+                sb.Append ("Chunk ");
+                sb.Append (num.ToString());
+                sb.AppendLine (":");
+                sb.Append ("  type = ");
+                sb.AppendLine (chunk.Type);
+                sb.Append ("  size = ");
+                sb.AppendLine (chunk.Size.ToString());
+                sb.Append ($"  stored CRC-32 = 0x{chunk.StoredCRC:X8}");
+                sb.AppendLine();
+                sb.Append ("  actual CRC-32 = ");
+                if (chunk.ActualCRC == null)
+                    sb.Append ('?');
+                else
+                    sb.Append ($"0x{chunk.ActualCRC.Value:X8}");
+                report.Add (sb.ToString());
             }
         }
     }

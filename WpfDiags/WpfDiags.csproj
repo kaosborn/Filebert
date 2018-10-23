@@ -106,11 +106,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\PngControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Sha1Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Sha1xControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Sha256Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,11 +178,17 @@
     <Compile Include="Controls\OggControl.xaml.cs">
       <DependentUpon>OggControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PngControl.xaml.cs">
+      <DependentUpon>PngControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Sha1Control.xaml.cs">
       <DependentUpon>Sha1Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Sha1xControl.xaml.cs">
       <DependentUpon>Sha1xControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Sha256Control.xaml.cs">
+      <DependentUpon>Sha256Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WavControl.xaml.cs">
       <DependentUpon>WavControl.xaml</DependentUpon>
