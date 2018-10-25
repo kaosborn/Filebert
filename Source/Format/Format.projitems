@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogXldFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\M3u8Format.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M3uFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M4aFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Md5Format.cs" />
