@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -21,10 +20,34 @@
         <ListView.View>
             <GridView>
                 <GridView.Columns>
-                    <GridViewColumn Header="File name" DisplayMemberBinding="{Binding FileName, Mode=OneWay}"/>
-                    <GridViewColumn Header="Mode" DisplayMemberBinding="{Binding ModeName, Mode=OneWay}"/>
-                    <GridViewColumn Header="Stored hash" DisplayMemberBinding="{Binding StoredHashToHex, Mode=OneWay}"/>
-                    <GridViewColumn Header="Actual hash" DisplayMemberBinding="{Binding ActualHashToHex, Mode=OneWay}"/>
+                    <GridViewColumn Header="File name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FileName, Mode=OneWay}" TextAlignment="Left"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Mode">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ModeName, Mode=OneWay}" TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Stored hash">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StoredHashToHex, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Actual hash">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ActualHashToHex, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView.Columns>
             </GridView>
         </ListView.View>
@@ -32,6 +55,7 @@
             <Style TargetType="ListViewItem">
                 <Setter Property="FontFamily" Value="Lucida Console"/>
                 <Setter Property="FontSize" Value="12"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Focusable" Value="false"/>
                 <Style.Triggers>

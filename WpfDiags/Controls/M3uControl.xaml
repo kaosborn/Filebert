@@ -18,6 +18,10 @@
         <Grid.Resources>
             <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
             <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,15 +34,26 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="File name" DisplayMemberBinding="{Binding Name, Mode=OneWay}"/>
+                        <GridViewColumn Header="     File name">
+                            <GridViewColumn.HeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                </Style>
+                            </GridViewColumn.HeaderContainerStyle>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name, Mode=OneWay}" Width="9999"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Foreground" Value="Blue"/>
+                    <Setter Property="Foreground" Value="DarkBlue"/>
                     <Setter Property="FontFamily" Value="Lucida Console"/>
-                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontSize" Value="12"/>
                     <Setter Property="Margin" Value="3,0,0,0"/>
                     <Setter Property="Focusable" Value="False"/>
                     <Style.Triggers>

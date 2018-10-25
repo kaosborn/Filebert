@@ -17,7 +17,9 @@
     </UserControl.Resources>
     <Grid>
         <Grid.Resources>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}"/>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
             <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -232,7 +234,13 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="Index" DisplayMemberBinding="{Binding Number, Mode=OneWay}"/>
+                        <GridViewColumn Header="Index">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Number, Mode=OneWay}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Quality">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -240,8 +248,19 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Is OK" DisplayMemberBinding="{Binding HasOk, Mode=OneWay}"/>
-                        <GridViewColumn Header="Test CRC" x:Name="testCRC" DisplayMemberBinding="{Binding TestCRC, StringFormat={}{0:X8}, Mode=OneWay}">
+                        <GridViewColumn Header="Is OK">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding HasOk, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Test CRC">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TestCRC}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                             <GridViewColumn.HeaderContainerStyle>
                                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
                                     <Style.Triggers>
@@ -252,8 +271,20 @@
                                 </Style>
                             </GridViewColumn.HeaderContainerStyle>
                         </GridViewColumn>
-                        <GridViewColumn Header="Copy CRC" DisplayMemberBinding="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
-                        <GridViewColumn Header="Match" DisplayMemberBinding="{Binding MatchName, Mode=OneWay}"/>
+                        <GridViewColumn Header="Copy CRC">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Match">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MatchName}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

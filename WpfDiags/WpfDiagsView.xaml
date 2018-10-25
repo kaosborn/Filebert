@@ -200,6 +200,9 @@
                             <DataTrigger Binding="{Binding TabCue.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabCue.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -224,6 +227,9 @@
                             <DataTrigger Binding="{Binding TabLogEac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabLogEac.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -236,6 +242,9 @@
                             <DataTrigger Binding="{Binding TabM3u.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabM3u.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -247,6 +256,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabMd5.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabMd5.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -320,6 +332,9 @@
                             <DataTrigger Binding="{Binding TabSha1.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabSha1.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -331,6 +346,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabSha1x.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabSha1x.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -344,6 +362,9 @@
                             <DataTrigger Binding="{Binding TabSha256.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabSha256.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -355,6 +376,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabWav.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabWav.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

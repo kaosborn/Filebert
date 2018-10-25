@@ -5,9 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
-             d:DesignHeight="400" d:DesignWidth="475"
+             d:DesignHeight="400" d:DesignWidth="600"
              DataContext="{Binding Path=TabSha1x.Current}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

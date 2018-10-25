@@ -15,52 +15,92 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid.Resources>
-            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
-            <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Row="1" Text="Catalog:"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Catalog, Mode=OneWay}"/>
-        <ListView Grid.Row="2" Grid.ColumnSpan="9" SelectionMode="Multiple" ItemsSource="{Binding Files.Items}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="File name" DisplayMemberBinding="{Binding Name, Mode=OneWay}"/>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Foreground" Value="Blue"/>
-                    <Setter Property="FontFamily" Value="Lucida Console"/>
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="Margin" Value="3,0,0,0"/>
-                    <Setter Property="Focusable" Value="False"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsFound}" Value="true">
-                            <Setter Property="Foreground" Value="Chartreuse"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsFound}" Value="false">
-                            <Setter Property="Foreground" Value="Red"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+        <Grid Grid.ColumnSpan="9">
+            <Grid.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                    <Setter Property="Foreground" Value="Black"/>
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-        <GridSplitter Grid.Row="3" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="4" Grid.ColumnSpan="9"/>
+                <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <app:FileHeaderControl Grid.ColumnSpan="9"/>
+            <TextBlock Grid.Row="1" Text="Catalog:"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Catalog, Mode=OneWay}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="9">
+            <Grid.Resources>
+                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
+                <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="Auto" MinHeight="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListView Grid.ColumnSpan="9" SelectionMode="Multiple" ItemsSource="{Binding Files.Items}">
+                <ListView.Resources>
+                    <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
+                    <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="     File name">
+                                <GridViewColumn.HeaderContainerStyle>
+                                    <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    </Style>
+                                </GridViewColumn.HeaderContainerStyle>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name, Mode=OneWay}" Width="9999"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Foreground" Value="DarkBlue"/>
+                        <Setter Property="FontFamily" Value="Lucida Console"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="Margin" Value="3,0,0,0"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFound}" Value="true">
+                                <Setter Property="Foreground" Value="Chartreuse"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsFound}" Value="false">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <GridSplitter Grid.Row="1" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+            <app:IssuesControl Grid.Row="2" Grid.ColumnSpan="9"/>
+        </Grid>
     </Grid>
 </UserControl>
