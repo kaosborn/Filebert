@@ -78,9 +78,9 @@ namespace AppView
 
                 if (totalLinesReported != 0)
                     if (viewModel.Data.Scope == Granularity.Detail)
-                        consoleBox.AppendText ("\n\n---- ---- ---- ---- ----\n");
+                        consoleBox.AppendText (Environment.NewLine + Environment.NewLine + "---- ---- ---- ---- ---- ----" + Environment.NewLine);
                     else if (! dirShown)
-                        consoleBox.AppendText ("\n");
+                        consoleBox.AppendText (Environment.NewLine);
 
                 if (! dirShown)
                 {
@@ -94,13 +94,13 @@ namespace AppView
                         if (viewModel.Data.CurrentDirectory[viewModel.Data.CurrentDirectory.Length-1] != System.IO.Path.DirectorySeparatorChar)
                             consoleBox.AppendText (System.IO.Path.DirectorySeparatorChar.ToString());
                     }
-                    consoleBox.AppendText ("\n");
+                    consoleBox.AppendText (Environment.NewLine);
                 }
 
                 if (viewModel.Data.Scope == Granularity.Detail || !viewModel.Data.IsDigestForm)
                 {
                     consoleBox.AppendText (viewModel.Data.CurrentFile);
-                    consoleBox.AppendText ("\n");
+                    consoleBox.AppendText (Environment.NewLine);
                 }
             }
 
@@ -115,7 +115,7 @@ namespace AppView
             }
 
             consoleBox.AppendText (message);
-            consoleBox.AppendText ("\n");
+            consoleBox.AppendText (Environment.NewLine);
             ++totalLinesReported;
         }
     }

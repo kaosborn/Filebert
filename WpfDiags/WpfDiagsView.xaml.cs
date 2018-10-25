@@ -46,21 +46,24 @@ namespace AppView
         {
             var sb = new StringBuilder();
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
-            sb.Append ($"\nUsage:\n{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]\n\n");
+
+            sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
+            sb.Append ($"{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
+            sb.Append (Environment.NewLine + Environment.NewLine);
 
             sb.Append ("Where <granularity> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
             { sb.Append (" "); sb.Append (name); }
-            sb.Append ("\n");
+            sb.Append (Environment.NewLine);
 
             sb.Append ("Where <hashes> from");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
                 if (name[0] != '_')
                 { sb.Append (" "); sb.Append (name); }
-            sb.Append ("\n");
+            sb.Append (Environment.NewLine);
 
             sb.Append ("Where <fileOrFolderName> is a file or directory name without wildcards.\n");
-            sb.Append ("\n");
+            sb.Append (Environment.NewLine);
 
             consoleBox.Text += sb.ToString();
         }
@@ -132,7 +135,7 @@ namespace AppView
 
                 if (! argOk)
                 {
-                    consoleBox.Text = $"Invalid argument: {args[ix]}\n";
+                    consoleBox.Text = $"Invalid argument: {args[ix]}" + Environment.NewLine;
                     ShowUsage();
                     return (int) Severity.Error;
                 }
