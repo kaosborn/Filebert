@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{Binding Path=Flac}">
+             DataContext="{Binding Path=TabFlac.Current}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

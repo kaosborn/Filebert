@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              xmlns:issue="clr-namespace:KaosIssue"
              mc:Ignorable="d"
-             DataContext="{Binding Path=LogEac}"
+             DataContext="{Binding Path=TabLogEac.Current}"
              d:DesignHeight="500" d:DesignWidth="475">
     <UserControl.Resources>
         <ResourceDictionary>

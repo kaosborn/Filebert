@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="475"
-             DataContext="{Binding Path=Md5}">
+             DataContext="{Binding Path=TabMd5.Current}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

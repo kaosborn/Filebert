@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="475"
-             DataContext="{Binding Path=Avi}">
+             DataContext="{Binding Path=TabAvi.Current}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

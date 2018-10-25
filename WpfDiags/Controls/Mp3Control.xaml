@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="475"
-             DataContext="{Binding Path=Mp3}">
+             DataContext="{Binding Path=TabMp3.Current}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

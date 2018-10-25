@@ -15,21 +15,41 @@ namespace AppViewModel
     {
         private List<FormatBase> parsings;
         public int TabPosition { get; private set; }
+        public string ContextName { get; private set; }
+        public Severity MaxSeverity { get; private set; }
         public int Count => parsings.Count;
-        public FormatBase Current => parsings[index];
+        public FormatBase Current => index < 0 ? null : parsings[index];
+        public bool HasError => MaxSeverity >= Severity.Error;
 
         private int index = -1;
         public int Index
         {
             get => index;
-            set { if (parsings.Count > 0 && value >= 0 && value < parsings.Count) index = value; }
+            set
+            {
+                if (parsings.Count > 0 && value >= 0 && value < parsings.Count)
+                    index = value;
+            }
         }
 
         public TabInfo (int tabPosition)
-        { this.TabPosition = tabPosition; this.parsings = new List<FormatBase>(); }
+        {
+            TabPosition = tabPosition;
+            parsings = new List<FormatBase>();
+        }
 
         public void Add (FormatBase fmt)
-         => parsings.Add (fmt);
+        {
+            parsings.Add (fmt);
+            if (MaxSeverity < fmt.Issues.MaxSeverity)
+                MaxSeverity = fmt.Issues.MaxSeverity;
+        }
+
+        public TabInfo SetContextName (string identifier)
+        {
+            ContextName = identifier;
+            return this;
+        }
     }
 
 
@@ -55,6 +75,22 @@ namespace AppViewModel
                     ++ix;
                 }
 
+                Data.TabAvi = Data.tabInfo["avi"].SetContextName (nameof (Data.TabAvi));
+                Data.TabCue = Data.tabInfo["cue"].SetContextName (nameof (Data.TabCue));
+                Data.TabFlac = Data.tabInfo["flac"].SetContextName (nameof (Data.TabFlac));
+                Data.TabLogEac = Data.tabInfo["log (EAC)"].SetContextName (nameof (Data.TabLogEac));
+                Data.TabM3u = Data.tabInfo["m3u"].SetContextName (nameof (Data.TabM3u));
+                Data.TabMd5 = Data.tabInfo["md5"].SetContextName (nameof (Data.TabMd5));
+                Data.TabMkv = Data.tabInfo["mkv"].SetContextName (nameof (Data.TabMkv));
+                Data.TabMp3 = Data.tabInfo["mp3"].SetContextName (nameof (Data.TabMp3));
+                Data.TabMp4 = Data.tabInfo["mp4"].SetContextName (nameof (Data.TabMp4));
+                Data.TabOgg = Data.tabInfo["ogg"].SetContextName (nameof (Data.TabOgg));
+                Data.TabPng = Data.tabInfo["png"].SetContextName (nameof (Data.TabPng));
+                Data.TabSha1 = Data.tabInfo["sha1"].SetContextName (nameof (Data.TabSha1));
+                Data.TabSha1x = Data.tabInfo["sha1x"].SetContextName (nameof (Data.TabSha1x));
+                Data.TabSha256 = Data.tabInfo["sha256"].SetContextName (nameof (Data.TabSha256));
+                Data.TabWav = Data.tabInfo["wav"].SetContextName (nameof (Data.TabWav));
+
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
             }
@@ -65,7 +101,7 @@ namespace AppViewModel
                 if (ti != null && ti.Count > 0)
                 {
                     ti.Index = 0;
-                    RefreshTab (ti.Current);
+                    Data.RaisePropertyChangedEvent (ti.ContextName);
                 }
             }
 
@@ -75,44 +111,8 @@ namespace AppViewModel
                 if (ti != null && ti.Count > 0)
                 {
                     ti.Index = ti.Index + 1;
-                    RefreshTab (ti.Current);
+                    Data.RaisePropertyChangedEvent (ti.ContextName);
                 }
-            }
-
-            public void RefreshTab (FormatBase fmt)
-            {
-                if (fmt is AviFormat avi)
-                    Data.Avi = avi;
-                else if (fmt is CueFormat cue)
-                    Data.Cue = cue;
-                else if (fmt is FlacFormat flac)
-                    Data.Flac = flac;
-                else if (fmt is LogEacFormat logEac)
-                    Data.LogEac = logEac;
-                else if (fmt is M3uFormat m3u)
-                    Data.M3u = m3u;
-                else if (fmt is Md5Format md5)
-                    Data.Md5 = md5;
-                else if (fmt is MkvFormat mkv)
-                    Data.Mkv = mkv;
-                else if (fmt is Mp3Format mp3)
-                    Data.Mp3 = mp3;
-                else if (fmt is Mp4Format mp4)
-                    Data.Mp4 = mp4;
-                else if (fmt is OggFormat ogg)
-                    Data.Ogg = ogg;
-                else if (fmt is PngFormat png)
-                    Data.Png = png;
-                else if (fmt is Sha1Format sha1)
-                    Data.Sha1 = sha1;
-                else if (fmt is Sha1xFormat sha1x)
-                    Data.Sha1x = sha1x;
-                else if (fmt is Sha256Format sha256)
-                    Data.Sha256 = sha256;
-                else if (fmt is WavFormat wav)
-                    Data.Wav = wav;
-
-                Data.RaisePropertyChangedEvent (null);
             }
 
             public void Parse()
@@ -164,7 +164,7 @@ namespace AppViewModel
                     if (ti.Index < 0 && ti.Count > 0)
                     {
                         ti.Index = 0;
-                        RefreshTab (Data.tabInfo.Values[ix].Current);
+                        Data.RaisePropertyChangedEvent (ti.ContextName);
                     }
                 }
 
@@ -173,7 +173,7 @@ namespace AppViewModel
                 {
                     Data.CurrentTabNumber = newTabInfoIx+1;
                     Data.tabInfo.Values[newTabInfoIx].Index = newTabInfoFmtIx;
-                    RefreshTab (Data.tabInfo.Values[newTabInfoIx].Current);
+                    Data.RaisePropertyChangedEvent (null);
                 }
 
                 ++Data.JobCounter;
@@ -184,21 +184,21 @@ namespace AppViewModel
 
         private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
 
-        public AviFormat Avi { get; private set; }
-        public CueFormat Cue { get; private set; }
-        public FlacFormat Flac { get; private set; }
-        public LogEacFormat LogEac { get; private set; }
-        public M3uFormat M3u { get; private set; }
-        public Md5Format Md5 { get; private set; }
-        public MkvFormat Mkv { get; private set; }
-        public Mp3Format Mp3 { get; private set; }
-        public Mp4Format Mp4 { get; private set; }
-        public OggFormat Ogg { get; private set; }
-        public PngFormat Png { get; private set; }
-        public Sha1Format Sha1 { get; private set; }
-        public Sha1xFormat Sha1x { get; private set; }
-        public Sha256Format Sha256 { get; private set; }
-        public WavFormat Wav { get; private set; }
+        public TabInfo TabAvi { get; private set; }
+        public TabInfo TabCue { get; private set; }
+        public TabInfo TabFlac { get; private set; }
+        public TabInfo TabLogEac { get; private set; }
+        public TabInfo TabM3u { get; private set; }
+        public TabInfo TabMd5 { get; private set; }
+        public TabInfo TabMkv { get; private set; }
+        public TabInfo TabMp3 { get; private set; }
+        public TabInfo TabMp4 { get; private set; }
+        public TabInfo TabOgg { get; private set; }
+        public TabInfo TabPng { get; private set; }
+        public TabInfo TabSha1 { get; private set; }
+        public TabInfo TabSha1x { get; private set; }
+        public TabInfo TabSha256 { get; private set; }
+        public TabInfo TabWav { get; private set; }
 
         private bool isBusy = false;
         public bool IsBusy

@@ -6,7 +6,7 @@
              xmlns:app="clr-namespace:AppView"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="600"
-             DataContext="{Binding Path=Wav}">
+             DataContext="{Binding Path=TabWav.Current}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

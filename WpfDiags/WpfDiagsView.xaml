@@ -181,11 +181,11 @@
                     <TextBlock Text="{Binding Progress}" Grid.Row="2" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header=".avi" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <TabItem Header=".avi" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Avi}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabAvi.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -197,7 +197,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Cue}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabCue.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -209,7 +209,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Flac}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabFlac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -221,7 +221,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding LogEac}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabLogEac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -233,7 +233,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding M3u}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabM3u.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -245,7 +245,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Md5}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabMd5.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -257,7 +257,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Mkv}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabMkv.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -269,7 +269,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Mp3}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabMp3.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -281,7 +281,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Mp4}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabMp4.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -293,7 +293,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Ogg}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabOgg.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -305,7 +305,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Png}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabPng.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -317,7 +317,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Sha1}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabSha1.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -329,7 +329,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Sha1x}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabSha1x.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -341,7 +341,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Sha256}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabSha256.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -353,7 +353,7 @@
                 <TabItem.Style>
                     <Style TargetType="TabItem">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Wav}" Value="{x:Null}">
+                            <DataTrigger Binding="{Binding TabWav.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
