@@ -250,6 +250,21 @@
                 </TabItem.Style>
                 <app:M3uControl/>
             </TabItem>
+            <TabItem Header=".m3u8">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabM3u8.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabM3u8.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:M3u8Control/>
+            </TabItem>
             <TabItem Header=".md5">
                 <TabItem.Style>
                     <Style TargetType="TabItem">

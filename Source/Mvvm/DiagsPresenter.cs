@@ -80,6 +80,7 @@ namespace AppViewModel
                 Data.TabFlac = Data.tabInfo["flac"].SetContextName (nameof (Data.TabFlac));
                 Data.TabLogEac = Data.tabInfo["log (EAC)"].SetContextName (nameof (Data.TabLogEac));
                 Data.TabM3u = Data.tabInfo["m3u"].SetContextName (nameof (Data.TabM3u));
+                Data.TabM3u8 = Data.tabInfo["m3u8"].SetContextName (nameof (Data.TabM3u8));
                 Data.TabMd5 = Data.tabInfo["md5"].SetContextName (nameof (Data.TabMd5));
                 Data.TabMkv = Data.tabInfo["mkv"].SetContextName (nameof (Data.TabMkv));
                 Data.TabMp3 = Data.tabInfo["mp3"].SetContextName (nameof (Data.TabMp3));
@@ -189,6 +190,7 @@ namespace AppViewModel
         public TabInfo TabFlac { get; private set; }
         public TabInfo TabLogEac { get; private set; }
         public TabInfo TabM3u { get; private set; }
+        public TabInfo TabM3u8 { get; private set; }
         public TabInfo TabMd5 { get; private set; }
         public TabInfo TabMkv { get; private set; }
         public TabInfo TabMp3 { get; private set; }
