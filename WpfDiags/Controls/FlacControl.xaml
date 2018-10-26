@@ -15,6 +15,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -44,10 +50,6 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Resources>
-            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}"/>
-            <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
-        </Grid.Resources>
         <app:FileHeaderControl Grid.ColumnSpan="4"/>
         <TextBlock Grid.Row="2" Text="Sample rate:"/>
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=SampleRateText, Mode=OneWay}"/>

@@ -188,6 +188,9 @@
                             <DataTrigger Binding="{Binding TabAvi.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabAvi.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -214,6 +217,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabFlac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabFlac.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -287,6 +293,9 @@
                             <DataTrigger Binding="{Binding TabMkv.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabMkv.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -298,6 +307,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabMp3.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabMp3.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -311,6 +323,9 @@
                             <DataTrigger Binding="{Binding TabMp4.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabMp4.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -323,6 +338,9 @@
                             <DataTrigger Binding="{Binding TabOgg.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding TabOgg.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </TabItem.Style>
@@ -334,6 +352,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding TabPng.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabPng.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
