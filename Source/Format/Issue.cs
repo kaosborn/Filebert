@@ -196,7 +196,7 @@ namespace KaosIssue
         public bool Failure => (Tag & IssueTags.Failure) != 0;
         public bool Success => (Tag & IssueTags.Success) != 0;
         public bool HasRepairer => Repairer != null;
-        public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null;
+        public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null && Level < Severity.Error;
         public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
         public override string ToString() => FixedMessage;
     }
