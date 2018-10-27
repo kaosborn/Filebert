@@ -299,7 +299,7 @@ namespace KaosFormat
                 Data.StoredAudioBlockCRC16 = (UInt16) (bb[0] << 8 | bb[1]);
                 Data.MediaCount = Data.FileSize - Data.mediaPosition;
 
-                GetDiagnostics ();
+                GetDiagnostics();
             }
 
             private void GetDiagnostics()

@@ -72,8 +72,7 @@ namespace KaosFormat
 
             report.Add ($"Codec = {Codec}");
             report.Add ($"Dimensions = {Dimensions}");
-            if (scope <= Granularity.Detail)
-                report.Add ($"Streams = {StreamCount}");
+            report.Add ($"Streams = {StreamCount}");
         }
     }
 }

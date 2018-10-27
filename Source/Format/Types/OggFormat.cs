@@ -110,7 +110,7 @@ namespace KaosFormat
         {
             report.Add ($"Total pages = {PageCount}");
 
-            if (scope <= Granularity.Detail && badPage.Count != 0)
+            if (badPage.Count != 0)
                 foreach (var pageNum in badPage)
                     report.Add ($"CRC-32 mismatch on page {pageNum}.");
         }

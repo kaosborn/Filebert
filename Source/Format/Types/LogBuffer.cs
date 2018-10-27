@@ -15,7 +15,6 @@ namespace KaosFormat
         private int bufPos;
         private int linePos;
         private Encoding encoding;
-        //public static readonly Encoding cp1252 = Encoding.GetEncoding (1252);
 
         public int FilePosition
          => bufPos;
@@ -39,7 +38,6 @@ namespace KaosFormat
             this.bufPos = encoding == Encoding.Unicode ? 2 : 0;
         }
 
-
         // Get next non-blank line, left trimmed.
         public string ReadLineLTrim()
         {
@@ -53,7 +51,6 @@ namespace KaosFormat
                     return result.TrimStart();
             }
         }
-
 
         // Get next non-blank line.
         public string ReadLine()
@@ -91,7 +88,6 @@ namespace KaosFormat
                     ++stop;
                 return int.TryParse (source.Substring (offset, stop-offset), out result);
             }
-
 
             private string ParseHeader()
             {
@@ -235,7 +231,6 @@ namespace KaosFormat
                 }
             }
 
-
             private string ParseTracks (string lx)
             {
                 for (;;)
@@ -268,7 +263,6 @@ namespace KaosFormat
                 }
                 return lx;
             }
-
 
             private string ParseTrack (string lx, int num)
             {
@@ -374,7 +368,6 @@ namespace KaosFormat
                 TracksModel.Add (num, name, pregap, peak, speed, qual, testCrc, copyCrc, hasOK, arVersion, arConfidence);
                 return lx;
             }
-
 
             private string ParseCueTools (string lx)
             {

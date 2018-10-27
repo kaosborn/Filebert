@@ -83,7 +83,7 @@ namespace KaosFormat
                     len = (buf[pos+2] << 8) + buf[pos+3];
                     if (len < 2)
                     {
-                        IssueModel.Add ("Invalid segment length '" + len + "'.", Severity.Fatal);
+                        IssueModel.Add ($"Invalid segment length '{len}'.", Severity.Fatal);
                         return;
                     }
 
@@ -207,26 +207,22 @@ namespace KaosFormat
 
         public override void GetReportDetail (IList<string> report, Granularity scope)
         {
-            if (report.Count > 0 && scope <= Granularity.Detail)
+            if (report.Count > 0)
                 report.Add (String.Empty);
 
             report.Add ("Applications:");
             foreach (var name in AppNames)
                 report.Add ("  " + name);
 
-            if (scope <= Granularity.Detail)
+            report.Add (String.Empty);
+            report.Add ($"Header segments = {SegmentCount}");
+            if ((Apps & JpegApps.Jfif) != 0)
             {
-                if (scope <= Granularity.Detail)
-                    report.Add (String.Empty);
-                report.Add ($"Header segments = {SegmentCount}");
-                if ((Apps & JpegApps.Jfif) != 0)
-                {
-                    report.Add ("JFIF:");
-                    report.Add ($"  Version = {VersionMajor}.{VersionMinor}");
-                    report.Add ($"  Density = {DensityX}x{DensityY}");
-                    report.Add ($"  Density units = {Units}");
-                    report.Add ($"  Thumbnail size = {ThumbXLen}x{ThumbYLen}");
-                }
+                report.Add ("JFIF:");
+                report.Add ($"  Version = {VersionMajor}.{VersionMinor}");
+                report.Add ($"  Density = {DensityX}x{DensityY}");
+                report.Add ($"  Density units = {Units}");
+                report.Add ($"  Thumbnail size = {ThumbXLen}x{ThumbYLen}");
             }
         }
     }

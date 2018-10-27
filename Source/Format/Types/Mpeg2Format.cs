@@ -11,7 +11,7 @@ namespace KaosFormat
     public class Mpeg2Format : FormatBase
     {
         public static string[] Names
-         => new string[] { "mpg", "mpeg" , "vob" };
+         => new string[] { "mpg", "mpeg", "vob" };
 
         public override string[] ValidNames
          => Names;
