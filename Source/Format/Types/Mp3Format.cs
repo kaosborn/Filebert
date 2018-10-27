@@ -111,13 +111,13 @@ namespace KaosFormat
 
                 if (! Data.Header.IsMpegLayer3)
                 {
-                    IssueModel.Add ("ID3v2 tag present but no MP3 marker found.", Severity.Fatal);
+                    Data.M3Issue = IssueModel.Add ("ID3v2 tag present but no MP3 marker found.", Severity.Fatal, IssueTags.Failure);
                     return;
                 }
 
                 if (Data.Header.MpegVersionBits == 1)
                 {
-                    IssueModel.Add ("MP3 marker found but MPEG version is not valid.", Severity.Fatal);
+                    Data.M3Issue = IssueModel.Add ("MP3 marker found but MPEG version is not valid.", Severity.Fatal, IssueTags.Failure);
                     return;
                 }
 
@@ -500,6 +500,7 @@ namespace KaosFormat
 
         public Issue ChIssue { get; private set; }
         public Issue CdIssue { get; private set; }
+        public Issue M3Issue { get; private set; }  // MP3 marker
 
         private Mp3Format (Model model, Stream stream, string path) : base (model, stream, path)
         { }

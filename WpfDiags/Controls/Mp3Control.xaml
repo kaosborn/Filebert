@@ -27,14 +27,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
@@ -42,34 +34,58 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Row="1" Text="Codec:"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.Codec, Mode=OneWay}"/>
-        <TextBlock Grid.Row="2" Text="Bit rate:"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.BitRate, Mode=OneWay}"/>
-        <TextBlock Grid.Row="3" Text="Frequency:"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.SampleRateText, Mode=OneWay}"/>
-        <TextBlock Grid.Row="4" Text="Mode:"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.ModeText, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Text="CRC protection bit: "/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Header.CrcProtectedBit, Mode=OneWay}"/>
-        <TextBlock Grid.Row="6" Text="Padding bit:"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=Header.PaddingBit, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Grid.Column="2" Text="  Private bit:"/>
-        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Path=Header.PrivateBit, Mode=OneWay}"/>
-        <TextBlock Grid.Row="6" Grid.Column="2" Text="  Copyright bit:"/>
-        <TextBox Grid.Row="6" Grid.Column="3" Text="{Binding Path=Header.CopyrightBit, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Grid.Column="4" Text="  Original bit:"/>
-        <TextBox Grid.Row="5" Grid.Column="5" Text="{Binding Path=Header.OriginalBit, Mode=OneWay}"/>
-        <TextBlock Grid.Row="6" Grid.Column="4" Text="  Emphasis:"/>
-        <TextBox Grid.Row="6" Grid.Column="5" Text="{Binding Path=Header.EmphasisText, Mode=OneWay}"/>
+        <Grid Grid.Row="1" Grid.ColumnSpan="9">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding M3Issue.Failure}" Value="true">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Text="Codec:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.Codec, Mode=OneWay}"/>
+            <TextBlock Grid.Row="1" Text="Bit rate:"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.BitRate, Mode=OneWay}"/>
+            <TextBlock Grid.Row="2" Text="Frequency:"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.SampleRateText, Mode=OneWay}"/>
+            <TextBlock Grid.Row="3" Text="Mode:"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Header.ModeText, Mode=OneWay}"/>
+            <TextBlock Grid.Row="4" Text="CRC protection bit: "/>
+            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Header.CrcProtectedBit, Mode=OneWay}"/>
+            <TextBlock Grid.Row="5" Text="Padding bit:"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Header.PaddingBit, Mode=OneWay}"/>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="  Private bit:"/>
+            <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding Path=Header.PrivateBit, Mode=OneWay}"/>
+            <TextBlock Grid.Row="5" Grid.Column="2" Text="  Copyright bit:"/>
+            <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding Path=Header.CopyrightBit, Mode=OneWay}"/>
+            <TextBlock Grid.Row="4" Grid.Column="4" Text="  Original bit:"/>
+            <TextBox Grid.Row="4" Grid.Column="5" Text="{Binding Path=Header.OriginalBit, Mode=OneWay}"/>
+            <TextBlock Grid.Row="5" Grid.Column="4" Text="  Emphasis:"/>
+            <TextBox Grid.Row="5" Grid.Column="5" Text="{Binding Path=Header.EmphasisText, Mode=OneWay}"/>
+        </Grid>
 
-        <Grid Grid.Row="9" Grid.ColumnSpan="9">
+        <Grid Grid.Row="2" Grid.ColumnSpan="9">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -171,7 +187,7 @@
                 </TextBox.Style>
             </TextBox>
         </Grid>
-        <Grid Grid.Row="10" Grid.ColumnSpan="9">
+        <Grid Grid.Row="3" Grid.ColumnSpan="9">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -195,9 +211,9 @@
             <TextBlock Grid.Row="1" Text="Xing layout:"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Xing.Layout, Mode=OneWay}"/>
         </Grid>
-        <TextBlock Grid.Row="12" Text="File layout:"/>
-        <TextBox Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Layout, Mode=OneWay}"/>
-        <GridSplitter Grid.Row="14" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="15" Grid.ColumnSpan="9"/>
+        <TextBlock Grid.Row="4" Text="File layout:"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Layout, Mode=OneWay}"/>
+        <GridSplitter Grid.Row="6" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="7" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>
