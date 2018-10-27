@@ -13,13 +13,14 @@ namespace AppViewModel
 {
     public class TabInfo
     {
-        private List<FormatBase> parsings;
+        private List<FormatBase> items;
+        public string LongName { get; private set; }
         public int TabPosition { get; private set; }
         public Severity MaxSeverity { get; private set; }
         public int ErrorCount { get; private set; }
         public int RepairableCount { get; private set; }
-        public int Count => parsings.Count;
-        public FormatBase Current => index < 0 ? null : parsings[index];
+        public int Count => items.Count;
+        public FormatBase Current => index < 0 ? null : items[index];
         public bool HasError => MaxSeverity >= Severity.Error;
 
         private int index = -1;
@@ -28,33 +29,36 @@ namespace AppViewModel
             get => index;
             set
             {
-                if (parsings.Count > 0 && value >= 0 && value < parsings.Count)
+                if (items.Count > 0 && value >= 0 && value < items.Count)
                     index = value;
             }
         }
 
-        public TabInfo (int tabPosition)
+        public TabInfo (string heading)
         {
-            TabPosition = tabPosition;
-            parsings = new List<FormatBase>();
+            if (heading.StartsWith ("."))
+            {
+                LongName = heading.Substring (1);
+                items = new List<FormatBase>();
+            }
         }
 
         public void Add (FormatBase fmt)
         {
-            parsings.Add (fmt);
+            items.Add (fmt);
             if (MaxSeverity < fmt.Issues.MaxSeverity)
                 MaxSeverity = fmt.Issues.MaxSeverity;
-            if (fmt.IsRepairable)
-                ++RepairableCount;
             if (fmt.Issues.MaxSeverity >= Severity.Error)
                 ++ErrorCount;
+            if (fmt.IsRepairable)
+                ++RepairableCount;
         }
 
-        public bool GetIsRepairable (int ix)
-         => parsings[ix].IsRepairable;
+        public bool GetIsRepairable (int index)
+         => items[index].IsRepairable;
 
-        public Severity GetMaxSeverity (int ix)
-         => parsings[ix].Issues.MaxSeverity;
+        public Severity GetMaxSeverity (int index)
+         => items[index].Issues.MaxSeverity;
     }
 
 
@@ -72,85 +76,83 @@ namespace AppViewModel
                 this.Ui = ui;
                 this._data = new DiagsPresenter (this);
 
-                int ix = 0;
-                foreach (string tabHeader in Ui.GetHeadings())
-                {
-                    if (tabHeader.StartsWith ("."))
-                        Data.AddTabInfo (tabHeader.Substring (1), ix);
-                    ++ix;
-                }
+                foreach (string heading in Ui.GetHeadings())
+                    Data.tabInfos.Add (new TabInfo (heading));
 
-                Data.TabAvi = Data.tabInfo["avi"];
-                Data.TabCue = Data.tabInfo["cue"];
-                Data.TabFlac = Data.tabInfo["flac"];
-                Data.TabJpg = Data.tabInfo["jpg"];
-                Data.TabLogEac = Data.tabInfo["log (EAC)"];
-                Data.TabM3u = Data.tabInfo["m3u"];
-                Data.TabM3u8 = Data.tabInfo["m3u8"];
-                Data.TabMd5 = Data.tabInfo["md5"];
-                Data.TabMkv = Data.tabInfo["mkv"];
-                Data.TabMpg = Data.tabInfo["mpg"];
-                Data.TabMp3 = Data.tabInfo["mp3"];
-                Data.TabMp4 = Data.tabInfo["mp4"];
-                Data.TabOgg = Data.tabInfo["ogg"];
-                Data.TabPng = Data.tabInfo["png"];
-                Data.TabSha1 = Data.tabInfo["sha1"];
-                Data.TabSha1x = Data.tabInfo["sha1x"];
-                Data.TabSha256 = Data.tabInfo["sha256"];
-                Data.TabWav = Data.tabInfo["wav"];
+                Data.TabAvi = GetTabInfo ("avi");
+                Data.TabCue = GetTabInfo ("cue");
+                Data.TabFlac = GetTabInfo ("flac");
+                Data.TabJpg = GetTabInfo ("jpg");
+                Data.TabLogEac = GetTabInfo ("log (EAC)");
+                Data.TabM3u = GetTabInfo ("m3u");
+                Data.TabM3u8 = GetTabInfo ("m3u8");
+                Data.TabMd5 = GetTabInfo ("md5");
+                Data.TabMkv = GetTabInfo ("mkv");
+                Data.TabMpg = GetTabInfo ("mpg");
+                Data.TabMp3 = GetTabInfo ("mp3");
+                Data.TabMp4 = GetTabInfo ("mp4");
+                Data.TabOgg = GetTabInfo ("ogg");
+                Data.TabPng = GetTabInfo ("png");
+                Data.TabSha1 = GetTabInfo ("sha1");
+                Data.TabSha1x = GetTabInfo ("sha1x");
+                Data.TabSha256 = GetTabInfo ("sha256");
+                Data.TabWav = GetTabInfo ("wav");
 
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
             }
 
+            public TabInfo GetTabInfo (string longName)
+             => Data.tabInfos.First (ti => ti.LongName == longName);
+
             public void GetFirst()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null && tabInfo.Count > 0)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null && tInfo.Count > 0)
                 {
-                    tabInfo.Index = 0;
+                    tInfo.Index = 0;
                     Data.RaisePropertyChangedEvent (null);
                 }
             }
 
             public void GetLast()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null && tabInfo.Count > 0)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null && tInfo.Count > 0)
                 {
-                    tabInfo.Index = tabInfo.Count - 1;
+                    tInfo.Index = tInfo.Count - 1;
                     Data.RaisePropertyChangedEvent (null);
                 }
             }
 
             public void GetPrev()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null && tabInfo.Index > 0)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null && tInfo.Index > 0)
                 {
-                    tabInfo.Index = tabInfo.Index - 1;
+                    tInfo.Index = tInfo.Index - 1;
                     Data.RaisePropertyChangedEvent (null);
                 }
             }
 
             public void GetNext()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null && tabInfo.Count > 0)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null && tInfo.Count > 0)
                 {
-                    tabInfo.Index = tabInfo.Index + 1;
+                    tInfo.Index = tInfo.Index + 1;
                     Data.RaisePropertyChangedEvent (null);
                 }
             }
 
             public void GetFirstRepair()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = 0; ix < tabInfo.Count; ++ix)
-                        if (tabInfo.GetIsRepairable (ix))
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = 0; ix < tInfo.Count; ++ix)
+                        if (tInfo.GetIsRepairable (ix))
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -158,12 +160,12 @@ namespace AppViewModel
 
             public void GetLastRepair()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Count; --ix >= 0; )
-                        if (tabInfo.GetIsRepairable (ix))
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Count; --ix >= 0; )
+                        if (tInfo.GetIsRepairable (ix))
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -171,12 +173,12 @@ namespace AppViewModel
 
             public void GetPrevRepair()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Index; --ix >= 0; )
-                        if (tabInfo.GetIsRepairable (ix))
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Index; --ix >= 0; )
+                        if (tInfo.GetIsRepairable (ix))
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -184,12 +186,12 @@ namespace AppViewModel
 
             public void GetNextRepair()
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Index; ++ix < tabInfo.Count; )
-                        if (tabInfo.GetIsRepairable (ix))
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Index; ++ix < tInfo.Count; )
+                        if (tInfo.GetIsRepairable (ix))
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -197,12 +199,12 @@ namespace AppViewModel
 
             public void GetFirstBySeverity (Severity badness)
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = 0; ix < tabInfo.Count; ++ix)
-                        if (tabInfo.GetMaxSeverity (ix) >= badness)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = 0; ix < tInfo.Count; ++ix)
+                        if (tInfo.GetMaxSeverity (ix) >= badness)
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -210,12 +212,12 @@ namespace AppViewModel
 
             public void GetLastBySeverity (Severity badness)
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Count; --ix >= 0;)
-                        if (tabInfo.GetMaxSeverity (ix) >= badness)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Count; --ix >= 0;)
+                        if (tInfo.GetMaxSeverity (ix) >= badness)
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -223,12 +225,12 @@ namespace AppViewModel
 
             public void GetPrevBySeverity (Severity badness)
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Index; --ix >= 0; )
-                        if (tabInfo.GetMaxSeverity (ix) >= badness)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Index; --ix >= 0; )
+                        if (tInfo.GetMaxSeverity (ix) >= badness)
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -236,12 +238,12 @@ namespace AppViewModel
 
             public void GetNextBySeverity (Severity badness)
             {
-                TabInfo tabInfo = Data.CurrentTabFormatInfo;
-                if (tabInfo != null)
-                    for (int ix = tabInfo.Index; ++ix < tabInfo.Count; )
-                        if (tabInfo.GetMaxSeverity (ix) >= badness)
+                TabInfo tInfo = Data.tabInfos[Data.CurrentTabNumber];
+                if (tInfo != null)
+                    for (int ix = tInfo.Index; ++ix < tInfo.Count; )
+                        if (tInfo.GetMaxSeverity (ix) >= badness)
                         {
-                            tabInfo.Index = ix;
+                            tInfo.Index = ix;
                             Data.RaisePropertyChangedEvent (null);
                             break;
                         }
@@ -269,7 +271,8 @@ namespace AppViewModel
                         if (parsing != null)
                         {
                             Data.Progress = parsing.Data.Name;
-                            if (Data.tabInfo.TryGetValue (parsing.Data.LongName, out TabInfo tInfo))
+                            var tInfo = GetTabInfo (parsing.Data.LongName);
+                            if (tInfo != null)
                             {
                                 if (newTabInfoIx < 0 || parsing is LogEacFormat.Model)
                                 { newTabInfoIx = tInfo.TabPosition-1; newTabInfoFmtIx = tInfo.Count; }
@@ -290,9 +293,9 @@ namespace AppViewModel
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error, Likeliness.None);
 
-                for (int ix = 0; ix < Data.tabInfo.Count; ++ix)
+                for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
                 {
-                    var ti = Data.tabInfo.Values[ix];
+                    var ti = Data.tabInfos[ix];
                     if (ti.Index < 0 && ti.Count > 0)
                     {
                         ti.Index = 0;
@@ -301,10 +304,10 @@ namespace AppViewModel
                 }
 
                 Data.Progress = null;
-                if (newTabInfoIx >= 0)
+                if (newTabInfoIx > 0)
                 {
-                    Data.tabInfo.Values[newTabInfoIx].Index = newTabInfoFmtIx;
-                    Data.CurrentTabNumber = newTabInfoIx+1;
+                    Data.tabInfos[newTabInfoIx].Index = newTabInfoFmtIx;
+                    Data.CurrentTabNumber = newTabInfoIx;
                 }
 
                 ++Data.JobCounter;
@@ -313,7 +316,7 @@ namespace AppViewModel
         }
 
 
-        private SortedList<string,TabInfo> tabInfo = new SortedList<string,TabInfo>();
+        private List<TabInfo> tabInfos = new List<TabInfo>();
 
         public TabInfo TabAvi { get; private set; }
         public TabInfo TabCue { get; private set; }
@@ -363,47 +366,36 @@ namespace AppViewModel
         {
             get
             {
-                var ix = CurrentTabNumber - 1;
-                if (ix < 0)
+                if (CurrentTabNumber == 0)
                     return null;
-                var ti = tabInfo.Values[ix];
-                return (ti.Index+1).ToString() + " of " + ti.Count + " ." + tabInfo.Keys.ElementAt (ix);
+                var ti = tabInfos[CurrentTabNumber];
+                return (ti.Index+1).ToString() + " of " + ti.Count + " ." + tabInfos[CurrentTabNumber].LongName;
             }
         }
 
-        public bool TabHasErrors => CurrentTabNumber > 0 && tabInfo.Values[CurrentTabNumber-1].ErrorCount > 0;
+        public bool TabHasErrors => CurrentTabNumber > 0 && tabInfos[CurrentTabNumber].ErrorCount > 0;
         public string TabErrorText
         {
             get
             {
-                var ix = CurrentTabNumber - 1;
-                if (ix < 0)
+                if (CurrentTabNumber == 0)
                     return null;
-                var ti = tabInfo.Values[ix];
+                var ti = tabInfos[CurrentTabNumber];
                 var result = ti.ErrorCount.ToString();
                 return result + (ti.ErrorCount == 1 ? " error" : " errors");
             }
         }
 
-        public bool TabHasRepairables => CurrentTabNumber > 0 && tabInfo.Values[CurrentTabNumber-1].RepairableCount > 0;
+        public bool TabHasRepairables => CurrentTabNumber > 0 && tabInfos[CurrentTabNumber].RepairableCount > 0;
         public string TabRepairablesText
         {
             get
             {
-                var ix = CurrentTabNumber - 1;
-                if (ix < 0)
-                    return null;
-                var ti = tabInfo.Values[ix];
+                var ti = tabInfos[CurrentTabNumber];
                 var result = ti.RepairableCount.ToString();
                 return result + (ti.RepairableCount == 1 ? " repairable" : " repairables");
             }
         }
-
-        private TabInfo CurrentTabFormatInfo
-         => tabInfo.Values.FirstOrDefault (v => v.TabPosition == CurrentTabNumber);
-
-        private void AddTabInfo (string formatName, int tabPosition)
-         => tabInfo.Add (formatName, new TabInfo (tabPosition));
 
         private string progress = "Ready";
         public string Progress
