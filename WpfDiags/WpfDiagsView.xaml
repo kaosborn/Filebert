@@ -275,6 +275,21 @@
                 </TabItem.Style>
                 <app:FlacControl/>
             </TabItem>
+            <TabItem Header=".jpg" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabJpg.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabJpg.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:JpgControl/>
+            </TabItem>
             <TabItem Header=".log (EAC)" Width="76" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -379,6 +394,21 @@
                     </Style>
                 </TabItem.Style>
                 <app:Mp4Control/>
+            </TabItem>
+            <TabItem Header=".mpg" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabMpg.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabMpg.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:MpgControl/>
             </TabItem>
             <TabItem Header=".ogg" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>

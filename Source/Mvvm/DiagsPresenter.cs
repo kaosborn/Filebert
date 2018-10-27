@@ -83,11 +83,13 @@ namespace AppViewModel
                 Data.TabAvi = Data.tabInfo["avi"];
                 Data.TabCue = Data.tabInfo["cue"];
                 Data.TabFlac = Data.tabInfo["flac"];
+                Data.TabJpg = Data.tabInfo["jpg"];
                 Data.TabLogEac = Data.tabInfo["log (EAC)"];
                 Data.TabM3u = Data.tabInfo["m3u"];
                 Data.TabM3u8 = Data.tabInfo["m3u8"];
                 Data.TabMd5 = Data.tabInfo["md5"];
                 Data.TabMkv = Data.tabInfo["mkv"];
+                Data.TabMpg = Data.tabInfo["mpg"];
                 Data.TabMp3 = Data.tabInfo["mp3"];
                 Data.TabMp4 = Data.tabInfo["mp4"];
                 Data.TabOgg = Data.tabInfo["ogg"];
@@ -316,11 +318,13 @@ namespace AppViewModel
         public TabInfo TabAvi { get; private set; }
         public TabInfo TabCue { get; private set; }
         public TabInfo TabFlac { get; private set; }
+        public TabInfo TabJpg { get; private set; }
         public TabInfo TabLogEac { get; private set; }
         public TabInfo TabM3u { get; private set; }
         public TabInfo TabM3u8 { get; private set; }
         public TabInfo TabMd5 { get; private set; }
         public TabInfo TabMkv { get; private set; }
+        public TabInfo TabMpg { get; private set; }
         public TabInfo TabMp3 { get; private set; }
         public TabInfo TabMp4 { get; private set; }
         public TabInfo TabOgg { get; private set; }

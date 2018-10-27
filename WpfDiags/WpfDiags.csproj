@@ -78,6 +78,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\JpgControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\LogEacControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Mp4Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MpgControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +169,9 @@
     <Compile Include="Controls\IssuesControl.xaml.cs">
       <DependentUpon>IssuesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JpgControl.xaml.cs">
+      <DependentUpon>JpgControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LogEacControl.xaml.cs">
       <DependentUpon>LogEacControl.xaml</DependentUpon>
     </Compile>
@@ -181,6 +192,9 @@
     </Compile>
     <Compile Include="Controls\Mp4Control.xaml.cs">
       <DependentUpon>Mp4Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MpgControl.xaml.cs">
+      <DependentUpon>MpgControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\OggControl.xaml.cs">
       <DependentUpon>OggControl.xaml</DependentUpon>
