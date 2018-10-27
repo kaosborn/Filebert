@@ -84,15 +84,14 @@ namespace KaosFormat
         private FlvFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
             if (report.Count != 0)
                 report.Add (String.Empty);
 
             report.Add ($"Has audio = {HasAudio}");
             report.Add ($"Has video = {HasVideo}");
-            if (scope <= Granularity.Detail)
-                report.Add ($"Packet count = {PacketCount}");
+            report.Add ($"Packet count = {PacketCount}");
         }
     }
 }

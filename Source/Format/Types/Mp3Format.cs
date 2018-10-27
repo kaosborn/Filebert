@@ -505,23 +505,20 @@ namespace KaosFormat
         private Mp3Format (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
             if (Issues.HasFatal)
                 return;
 
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ($"MPEG size = {MediaCount}");
-                if (Xing != null)
-                    report.Add ($"XING size = {Xing.XingSize}");
-                if (Lame != null)
-                    report.Add ($"LAME size = {Lame.LameSize}");
+            report.Add ($"MPEG size = {MediaCount}");
+            if (Xing != null)
+                report.Add ($"XING size = {Xing.XingSize}");
+            if (Lame != null)
+                report.Add ($"LAME size = {Lame.LameSize}");
 
-                report.Add (String.Empty);
-                report.Add ($"Raw audio header: {ConvertTo.ToBitString (Header.Bits, 32)}");
-                report.Add (String.Empty);
-            }
+            report.Add (String.Empty);
+            report.Add ($"Raw audio header: {ConvertTo.ToBitString (Header.Bits, 32)}");
+            report.Add (String.Empty);
 
             report.Add ("Cooked audio header:");
             report.Add ($"  Codec = {Header.Codec}");
@@ -529,60 +526,46 @@ namespace KaosFormat
             report.Add ($"  Frequency = {Header.SampleRateText}");
             report.Add ($"  Mode = {Header.ModeText}");
 
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ($"  CRC protection bit = {Header.CrcProtectedBit}");
-                report.Add ($"  Padding bit = {Header.PaddingBit}");
-                report.Add ($"  Private bit = {Header.PrivateBit}");
-                report.Add ($"  Copyright bit = {Header.CopyrightBit}");
-                report.Add ($"  Original bit = {Header.OriginalBit}");
-                report.Add ($"  Emphasis = {Header.EmphasisText}");
-            }
+            report.Add ($"  CRC protection bit = {Header.CrcProtectedBit}");
+            report.Add ($"  Padding bit = {Header.PaddingBit}");
+            report.Add ($"  Private bit = {Header.PrivateBit}");
+            report.Add ($"  Copyright bit = {Header.CopyrightBit}");
+            report.Add ($"  Original bit = {Header.OriginalBit}");
+            report.Add ($"  Emphasis = {Header.EmphasisText}");
 
             if (Xing != null)
             {
-                if (scope <= Granularity.Detail)
-                    report.Add (String.Empty);
-
-                if (scope <= Granularity.Detail)
-                {
-                    report.Add ("XING:");
-                    report.Add ($"  String = {Xing.XingString}");
-                    report.Add ($"  Layout = {Xing.Layout}");
-                }
+                report.Add (String.Empty);
+                report.Add ("XING:");
+                report.Add ($"  String = {Xing.XingString}");
+                report.Add ($"  Layout = {Xing.Layout}");
             }
 
             if (Lame != null)
             {
-                if (scope <= Granularity.Detail)
-                    report.Add (String.Empty);
+                report.Add (String.Empty);
 
                 report.Add ("LAME:");
                 report.Add ($"  Version string = {Lame.LameVersion}");
                 report.Add ($"  Profile string = {Lame.Profile}");
                 report.Add ($"  Profile detail = {Lame.Method}");
 
-                if (scope <= Granularity.Detail)
-                {
-                    report.Add ($"  Tag revision = {Lame.TagRevision}");
-                    report.Add ($"  Lowpass filter = {Lame.LowpassFilter}");
-                    report.Add ($"  Replay Gain: Peak = {Lame.ReplayGainPeak}, Radio = {Lame.RadioReplayGain:X4}, Audiophile = {Lame.AudiophileReplayGain:X4}");
-                    report.Add ($"  Lame encoding flags = {ConvertTo.ToBitString (Lame.LameFlags, 8)}");
-                    report.Add ($"  Encoder delay: Start = {Lame.EncoderDelayStart}, End = {Lame.EncoderDelayEnd}");
-                    report.Add ($"  LAME surround = {Lame.Surround}, LAME preset = {Lame.Preset}");
-                    report.Add ($"  MP3 gain = {Lame.Mp3Gain}");
-                    report.Add ($"  Minimum bit rate = {Lame.MinBitRateText}");
-                    report.Add ("  Checks:");
-                    report.Add ($"    Stored: audio header CRC-16 = {Lame.StoredHeaderCrcText}, audio data CRC-16 = {Lame.StoredDataCrcText}");
+                report.Add ($"  Tag revision = {Lame.TagRevision}");
+                report.Add ($"  Lowpass filter = {Lame.LowpassFilter}");
+                report.Add ($"  Replay Gain: Peak = {Lame.ReplayGainPeak}, Radio = {Lame.RadioReplayGain:X4}, Audiophile = {Lame.AudiophileReplayGain:X4}");
+                report.Add ($"  Lame encoding flags = {ConvertTo.ToBitString (Lame.LameFlags, 8)}");
+                report.Add ($"  Encoder delay: Start = {Lame.EncoderDelayStart}, End = {Lame.EncoderDelayEnd}");
+                report.Add ($"  LAME surround = {Lame.Surround}, LAME preset = {Lame.Preset}");
+                report.Add ($"  MP3 gain = {Lame.Mp3Gain}");
+                report.Add ($"  Minimum bit rate = {Lame.MinBitRateText}");
+                report.Add ("  Checks:");
+                report.Add ($"    Stored: audio header CRC-16 = {Lame.StoredHeaderCrcText}, audio data CRC-16 = {Lame.StoredDataCrcText}");
 
-                    if (Lame.ActualHeaderCrc != null)
-                        report.Add ($"    Actual: audio header CRC-16 = {Lame.ActualHeaderCrcText}, audio data CRC-16 = {Lame.ActualDataCrcText}");
-                }
+                if (Lame.ActualHeaderCrc != null)
+                    report.Add ($"    Actual: audio header CRC-16 = {Lame.ActualHeaderCrcText}, audio data CRC-16 = {Lame.ActualDataCrcText}");
             }
 
-            if (scope <= Granularity.Detail)
-                report.Add (String.Empty);
-
+            report.Add (String.Empty);
             report.Add ($"Layout = {Layout}");
         }
     }

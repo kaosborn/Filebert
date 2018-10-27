@@ -304,7 +304,7 @@ namespace KaosDiags
                 IList<string> report = fb.GetReportHeader (reportScope);
                 if (reportScope == Granularity.Detail)
                 {
-                    fb.GetReportDetail (report, reportScope);
+                    fb.GetReportDetail (report);
                     Data.OnMessageSend (String.Empty, Severity.NoIssue);
                 }
                 else if (reportScope > Granularity.Terse)

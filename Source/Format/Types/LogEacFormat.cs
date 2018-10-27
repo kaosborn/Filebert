@@ -691,15 +691,12 @@ namespace KaosFormat
         public override bool IsBadData
          => ShIssue != null && ShIssue.Failure;
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
-            if (scope <= Granularity.Detail && report.Count > 0)
+            if (report.Count > 0)
                 report.Add (String.Empty);
 
             report.Add ($"EAC version = {EacVersionLong}");
-
-            if (scope > Granularity.Detail)
-                return;
 
             if (storedHash != null)
                 report.Add ("EAC stored self-hash = " + ConvertTo.ToHexString (storedHash));
@@ -732,7 +729,7 @@ namespace KaosFormat
             report.Add ("Track count (rip) = " + Tracks.Items.Count);
             if (IsRangeRip)
                 report.Add ("Range rip = true");
-            else if (scope <= Granularity.Detail)
+            else
             {
                 var sb = new StringBuilder();
                 report.Add (String.Empty);

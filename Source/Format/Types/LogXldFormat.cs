@@ -119,9 +119,9 @@ namespace KaosFormat
         private string storedHash = null;
         public string StoredHash => storedHash;
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
-            if (scope <= Granularity.Detail && report.Count > 0)
+            if (report.Count > 0)
                 report.Add (String.Empty);
 
             report.Add ($"XLD version = {XldVersionText}");

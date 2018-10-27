@@ -234,7 +234,7 @@ namespace KaosFormat
             this.Texts = new ReadOnlyObservableCollection<string> (this.texts);
         }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
             report.Add ($"Dimensions = {Dimensions}");
             report.Add ($"Color type = {ColorType} ({ColorTypeText})");
@@ -244,8 +244,7 @@ namespace KaosFormat
 
             if (Texts.Count > 0)
             {
-                if (scope <= Granularity.Detail)
-                    report.Add (String.Empty);
+                report.Add (String.Empty);
                 report.Add ("Text:");
                 foreach (string text in Texts)
                     report.Add ("  " + text);

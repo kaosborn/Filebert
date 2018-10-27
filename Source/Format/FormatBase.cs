@@ -516,7 +516,7 @@ namespace KaosFormat
             return report;
         }
 
-        public virtual void GetReportDetail (IList<string> report, Granularity scope)
+        public virtual void GetReportDetail (IList<string> report)
         {
             var sb = new StringBuilder ("(");
             using (var it = ((IEnumerable<string>) ValidNames).GetEnumerator())

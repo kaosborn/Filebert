@@ -142,24 +142,20 @@ namespace KaosFormat
             this.Icons = new ReadOnlyCollection<IconItem> (this.icons);
         }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
             if (report.Count > 0)
                 report.Add (String.Empty);
 
             report.Add ($"Image count = {Icons.Count}");
-
-            if (scope == Granularity.Detail)
+            report.Add (String.Empty);
+            report.Add ("Layout:");
+            foreach (var item in Icons)
             {
-                report.Add (String.Empty);
-                report.Add ("Layout:");
-                foreach (var item in Icons)
-                {
-                    string lx = (item.IsPNG ? "  PNG" : "  BMP") + $": dimensions={item.Width}x{item.Height}";
-                    if (! item.IsPNG)
-                        lx += $", palette={item.PaletteSize}, bpp={item.BitsPerPixel}";
-                    report.Add (lx);
-                }
+                string lx = (item.IsPNG ? "  PNG" : "  BMP") + $": dimensions={item.Width}x{item.Height}";
+                if (! item.IsPNG)
+                    lx += $", palette={item.PaletteSize}, bpp={item.BitsPerPixel}";
+                report.Add (lx);
             }
         }
     }

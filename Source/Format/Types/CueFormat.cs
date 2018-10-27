@@ -92,13 +92,13 @@ namespace KaosFormat
             }
         }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
-            base.GetReportDetail (report, scope);
+            base.GetReportDetail (report);
 
             if (! String.IsNullOrEmpty (Catalog))
             {
-                if (scope <= Granularity.Detail || report.Count != 0)
+                if (report.Count != 0)
                     report.Add (String.Empty);
                 report.Add ($"Catalog = {Catalog}");
             }

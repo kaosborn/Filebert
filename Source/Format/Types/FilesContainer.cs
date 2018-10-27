@@ -93,9 +93,9 @@ namespace KaosFormat
             this.AllowNonFile = true;
         }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
-            if (scope > Granularity.Detail || Files.Items.Count == 0)
+            if (Files.Items.Count == 0)
                 return;
 
             if (report.Count != 0)

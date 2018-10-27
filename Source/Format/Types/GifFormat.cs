@@ -61,15 +61,13 @@ namespace KaosFormat
         private GifFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
             if (report.Count != 0)
                 report.Add (String.Empty);
 
             report.Add ($"Dimensions = {Width}x{Height}");
-
-            if (scope <= Granularity.Detail)
-                report.Add ($"Version = {Version}");
+            report.Add ($"Version = {Version}");
         }
     }
 }

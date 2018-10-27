@@ -560,58 +560,53 @@ namespace KaosFormat
             return false;
         }
 
-        public override void GetReportDetail (IList<string> report, Granularity scope)
+        public override void GetReportDetail (IList<string> report)
         {
-            if (report.Count > 0 && scope <= Granularity.Detail)
+            if (report.Count > 0)
                 report.Add (String.Empty);
 
             report.Add ("Meta header:");
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ($"  Minimum block size = {MinBlockSize}");
-                report.Add ($"  Maximum block size = {MaxBlockSize}");
-                report.Add ($"  Minimum frame size = {MinFrameSize}");
-                report.Add ($"  Maximum frame size = {MaxFrameSize}");
-            }
+
+            report.Add ($"  Minimum block size = {MinBlockSize}");
+            report.Add ($"  Maximum block size = {MaxBlockSize}");
+            report.Add ($"  Minimum frame size = {MinFrameSize}");
+            report.Add ($"  Maximum frame size = {MaxFrameSize}");
 
             report.Add ($"  Sample rate = {MetaSampleRate} Hz");
             report.Add ($"  Number of channels = {ChannelCount}");
             report.Add ($"  Bits per sample = {BitsPerSample}");
 
-            if (scope <= Granularity.Detail)
-            {
-                report.Add ("  Total samples = " + (TotalSamples != 0? TotalSamples.ToString() : " (unknown)"));
+            report.Add ("  Total samples = " + (TotalSamples != 0? TotalSamples.ToString() : " (unknown)"));
 
-                report.Add (String.Empty);
-                report.Add ("Raw audio header: " + ConvertTo.ToBitString (aHdr, 1));
+            report.Add (String.Empty);
+            report.Add ("Raw audio header: " + ConvertTo.ToBitString (aHdr, 1));
 
-                report.Add (String.Empty);
-                report.Add ("Cooked audio header:");
-                report.Add ($"  Blocking strategy = {BlockingStrategyText}");
-                report.Add ($"  Block size = {BlockSize} samples");
-                report.Add ($"  Sample rate = {SampleRateText}");
-                report.Add ($"  Channel assignment = {ChannelAssignmentText}");
-                report.Add ($"  Sample size = {SampleSizeText}");
-                report.Add ($"  Sample/frame number = {SampleOrFrameNumber}");
+            report.Add (String.Empty);
+            report.Add ("Cooked audio header:");
+            report.Add ($"  Blocking strategy = {BlockingStrategyText}");
+            report.Add ($"  Block size = {BlockSize} samples");
+            report.Add ($"  Sample rate = {SampleRateText}");
+            report.Add ($"  Channel assignment = {ChannelAssignmentText}");
+            report.Add ($"  Sample size = {SampleSizeText}");
+            report.Add ($"  Sample/frame number = {SampleOrFrameNumber}");
 
-                report.Add (String.Empty);
-                report.Add ("Checks:");
+            report.Add (String.Empty);
+            report.Add ("Checks:");
 
-                report.Add ($"  Stored audio header CRC-8 = {StoredAudioHeaderCRC8ToHex}");
-                if (ActualAudioHeaderCRC8 != null)
-                    report.Add ($"  Actual audio header CRC-8 = {ActualAudioHeaderCRC8ToHex}");
+            report.Add ($"  Stored audio header CRC-8 = {StoredAudioHeaderCRC8ToHex}");
+            if (ActualAudioHeaderCRC8 != null)
+                report.Add ($"  Actual audio header CRC-8 = {ActualAudioHeaderCRC8ToHex}");
 
-                report.Add ($"  Stored audio block CRC-16 = {StoredAudioBlockCRC16ToHex}");
-                if (ActualAudioBlockCRC16 != null)
-                    report.Add ($"  Actual audio block CRC-16 = {ActualAudioBlockCRC16ToHex}");
+            report.Add ($"  Stored audio block CRC-16 = {StoredAudioBlockCRC16ToHex}");
+            if (ActualAudioBlockCRC16 != null)
+                report.Add ($"  Actual audio block CRC-16 = {ActualAudioBlockCRC16ToHex}");
 
-                report.Add ($"  Stored PCM MD5 = {StoredAudioDataMD5ToHex}");
-                if (actualAudioDataMD5 != null)
-                    report.Add ($"  Actual PCM MD5 = {ActualAudioDataMD5ToHex}");
+            report.Add ($"  Stored PCM MD5 = {StoredAudioDataMD5ToHex}");
+            if (actualAudioDataMD5 != null)
+                report.Add ($"  Actual PCM MD5 = {ActualAudioDataMD5ToHex}");
 
-                if (ActualPcmCRC32 != null)
-                    report.Add ($"  Actual PCM CRC-32 = {ActualPcmCRC32ToHex}");
-            }
+            if (ActualPcmCRC32 != null)
+                report.Add ($"  Actual PCM CRC-32 = {ActualPcmCRC32ToHex}");
 
             var sb = new StringBuilder();
             sb.Append ("Layout = |");
@@ -631,11 +626,10 @@ namespace KaosFormat
                 sb.Append (") |");
             }
 
-            if (scope <= Granularity.Detail)
-                report.Add (String.Empty);
+            report.Add (String.Empty);
             report.Add (sb.ToString());
 
-            if (scope <= Granularity.Detail && Blocks.Tags != null)
+            if (Blocks.Tags != null)
             {
                 report.Add (String.Empty);
                 report.Add ("Tags:");
