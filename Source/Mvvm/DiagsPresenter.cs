@@ -344,6 +344,8 @@ namespace AppViewModel
         {
             get
             {
+                if (CurrentTabNumber == 0)
+                    return null;
                 var ti = tabInfos[CurrentTabNumber];
                 var result = ti.RepairableCount.ToString();
                 return result + (ti.RepairableCount == 1 ? " repairable" : " repairables");

@@ -276,7 +276,7 @@
                         <GridViewColumn Header="Test CRC">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TestCRC}"/>
+                                    <TextBlock Text="{Binding TestCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                             <GridViewColumn.HeaderContainerStyle>
@@ -292,7 +292,7 @@
                         <GridViewColumn Header="Copy CRC">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}" TextAlignment="Right"/>
+                                    <TextBlock Text="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
