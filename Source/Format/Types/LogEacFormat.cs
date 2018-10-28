@@ -183,21 +183,34 @@ namespace KaosFormat
                 int prevTrackNum = -1;
                 foreach (FlacFormat flac in flacs)
                 {
-                    var trackTag = flac.GetTag ("TRACKNUMBER");
+                    var trackTag = flac.GetTagValue ("TRACKNUMBER");
 
                     var integerRegex = new Regex ("^([0-9]+)", RegexOptions.Compiled);
                     MatchCollection reMatches = integerRegex.Matches (trackTag);
                     string trackTagCapture = reMatches.Count == 1 ? reMatches[0].Groups[1].ToString() : trackTag;
 
-                    if (! int.TryParse (trackTagCapture, out int trackNum))
-                        IssueModel.Add ($"Invalid TRACKNUMBER '{trackTag}'.");
-                    else
+                    if (int.TryParse (trackTagCapture, out int trackNum))
                     {
                         if (prevTrackNum >= 0 && trackNum != prevTrackNum + 1)
                             IssueModel.Add ($"Gap in TRACKNUMBER tags near '{trackTag}'.");
                         prevTrackNum = trackNum;
                     }
                 }
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "TRACKTOTAL") == false)
+                    IssueModel.Add ("Inconsistent TRACKTOTAL tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCNUMBER") == false)
+                    IssueModel.Add ("Inconsistent DISCNUMBER tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCTOTAL") == false)
+                    IssueModel.Add ("Inconsistent DISCTOTAL tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "DATE") == false)
+                    IssueModel.Add ("Inconsistent DATE tag.");
+
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "RELEASE DATE") == false)
+                    IssueModel.Add ("Inconsistent DATE tag.");
 
                 bool? isSameAA = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUMARTIST");
                 if (isSameAA == false)
@@ -212,17 +225,8 @@ namespace KaosFormat
                         IssueModel.Add ("Missing ARTIST.", Severity.Warning, IssueTags.BadTag);
                 }
 
-                bool? isSameAlbum = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUM");
-                if (isSameAlbum == false)
+                if (FlacFormat.IsFlacTagsAllSame (flacs, "ALBUM") == false)
                     IssueModel.Add ("Inconsistent ALBUM tag.");
-                else if (isSameAlbum == null)
-                    IssueModel.Add ("Missing ALBUM tag.", Severity.Warning, IssueTags.BadTag);
-
-                bool? isSameDate = FlacFormat.IsFlacTagsAllSame (flacs, "DATE");
-                if (isSameDate == false)
-                    IssueModel.Add ("Inconsistent DATE tag.");
-                else if (isSameDate == null)
-                    IssueModel.Add ("Missing DATE tag.", Severity.Warning, IssueTags.BadTag);
 
                 if (FlacFormat.IsFlacTagsAllSame (flacs, "ORGANIZATION") == false)
                     IssueModel.Add ("Inconsistent ORGANIZATION tag.");
@@ -231,10 +235,7 @@ namespace KaosFormat
                     IssueModel.Add ("Inconsistent BARCODE tag.");
 
                 if (FlacFormat.IsFlacTagsAllSame (flacs, "CATALOGNUMBER") == false)
-                    IssueModel.Add ("Inconsistent BARCODE tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCTOTAL") == false)
-                    IssueModel.Add ("Inconsistent DISCTOTAL tag.");
+                    IssueModel.Add ("Inconsistent CATALOGNUMBER tag.");
             }
 
             public void ValidateRip (IList<Mp3Format> mp3s)

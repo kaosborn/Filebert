@@ -455,7 +455,74 @@ namespace KaosFormat
                         }
                 }
 
+                if ((hashFlags & (Hashes._FlacTags)) != 0)
+                {
+                    TagCheckNumber ("TRACKNUMBER");
+                    TagCheckNumber ("TRACKTOTAL", true);
+                    TagCheckNumber ("DISCNUMBER", true);
+                    TagCheckNumber ("DISCTOTAL", true);
+                    TagCheckDate ("DATE");
+                    TagCheckDate ("RELEASE DATE", true);
+                    TagCheckDate ("ORIGINAL RELEASE DATE", true);
+                    TagCheckText ("TITLE");
+                    TagCheckText ("ARTIST");
+                    TagCheckText ("ALBUM");
+                    TagCheckText ("ALBUMARTIST", true);
+                    TagCheckText ("ALBUMARTISTSORTORDER", true);
+                    TagCheckText ("ORGANIZATION", true);
+                    TagCheckText ("BARCODE", true);
+                    TagCheckText ("CATALOGNUMBER", true);
+                }
+
                 base.CalcHashes (hashFlags, validationFlags);
+            }
+
+            private void TagCheckNumber (string key, bool optional=false)
+            {
+                string value = Data.GetTagValue (key);
+                if (value == null)
+                {
+                    if (! optional)
+                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                }
+                else if (value.Length == 0 || ! Char.IsDigit (value[0]))
+                    IssueModel.Add (key + " tag is not a number.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+            }
+
+            private void TagCheckDate (string key, bool optional=false)
+            {
+                string value = Data.GetTagValue (key);
+                if (value == null)
+                {
+                    if (! optional)
+                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                }
+                else if ((value.Length != 4 && value.Length != 10) || (! value.StartsWith ("19") && ! value.StartsWith ("20"))
+                                                                   || ! Char.IsDigit (value[2]) || ! Char.IsDigit (value[3]))
+                    IssueModel.Add (key + " tag not like YYYY or YYYY-MM-DD with YYYY in 1900 to 2099.",
+                                    Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+            }
+
+            private void TagCheckText (string key, bool optional=false)
+            {
+                string err = null;
+                string value = Data.GetTagValue (key);
+                if (String.IsNullOrEmpty (value))
+                {
+                    if (! optional)
+                        err = key + " tag is missing";
+                }
+                else
+                {
+                    if (value.StartsWith (" "))
+                        err = key + " tag has leading space";
+                    if (value.EndsWith (" "))
+                        err = (err == null ? key + " tag has" : err + ',') + " trailing space";
+                    if (value.Contains ("  "))
+                        err = (err == null ? key + " tag has" : err + ',') + " adjacent spaces";
+                }
+                if (err != null)
+                    IssueModel.Add (err + ".", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
             }
         }
 
@@ -535,25 +602,25 @@ namespace KaosFormat
         private FlacFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public string GetTag (string name)
+        public string GetTagValue (string key)
         {
-            name = name.ToLower() + "=";
+            key = key.ToLower() + "=";
             foreach (var item in Blocks.Tags.Lines)
-                if (item.ToLower().StartsWith (name))
-                    return item.Substring (name.Length);
-            return String.Empty;
+                if (item.ToLower().StartsWith (key))
+                    return item.Substring (key.Length);
+            return null;
         }
 
-        public static bool? IsFlacTagsAllSame (IList<FlacFormat> flacs, string flacTag)
+        public static bool? IsFlacTagsAllSame (IList<FlacFormat> flacs, string key)
         {
             if (flacs.Count == 0)
                 return null;
 
-            var val0 = flacs[0].GetTag (flacTag);
+            var val0 = flacs[0].GetTagValue (key);
             if (! String.IsNullOrEmpty (val0))
-                return flacs.All (x => x.GetTag (flacTag) == val0);
+                return flacs.All (x => x.GetTagValue (key) == val0);
 
-            var isAllEmpty = flacs.All (x => String.IsNullOrEmpty (x.GetTag (flacTag)));
+            var isAllEmpty = flacs.All (f => String.IsNullOrEmpty (f.GetTagValue (key)));
             if (isAllEmpty)
                 return null;
 

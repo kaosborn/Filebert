@@ -86,7 +86,16 @@ namespace KaosDiags
         }
 
         public bool IsMp3RipCheckEnabled { get; set; }
-        public bool IsFlacTagsCheckEnabled { get; set; }
+
+        public bool IsFlacTagsCheckEnabled
+        {
+            get => (hashFlags & Hashes._FlacTags) != 0;
+            set
+            {
+                hashFlags = value ? hashFlags | Hashes._FlacTags : hashFlags & ~Hashes._FlacTags;
+                RaisePropertyChangedEvent (nameof (IsFlacTagsCheckEnabled));
+            }
+        }
 
         public bool IsWebCheckEnabled
         {

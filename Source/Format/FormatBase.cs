@@ -20,7 +20,7 @@ namespace KaosFormat
         FileMD5=2, FileSHA1=4, FileSHA256=8,
         MetaSHA1=0x10, MediaSHA1=0x20,
         PcmMD5=0x100, PcmCRC32=0x200,
-        _FlacMatch=0x10000, _WebCheck=0x20000
+        _FlacMatch=0x10000, _FlacTags = 0x20000, _WebCheck=0x40000
     }
 
     [Flags]
