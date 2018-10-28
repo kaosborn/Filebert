@@ -218,7 +218,6 @@ namespace KaosFormat
                 GetDiagnostics();
             }
 
-
             private void GetDiagnostics()
             {
                 if (Data.Header.BitRate == null)
@@ -294,7 +293,7 @@ namespace KaosFormat
                 {
                     if (Data.HasId3v1Phantom)
                         IssueModel.Add ("Has phantom ID3v1 tag block.",
-                            Severity.Warning, IssueTags.FussyErr|IssueTags.HasId3v1,
+                            Severity.Warning, IssueTags.HasId3v1,
                             "Remove phantom ID3v1 tag block", RepairPhantomTag);
                     else
                     {
@@ -340,7 +339,6 @@ namespace KaosFormat
                     IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.FussyErr);
             }
 
-
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
                 if (Data.Issues.HasFatal)
@@ -376,7 +374,6 @@ namespace KaosFormat
                 base.CalcHashes (hashFlags, validationFlags);
             }
 
-
             public string RepairPhantomTag (bool isFinalRepair)
             {
                 Debug.Assert (Data.fbs != null);
@@ -402,7 +399,6 @@ namespace KaosFormat
 
                 return err;
             }
-
 
             public string RepairId3v2OffBy1 (bool isFinalRepair)
             {
