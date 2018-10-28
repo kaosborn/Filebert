@@ -34,8 +34,9 @@ namespace AppViewModel
             }
         }
 
-        public TabInfo (string heading)
+        public TabInfo (string heading, int tabPosition)
         {
+            TabPosition = tabPosition;
             if (heading.StartsWith ("."))
             {
                 LongName = heading.Substring (1);
@@ -77,7 +78,7 @@ namespace AppViewModel
                 this._data = new DiagsPresenter (this);
 
                 foreach (string heading in Ui.GetHeadings())
-                    Data.tabInfos.Add (new TabInfo (heading));
+                    Data.tabInfos.Add (new TabInfo (heading, Data.tabInfos.Count));
 
                 Data.TabAvi = GetTabInfo ("avi");
                 Data.TabCue = GetTabInfo ("cue");
@@ -277,7 +278,7 @@ namespace AppViewModel
                             if (tInfo != null)
                             {
                                 if (newTabInfoIx < 0 || parsing is LogEacFormat.Model)
-                                { newTabInfoIx = tInfo.TabPosition-1; newTabInfoFmtIx = tInfo.Count; }
+                                { newTabInfoIx = tInfo.TabPosition; newTabInfoFmtIx = tInfo.Count; }
                                 tInfo.Add (parsing.Data);
                             }
                     }
@@ -297,10 +298,10 @@ namespace AppViewModel
 
                 for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
                 {
-                    var ti = Data.tabInfos[ix];
-                    if (ti.Index < 0 && ti.Count > 0)
+                    var tInfo = Data.tabInfos[ix];
+                    if (tInfo.Index < 0 && tInfo.Count > 0)
                     {
-                        ti.Index = 0;
+                        tInfo.Index = 0;
                         Data.RaisePropertyChangedEvent (null);
                     }
                 }
