@@ -534,22 +534,20 @@ namespace KaosFormat
                     if (r3b > r3a) { m3.Append ("-"); m3.Append (r3b); }
                 }
 
-                Issue i1=null, i2=null, i3=null;
                 if (k1 != 0)
                 {
                     m1.Append (" not OK.");
-                    i1 = IssueModel.Add ((k1 == 1? "Track " : "Tracks ") + m1);
+                    Data.OkIssue = IssueModel.Add ((k1 == 1? "Track " : "Tracks ") + m1, Severity.Error, IssueTags.Failure);
                 }
                 if (k2 != 0)
                 {
                     m2.Append (" OK but missing quality indicator.");
-                    i2 = IssueModel.Add ((k2 == 1? "Track " : "Tracks ") + m2);
+                    Data.QiIssue = IssueModel.Add ((k2 == 1? "Track " : "Tracks ") + m2, Severity.Error, IssueTags.Failure);
                 }
                 if (k3 != 0)
                 {
                     m3.Append (" test/copy CRCs mismatched.");
-                    i3 = IssueModel.Add ((k3 == 1? "Track " : "Tracks ") + m3, Severity.Error, IssueTags.Failure);
-                    Data.TpIssue = i3;
+                    Data.TpIssue = IssueModel.Add ((k3 == 1? "Track " : "Tracks ") + m3, Severity.Error, IssueTags.Failure);
                 }
 
                 for (int trackIndex = 0; trackIndex < TracksModel.Data.Items.Count; ++trackIndex)
@@ -558,11 +556,11 @@ namespace KaosFormat
 
                     if (tk.RipSeverest == null || tk.RipSeverest.Level < Severity.Error)
                         if (! tk.HasOk)
-                            TracksModel.SetSeverest (trackIndex, i1);
+                            TracksModel.SetSeverest (trackIndex, Data.OkIssue);
                         else if (! tk.HasQuality)
-                            TracksModel.SetSeverest (trackIndex, i2);
+                            TracksModel.SetSeverest (trackIndex, Data.QiIssue);
                         else if (tk.IsBadCRC)
-                            TracksModel.SetSeverest (trackIndex, i3);
+                            TracksModel.SetSeverest (trackIndex, Data.TpIssue);
                 }
             }
         }
@@ -679,7 +677,9 @@ namespace KaosFormat
         public Issue CtIssue { get; private set; }
         public Issue GpIssue { get; private set; }
         public Issue TkIssue { get; private set; }
-        public Issue TpIssue { get; private set; }
+        public Issue OkIssue { get; private set; }  // Is OK
+        public Issue QiIssue { get; private set; }  // Quality indicator
+        public Issue TpIssue { get; private set; }  // Test pass
         public Issue TsIssue { get; private set; }
         public Issue RpIssue { get; private set; }  // Rip check result.
 
