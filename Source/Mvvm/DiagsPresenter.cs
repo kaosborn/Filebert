@@ -82,12 +82,14 @@ namespace AppViewModel
                 Data.TabAvi = GetTabInfo ("avi");
                 Data.TabCue = GetTabInfo ("cue");
                 Data.TabFlac = GetTabInfo ("flac");
+                Data.TabGif = GetTabInfo ("gif");
                 Data.TabJpg = GetTabInfo ("jpg");
                 Data.TabLogEac = GetTabInfo ("log (EAC)");
                 Data.TabM3u = GetTabInfo ("m3u");
                 Data.TabM3u8 = GetTabInfo ("m3u8");
                 Data.TabMd5 = GetTabInfo ("md5");
                 Data.TabMkv = GetTabInfo ("mkv");
+                Data.TabMov = GetTabInfo ("mov");
                 Data.TabMpg = GetTabInfo ("mpg");
                 Data.TabMp3 = GetTabInfo ("mp3");
                 Data.TabMp4 = GetTabInfo ("mp4");
@@ -321,12 +323,14 @@ namespace AppViewModel
         public TabInfo TabAvi { get; private set; }
         public TabInfo TabCue { get; private set; }
         public TabInfo TabFlac { get; private set; }
+        public TabInfo TabGif { get; private set; }
         public TabInfo TabJpg { get; private set; }
         public TabInfo TabLogEac { get; private set; }
         public TabInfo TabM3u { get; private set; }
         public TabInfo TabM3u8 { get; private set; }
         public TabInfo TabMd5 { get; private set; }
         public TabInfo TabMkv { get; private set; }
+        public TabInfo TabMov { get; private set; }
         public TabInfo TabMpg { get; private set; }
         public TabInfo TabMp3 { get; private set; }
         public TabInfo TabMp4 { get; private set; }

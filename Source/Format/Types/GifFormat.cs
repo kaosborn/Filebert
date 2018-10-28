@@ -57,6 +57,7 @@ namespace KaosFormat
         public int Width { get; private set; }
         public int Height { get; private set; }
         public string Version { get; private set; }
+        public string Dimensions => Width.ToString() + 'x' + Height;
 
         private GifFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
@@ -66,7 +67,7 @@ namespace KaosFormat
             if (report.Count != 0)
                 report.Add (String.Empty);
 
-            report.Add ($"Dimensions = {Width}x{Height}");
+            report.Add ($"Dimensions = {Dimensions}");
             report.Add ($"Version = {Version}");
         }
     }

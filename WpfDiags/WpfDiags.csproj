@@ -70,6 +70,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\GifControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HashFileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MkvControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MovControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,6 +171,9 @@
     <Compile Include="Controls\FlacControl.xaml.cs">
       <DependentUpon>FlacControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GifControl.xaml.cs">
+      <DependentUpon>GifControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HashFileControl.xaml.cs">
       <DependentUpon>HashFileControl.xaml</DependentUpon>
     </Compile>
@@ -186,6 +197,9 @@
     </Compile>
     <Compile Include="Controls\MkvControl.xaml.cs">
       <DependentUpon>MkvControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MovControl.xaml.cs">
+      <DependentUpon>MovControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Mp3Control.xaml.cs">
       <DependentUpon>Mp3Control.xaml</DependentUpon>

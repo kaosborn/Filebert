@@ -27,9 +27,14 @@ namespace KaosFormat
             public new readonly MovFormat Data;
 
             public Model (Stream stream, string path)
-             => base._data = Data = new MovFormat (this, stream, path);
+            {
+                base._data = Data = new MovFormat (this, stream, path);
+                Data.Header = "moov";
+            }
         }
 
+
+        public string Header { get; private set; }
 
         private MovFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
