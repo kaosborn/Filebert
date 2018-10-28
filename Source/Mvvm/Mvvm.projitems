@@ -12,5 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DiagsPresenter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDiagsUi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TabInfo.cs" />
   </ItemGroup>
 </Project>
