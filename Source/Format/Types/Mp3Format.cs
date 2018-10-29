@@ -304,13 +304,13 @@ namespace KaosFormat
                 }
 
                 if (! Data.HasId3v2)
-                    IssueModel.Add ("Missing ID3v2 tags.", Severity.Trivia, IssueTags.FussyErr|IssueTags.Substandard);
+                    IssueModel.Add ("Missing ID3v2 tags.", Severity.Trivia, IssueTags.StrictErr|IssueTags.Substandard);
                 else
                 {
                     switch (Data.Id3v2Major)
                     {
                         case 2:
-                            IssueModel.Add ("Has obsolete ID3v2.2 tags.", Severity.Warning, IssueTags.FussyErr|IssueTags.Substandard);
+                            IssueModel.Add ("Has obsolete ID3v2.2 tags.", Severity.Warning, IssueTags.StrictErr|IssueTags.Substandard);
                             break;
                         case 3:
                             // Hunky dory!
@@ -325,7 +325,7 @@ namespace KaosFormat
 
                     if (Data.Id3v2TagRepair != null)
                         IssueModel.Add ($"ID3v2 tag size over by 1 (repair with {Data.Id3v2TagRepair}).",
-                            Severity.Warning, IssueTags.FussyErr,
+                            Severity.Warning, IssueTags.StrictErr,
                             "Patch EAC induced ID3v2 tag size error", RepairId3v2OffBy1);
                 }
 
@@ -336,7 +336,7 @@ namespace KaosFormat
                     IssueModel.Add ("Has obsolete Lyrics3v2 block.", Severity.Advisory);
 
                 if (Data.DeadBytes != 0)
-                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.FussyErr);
+                    IssueModel.Add ($"Dead space preceeds audio, size={Data.DeadBytes}", Severity.Warning, IssueTags.StrictErr);
             }
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)

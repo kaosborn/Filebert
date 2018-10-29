@@ -48,7 +48,7 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/fussy] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
+            sb.Append ($"{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
             sb.Append ("Where <granularity> from");
@@ -99,9 +99,9 @@ namespace AppView
                     if (argOk)
                         viewModel.Data.HashFlags = arg;
                 }
-                else if (args[ix] == "/fussy")
+                else if (args[ix] == "/strict")
                 {
-                    viewModel.Data.IsFussy = true;
+                    viewModel.Data.IsStrict = true;
                     argOk = true;
                 }
                 else if (args[ix].StartsWith ("/v:"))

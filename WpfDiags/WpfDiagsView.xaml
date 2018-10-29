@@ -111,10 +111,10 @@
                         </GroupBox>
                     </WrapPanel>
                     <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <GroupBox Header="Escalate" HorizontalAlignment="Left" Margin="3,0,3,3">
+                        <GroupBox Header="Strict" HorizontalAlignment="Left" Margin="3,0,3,3">
                             <WrapPanel>
                                 <WrapPanel Orientation="Vertical">
-                                    <CheckBox Content="Fussy" IsChecked="{Binding Path=IsFussy, Mode=TwoWay}" ToolTip="increases issue severities"/>
+                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsStrict, Mode=TwoWay}" ToolTip="bump severities"/>
                                 </WrapPanel>
                             </WrapPanel>
                         </GroupBox>

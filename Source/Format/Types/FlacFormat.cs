@@ -353,7 +353,7 @@ namespace KaosFormat
                         picPlusPadSize += block.Size;
 
                 if (picPlusPadSize > 512*1024)
-                    IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.FussyErr);
+                    IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.StrictErr);
             }
 
             private static Process StartFlac (string name)
@@ -483,10 +483,10 @@ namespace KaosFormat
                 if (value == null)
                 {
                     if (! optional)
-                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
                 }
                 else if (value.Length == 0 || ! Char.IsDigit (value[0]))
-                    IssueModel.Add (key + " tag is not a number.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                    IssueModel.Add (key + " tag is not a number.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
             }
 
             private void TagCheckDate (string key, bool optional=false)
@@ -495,12 +495,12 @@ namespace KaosFormat
                 if (value == null)
                 {
                     if (! optional)
-                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                        IssueModel.Add (key + " tag is missing.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
                 }
                 else if ((value.Length != 4 && value.Length != 10) || (! value.StartsWith ("19") && ! value.StartsWith ("20"))
                                                                    || ! Char.IsDigit (value[2]) || ! Char.IsDigit (value[3]))
                     IssueModel.Add (key + " tag not like YYYY or YYYY-MM-DD with YYYY in 1900 to 2099.",
-                                    Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                                    Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
             }
 
             private void TagCheckText (string key, bool optional=false)
@@ -522,7 +522,7 @@ namespace KaosFormat
                         err = (err == null ? key + " tag has" : err + ',') + " adjacent spaces";
                 }
                 if (err != null)
-                    IssueModel.Add (err + ".", Severity.Warning, IssueTags.BadTag|IssueTags.FussyErr);
+                    IssueModel.Add (err + ".", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
             }
         }
 
