@@ -611,6 +611,19 @@ namespace KaosFormat
             return null;
         }
 
+        public string GetMultiTagValues (string key)
+        {
+            string result = null;
+            key = key.ToLower() + "=";
+            foreach (var item in Blocks.Tags.Lines)
+                if (item.ToLower().StartsWith (key))
+                    if (result == null)
+                        result = item.Substring (key.Length);
+                    else
+                        result += @"\\" + item.Substring (key.Length);
+            return result;
+        }
+
         public static bool? IsFlacTagsAllSame (IList<FlacFormat> flacs, string key)
         {
             if (flacs.Count == 0)
@@ -625,6 +638,27 @@ namespace KaosFormat
                 return null;
 
             return false;
+        }
+
+        public static bool? IsFlacMultiTagAllSame (IList<FlacFormat> flacs, string key)
+        {
+            if (flacs.Count == 0)
+                return null;
+
+            string values = flacs[0].GetMultiTagValues (key);
+            if (values != null)
+            {
+                for (int ix = 1; ix < flacs.Count; ++ix)
+                    if (flacs[ix].GetMultiTagValues (key) != values)
+                        return false;
+                return true;
+            }
+
+            for (int ix = 1; ix < flacs.Count; ++ix)
+                if (flacs[ix].GetTagValue (key) != null)
+                    return false;
+
+            return null;
         }
 
         public override void GetReportDetail (IList<string> report)

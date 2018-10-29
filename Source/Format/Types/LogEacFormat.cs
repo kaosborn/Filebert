@@ -236,6 +236,9 @@ namespace KaosFormat
 
                 if (FlacFormat.IsFlacTagsAllSame (flacs, "CATALOGNUMBER") == false)
                     IssueModel.Add ("Inconsistent CATALOGNUMBER tag.");
+
+                if (FlacFormat.IsFlacMultiTagAllSame (flacs, "ALBUMARTISTSORTORDER") == false)
+                    IssueModel.Add ("ALBUMARTISTSORTORDER tags are inconsistent.");
             }
 
             public void ValidateRip (IList<Mp3Format> mp3s)
