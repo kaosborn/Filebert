@@ -128,7 +128,7 @@ namespace AppController
                     model.Data.Filter = args[ix].Substring (3);
                     argOk = true;
                 }
-                else if (args[ix].StartsWith ("/g:"))
+                else if (args[ix].StartsWith ("/s:"))
                 {
                     argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out Granularity arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
@@ -253,13 +253,13 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/g:<granularity>] [/h:<hashes>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
+            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/h:<hashes>] [/s:<scope>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
             Console.WriteLine("Where <fileOrFolder> is a file or directory name without wildcards.");
             Console.WriteLine();
 
-            Console.Write ("Where <granularity> from");
+            Console.Write ("Where <scope> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
                 Console.Write (" " + name);
             Console.WriteLine();
@@ -297,7 +297,7 @@ namespace AppController
             Console.WriteLine ("Use /f:*.log to only diagnose files with the .log extension.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /g:detail to display maximum diagnostics.");
+            Console.WriteLine ("Use /s:detail to display maximum diagnostics.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /h:FileMD5,FileSHA1 to generate file MD5 and SHA1 hashes.");

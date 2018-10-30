@@ -48,10 +48,10 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/R] [/g:<granularity>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
+            sb.Append ($"{exe} [/R] [/s:<scope>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
-            sb.Append ("Where <granularity> from");
+            sb.Append ("Where <scope> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
             { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
@@ -85,7 +85,7 @@ namespace AppView
                     viewModel.Data.IsRepairEnabled = true;
                     argOk = true;
                 }
-                else if (args[ix].StartsWith ("/g:"))
+                else if (args[ix].StartsWith ("/s:"))
                 {
                     argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out Granularity arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
