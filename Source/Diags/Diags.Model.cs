@@ -294,6 +294,16 @@ namespace KaosDiags
                 Data.OnFileVisit (directoryName, fileName);
             }
 
+            public void ResetTotals()
+            {
+                Data.TotalFiles = 0;
+                Data.TotalRepairable = 0;
+                Data.TotalErrors = 0;
+                Data.TotalWarnings = 0;
+
+                FormatModel.ResetTotals();
+            }
+
             private bool reportHasWarn = false, reportHasErr = false;
             private Granularity reportScope;
             private int reportIssueIndex;
@@ -353,6 +363,22 @@ namespace KaosDiags
                     }
                     ++reportIssueIndex;
                 }
+            }
+
+            public void ReportSummary()
+            {
+                if (Data.TotalFiles > 1)
+                {
+                    var rollups = Data.GetRollups (new List<string>(), "diagnosed");
+
+                    Data.OnMessageSend (String.Empty);
+                    Data.OnMessageSend ("==== ==== ==== ==== ====");
+                    foreach (var lx in rollups)
+                        Data.OnMessageSend (lx);
+                    Data.OnMessageSend (String.Empty);
+                }
+
+                ResetTotals();
             }
 
             private bool RepairFile (FormatBase.Model formatModel)

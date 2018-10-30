@@ -21,6 +21,21 @@ namespace KaosFormat
                 public void Add (FormatModelFactory factory, string[] names, string subname=null)
                  => Data.items.Add (new FileFormat (factory, names, subname));
 
+                public void ResetTotals()
+                {
+                    foreach (FileFormat format in Data.items)
+                    {
+                        format.TrueTotal = 0;
+                        format.TotalConverted = 0;
+                        format.TotalCreated = 0;
+                        format.TotalDataErrors = 0;
+                        format.TotalHeaderErrors = 0;
+                        format.TotalMisnamed = 0;
+                        format.TotalMissing = 0;
+                        format.TotalSigned = 0;
+                    }
+                }
+
                 public void Sort()
                 {
                     Comparison<FileFormat> comp = (f1, f2) => String.CompareOrdinal (f1.LongName, f2.LongName);

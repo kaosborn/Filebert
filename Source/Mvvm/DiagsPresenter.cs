@@ -202,8 +202,10 @@ namespace AppViewModel
 
             public void Parse()
             {
-                Data.Progress = "Starting...";
                 Data.IsBusy = true;
+                Data.Progress = "Starting...";
+                Ui.FileProgress (null, null);
+
                 var bg = new BackgroundWorker();
                 bg.DoWork += Job;
                 bg.RunWorkerCompleted += JobCompleted;
@@ -243,6 +245,8 @@ namespace AppViewModel
 
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error, Likeliness.None);
+
+                ReportSummary();
 
                 for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
                 {
