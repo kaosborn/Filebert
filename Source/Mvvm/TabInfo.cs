@@ -15,6 +15,7 @@ namespace AppViewModel
         public int Count => items.Count;
         public FormatBase Current => index < 0 ? null : items[index];
         public bool HasError => MaxSeverity >= Severity.Error;
+        public bool HasRepairables => RepairableCount != 0;
 
         private int index = -1;
         public int Index
