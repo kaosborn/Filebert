@@ -133,7 +133,7 @@ namespace AppView
                 if (totalFilesReported > 0)
                 { Trace.WriteLine (String.Empty); Trace.WriteLine (controller.DetailSeparator); }
 
-                var rollups = diags.GetRollups (new List<string>(), "diagnosed");
+                var rollups = diags.GetRollups ("checked");
                 foreach (var lx in rollups)
                     Trace.WriteLine (lx);
             }

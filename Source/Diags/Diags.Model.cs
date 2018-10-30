@@ -369,7 +369,7 @@ namespace KaosDiags
             {
                 if (Data.TotalFiles > 1)
                 {
-                    var rollups = Data.GetRollups (new List<string>(), "diagnosed");
+                    var rollups = Data.GetRollups ("checked");
 
                     Data.OnMessageSend (String.Empty);
                     Data.OnMessageSend ("==== ==== ==== ==== ====");

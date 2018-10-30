@@ -153,8 +153,9 @@ namespace KaosDiags
                 handler (this, new PropertyChangedEventArgs (propertyName));
         }
 
-        public IList<string> GetRollups (IList<string> rep, string verb)
+        public IList<string> GetRollups (string verb)
         {
+            var rep = new List<string>();
             var sb = new StringBuilder();
 
             // Get displayed length for right alignment.

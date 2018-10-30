@@ -72,7 +72,7 @@ namespace AppView
                 return;
             }
 
-            if (! fileShown)
+            if (severity != Severity.NoIssue && ! fileShown)
             {
                 fileShown = true;
 
@@ -105,15 +105,13 @@ namespace AppView
                 }
             }
 
+            if (viewModel.Data.IsDigestForm)
+                consoleBox.AppendText ("; ");
             if (severity != Severity.NoIssue)
-            {
-                if (viewModel.Data.IsDigestForm)
-                    consoleBox.AppendText ("; ");
                 if (severity <= Severity.Advisory)
                     consoleBox.AppendText ("  ");
                 else
                     consoleBox.AppendText (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
-            }
 
             consoleBox.AppendText (message);
             consoleBox.AppendText (Environment.NewLine);
