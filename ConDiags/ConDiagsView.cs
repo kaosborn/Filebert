@@ -86,21 +86,22 @@ namespace AppView
                 if (totalFilesReported != 0)
                     if (diags.Scope == Granularity.Detail)
                     { Trace.WriteLine (String.Empty); Trace.WriteLine (controller.DetailSeparator); }
-                    else if (! dirShown)
+                    else if (! diags.IsDigestForm)
                         Trace.WriteLine (String.Empty);
 
                 if (! dirShown)
                 {
                     dirShown = true;
 
-                    if (! String.IsNullOrEmpty (diags.CurrentDirectory))
+                    if (diags.IsDigestForm)
                     {
-                        if (diags.IsDigestForm)
-                            Trace.Write ("; ");
-                        Trace.Write (diags.CurrentDirectory);
-                        if (diags.CurrentDirectory[diags.CurrentDirectory.Length-1] != Path.DirectorySeparatorChar)
-                            Trace.Write (Path.DirectorySeparatorChar);
+                        if (totalFilesReported != 0)
+                            Trace.WriteLine (String.Empty);
+                        Trace.Write ("; ");
                     }
+                    Trace.Write (diags.CurrentDirectory);
+                    if (diags.CurrentDirectory[diags.CurrentDirectory.Length-1] != Path.DirectorySeparatorChar)
+                        Trace.Write (Path.DirectorySeparatorChar);
                     Trace.WriteLine (String.Empty);
                 }
 
