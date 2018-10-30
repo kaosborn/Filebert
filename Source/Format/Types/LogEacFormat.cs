@@ -197,48 +197,35 @@ namespace KaosFormat
                     }
                 }
 
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "TRACKTOTAL") == false)
-                    IssueModel.Add ("Inconsistent TRACKTOTAL tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCNUMBER") == false)
-                    IssueModel.Add ("Inconsistent DISCNUMBER tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "DISCTOTAL") == false)
-                    IssueModel.Add ("Inconsistent DISCTOTAL tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "DATE") == false)
-                    IssueModel.Add ("Inconsistent DATE tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "RELEASE DATE") == false)
-                    IssueModel.Add ("Inconsistent DATE tag.");
+                TagCheckTextIsSame (flacs, "TRACKTOTAL");
+                TagCheckTextIsSame (flacs, "DISCNUMBER");
+                TagCheckTextIsSame (flacs, "DISCTOTAL");
+                TagCheckTextIsSame (flacs, "DATE");
+                TagCheckTextIsSame (flacs, "RELEASE DATE");
 
                 bool? isSameAA = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUMARTIST");
                 if (isSameAA == false)
-                    IssueModel.Add ("Inconsistent ALBUMARTIST tag.");
-
-                if (isSameAA == null)
+                    IssueModel.Add ("ALBUMARTIST tags are inconsistent.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
+                else if (isSameAA == null)
                 {
                     bool? isSameArtist = FlacFormat.IsFlacTagsAllSame (flacs, "ARTIST");
                     if (isSameArtist == false)
-                        IssueModel.Add ("Inconsistent ARTIST or missing ALBUMARTIST.", Severity.Warning, IssueTags.BadTag);
+                        IssueModel.Add ("Inconsistent ARTIST tag or missing ALBUMARTIST tag.", Severity.Warning, IssueTags.BadTag);
                     else if (isSameArtist == null)
-                        IssueModel.Add ("Missing ARTIST.", Severity.Warning, IssueTags.BadTag);
+                        IssueModel.Add ("ARTIST is missing.", Severity.Warning, IssueTags.BadTag);
                 }
 
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "ALBUM") == false)
-                    IssueModel.Add ("Inconsistent ALBUM tag.");
+                TagCheckTextIsSame (flacs, "ALBUM");
+                TagCheckTextIsSame (flacs, "ORGANIZATION");
+                TagCheckTextIsSame (flacs, "BARCODE");
+                TagCheckTextIsSame (flacs, "CATALOGNUMBER");
+                TagCheckTextIsSame (flacs, "ALBUMARTISTSORTORDER");
+            }
 
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "ORGANIZATION") == false)
-                    IssueModel.Add ("Inconsistent ORGANIZATION tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "BARCODE") == false)
-                    IssueModel.Add ("Inconsistent BARCODE tag.");
-
-                if (FlacFormat.IsFlacTagsAllSame (flacs, "CATALOGNUMBER") == false)
-                    IssueModel.Add ("Inconsistent CATALOGNUMBER tag.");
-
-                if (FlacFormat.IsFlacMultiTagAllSame (flacs, "ALBUMARTISTSORTORDER") == false)
-                    IssueModel.Add ("ALBUMARTISTSORTORDER tags are inconsistent.");
+            private void TagCheckTextIsSame (IList<FlacFormat> flacs, string key)
+            {
+                if (FlacFormat.IsFlacMultiTagAllSame (flacs, key) == false)
+                    IssueModel.Add (key + " tags are inconsistent.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
             }
 
             public void ValidateRip (IList<Mp3Format> mp3s)
