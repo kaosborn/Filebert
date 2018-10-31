@@ -19,6 +19,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Format", "Source\Format\For
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConDiags", "ConDiags\ConDiags.csproj", "{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness400", "Harness400\Harness400.csproj", "{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFull", "TestFull\TestFull.csproj", "{1F53B668-4C3A-4EB3-87C4-FF60CBF04B2C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\SysIo\SysIo.projitems*{2893ff69-8187-4376-b170-a210c60b5b63}*SharedItemsImports = 13
@@ -35,6 +39,11 @@ Global
 		Source\Format\Format.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
 		Source\SysIo\SysIo.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
 		Source\Crypto\Crypto.projitems*{7dd83a86-4768-423e-9339-50bbc1ed1487}*SharedItemsImports = 13
+		Source\Crypto\Crypto.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\Diags\Diags.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\Format\Format.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\Mvvm\Mvvm.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\SysIo\SysIo.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +58,14 @@ Global
 		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F53B668-4C3A-4EB3-87C4-FF60CBF04B2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F53B668-4C3A-4EB3-87C4-FF60CBF04B2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F53B668-4C3A-4EB3-87C4-FF60CBF04B2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F53B668-4C3A-4EB3-87C4-FF60CBF04B2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
