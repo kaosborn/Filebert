@@ -244,9 +244,9 @@ namespace AppViewModel
                 var err = (string) args.Result;
 
                 if (err != null)
-                    Ui.ShowLine (err, Severity.Error, Likeliness.None);
+                    Ui.ShowLine (err, Severity.Error);
 
-                ReportSummary();
+                Ui.ShowSummary (Data.GetRollups ("checked"));
 
                 for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
                 {
@@ -265,8 +265,8 @@ namespace AppViewModel
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
-                ++Data.JobCounter;
                 Data.IsBusy = false;
+                ++Data.JobCounter;
             }
         }
 

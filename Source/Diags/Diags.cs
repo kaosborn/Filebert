@@ -9,7 +9,7 @@ namespace KaosDiags
 {
     public enum Interaction { None, PromptToRepair, RepairLater };
 
-    public delegate void MessageSendHandler (string message, Severity severity, Likeliness repairability);
+    public delegate void MessageSendHandler (string message, Severity severity);
     public delegate void ReportCloseHandler ();
     public delegate void FileVisitEventHandler (string dirName, string fileName);
 
@@ -263,10 +263,10 @@ namespace KaosDiags
         public bool? QuestionAskDefault (string prompt)
          => null;
 
-        public void OnMessageSend (string message, Severity severity=Severity.NoIssue, Likeliness repairability=Likeliness.None)
+        public void OnMessageSend (string message, Severity severity=Severity.NoIssue)
         {
             if (MessageSend != null)
-                MessageSend (message, severity, repairability);
+                MessageSend (message, severity);
         }
 
         public void OnReportClose()

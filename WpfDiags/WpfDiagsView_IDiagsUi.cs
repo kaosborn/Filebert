@@ -60,19 +60,19 @@ namespace AppView
             totalLinesReported = 0;
         }
 
-        public void ShowLine (string message, Severity severity, Likeliness repairability)
+        public void ShowLine (string message, Severity severity)
         {
             if (! Dispatcher.CheckAccess())
             {
                 Dispatcher.Invoke
                 (
-                    new Action<string,Severity,Likeliness> ((m, s, r) => ShowLine (m, s, r)),
-                    new object[] { message, severity, repairability }
+                    new Action<string,Severity> ((m, s) => ShowLine (m, s)),
+                    new object[] { message, severity }
                 );
                 return;
             }
 
-            if (severity != Severity.NoIssue && ! fileShown)
+            if (! fileShown)
             {
                 fileShown = true;
 
@@ -98,24 +98,51 @@ namespace AppView
                     consoleBox.AppendText (Environment.NewLine);
                 }
 
-                if (viewModel.Data.Scope == Granularity.Detail || !viewModel.Data.IsDigestForm)
+                if (! viewModel.Data.IsDigestForm)
                 {
                     consoleBox.AppendText (viewModel.Data.CurrentFile);
                     consoleBox.AppendText (Environment.NewLine);
                 }
             }
 
-            if (viewModel.Data.IsDigestForm)
-                consoleBox.AppendText ("; ");
             if (severity != Severity.NoIssue)
+            {
+                if (viewModel.Data.IsDigestForm)
+                    consoleBox.AppendText ("; ");
                 if (severity <= Severity.Advisory)
                     consoleBox.AppendText ("  ");
                 else
                     consoleBox.AppendText (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
-
+            }
             consoleBox.AppendText (message);
             consoleBox.AppendText (Environment.NewLine);
             ++totalLinesReported;
+        }
+
+        public void ShowSummary (IList<string> rollups)
+        {
+            if (viewModel.Data.TotalFiles > 1)
+            {
+                if (totalLinesReported > 0)
+                {
+                    consoleBox.AppendText (Environment.NewLine);
+                    if (viewModel.Data.IsDigestForm)
+                        consoleBox.AppendText ("; ");
+                    consoleBox.AppendText (KaosDiags.Diags.MajorSeparator);
+                    consoleBox.AppendText (Environment.NewLine);
+                }
+
+                foreach (var lx in rollups)
+                {
+                    if (viewModel.Data.IsDigestForm)
+                        consoleBox.AppendText ("; ");
+                    consoleBox.AppendText (lx);
+                    consoleBox.AppendText (Environment.NewLine);
+                }
+                consoleBox.AppendText (Environment.NewLine);
+            }
+
+            viewModel.ResetTotals();
         }
     }
 }

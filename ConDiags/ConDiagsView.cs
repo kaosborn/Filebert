@@ -57,22 +57,8 @@ namespace AppView
             this.diags.FileVisit += FileProgress;
         }
 
-        private void Logger (string message, Severity severity, Likeliness repairability)
+        private void Logger (string message, Severity severity)
         {
-            string prefix;
-            if (repairability == Likeliness.Probable)
-                prefix = "~ ";
-            else if (severity == Severity.NoIssue)
-                prefix = String.Empty;
-            else if (severity <= Severity.Trivia || (severity <= Severity.Advisory && ! String.IsNullOrEmpty (diags.CurrentFile)))
-                prefix = "  ";
-            else if (severity <= Severity.Advisory)
-                prefix = "+ "; 
-            else
-                prefix = severity <= Severity.Warning? "- " : "* ";
-            if (! String.IsNullOrEmpty (diags.CurrentFile) && severity >= Severity.Warning)
-                prefix += Enum.GetName (typeof (Severity), severity) + ": ";
-
             if (isProgressLast)
             {
                 Console.Error.Write (ProgressEraser);
@@ -99,6 +85,7 @@ namespace AppView
                             Trace.WriteLine (String.Empty);
                         Trace.Write ("; ");
                     }
+
                     Trace.Write (diags.CurrentDirectory);
                     if (diags.CurrentDirectory[diags.CurrentDirectory.Length-1] != Path.DirectorySeparatorChar)
                         Trace.Write (Path.DirectorySeparatorChar);
@@ -109,15 +96,18 @@ namespace AppView
                     Trace.WriteLine (diags.CurrentFile);
             }
 
-            if (message != null)
+            if (severity != Severity.NoIssue)
             {
-                if (diags.IsDigestForm && severity != Severity.NoIssue)
+                if (diags.IsDigestForm)
                     Trace.Write ("; ");
-                if (prefix != null)
-                    Trace.Write (prefix);
-                Trace.WriteLine (message);
+                if (severity <= Severity.Advisory)
+                    Trace.Write ("  ");
+                else
+                    Trace.Write (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
             }
-            else if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
+            Trace.WriteLine (message);
+
+            if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
                 WriteChecked();
 
             ++totalFilesReported;
@@ -128,14 +118,23 @@ namespace AppView
             if (controller.NotifyEvery != 0)
                 Console.Error.Write (ProgressEraser);
 
-            if (totalFilesReported > 1 || diags.Scope >= Granularity.Verbose)
+            if (diags.TotalFiles > 1 || diags.Scope > Granularity.Detail)
             {
                 if (totalFilesReported > 0)
-                { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MajorSeparator); }
+                {
+                    Trace.WriteLine (String.Empty);
+                    if (diags.IsDigestForm)
+                        Trace.Write ("; ");
+                    Trace.WriteLine (Diags.MajorSeparator);
+                }
 
                 var rollups = diags.GetRollups ("checked");
                 foreach (var lx in rollups)
+                {
+                    if (diags.IsDigestForm)
+                        Trace.Write ("; ");
                     Trace.WriteLine (lx);
+                }
             }
         }
 

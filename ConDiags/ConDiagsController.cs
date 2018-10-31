@@ -75,8 +75,7 @@ namespace AppController
 #endif
                     foreach (FormatBase.Model fmtModel in model.CheckRoot())
                     { }
-                    if (! model.Data.IsDigestForm)
-                        model.Data.OnReportClose();
+                    model.Data.OnReportClose();
                     exitCode = (int) model.Data.Result;
 #if ! DEBUG
                 }

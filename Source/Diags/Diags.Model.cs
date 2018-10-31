@@ -359,26 +359,10 @@ namespace KaosDiags
                             if (reportScope <= Granularity.Detail)
                             { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
 
-                        Data.OnMessageSend (item.Message, severity, item.IsRepairable ? Likeliness.Probable : Likeliness.None);
+                        Data.OnMessageSend (item.Message, severity);
                     }
                     ++reportIssueIndex;
                 }
-            }
-
-            public void ReportSummary()
-            {
-                if (Data.TotalFiles > 1)
-                {
-                    var rollups = Data.GetRollups ("checked");
-
-                    Data.OnMessageSend (String.Empty);
-                    Data.OnMessageSend (Diags.MajorSeparator);
-                    foreach (var lx in rollups)
-                        Data.OnMessageSend (lx);
-                    Data.OnMessageSend (String.Empty);
-                }
-
-                ResetTotals();
             }
 
             private bool RepairFile (FormatBase.Model formatModel)
