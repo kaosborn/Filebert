@@ -85,7 +85,7 @@ namespace AppView
 
                 if (totalFilesReported != 0)
                     if (diags.Scope == Granularity.Detail)
-                    { Trace.WriteLine (String.Empty); Trace.WriteLine (controller.DetailSeparator); }
+                    { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MinorSeparator); }
                     else if (! diags.IsDigestForm)
                         Trace.WriteLine (String.Empty);
 
@@ -131,7 +131,7 @@ namespace AppView
             if (totalFilesReported > 1 || diags.Scope >= Granularity.Verbose)
             {
                 if (totalFilesReported > 0)
-                { Trace.WriteLine (String.Empty); Trace.WriteLine (controller.DetailSeparator); }
+                { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MajorSeparator); }
 
                 var rollups = diags.GetRollups ("checked");
                 foreach (var lx in rollups)

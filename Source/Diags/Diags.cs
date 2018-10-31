@@ -49,6 +49,9 @@ namespace KaosDiags
         public int TotalSignable { get; set; }
         public int ExpectedFiles { get; set; }
 
+        public static string MinorSeparator => "---- ---- ---- ---- ---- ----";
+        public static string MajorSeparator => "==== ==== ==== ==== ==== ====";
+
         protected Diags (Model model) : this()
          => FileFormats = model.FormatModel.Data;
 

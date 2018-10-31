@@ -30,8 +30,6 @@ namespace AppController
         private bool waitForKeyPress = false;
         private string mirrorName = null;
         public int NotifyEvery { get; private set; } = 1;
-        public string DetailSeparator => "---- ---- ---- ---- ----";
-        public string SessionSeparator => "==== ==== ==== ==== ====";
 
         public ConDiagsController (string[] args, IConDiagsViewFactory viewFactory)
         {
@@ -57,7 +55,7 @@ namespace AppController
                     {
                         var mirrorWriter = new TextWriterTraceListener (mirrorName);
                         mirrorWriter.WriteLine (String.Empty);
-                        mirrorWriter.WriteLine (SessionSeparator);
+                        mirrorWriter.WriteLine (Diags.MajorSeparator);
                         mirrorWriter.WriteLine (DateTime.Now);
                         Trace.Listeners.Add (mirrorWriter);
                     }

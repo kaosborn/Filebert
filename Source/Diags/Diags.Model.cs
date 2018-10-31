@@ -372,7 +372,7 @@ namespace KaosDiags
                     var rollups = Data.GetRollups ("checked");
 
                     Data.OnMessageSend (String.Empty);
-                    Data.OnMessageSend ("==== ==== ==== ==== ====");
+                    Data.OnMessageSend (Diags.MajorSeparator);
                     foreach (var lx in rollups)
                         Data.OnMessageSend (lx);
                     Data.OnMessageSend (String.Empty);

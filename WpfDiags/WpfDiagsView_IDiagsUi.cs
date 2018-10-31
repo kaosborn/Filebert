@@ -78,7 +78,7 @@ namespace AppView
 
                 if (totalLinesReported != 0)
                     if (viewModel.Data.Scope == Granularity.Detail)
-                        consoleBox.AppendText (Environment.NewLine + Environment.NewLine + "---- ---- ---- ---- ---- ----" + Environment.NewLine);
+                        consoleBox.AppendText (Environment.NewLine + Environment.NewLine + KaosDiags.Diags.MinorSeparator + Environment.NewLine);
                     else if (! viewModel.Data.IsDigestForm)
                         consoleBox.AppendText (Environment.NewLine);
 
