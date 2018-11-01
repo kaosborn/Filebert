@@ -121,7 +121,7 @@
                     </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
-            <Button Content=" Check " Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" Command="{Binding DoParse}" IsDefault="True" Margin="6,3,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Content=" Check " Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" Command="{Binding DoCheck}" IsDefault="True" Margin="6,3,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="IsEnabled" Value="true"/>

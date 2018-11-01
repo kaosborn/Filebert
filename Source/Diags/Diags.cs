@@ -156,16 +156,16 @@ namespace KaosDiags
                 handler (this, new PropertyChangedEventArgs (propertyName));
         }
 
-        public IList<string> GetRollups (string verb)
+        public IList<string> GetReportRollups (string verb)
         {
-            var rep = new List<string>();
+            var report = new List<string>();
             var sb = new StringBuilder();
 
             // Get displayed length for right alignment.
             string fmt = "{0," + TotalFiles.ToString().Length + "}";
 
             if (TotalFiles != 1)
-                rep.Add (String.Format (fmt + " total files " + verb, TotalFiles));
+                report.Add (String.Format (fmt + " total files " + verb, TotalFiles));
 
             foreach (var item in FileFormats.Items)
             {
@@ -209,7 +209,7 @@ namespace KaosDiags
                     sb.Append ('s');
 
                 sb.Append (par);
-                rep.Add (sb.ToString());
+                report.Add (sb.ToString());
             }
 
             if (TotalRepairable > 0)
@@ -219,7 +219,7 @@ namespace KaosDiags
                 if (TotalRepairable != 1)
                     sb.Append ('s');
                 sb.Append (" with repairable issues");
-                rep.Add (sb.ToString());
+                report.Add (sb.ToString());
             }
 
             if (TotalRepairs > 0)
@@ -229,7 +229,7 @@ namespace KaosDiags
                 if (TotalRepairs != 1)
                     sb.Append ('s');
                 sb.Append (" made");
-                rep.Add (sb.ToString());
+                report.Add (sb.ToString());
             }
 
             if (TotalFiles > 0)
@@ -242,21 +242,21 @@ namespace KaosDiags
                 if (TotalErrors == 0 && TotalWarnings == 0)
                 {
                     sb.Append (" or errors");
-                    rep.Add (sb.ToString());
+                    report.Add (sb.ToString());
                 }
                 else
                 {
-                    rep.Add (sb.ToString());
+                    report.Add (sb.ToString());
                     sb.Clear();
                     sb.AppendFormat (fmt + " file", TotalErrors);
                     if (TotalErrors != 1)
                         sb.Append ('s');
                     sb.Append (" with errors");
-                    rep.Add (sb.ToString());
+                    report.Add (sb.ToString());
                 }
             }
 
-            return rep;
+            return report;
         }
 
         // Model should replace this default.

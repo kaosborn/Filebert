@@ -252,7 +252,7 @@ namespace AppViewModel
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error);
 
-                Ui.ShowSummary (Data.GetRollups ("checked"));
+                Ui.ShowSummary (Data.GetReportRollups ("checked"));
 
                 for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
                 {
@@ -398,7 +398,7 @@ namespace AppViewModel
         }
 
         public ICommand DoBrowse { get; private set; }
-        public ICommand DoParse { get; private set; }
+        public ICommand DoCheck { get; private set; }
         public ICommand NavFirst { get; private set; }
         public ICommand NavLast { get; private set; }
         public ICommand NavPrev { get; private set; }
@@ -423,7 +423,7 @@ namespace AppViewModel
             Response = Interaction.None;
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
-            DoParse = new RelayCommand (() => model.Parse());
+            DoCheck = new RelayCommand (() => model.Parse());
             NavFirst = new RelayCommand (() => model.GetFirst());
             NavLast = new RelayCommand (() => model.GetLast());
             NavPrev = new RelayCommand (() => model.GetPrev());

@@ -30,8 +30,8 @@ namespace AppView
         private ConDiagsController controller;
         private Diags diags;
 
-        private bool isProgressLast = false;
-        private int totalFilesReported = 0;
+        private bool isProgressDirty = false;
+        private int totalLinesReported = 0;
         private string curDir = null, curFile = null;
         private bool dirShown = false, fileShown = false;
 
@@ -59,17 +59,17 @@ namespace AppView
 
         private void Logger (string message, Severity severity)
         {
-            if (isProgressLast)
+            if (isProgressDirty)
             {
                 Console.Error.Write (ProgressEraser);
-                isProgressLast = false;
+                isProgressDirty = false;
             }
 
             if (! fileShown)
             {
                 fileShown = true;
 
-                if (totalFilesReported != 0)
+                if (totalLinesReported != 0)
                     if (diags.Scope == Granularity.Detail)
                     { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MinorSeparator); }
                     else if (! diags.IsDigestForm)
@@ -81,7 +81,7 @@ namespace AppView
 
                     if (diags.IsDigestForm)
                     {
-                        if (totalFilesReported != 0)
+                        if (totalLinesReported != 0)
                             Trace.WriteLine (String.Empty);
                         Trace.Write ("; ");
                     }
@@ -108,9 +108,9 @@ namespace AppView
             Trace.WriteLine (message);
 
             if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
-                WriteChecked();
+                WriteProgress();
 
-            ++totalFilesReported;
+            ++totalLinesReported;
         }
 
         private void Summarize()
@@ -120,7 +120,7 @@ namespace AppView
 
             if (diags.TotalFiles > 1 || diags.Scope > Granularity.Detail)
             {
-                if (totalFilesReported > 0)
+                if (totalLinesReported > 0)
                 {
                     Trace.WriteLine (String.Empty);
                     if (diags.IsDigestForm)
@@ -128,7 +128,7 @@ namespace AppView
                     Trace.WriteLine (Diags.MajorSeparator);
                 }
 
-                var rollups = diags.GetRollups ("checked");
+                var rollups = diags.GetReportRollups ("checked");
                 foreach (var lx in rollups)
                 {
                     if (diags.IsDigestForm)
@@ -155,15 +155,15 @@ namespace AppView
                 return;
 
             if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
-                WriteChecked();
+                WriteProgress();
         }
 
-        private void WriteChecked()
+        private void WriteProgress()
         {
             Console.Error.Write ("Checked ");
             Console.Error.Write (diags.TotalFiles);
             Console.Error.Write ('\r');
-            isProgressLast = true;
+            isProgressDirty = true;
         }
 
         public bool? Question (string prompt)
