@@ -237,7 +237,7 @@
                             <DataTrigger Binding="{Binding TabAvi.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabAvi.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabAvi.HasError}" Value="true">
@@ -255,7 +255,7 @@
                             <DataTrigger Binding="{Binding TabCue.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabCue.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabCue.HasError}" Value="true">
@@ -273,7 +273,7 @@
                             <DataTrigger Binding="{Binding TabFlac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabFlac.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabFlac.HasError}" Value="true">
@@ -291,7 +291,7 @@
                             <DataTrigger Binding="{Binding TabGif.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabGif.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabGif.HasError}" Value="true">
@@ -309,7 +309,7 @@
                             <DataTrigger Binding="{Binding TabJpg.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabJpg.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabJpg.HasError}" Value="true">
@@ -327,7 +327,7 @@
                             <DataTrigger Binding="{Binding TabLogEac.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabLogEac.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabLogEac.HasError}" Value="true">
@@ -345,7 +345,7 @@
                             <DataTrigger Binding="{Binding TabM3u.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabM3u.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabM3u.HasError}" Value="true">
@@ -363,7 +363,7 @@
                             <DataTrigger Binding="{Binding TabM3u8.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabM3u8.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabM3u8.HasError}" Value="true">
@@ -381,7 +381,7 @@
                             <DataTrigger Binding="{Binding TabMd5.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabMd5.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabMd5.HasError}" Value="true">
@@ -399,7 +399,7 @@
                             <DataTrigger Binding="{Binding TabMkv.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabMkv.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabMkv.HasError}" Value="true">
@@ -417,7 +417,7 @@
                             <DataTrigger Binding="{Binding TabMov.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabMov.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabMov.HasError}" Value="true">
@@ -453,7 +453,7 @@
                             <DataTrigger Binding="{Binding TabMp4.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabMp4.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabMp4.HasError}" Value="true">
@@ -471,7 +471,7 @@
                             <DataTrigger Binding="{Binding TabMpg.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabMpg.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabMpg.HasError}" Value="true">
@@ -489,7 +489,7 @@
                             <DataTrigger Binding="{Binding TabOgg.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabOgg.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabOgg.HasError}" Value="true">
@@ -507,7 +507,7 @@
                             <DataTrigger Binding="{Binding TabPng.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabPng.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabPng.HasError}" Value="true">
@@ -525,7 +525,7 @@
                             <DataTrigger Binding="{Binding TabSha1.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabSha1.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabSha1.HasError}" Value="true">
@@ -543,7 +543,7 @@
                             <DataTrigger Binding="{Binding TabSha1x.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabSha1x.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabSha1x.HasError}" Value="true">
@@ -561,7 +561,7 @@
                             <DataTrigger Binding="{Binding TabSha256.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabSha256.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabSha256.HasError}" Value="true">
@@ -579,7 +579,7 @@
                             <DataTrigger Binding="{Binding TabWav.Current}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding TabMp3.HasRepairables}" Value="true">
+                            <DataTrigger Binding="{Binding TabWav.HasRepairables}" Value="true">
                                 <Setter Property="Foreground" Value="BlueViolet"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding TabWav.HasError}" Value="true">
