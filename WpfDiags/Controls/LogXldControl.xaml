@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="AppView.LogXldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:app="clr-namespace:AppView"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="600"
+             DataContext="{Binding Path=TabLogXld.Current}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ThemeDark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto" MinHeight="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <app:FileHeaderControl Grid.ColumnSpan="9"/>
+        <TextBlock Grid.Row="1" Text="XLD version:"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=XldVersionText, Mode=OneWay}"/>
+        <TextBlock Grid.Row="2" Text="Rip date:"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=RipDate, Mode=OneWay}"/>
+        <TextBlock Grid.Row="3" Text="Rip artist:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=RipArtist, Mode=OneWay}"/>
+        <TextBlock Grid.Row="4" Text="Rip album:"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=RipAlbum, Mode=OneWay}"/>
+        <TextBlock Grid.Row="5" Text="Signature:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=StoredHash, Mode=OneWay}"/>
+        <TextBlock Grid.Row="7" Grid.ColumnSpan="9" FontSize="40" HorizontalAlignment="Center" Foreground="Silver" Text="** XLD under construction **"/>
+        <GridSplitter Grid.Row="8" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="9" Grid.ColumnSpan="9"/>
+    </Grid>
+</UserControl>

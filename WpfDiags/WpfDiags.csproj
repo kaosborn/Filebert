@@ -57,6 +57,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ApeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AsfControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\AviControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -73,11 +81,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\FlvControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\GifControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\HashFileControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\IcoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -93,11 +109,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\LogXldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\M3u8Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\M3uControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\M4aControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +185,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\ApeControl.xaml.cs">
+      <DependentUpon>ApeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AsfControl.xaml.cs">
+      <DependentUpon>AsfControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AviControl.xaml.cs">
       <DependentUpon>AviControl.xaml</DependentUpon>
     </Compile>
@@ -174,11 +204,17 @@
     <Compile Include="Controls\FlacControl.xaml.cs">
       <DependentUpon>FlacControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FlvControl.xaml.cs">
+      <DependentUpon>FlvControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GifControl.xaml.cs">
       <DependentUpon>GifControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HashFileControl.xaml.cs">
       <DependentUpon>HashFileControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IcoControl.xaml.cs">
+      <DependentUpon>IcoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\IssuesControl.xaml.cs">
       <DependentUpon>IssuesControl.xaml</DependentUpon>
@@ -189,11 +225,17 @@
     <Compile Include="Controls\LogEacControl.xaml.cs">
       <DependentUpon>LogEacControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LogXldControl.xaml.cs">
+      <DependentUpon>LogXldControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\M3u8Control.xaml.cs">
       <DependentUpon>M3u8Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\M3uControl.xaml.cs">
       <DependentUpon>M3uControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\M4aControl.xaml.cs">
+      <DependentUpon>M4aControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Md5Control.xaml.cs">
       <DependentUpon>Md5Control.xaml</DependentUpon>

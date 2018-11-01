@@ -28,14 +28,20 @@ namespace AppViewModel
                 foreach (string heading in Ui.GetHeadings())
                     Data.tabInfos.Add (new TabInfo (heading, Data.tabInfos.Count));
 
+                Data.TabApe = GetTabInfo ("ape");
+                Data.TabAsf = GetTabInfo ("asf");
                 Data.TabAvi = GetTabInfo ("avi");
                 Data.TabCue = GetTabInfo ("cue");
                 Data.TabFlac = GetTabInfo ("flac");
+                Data.TabFlv = GetTabInfo ("flv");
                 Data.TabGif = GetTabInfo ("gif");
+                Data.TabIco = GetTabInfo ("ico");
                 Data.TabJpg = GetTabInfo ("jpg");
                 Data.TabLogEac = GetTabInfo ("log (EAC)");
+                Data.TabLogXld = GetTabInfo ("log (XLD)");
                 Data.TabM3u = GetTabInfo ("m3u");
                 Data.TabM3u8 = GetTabInfo ("m3u8");
+                Data.TabM4a = GetTabInfo ("m4a");
                 Data.TabMd5 = GetTabInfo ("md5");
                 Data.TabMkv = GetTabInfo ("mkv");
                 Data.TabMov = GetTabInfo ("mov");
@@ -273,14 +279,20 @@ namespace AppViewModel
 
         private List<TabInfo> tabInfos = new List<TabInfo>();
 
+        public TabInfo TabApe { get; private set; }
+        public TabInfo TabAsf { get; private set; }
         public TabInfo TabAvi { get; private set; }
         public TabInfo TabCue { get; private set; }
         public TabInfo TabFlac { get; private set; }
+        public TabInfo TabFlv { get; private set; }
         public TabInfo TabGif { get; private set; }
+        public TabInfo TabIco { get; private set; }
         public TabInfo TabJpg { get; private set; }
         public TabInfo TabLogEac { get; private set; }
+        public TabInfo TabLogXld { get; private set; }
         public TabInfo TabM3u { get; private set; }
         public TabInfo TabM3u8 { get; private set; }
+        public TabInfo TabM4a { get; private set; }
         public TabInfo TabMd5 { get; private set; }
         public TabInfo TabMkv { get; private set; }
         public TabInfo TabMov { get; private set; }

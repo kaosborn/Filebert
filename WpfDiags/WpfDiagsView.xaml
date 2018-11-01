@@ -230,6 +230,42 @@
                     <TextBlock Text="{Binding Progress}" Grid.Row="2" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
+            <TabItem Header=".ape" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabApe.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabApe.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabApe.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:ApeControl/>
+            </TabItem>
+            <TabItem Header=".asf" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabAsf.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabAsf.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabAsf.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:AsfControl/>
+            </TabItem>
             <TabItem Header=".avi" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -284,6 +320,24 @@
                 </TabItem.Style>
                 <app:FlacControl/>
             </TabItem>
+            <TabItem Header=".flv" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabFlv.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabFlv.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabFlv.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:FlvControl/>
+            </TabItem>
             <TabItem Header=".gif" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -301,6 +355,24 @@
                     </Style>
                 </TabItem.Style>
                 <app:GifControl/>
+            </TabItem>
+            <TabItem Header=".ico" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabIco.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabIco.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabIco.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:IcoControl/>
             </TabItem>
             <TabItem Header=".jpg" Grid.IsSharedSizeScope="True">
                 <TabItem.Style>
@@ -338,6 +410,24 @@
                 </TabItem.Style>
                 <app:LogEacControl/>
             </TabItem>
+            <TabItem Header=".log (XLD)" Width="76" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabLogXld.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabLogXld.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabLogXld.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:LogXldControl/>
+            </TabItem>
             <TabItem Header=".m3u">
                 <TabItem.Style>
                     <Style TargetType="TabItem">
@@ -373,6 +463,24 @@
                     </Style>
                 </TabItem.Style>
                 <app:M3u8Control/>
+            </TabItem>
+            <TabItem Header=".m4a" Grid.IsSharedSizeScope="True">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TabM4a.Current}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabM4a.HasRepairables}" Value="true">
+                                <Setter Property="Foreground" Value="BlueViolet"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TabM4a.HasError}" Value="true">
+                                <Setter Property="Foreground" Value="DarkRed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
+                <app:M4aControl/>
             </TabItem>
             <TabItem Header=".md5">
                 <TabItem.Style>
