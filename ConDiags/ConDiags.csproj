@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Filebert.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,6 +48,9 @@
     <Compile Include="ConDiagsController.cs" />
     <Compile Include="ConDiagsView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Filebert.ico" />
   </ItemGroup>
   <Import Project="..\Source\Crypto\Crypto.projitems" Label="Shared" />
   <Import Project="..\Source\Diags\Diags.projitems" Label="Shared" />
