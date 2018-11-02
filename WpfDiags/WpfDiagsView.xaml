@@ -39,6 +39,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -47,16 +48,24 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <DockPanel Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top">
+            <DockPanel Margin="3,0,3,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
                 <Label Content="&#x2388;" Margin="-3,-10,-9,-10" VerticalAlignment="Top" AllowDrop="True" FontSize="25"/>
                 <Label Content="File _name:" Margin="0,-1,0,0" VerticalAlignment="Center" Target="{Binding ElementName=filePath}" AllowDrop="True"/>
-                <TextBox x:Name="filePath" Text="{Binding Path=Root, UpdateSourceTrigger=PropertyChanged}" Width="Auto" HorizontalAlignment="Stretch" DockPanel.Dock="Right" TabIndex="0">
+                <TextBox x:Name="filePath" Text="{Binding Path=Root, UpdateSourceTrigger=PropertyChanged}" TabIndex="0">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBoxRequired}"/>
+                    </TextBox.Style>
+                </TextBox>
+            </DockPanel>
+            <Button Content=" Browse..." Command="{Binding DoBrowse}" Grid.Column="3" Margin="6,3,6,3" VerticalAlignment="Top"/>
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="3,0,3,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="Filter:"/>
+                <TextBox x:Name="filter" Width="60" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}" TabIndex="1">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBox}"/>
                     </TextBox.Style>
                 </TextBox>
-            </DockPanel>
-            <Button Content=" Browse..." Grid.Row="0" Grid.Column="3" Command="{Binding DoBrowse}" Margin="6,6,6,3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </StackPanel>
             <WrapPanel Grid.Row="1" Grid.RowSpan="4">
                 <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
                     <GroupBox Header="Generate" HorizontalAlignment="Left" Margin="3,3,3,3">
@@ -102,19 +111,19 @@
                 </WrapPanel>
                 <WrapPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <GroupBox Header="Repairs" HorizontalAlignment="Left" Margin="3,3,3,3">
+                        <GroupBox Header="Strict" HorizontalAlignment="Left" Margin="3,0,3,3">
                             <WrapPanel>
                                 <WrapPanel Orientation="Vertical">
-                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsRepairEnabled, Mode=TwoWay}" ToolTip="requires file locks"/>
+                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsStrict, Mode=TwoWay}" ToolTip="bump severities"/>
                                 </WrapPanel>
                             </WrapPanel>
                         </GroupBox>
                     </WrapPanel>
                     <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <GroupBox Header="Strict" HorizontalAlignment="Left" Margin="3,0,3,3">
+                        <GroupBox Header="Repairs" HorizontalAlignment="Left" Margin="3,3,3,3">
                             <WrapPanel>
                                 <WrapPanel Orientation="Vertical">
-                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsStrict, Mode=TwoWay}" ToolTip="bump severities"/>
+                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsRepairEnabled, Mode=TwoWay}" ToolTip="requires file locks"/>
                                 </WrapPanel>
                             </WrapPanel>
                         </GroupBox>
@@ -133,54 +142,62 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <StackPanel Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Top">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding TabIsFormat}" Value="false">
-                                <Setter Property="IsEnabled" Value="false"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <Button Content="|&lt;" Command="{Binding NavFirst}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&lt;" Command="{Binding NavPrev}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;" Command="{Binding NavNext}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;|" Command="{Binding NavLast}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding Path=CurrentTabText}"/>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding TabHasErrors}" Value="false">
-                                <Setter Property="IsEnabled" Value="false"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <Button Content="|&lt;" Command="{Binding NavFirstError}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&lt;" Command="{Binding NavPrevError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;" Command="{Binding NavNextError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;|" Command="{Binding NavLastError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding Path=TabErrorText}"/>
-            </StackPanel>
-            <StackPanel Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding TabHasRepairables}" Value="false">
-                                <Setter Property="IsEnabled" Value="false"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <Button Content="|&lt;" Command="{Binding NavFirstRepair}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&lt;" Command="{Binding NavPrevRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;" Command="{Binding NavNextRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button Content="&gt;|" Command="{Binding NavLastRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding Path=TabRepairablesText}"/>
-            </StackPanel>
+            <Grid Grid.Row="5" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabIsFormat}" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Button Content="|&lt;" Command="{Binding NavFirst}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&lt;" Command="{Binding NavPrev}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;" Command="{Binding NavNext}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;|" Command="{Binding NavLast}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding Path=CurrentTabText}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabHasErrors}" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Button Content="|&lt;" Command="{Binding NavFirstError}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&lt;" Command="{Binding NavPrevError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;" Command="{Binding NavNextError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;|" Command="{Binding NavLastError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding Path=TabErrorText}" Foreground="Red"/>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabHasRepairables}" Value="false">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Button Content="|&lt;" Command="{Binding NavFirstRepair}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&lt;" Command="{Binding NavPrevRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;" Command="{Binding NavNextRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="&gt;|" Command="{Binding NavLastRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <TextBlock Text="{Binding Path=TabRepairablesText}" Foreground="Violet">
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
         </Grid>
         <TabControl x:Name="infoTabs" Grid.Row="1" VerticalContentAlignment="Stretch" SelectedIndex="{Binding CurrentTabNumber}">
             <TabItem Header="Console">

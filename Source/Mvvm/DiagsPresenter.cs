@@ -350,8 +350,7 @@ namespace AppViewModel
                 if (CurrentTabNumber == 0)
                     return null;
                 var ti = tabInfos[CurrentTabNumber];
-                var result = ti.ErrorCount.ToString();
-                return result + (ti.ErrorCount == 1 ? " error" : " errors");
+                return ti.ErrorCount.ToString() + " failed";
             }
         }
 
