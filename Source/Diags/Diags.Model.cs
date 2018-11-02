@@ -141,7 +141,12 @@ namespace KaosDiags
                             fmtModel = CheckFile (stream, fInfo.FullName, out Severity badness);
 
                             if (fmtModel is FlacFormat.Model flacModel)
+                            {
+                                if (logCount == 0)
+                                    flacModel.IssueModel.Add ("Found .flac file without .log file in same folder.", Severity.Noise, IssueTags.StrictErr);
                                 flacs.Add (flacModel.Data);
+                                ReportIssues (flacModel.Data.Issues);
+                            }
                             else if (fmtModel is Mp3Format.Model mp3Model)
                                 mp3s.Add (mp3Model.Data);
                             else if (fmtModel is LogEacFormat.Model logModel)
@@ -201,7 +206,7 @@ namespace KaosDiags
 
                 if (! isKnownExtension)
                 {
-                    if (Data.Scope <= Granularity.Verbose)
+                    if (Data.Scope <= Granularity.Verbose && ! Data.IsDigestForm)
                         Data.OnMessageSend ("Ignored.", Severity.Trivia);
                     resultCode = Severity.NoIssue;
                     return fmtModel;
