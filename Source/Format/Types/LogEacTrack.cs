@@ -52,8 +52,6 @@ namespace KaosFormat
                 this.Items = new ReadOnlyCollection<LogEacTrack> (this.items);
             }
 
-
-#region log-EAC log entry methods
             // This routine allows track 1 to be missing (e.g. Quake soundtrack)
             public bool IsNearlyAllPresent()
             {
@@ -70,23 +68,6 @@ namespace KaosFormat
 
                 return true;
             }
-
-            public bool AllHasOK()
-            {
-                foreach (var item in items)
-                    if (! item.HasOk)
-                        return false;
-                return true;
-            }
-
-            public bool AllHasOkWithQuality()
-            {
-                foreach (var item in items)
-                    if (! item.HasOk || String.IsNullOrWhiteSpace (item.Qual))
-                        return false;
-                return true;
-            }
-#endregion
         }
 
 
