@@ -12,7 +12,7 @@ using KaosMvvm;
 namespace AppViewModel
 {
     // The ViewModel binding class of Model-View-ViewModel.
-    public class DiagsPresenter : Diags
+    public class DiagsPresenter : Diags, IFileDragDropTarget
     {
         // The ViewModel API of Model-View-ViewModel.
         public new class Model : Diags.Model
@@ -438,6 +438,12 @@ namespace AppViewModel
             DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
             DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
             DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
+        }
+
+        public void OnFileDrop (string[] paths)
+        {
+            if (paths.Length > 0)
+                Root = paths[0];
         }
     }
 }

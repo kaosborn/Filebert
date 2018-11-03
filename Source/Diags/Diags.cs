@@ -28,7 +28,13 @@ namespace KaosDiags
         public string Product { get; set; }
         public string ProductVersion { get; set; }
 
-        public string Root { get; set; }
+        private string root;
+        public string Root
+        {
+            get => root;
+            set { root = value; RaisePropertyChangedEvent (nameof (Root)); }
+        }
+
         public string Filter { get; set; }
         public string Exclusion { get; set; }
         public Interaction Response { get; protected set; }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KaosFormat;
 using KaosIssue;
 
 namespace AppViewModel
@@ -13,5 +12,10 @@ namespace AppViewModel
         void SetText (string message);
         void ConsoleZoom (int delta);
         IList<string> GetHeadings();
+    }
+
+    public interface IFileDragDropTarget
+    {
+        void OnFileDrop (string[] paths);
     }
 }

@@ -49,8 +49,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <DockPanel Margin="3,0,3,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
-                <Label Content="&#x2388;" Margin="-3,-10,-9,-10" VerticalAlignment="Top" AllowDrop="True" FontSize="25"/>
-                <Label Content="File _name:" Margin="0,-1,0,0" VerticalAlignment="Center" Target="{Binding ElementName=filePath}" AllowDrop="True"/>
+                <Label Content="&#x2388;" Margin="-3,-10,-9,-10" VerticalAlignment="Top" FontSize="25" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Label Content="File _name:" Margin="0,-1,0,0" VerticalAlignment="Center" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 <TextBox x:Name="filePath" Text="{Binding Path=Root, UpdateSourceTrigger=PropertyChanged}" TabIndex="0">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBoxRequired}"/>
