@@ -164,7 +164,7 @@ namespace KaosFormat
                 for (int ix = 0; ix < flacs.Count; ++ix)
                     TracksModel.MatchFlac (flacs[ix]);
                 if (Data.TkIssue == null && Data.Tracks.Items.Any (t => t.MatchName == null))
-                    Data.TkIssue = IssueModel.Add ("CRC-32 against FLAC failed.", Severity.Error, IssueTags.Success);
+                    Data.TkIssue = IssueModel.Add ("CRC-32 match against FLAC failed.", Severity.Error, IssueTags.Failure);
                 else if (checkTags)
                     CheckFlacTags (flacs);
 
@@ -445,7 +445,7 @@ namespace KaosFormat
 
                 var kt = Data.Tracks.Items.Where (it => it.TestCRC != null).Count();
                 if (kt == 0)
-                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.StrictWarn | tpTag);
+                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.StrictErr | tpTag);
                 else if (kt < Data.Tracks.Items.Count)
                     Data.TpIssue = IssueModel.Add ("Test pass incomplete.", Severity.Error, IssueTags.Failure);
                 else if (Data.Tracks.Items.All (it => it.TestCRC == it.CopyCRC))
