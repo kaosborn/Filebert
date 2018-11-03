@@ -60,7 +60,7 @@ namespace AppViewModel
             }
 
             public TabInfo GetTabInfo (string longName)
-             => Data.tabInfos.First (ti => ti.LongName == longName);
+             => Data.tabInfos.FirstOrDefault (ti => ti.LongName == longName);
 
             public void GetFirst()
             {
