@@ -52,8 +52,6 @@ namespace KaosDiags
         public int TotalWarnings { get; set; }
         public int TotalErrors { get; set; }
         public int TotalRepairs { get; set; }
-        public int TotalSignable { get; set; }
-        public int ExpectedFiles { get; set; }
 
         public static string MinorSeparator => "---- ---- ---- ---- ---- ----";
         public static string MajorSeparator => "==== ==== ==== ==== ==== ====";
