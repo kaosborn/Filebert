@@ -10,21 +10,26 @@ namespace KaosFormat
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public int PaletteSize { get; private set; }
-        public int BitsPerPixel { get; private set; }
+        public int? PaletteSize { get; private set; }
+        public int? BitsPerPixel { get; private set; }
         public int Size { get; private set; }
         public int Offset { get; private set; }
         public bool IsPNG { get; private set; }
+        public string ImageType => IsPNG ? "PNG" : "BMP";
+        public string Dimensions => Width.ToString() + 'x' + Height;
 
         public IconItem (int width, int height, int paletteSize, int bitsPerPixel, int size, int offset, bool isPNG)
         {
             this.Width = width;
             this.Height = height;
-            this.PaletteSize = paletteSize;
-            this.BitsPerPixel = bitsPerPixel;
             this.Size = size;
             this.Offset = offset;
             this.IsPNG = isPNG;
+            if (! isPNG)
+            {
+                this.PaletteSize = paletteSize;
+                this.BitsPerPixel = bitsPerPixel;
+            }
         }
     }
 
@@ -152,7 +157,7 @@ namespace KaosFormat
             report.Add ("Layout:");
             foreach (var item in Icons)
             {
-                string lx = (item.IsPNG ? "  PNG" : "  BMP") + $": dimensions={item.Width}x{item.Height}";
+                string lx = $"  {item.ImageType}: dimensions={item.Dimensions}";
                 if (! item.IsPNG)
                     lx += $", palette={item.PaletteSize}, bpp={item.BitsPerPixel}";
                 report.Add (lx);
