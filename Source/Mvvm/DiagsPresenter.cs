@@ -233,7 +233,7 @@ namespace AppViewModel
                             var tInfo = GetTabInfo (parsing.Data.LongName);
                             if (tInfo != null)
                             {
-                                if (newTabInfoIx < 0 || parsing is LogEacFormat.Model)
+                                if (newTabInfoIx < 0 || parsing is LogFormat.Model || parsing is LogEacFormat.Model)
                                 { newTabInfoIx = tInfo.TabPosition; newTabInfoFmtIx = tInfo.Count; }
                                 tInfo.Add (parsing.Data);
                             }

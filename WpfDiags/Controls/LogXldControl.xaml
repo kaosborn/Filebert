@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:app="clr-namespace:AppView"
+             xmlns:issue="clr-namespace:KaosIssue"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="600"
              DataContext="{Binding Path=TabLogXld.Current}">
@@ -29,6 +30,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
@@ -38,18 +44,137 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Row="1" Text="XLD version:"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=XldVersionText, Mode=OneWay}"/>
+        <TextBlock Grid.Column="9" Grid.ColumnSpan="9" Grid.RowSpan="12" FontSize="80" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Advisory}">
+                            <Setter Property="Text" Value="&#x2665;"/>
+                            <!-- solid heart -->
+                            <Setter Property="Foreground" Value="Chartreuse"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Warning}">
+                            <Setter Property="Text" Value="&#x2665;"/>
+                            <!-- solid heart -->
+                            <Setter Property="Foreground" Value="Yellow"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Error}">
+                            <Setter Property="Text" Value="&#x2612;"/>
+                            <!-- X -->
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Grid.Row="1" Text="Application:"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Application, Mode=OneWay}"/>
         <TextBlock Grid.Row="2" Text="Rip date:"/>
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=RipDate, Mode=OneWay}"/>
         <TextBlock Grid.Row="3" Text="Rip artist:"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=RipArtist, Mode=OneWay}"/>
         <TextBlock Grid.Row="4" Text="Rip album:"/>
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=RipAlbum, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Text="Signature:"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=StoredHash, Mode=OneWay}"/>
-        <TextBlock Grid.Row="7" Grid.ColumnSpan="9" FontSize="40" HorizontalAlignment="Center" Foreground="Silver" Text="** XLD under construction **"/>
-        <GridSplitter Grid.Row="8" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="9" Grid.ColumnSpan="9"/>
+        <TextBlock Grid.Row="5" Text="Drive:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Drive, Mode=OneWay}"/>
+        <TextBlock Grid.Row="6" Text="Read offset:"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=ReadOffset, Mode=OneWay}"/>
+        <TextBlock Grid.Row="10" Text="Signature:"/>
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=StoredHash, Mode=OneWay}"/>
+        <ListView Grid.Row="12" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
+                <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header=" # ">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Number, Mode=OneWay}" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.HeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NrIssue.Failure}" Value="true">
+                                            <Setter Property="Foreground" Value="DarkRed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GridViewColumn.HeaderContainerStyle>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Test CRC">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TestCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.HeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TpIssue.Failure}" Value="true">
+                                            <Setter Property="Foreground" Value="DarkRed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GridViewColumn.HeaderContainerStyle>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Copy CRC">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CopyCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Match">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MatchName}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.HeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding MhIssue.Failure}" Value="true">
+                                            <Setter Property="Foreground" Value="DarkRed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GridViewColumn.HeaderContainerStyle>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="FontFamily" Value="Lucida Console"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Focusable" Value="false"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsTrackOk}" Value="true">
+                            <Setter Property="Foreground" Value="Chartreuse"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsTrackOk}" Value="False">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=DataContext.IsLosslessRip, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Value="true"/>
+                                <Condition Binding="{Binding IsRipOk}" Value="false"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Foreground" Value="Red"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <GridSplitter Grid.Row="13" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="14" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>
