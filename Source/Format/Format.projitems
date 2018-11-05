@@ -31,7 +31,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogEacTrack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\LogXldFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\LogXldTrack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M3u8Format.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M3uFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\M4aFormat.cs" />

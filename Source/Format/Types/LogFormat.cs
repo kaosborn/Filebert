@@ -1,0 +1,107 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using KaosIssue;
+
+namespace KaosFormat
+{
+    public abstract class LogFormat : FormatBase
+    {
+        public abstract new class Model : FormatBase.Model
+        {
+            public new LogFormat Data => (LogFormat) _data;
+            protected LogTrack.Vector.Model _tracksModel;
+            public LogTrack.Vector.Model TracksModel => _tracksModel;
+
+            protected Model()
+            { }
+
+            public void GetBaseDiagnostics()
+            {
+                if (TracksModel.HasTrackNumberGap())
+                    Data.NrIssue = IssueModel.Add ("Gap detected in track numbers.", Severity.Error, IssueTags.Failure);
+
+                TracksModel.CountTestCopy();
+                if (TracksModel.Data.CopyCount != TracksModel.GetCount())
+                    Data.TkIssue = IssueModel.Add ("Copy pass incomplete.", Severity.Error, IssueTags.Failure);
+                else if (TracksModel.Data.TestCount == 0)
+                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.StrictErr);
+                else if (TracksModel.Data.TestCount != TracksModel.GetCount())
+                    Data.TpIssue = IssueModel.Add ("Test pass incomplete.", Severity.Error, IssueTags.Failure);
+                else if (TracksModel.Data.TestMismatchCount != 0)
+                    Data.TpIssue = IssueModel.Add ("Test/copy CRC-32 mismatch.", Severity.Error, IssueTags.Failure);
+                else
+                    Data.TpIssue = IssueModel.Add ("Test/copy CRC-32s match for all tracks.", Severity.Trivia, IssueTags.Success);
+            }
+
+            public void SetRpIssue (string err)
+             => Data.RpIssue = IssueModel.Add (err, Severity.Error, IssueTags.Failure);
+
+            public void CheckFlacTags (IList<FlacFormat> flacs)
+            {
+            }
+
+            public void ValidateRip (IList<FlacFormat> flacs, bool checkTags)
+            {
+                Data.IsLosslessRip = true;
+
+                Severity baddest = Severity.NoIssue;
+                PerformValidations();
+                if (baddest < Data.Issues.MaxSeverity)
+                    baddest = Data.Issues.MaxSeverity;
+
+                if (baddest >= Severity.Error)
+                    Data.RpIssue = IssueModel.Add ("FLAC rip check failed.", baddest, IssueTags.Failure);
+                else if (baddest >= Severity.Warning)
+                    Data.RpIssue = IssueModel.Add ("FLAC rip check successful with warnings.", baddest, IssueTags.Success);
+                else
+                    Data.RpIssue = IssueModel.Add ("FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
+                return;
+
+                void PerformValidations()
+                {
+                    if (flacs.Count != TracksModel.GetCount() || flacs.Count == 0)
+                    {
+                        Data.TkIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac files, .log contains {TracksModel.GetCount()} tracks.");
+                        baddest = Severity.Error;
+                        return;
+                    }
+
+                    baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
+                    if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count())
+                        IssueModel.Add ("FLAC intrinsic CRC checks not performed.", Severity.Warning, IssueTags.StrictErr);
+
+                    TracksModel.MatchFlacs (flacs);
+                    if (TracksModel.Data.RipMismatchCount != 0)
+                        Data.MhIssue = IssueModel.Add ("Log CRC-32 match to FLAC PCM CRC-32 failed.", Severity.Error, IssueTags.Failure);
+                    else if (checkTags)
+                        CheckFlacTags (flacs);
+                }
+            }
+        }
+
+
+        public string Application { get; protected set; }
+        public string RipDate { get; protected set; }
+        public string RipArtist { get; protected set; }
+        public string RipAlbum { get; protected set; }
+        public string RipArtistAlbum => RipArtist + " / " + RipAlbum;
+        public string Drive { get; protected set; }
+        public string ReadOffset { get; protected set; }
+        public string ReadMode { get; protected set; }
+        public string DefeatCache { get; protected set; }
+        public string UseC2 { get; protected set; }
+        public string GapHandling { get; protected set; }
+
+        public bool? IsLosslessRip { get; private set; } = null;
+
+        public Issue TkIssue { get; private set; }  // Tracks
+        public Issue NrIssue { get; private set; }  // Log track number
+        public Issue TpIssue { get; private set; }  // Test pass
+        public Issue MhIssue { get; private set; }  // Lossless match
+        public Issue RpIssue { get; private set; }  // Rip result
+
+        public LogFormat (FormatBase.Model model, Stream stream, string path) : base (model, stream, path)
+        { }
+    }
+}
