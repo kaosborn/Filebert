@@ -40,6 +40,10 @@ namespace KaosFormat
 
         // Get next non-blank line, left trimmed.
         public string ReadLineLTrim()
+         => ReadLineNonempty().TrimStart();
+
+        // Get next non-blank line, untrimmed.
+        public string ReadLineNonempty()
         {
             if (EOF)
                 return String.Empty;
@@ -48,11 +52,11 @@ namespace KaosFormat
             {
                 string result = ReadLine();
                 if (EOF || ! String.IsNullOrWhiteSpace (result))
-                    return result.TrimStart();
+                    return result;
             }
         }
 
-        // Get next non-blank line.
+        // Get next line.
         public string ReadLine()
         {
             int eolWidth = 0;
