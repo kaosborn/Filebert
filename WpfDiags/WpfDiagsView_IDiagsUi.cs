@@ -72,7 +72,7 @@ namespace AppView
                 return;
             }
 
-            if (! fileShown)
+            if (! fileShown && viewModel.Data.CurrentFile != null)
             {
                 fileShown = true;
 

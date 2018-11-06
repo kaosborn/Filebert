@@ -65,7 +65,7 @@ namespace AppView
                 isProgressDirty = false;
             }
 
-            if (! fileShown)
+            if (! fileShown && curFile != null)
             {
                 fileShown = true;
 
