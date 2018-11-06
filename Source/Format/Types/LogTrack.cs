@@ -54,7 +54,7 @@ namespace KaosFormat
                         }
                     }
 
-                    if (Data.TestCount < GetCount())
+                    if (Data.TestCount > 0 && Data.TestCount < GetCount())
                         for (int tx = 0; tx < GetCount(); ++tx)
                         {
                             LogTrack track = GetItem (tx);
@@ -99,7 +99,7 @@ namespace KaosFormat
         public string FileName { get; private set; }
         public UInt32? TestCRC { get; private set; }
         public UInt32? CopyCRC { get; private set; }
-        public bool IsTrackOk { get; private set; }
+        public bool IsTrackOk { get; protected set; }
         public bool? IsMatchOk { get; private set; }
 
         public bool? IsRipOk => (! IsTrackOk) ? false : IsMatchOk;

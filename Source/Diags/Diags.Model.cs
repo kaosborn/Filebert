@@ -149,34 +149,19 @@ namespace KaosDiags
                             }
                             else if (fmtModel is Mp3Format.Model mp3Model)
                                 mp3s.Add (mp3Model.Data);
-                            else if (fmtModel is LogEacFormat.Model logModel)
-                            {
-                                if (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled)
+                            else if (fmtModel is LogFormat.Model logModel)
+                                if (Data.IsFlacRipCheckEnabled) //TODO || Data.IsMp3RipCheckEnabled)
                                 {
                                     if (logCount > 1)
                                         logModel.SetRpIssue ("Folder contains more than one .log file.");
                                     else if (flacs.Count > 0 && mp3s.Count > 0)
                                         logModel.SetRpIssue ("Folder contains both .flac and .mp3 files.");
-                                    else if (! Data.IsMp3RipCheckEnabled || Data.IsFlacRipCheckEnabled && flacs.Count > 0)
+                                    else if (/*! Data.IsMp3RipCheckEnabled ||*/ Data.IsFlacRipCheckEnabled && flacs.Count > 0)
                                         logModel.ValidateRip (flacs, Data.IsFlacTagsCheckEnabled);
-                                    else
-                                        logModel.ValidateRip (mp3s);
+                                    //else
+                                    //TODO    logModel.ValidateRip (mp3s);
                                     ReportIssues (logModel.Data.Issues);
                                 }
-                            }
-                            else if (fmtModel is LogFormat.Model lm)
-                            {
-                                if (Data.IsFlacRipCheckEnabled) //TODO || Data.IsMp3RipCheckEnabled)
-                                {
-                                    if (logCount > 1)
-                                        lm.SetRpIssue ("Folder contains more than one .log file.");
-                                    else if (flacs.Count > 0 && mp3s.Count > 0)
-                                        lm.SetRpIssue ("Folder contains both .flac and .mp3 files.");
-                                    else if (Data.IsFlacRipCheckEnabled && flacs.Count > 0)
-                                        lm.ValidateRip (flacs, Data.IsFlacTagsCheckEnabled);
-                                    ReportIssues (lm.Data.Issues);
-                                }
-                            }
 
                             if (badness > Data.Result)
                                 Data.Result = badness;

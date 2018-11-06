@@ -17,7 +17,7 @@ namespace KaosFormat
             protected Model()
             { }
 
-            public void GetBaseDiagnostics()
+            protected virtual void GetDiagnostics()
             {
                 if (TracksModel.HasTrackNumberGap())
                     Data.NrIssue = IssueModel.Add ("Gap detected in track numbers.", Severity.Error, IssueTags.Failure);
@@ -64,6 +64,41 @@ namespace KaosFormat
                         return;
                     }
 
+                    int errCount = 0, warnCount = 0;
+                    string errs = string.Empty, warns = string.Empty;
+                    for (int fx = 0; fx < flacs.Count; ++fx)
+                    {
+                        FlacFormat flac = flacs[fx];
+                        if (baddest < flac.Issues.MaxSeverity)
+                            baddest = flac.Issues.MaxSeverity;
+                        if (flac.Issues.Items.Any (i => i.Level >= Severity.Error && (i.Tag & IssueTags.BadTag) != 0))
+                        {
+                            if (warnCount < 2)
+                            {
+                                errs = warnCount == 1 ? "s" + errs + ", " : errs + " ";
+                                ++errCount;
+                            }
+                            else
+                                errs += ", ";
+                            errs = errs + flac.GetTagValue ("TRACKNUMBER");
+                        }
+                        if (flac.Issues.Items.Any (i => i.Level == Severity.Warning && (i.Tag & IssueTags.BadTag) != 0))
+                        {
+                            if (warnCount < 2)
+                            {
+                                warns = warnCount == 1 ? "s" + warns + ", " : warns + " ";
+                                ++warnCount;
+                            }
+                            else
+                                warns += ", ";
+                            warns = warns + flac.GetTagValue ("TRACKNUMBER");
+                        }
+                    }
+                    if (warns.Length > 0)
+                        IssueModel.Add ("Tag issues on track" + warns + ".", Severity.Warning);
+                    if (errs.Length > 0)
+                        IssueModel.Add ("Tag issues on track" + errs + ".", Severity.Error);
+
                     baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
                     if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count())
                         IssueModel.Add ("FLAC intrinsic CRC checks not performed.", Severity.Warning, IssueTags.StrictErr);
@@ -72,11 +107,11 @@ namespace KaosFormat
                     if (TracksModel.Data.RipMismatchCount != 0)
                         Data.MhIssue = IssueModel.Add ("Log CRC-32 match to FLAC PCM CRC-32 failed.", Severity.Error, IssueTags.Failure);
                     else if (checkTags)
-                        CheckFlacTags (flacs);
+                        CheckFlacRipTags (flacs);
                 }
             }
 
-            public void CheckFlacTags (IList<FlacFormat> flacs)
+            public void CheckFlacRipTags (IList<FlacFormat> flacs)
             {
                 int prevTrackNum = -1;
                 foreach (FlacFormat flac in flacs)
@@ -135,18 +170,15 @@ namespace KaosFormat
         public string RipArtistAlbum => RipArtist + " / " + RipAlbum;
         public string Drive { get; protected set; }
         public string ReadOffset { get; protected set; }
-        public string ReadMode { get; protected set; }
-        public string DefeatCache { get; protected set; }
-        public string UseC2 { get; protected set; }
         public string GapHandling { get; protected set; }
 
         public bool? IsLosslessRip { get; private set; } = null;
 
-        public Issue TkIssue { get; private set; }  // Tracks
-        public Issue NrIssue { get; private set; }  // Log track number
-        public Issue TpIssue { get; private set; }  // Test pass
-        public Issue MhIssue { get; private set; }  // Lossless match
-        public Issue RpIssue { get; private set; }  // Rip result
+        public Issue TkIssue { get; protected set; }  // Tracks
+        public Issue NrIssue { get; private set; }    // Log track number
+        public Issue TpIssue { get; protected set; }  // Test pass
+        public Issue MhIssue { get; private set; }    // Lossless match
+        public Issue RpIssue { get; private set; }    // Rip result
 
         public LogFormat (FormatBase.Model model, Stream stream, string path) : base (model, stream, path)
         { }

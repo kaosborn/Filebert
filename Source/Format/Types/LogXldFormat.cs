@@ -192,9 +192,9 @@ namespace KaosFormat
                 return mx.Substring (pIx0, pIx1 - pIx0 + 1);
             }
 
-            private void GetDiagnostics()
+            protected override void GetDiagnostics()
             {
-                GetBaseDiagnostics();
+                base.GetDiagnostics();
 
                 if (Data.storedHash == null)
                     IssueModel.Add ("No signature.", Severity.Trivia, IssueTags.StrictErr);
@@ -204,6 +204,10 @@ namespace KaosFormat
 
         private static readonly byte[] logXldSig = Encoding.ASCII.GetBytes ("X Lossless Decoder version ");
         public LogXldTrack.Vector Tracks { get; private set; }
+
+        public string ReadMode { get; private set; }
+        public string DefeatCache { get; private set; }
+        public string UseC2 { get; private set; }
 
         private string storedHash = null;
         public string StoredHash => storedHash;

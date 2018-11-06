@@ -234,12 +234,21 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header="Index">
+                        <GridViewColumn Header=" # ">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Number, Mode=OneWay}" TextAlignment="Right"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
+                            <GridViewColumn.HeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NrIssue.Failure}" Value="true">
+                                            <Setter Property="Foreground" Value="DarkRed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GridViewColumn.HeaderContainerStyle>
                         </GridViewColumn>
                         <GridViewColumn Header="Quality">
                             <GridViewColumn.CellTemplate>
@@ -260,7 +269,7 @@
                         <GridViewColumn Header="Is OK">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding HasOk, Mode=OneWay}"/>
+                                    <TextBlock Text="{Binding HasOk, Mode=OneWay}" TextAlignment="Center"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                             <GridViewColumn.HeaderContainerStyle>

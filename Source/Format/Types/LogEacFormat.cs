@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using KaosIssue;
 
 namespace KaosFormat
 {
-    public partial class LogEacFormat : FormatBase
+    public partial class LogEacFormat : LogFormat
     {
         public static string[] Names
          => new string[] { "log" };
@@ -31,15 +29,15 @@ namespace KaosFormat
         }
 
 
-        public partial class Model : FormatBase.Model
+        public new partial class Model : LogFormat.Model
         {
             public new readonly LogEacFormat Data;
-            public LogEacTrack.Vector.Model TracksModel;
+            public new LogEacTrack.Vector.Model TracksModel;
             private LogBuffer parser;
 
             public Model (Stream stream, string path)
             {
-                TracksModel = new LogEacTrack.Vector.Model();
+                base._tracksModel = TracksModel = new LogEacTrack.Vector.Model();
                 base._data = Data = new LogEacFormat (this, stream, path);
 
                 Data.AccurateRip = null;
@@ -141,132 +139,6 @@ namespace KaosFormat
                 GetDiagnostics();
             }
 
-            public void SetRpIssue (string err)
-             => Data.RpIssue = IssueModel.Add (err, Severity.Error, IssueTags.Failure);
-
-            public void ValidateRip (IList<FlacFormat> flacs, bool checkTags)
-            {
-                Data.IsLosslessRip = true;
-                if (flacs.Count != Data.Tracks.Items.Count || flacs.Count == 0)
-                {
-                    Data.TkIssue = IssueModel.Add ($"Directory contains {flacs.Count} FLACs, EAC log contains {Data.Tracks.Items.Count} tracks.");
-                    return;
-                }
-
-                Severity baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
-                if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count ())
-                {
-                    IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.StrictErr);
-                    if (baddest < IssueModel.Data.MaxSeverity)
-                        baddest = IssueModel.Data.MaxSeverity;
-                }
-
-                for (int ix = 0; ix < flacs.Count; ++ix)
-                    TracksModel.MatchFlac (flacs[ix]);
-                if (Data.TkIssue == null && Data.Tracks.Items.Any (t => t.MatchName == null))
-                    Data.TkIssue = IssueModel.Add ("CRC-32 match against FLAC failed.", Severity.Error, IssueTags.Failure);
-                else if (checkTags)
-                    CheckFlacTags (flacs);
-
-                if (baddest < Data.Issues.MaxSeverity)
-                    baddest = Data.Issues.MaxSeverity;
-                if (baddest >= Severity.Error)
-                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check failed.", baddest, IssueTags.Failure);
-                else if (baddest >= Severity.Warning)
-                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check successful with warnings.", baddest, IssueTags.Success);
-                else
-                    Data.RpIssue = IssueModel.Add ("EAC FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
-            }
-
-            void CheckFlacTags (IList<FlacFormat> flacs)
-            {
-                int prevTrackNum = -1;
-                foreach (FlacFormat flac in flacs)
-                {
-                    var trackTag = flac.GetTagValue ("TRACKNUMBER");
-
-                    var integerRegex = new Regex ("^([0-9]+)", RegexOptions.Compiled);
-                    MatchCollection reMatches = integerRegex.Matches (trackTag);
-                    string trackTagCapture = reMatches.Count == 1 ? reMatches[0].Groups[1].ToString() : trackTag;
-
-                    if (int.TryParse (trackTagCapture, out int trackNum))
-                    {
-                        if (prevTrackNum >= 0 && trackNum != prevTrackNum + 1)
-                            IssueModel.Add ($"Gap in TRACKNUMBER tags near '{trackTag}'.");
-                        prevTrackNum = trackNum;
-                    }
-                }
-
-                TagCheckTextIsSame (flacs, "TRACKTOTAL");
-                TagCheckTextIsSame (flacs, "DISCNUMBER");
-                TagCheckTextIsSame (flacs, "DISCTOTAL");
-                TagCheckTextIsSame (flacs, "DATE");
-                TagCheckTextIsSame (flacs, "RELEASE DATE");
-
-                bool? isSameAA = FlacFormat.IsFlacTagsAllSame (flacs, "ALBUMARTIST");
-                if (isSameAA == false)
-                    IssueModel.Add ("ALBUMARTIST tags are inconsistent.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
-                else if (isSameAA == null)
-                {
-                    bool? isSameArtist = FlacFormat.IsFlacTagsAllSame (flacs, "ARTIST");
-                    if (isSameArtist == false)
-                        IssueModel.Add ("Inconsistent ARTIST tag or missing ALBUMARTIST tag.", Severity.Warning, IssueTags.BadTag);
-                    else if (isSameArtist == null)
-                        IssueModel.Add ("ARTIST is missing.", Severity.Warning, IssueTags.BadTag);
-                }
-
-                TagCheckTextIsSame (flacs, "ALBUM");
-                TagCheckTextIsSame (flacs, "ORGANIZATION");
-                TagCheckTextIsSame (flacs, "BARCODE");
-                TagCheckTextIsSame (flacs, "CATALOGNUMBER");
-                TagCheckTextIsSame (flacs, "ALBUMARTISTSORTORDER");
-            }
-
-            private void TagCheckTextIsSame (IList<FlacFormat> flacs, string key)
-            {
-                if (FlacFormat.IsFlacMultiTagAllSame (flacs, key) == false)
-                    IssueModel.Add (key + " tags are inconsistent.", Severity.Warning, IssueTags.BadTag|IssueTags.StrictErr);
-            }
-
-            public void ValidateRip (IList<Mp3Format> mp3s)
-            {
-                Data.IsLosslessRip = false;
-                if (mp3s.Count != Data.Tracks.Items.Count || mp3s.Count == 0)
-                    Data.RpIssue = Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} MP3s, EAC log contains {Data.Tracks.Items.Count} tracks.", Severity.Error, IssueTags.Failure);
-                else
-                {
-                    if (mp3s.Count != mp3s.Where (tk => tk.Lame != null && tk.Lame.ActualDataCrc != null).Count())
-                        IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.StrictErr);
-
-                    if (mp3s[0].Lame != null)
-                    {
-                        string profile = mp3s[0].Lame.Profile;
-                        for (int ix = 1; ; ++ix)
-                        {
-                            if (ix == mp3s.Count)
-                            { IssueModel.Add ($"MP3 rip profile is {profile}.", Severity.Advisory); break; }
-
-                            if (mp3s[ix].Lame == null || mp3s[ix].Lame.Profile != profile)
-                            {
-                                IssueModel.Add ("Inconsistent MP3 encoder settings.", Severity.Warning, IssueTags.StrictErr);
-                                break;
-                            }
-                        }
-                    }
-
-                    Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
-                    if (baddest < IssueModel.Data.MaxSeverity)
-                        baddest = IssueModel.Data.MaxSeverity;
-
-                    if (baddest >= Severity.Error)
-                        Data.RpIssue = IssueModel.Add ("EAC MP3 rip check failed.", baddest, IssueTags.Failure);
-                    else if (baddest >= Severity.Warning)
-                        Data.RpIssue = IssueModel.Add ("EAC MP3 rip check successful with warnings.", baddest, IssueTags.Success);
-                    else
-                        Data.RpIssue = IssueModel.Add ($"EAC MP3 rip check okay!", Severity.Advisory, IssueTags.Success);
-                }
-            }
-
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
                 base.CalcHashes (hashFlags, validationFlags);
@@ -326,12 +198,22 @@ namespace KaosFormat
                 }
             }
 
-            private void GetDiagnostics()
+            protected override void GetDiagnostics()
             {
-                if (String.IsNullOrEmpty (Data.Artist))
+                base.GetDiagnostics();
+
+                string OkErr = TracksModel.GetOkDiagnostics();
+                if (OkErr != null)
+                    Data.OkIssue = IssueModel.Add (OkErr, Severity.Error, IssueTags.Failure);
+
+                string QualErr = TracksModel.GetQualDiagnostics();
+                if (QualErr != null)
+                    Data.QiIssue = IssueModel.Add (QualErr, Severity.Error, IssueTags.Failure);
+
+                if (String.IsNullOrEmpty (Data.RipArtist))
                     IssueModel.Add ("Missing artist", Severity.Warning, IssueTags.Substandard);
 
-                if (String.IsNullOrEmpty (Data.Album))
+                if (String.IsNullOrEmpty (Data.RipAlbum))
                     IssueModel.Add ("Missing album", Severity.Warning, IssueTags.Substandard);
 
                 if (String.IsNullOrEmpty (Data.Drive))
@@ -396,9 +278,6 @@ namespace KaosFormat
                     IssueModel.Add ("Range rip detected.", Severity.Advisory, IssueTags.StrictWarn);
                 else
                 {
-                    if (! Data.Tracks.IsNearlyAllPresent())
-                        Data.TkIssue = IssueModel.Add ("Gap detected in track numbers.");
-
                     if (Data.TocTrackCount != null)
                     {
                         int diff = Data.TocTrackCount.Value - Data.Tracks.Items.Count;
@@ -410,15 +289,11 @@ namespace KaosFormat
                     }
                 }
 
-                var tpTag = IssueTags.StrictErr;
                 var arTag = IssueTags.None;
                 var arSev = Severity.Trivia;
                 if (Data.AccurateRipConfidence != null)
                     if (Data.AccurateRipConfidence.Value > 0)
-                    {
-                        tpTag = IssueTags.None;
                         arTag = IssueTags.Success;
-                    }
                     else
                     {
                         arSev = Severity.Advisory;
@@ -436,123 +311,9 @@ namespace KaosFormat
                 else if (Data.CueToolsConfidence.Value == 0)
                     ctSev = Severity.Advisory;
                 else
-                {
                     ctTag = IssueTags.Success;
-                    tpTag = IssueTags.None;
-                }
 
                 Data.CtIssue = IssueModel.Add ("CUETools DB verification " + Data.CueToolsLong + ".", ctSev, ctTag);
-
-                var kt = Data.Tracks.Items.Where (it => it.TestCRC != null).Count();
-                if (kt == 0)
-                    Data.TpIssue = IssueModel.Add ("Test pass not performed.", Severity.Noise, IssueTags.StrictErr | tpTag);
-                else if (kt < Data.Tracks.Items.Count)
-                    Data.TpIssue = IssueModel.Add ("Test pass incomplete.", Severity.Error, IssueTags.Failure);
-                else if (Data.Tracks.Items.All (it => it.TestCRC == it.CopyCRC))
-                {
-                    var sev = tpTag != IssueTags.None? Severity.Advisory : Severity.Trivia;
-                    Data.TpIssue = IssueModel.Add ("Test/copy CRC-32s match for all tracks.", sev, IssueTags.Success);
-                }
-
-                int k1=0, k2=0, k3=0;
-                int r1a=-1, r2a=-1, r3a=-1;
-                int r1b=0, r2b=0, r3b=0;
-                StringBuilder m1 = new StringBuilder(), m2 = new StringBuilder(), m3 = new StringBuilder();
-                foreach (LogEacTrack tk in Data.Tracks.Items)
-                {
-                    if (! tk.HasOk)
-                    {
-                        if (r1a < 0) r1a = tk.Number;
-                        r1b = tk.Number;
-                        ++k1;
-                    }
-                    else if (r1a >= 0)
-                    {
-                        if (m1.Length != 0) m1.Append (",");
-                        m1.Append (r1a);
-                        if (r1b > r1a) { m1.Append ("-"); m1.Append (r1b); }
-                        r1a = -1;
-                    }
- 
-                    if (tk.HasOk && ! tk.HasQuality)
-                    {
-                        if (r2a < 0) r2a = tk.Number;
-                        r2b = tk.Number;
-                        ++k2;
-                    }
-                    else if (r2a >= 0)
-                    {
-                        if (m2.Length != 0) m2.Append (",");
-                        m2.Append (r2a);
-                        if (r2b > r2a) { m2.Append ("-"); m2.Append (r2b); }
-                        r2a = -1;
-                    }
-
-                    if (tk.IsBadCRC)
-                    {
-                        if (r3a < 0) r3a = tk.Number;
-                        r3b = tk.Number;
-                        ++k3;
-                    }
-                    else if (r3a >= 0)
-                    {
-                        if (m3.Length != 0) m3.Append (",");
-                        m3.Append (r3a);
-                        if (r3b > r3a) { m3.Append ("-"); m3.Append (r3b); }
-                        r3a = -1;
-                    }
-                }
-
-                if (k1 == 0 && k2 == 0 && k3 == 0)
-                    return;
-
-                if (r1a >= 0)
-                {
-                    if (m1.Length != 0) m1.Append (",");
-                    m1.Append (r1a);
-                    if (r1b > r1a) { m1.Append ("-"); m1.Append (r1b); }
-                }
-                if (r2a >= 0)
-                {
-                    if (m2.Length != 0) m2.Append (",");
-                    m2.Append (r2a);
-                    if (r2b > r2a) { m2.Append ("-"); m2.Append (r2b); }
-                }
-                if (r3a >= 0)
-                {
-                    if (m3.Length != 0) m3.Append (",");
-                    m3.Append (r3a);
-                    if (r3b > r3a) { m3.Append ("-"); m3.Append (r3b); }
-                }
-
-                if (k1 != 0)
-                {
-                    m1.Append (" not OK.");
-                    Data.OkIssue = IssueModel.Add ((k1 == 1? "Track " : "Tracks ") + m1, Severity.Error, IssueTags.Failure);
-                }
-                if (k2 != 0)
-                {
-                    m2.Append (" OK but missing quality indicator.");
-                    Data.QiIssue = IssueModel.Add ((k2 == 1? "Track " : "Tracks ") + m2, Severity.Error, IssueTags.Failure);
-                }
-                if (k3 != 0)
-                {
-                    m3.Append (" test/copy CRCs mismatched.");
-                    Data.TpIssue = IssueModel.Add ((k3 == 1? "Track " : "Tracks ") + m3, Severity.Error, IssueTags.Failure);
-                }
-
-                for (int trackIndex = 0; trackIndex < TracksModel.Data.Items.Count; ++trackIndex)
-                {
-                    var tk = TracksModel.Data.Items[trackIndex];
-
-                    if (tk.RipSeverest == null || tk.RipSeverest.Level < Severity.Error)
-                        if (! tk.HasOk)
-                            TracksModel.SetSeverest (trackIndex, Data.OkIssue);
-                        else if (! tk.HasQuality)
-                            TracksModel.SetSeverest (trackIndex, Data.QiIssue);
-                        else if (tk.IsBadCRC)
-                            TracksModel.SetSeverest (trackIndex, Data.TpIssue);
-                }
             }
         }
 
@@ -562,13 +323,8 @@ namespace KaosFormat
         private static readonly byte[] logEacSig1x = Encoding.Unicode.GetBytes ("\uFEFFExact Audio Copy V");
 
         public LogEacTrack.Vector Tracks { get; private set; }
+
         public string EacVersionText { get; private set; }
-        public string RipDate { get; private set; }
-        public string Artist { get; private set; }
-        public string Album { get; private set; }
-        public string RipArtistAlbum => Artist + " / " + Album;
-        public string Drive { get; private set; }
-        public string ReadOffset { get; private set; }
         public string Overread { get; private set; }
         public string Id3Tag { get; private set; }
         public string FillWithSilence { get; private set; }
@@ -576,7 +332,6 @@ namespace KaosFormat
         public string SampleFormat { get; private set; }
         public string CalcWithNulls { get; private set; }
         public string Interface { get; private set; }
-        public string GapHandling { get; private set; }
         public string NormalizeTo { get; private set; }
         public string Quality { get; private set; }
         public int? TocTrackCount { get; private set; }
@@ -659,7 +414,6 @@ namespace KaosFormat
          => storedHash==null? (EacVersionText==null || EacVersionText.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
 
         public bool HasRpIssue => RpIssue != null;
-        public bool? IsLosslessRip { get; private set; } = null;
 
         public Issue DsIssue { get; private set; }
         public Issue NzIssue { get; private set; }
@@ -667,12 +421,9 @@ namespace KaosFormat
         public Issue ArIssue { get; private set; }
         public Issue CtIssue { get; private set; }
         public Issue GpIssue { get; private set; }
-        public Issue TkIssue { get; private set; }
-        public Issue OkIssue { get; private set; }  // Is OK
-        public Issue QiIssue { get; private set; }  // Quality indicator
-        public Issue TpIssue { get; private set; }  // Test pass
+        public Issue OkIssue { get; private set; }  // Track OK
+        public Issue QiIssue { get; private set; }  // Quality %
         public Issue TsIssue { get; private set; }
-        public Issue RpIssue { get; private set; }  // Rip check result.
 
         public Encoding Codepage { get; private set; }
 
@@ -730,7 +481,7 @@ namespace KaosFormat
                     sb.Clear();
                     sb.AppendFormat ("{0,3}", tk.Number);
                     sb.Append (": ");
-                    sb.Append (tk.FilePath);
+                    sb.Append (tk.FileName);
                     if (! String.IsNullOrEmpty (tk.Qual))
                     { sb.Append (" | "); sb.Append (tk.Qual); }
                     if (tk.CopyCRC != null)

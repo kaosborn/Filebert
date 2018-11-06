@@ -79,9 +79,9 @@ namespace KaosFormat
     }
 
 
-    public partial class LogEacFormat : FormatBase
+    public partial class LogEacFormat : LogFormat
     {
-        public new partial class Model : FormatBase.Model
+        public new partial class Model : LogFormat.Model
         {
             public static bool ToInt (string source, int offset, out int result)
             {
@@ -130,8 +130,8 @@ namespace KaosFormat
                     IssueModel.Add ("Missing '<artist> / <album>', " + parser.GetPlace() + ".");
                     return lx;
                 }
-                Data.Artist = lx.Substring (0, slashPos).Trim();
-                Data.Album = lx.Substring (slashPos + 1).Trim();
+                Data.RipArtist = lx.Substring (0, slashPos).Trim();
+                Data.RipAlbum = lx.Substring (slashPos + 1).Trim();
 
                 for (;;)
                 {
