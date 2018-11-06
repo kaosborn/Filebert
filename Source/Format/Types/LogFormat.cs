@@ -111,6 +111,52 @@ namespace KaosFormat
                 }
             }
 
+            public void ValidateRip (IList<Mp3Format> mp3s)
+            {
+                Data.IsLosslessRip = false;
+                PerformValidations();
+
+                Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
+                if (baddest < IssueModel.Data.MaxSeverity)
+                    baddest = IssueModel.Data.MaxSeverity;
+
+                if (baddest >= Severity.Error)
+                    Data.RpIssue = IssueModel.Add ("MP3 rip check failed.", baddest, IssueTags.Failure);
+                else if (baddest == Severity.Warning)
+                    Data.RpIssue = IssueModel.Add ("MP3 rip check successful with warnings.", baddest, IssueTags.Success);
+                else
+                    Data.RpIssue = IssueModel.Add ("MP3 rip check okay!", Severity.Advisory, IssueTags.Success);
+
+                void PerformValidations()
+                {
+                    if (mp3s.Count != TracksModel.GetCount() || mp3s.Count == 0)
+                    {
+                        Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} MP3s, EAC log contains {TracksModel.GetCount()} tracks.", Severity.Error, IssueTags.Failure);
+                        baddest = Severity.Error;
+                        return;
+                    }
+
+                    if (mp3s.Count != mp3s.Where (tk => tk.Lame != null && tk.Lame.ActualDataCrc != null).Count())
+                        IssueModel.Add ("Track CRC checks not performed.", Severity.Warning, IssueTags.StrictErr);
+
+                    if (mp3s[0].Lame != null)
+                    {
+                        string profile = mp3s[0].Lame.Profile;
+                        for (int ix = 1; ; ++ix)
+                        {
+                            if (ix == mp3s.Count)
+                            { IssueModel.Add ($"MP3 rip profile is {profile}.", Severity.Advisory); break; }
+
+                            if (mp3s[ix].Lame == null || mp3s[ix].Lame.Profile != profile)
+                            {
+                                IssueModel.Add ("Inconsistent MP3 encoder settings.", Severity.Warning, IssueTags.StrictErr);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             public void CheckFlacRipTags (IList<FlacFormat> flacs)
             {
                 int prevTrackNum = -1;
