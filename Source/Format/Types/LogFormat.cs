@@ -117,6 +117,11 @@ namespace KaosFormat
                 PerformValidations();
 
                 Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
+                if (baddest >= Severity.Error)
+                    IssueModel.Add (GetMessage (Severity.Error));
+                else if (baddest == Severity.Warning)
+                    IssueModel.Add (GetMessage (Severity.Warning));
+
                 if (baddest < IssueModel.Data.MaxSeverity)
                     baddest = IssueModel.Data.MaxSeverity;
 
@@ -154,6 +159,18 @@ namespace KaosFormat
                             }
                         }
                     }
+                }
+
+                string GetMessage (Severity level)
+                {
+                    string msg = null;
+                    for (int mx = 0; mx < mp3s.Count; ++mx)
+                        if (mp3s[mx].Issues.MaxSeverity >= level)
+                            if (msg == null)
+                                msg = "File issues on MP3 #" + (mx+1);
+                            else
+                                msg += ", #" + (mx+1);
+                    return msg + ".";
                 }
             }
 
