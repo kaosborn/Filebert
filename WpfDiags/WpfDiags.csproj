@@ -275,7 +275,7 @@
     <Compile Include="Controls\WavControl.xaml.cs">
       <DependentUpon>WavControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PathDragDropper.cs" />
+    <Compile Include="FileDragDropper.cs" />
     <Compile Include="ValueConverters.cs" />
     <Compile Include="WpfDiagsView_IDiagsUi.cs" />
     <Compile Include="WpfDiagsView.xaml.cs">
