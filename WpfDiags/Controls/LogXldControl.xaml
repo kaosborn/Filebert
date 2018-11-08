@@ -35,6 +35,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
@@ -50,17 +53,14 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Advisory}">
                             <Setter Property="Text" Value="&#x2665;"/>
-                            <!-- solid heart -->
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Warning}">
                             <Setter Property="Text" Value="&#x2665;"/>
-                            <!-- solid heart -->
                             <Setter Property="Foreground" Value="Yellow"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Error}">
                             <Setter Property="Text" Value="&#x2612;"/>
-                            <!-- X -->
                             <Setter Property="Foreground" Value="Red"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -79,9 +79,35 @@
         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=Drive, Mode=OneWay}"/>
         <TextBlock Grid.Row="6" Text="Read offset:"/>
         <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=ReadOffset, Mode=OneWay}"/>
-        <TextBlock Grid.Row="10" Text="Signature:"/>
-        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=StoredHash, Mode=OneWay}"/>
-        <ListView Grid.Row="12" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
+        <TextBlock Grid.Row="7" Text="Ripper mode:"/>
+        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Path=ReadMode, Mode=OneWay}"/>
+        <TextBlock Grid.Row="8" Text="Disable cache:"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Path=DefeatCache, Mode=OneWay}"/>
+        <TextBlock Grid.Row="9" Text="Use C2:"/>
+        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Path=UseC2, Mode=OneWay}"/>
+        <TextBlock Grid.Row="10" Text="Gap handling:"/>
+        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=GapHandling, Mode=OneWay}"/>
+        <TextBlock Grid.Row="12" Text="AccurateRip:"/>
+        <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding Path=AccurateRipLong, Mode=OneWay}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ArIssue.Success}" Value="true">
+                            <Setter Property="Background" Value="LightGreen"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ArIssue.Failure}" Value="true">
+                            <Setter Property="Background" Value="Orange"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ArIssue.Level}" Value="{x:Static issue:Severity.Warning}">
+                            <Setter Property="Background" Value="Yellow"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBlock Grid.Row="14" Text="Signature:"/>
+        <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding Path=DerivedHash, Mode=OneWay}"/>
+        <ListView Grid.Row="15" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
                 <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
@@ -89,7 +115,7 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header=" # ">
+                        <GridViewColumn Header="Track">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Number, Mode=OneWay}" TextAlignment="Right"/>
@@ -174,7 +200,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridSplitter Grid.Row="13" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="14" Grid.ColumnSpan="9"/>
+        <GridSplitter Grid.Row="16" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="17" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>

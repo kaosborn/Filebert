@@ -336,8 +336,6 @@ namespace KaosFormat
         public string Quality { get; private set; }
         public int? TocTrackCount { get; private set; }
         public bool IsRangeRip { get; private set; }
-        public int? AccurateRip { get; private set; }
-        public int? AccurateRipConfidence { get; private set; }
         public int? CueToolsConfidence { get; private set; }
 
         private string accurateStream;
@@ -368,17 +366,6 @@ namespace KaosFormat
         }
 
         public string EacVersionLong => EacVersionText?? "unknown";
-
-        public string AccurateRipLong
-        {
-            get
-            {
-                if (AccurateRipConfidence == null) return "not attempted";
-                if (AccurateRipConfidence.Value < 0) return "failed";
-                if (AccurateRipConfidence.Value == 0) return "data not present";
-                return "confidence " + AccurateRipConfidence.Value + " (v" + AccurateRip + ")";
-            }
-        }
 
         public string CueToolsLong
         {
@@ -418,7 +405,6 @@ namespace KaosFormat
         public Issue DsIssue { get; private set; }
         public Issue NzIssue { get; private set; }
         public Issue ShIssue { get; private set; }
-        public Issue ArIssue { get; private set; }
         public Issue CtIssue { get; private set; }
         public Issue GpIssue { get; private set; }
         public Issue OkIssue { get; private set; }  // Track OK

@@ -234,7 +234,7 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Header=" # ">
+                        <GridViewColumn Header="Track">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Number, Mode=OneWay}" TextAlignment="Right"/>
@@ -282,7 +282,7 @@
                                 </Style>
                             </GridViewColumn.HeaderContainerStyle>
                         </GridViewColumn>
-                        <GridViewColumn Header="Test CRC">
+                        <GridViewColumn Header=" Test CRC ">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding TestCRC, StringFormat={}{0:X8}, Mode=OneWay}"/>

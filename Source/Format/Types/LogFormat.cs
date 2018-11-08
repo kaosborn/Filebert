@@ -235,8 +235,12 @@ namespace KaosFormat
         public string ReadOffset { get; protected set; }
         public string GapHandling { get; protected set; }
 
+        public int? AccurateRip { get; protected set; }
+        public int? AccurateRipConfidence { get; protected set; }
+
         public bool? IsLosslessRip { get; private set; } = null;
 
+        public Issue ArIssue { get; protected set; }  // AccurateRip
         public Issue TkIssue { get; protected set; }  // Tracks
         public Issue NrIssue { get; private set; }    // Log track number
         public Issue TpIssue { get; protected set; }  // Test pass
@@ -245,5 +249,16 @@ namespace KaosFormat
 
         public LogFormat (FormatBase.Model model, Stream stream, string path) : base (model, stream, path)
         { }
+
+        public string AccurateRipLong
+        {
+            get
+            {
+                if (AccurateRipConfidence == null) return "not attempted";
+                if (AccurateRipConfidence.Value < 0) return "failed";
+                if (AccurateRipConfidence.Value == 0) return "data not present";
+                return "confidence " + AccurateRipConfidence.Value + " (v" + AccurateRip + ")";
+            }
+        }
     }
 }
