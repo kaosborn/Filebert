@@ -146,6 +146,11 @@ namespace AppController
                     if (argOk)
                         mirrorName = arg;
                 }
+                else if (args[ix].StartsWith ("/strict"))
+                {
+                    model.Data.IsStrict = true;
+                    argOk = true;
+                }
                 else if (args[ix].StartsWith ("/v:"))
                 {
                     argOk = Enum.TryParse<Validations> (args[ix].Substring (3), true, out Validations arg);
@@ -250,7 +255,7 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/h:<hashes>] [/s:<scope>] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
+            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/h:<hashes>] [/s:<scope>] [/strict] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
             Console.WriteLine("Where <fileOrFolder> is a file or directory name without wildcards.");
