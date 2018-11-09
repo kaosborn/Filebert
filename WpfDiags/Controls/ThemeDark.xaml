@@ -14,7 +14,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
     </Style>
     <Style x:Key="darkListBoxItem" TargetType="ListBoxItem">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="True"/>
     </Style>
     <Style x:Key="darkListView" TargetType="ListView">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>

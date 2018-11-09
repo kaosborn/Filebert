@@ -4,6 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+#if MVVM
+using System.Windows;
+using KaosMvvm;
+#endif
 using KaosIssue;
 using KaosCrypto;
 
@@ -526,6 +530,10 @@ namespace KaosFormat
             }
         }
 
+#if MVVM
+        public System.Windows.Input.ICommand DoCopyTagName { get; private set; }
+        public System.Windows.Input.ICommand DoCopyTagValue { get; private set; }
+#endif
 
         private static string[] SampleRateMap =
         { "g0000", "88.2kHz", "176.4kHz", "192kHz", "8kHz", "16kHz", "22.05kHz", "24kHz",
@@ -600,7 +608,29 @@ namespace KaosFormat
         public Issue CmIssue { get; private set; }
 
         private FlacFormat (Model model, Stream stream, string path) : base (model, stream, path)
-        { }
+        {
+#if MVVM
+            DoCopyTagName = new RelayCommand<object> ((object obj) =>
+            {
+                if (obj is string tag)
+                {
+                    int eqPos = tag.IndexOf ('=');
+                    if (eqPos > 0)
+                        Clipboard.SetText (tag.Substring (0, eqPos).ToUpper());
+                }
+            });
+
+            DoCopyTagValue = new RelayCommand<object> ((object obj) =>
+            {
+                if (obj is string tag)
+                {
+                    int eqPos = tag.IndexOf ('=');
+                    if (eqPos >= 0)
+                        Clipboard.SetText (tag.Substring (eqPos+1));
+                }
+            });
+#endif
+        }
 
         public string GetTagValue (string key)
         {

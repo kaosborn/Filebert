@@ -113,18 +113,28 @@
         <TextBlock Grid.Row="17" Text="Vendor tag:"/>
         <TextBox Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Blocks.Tags.Vendor, Mode=OneWay}"/>
         <TextBlock Grid.Row="18" VerticalAlignment="Top" Text="Tags:"/>
-        <ListBox Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="9" ItemsSource="{Binding Blocks.Tags.Lines}">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="FontSize" Value="12"/>
-                    <Setter Property="Margin" Value="3,0,0,0"/>
-                    <Setter Property="Template">
+        <ListBox Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="9"
+                 ItemsSource="{Binding Blocks.Tags.Lines}" SelectionMode="Single">
+            <ListBox.Resources>
+                <Style TargetType="ListBox" BasedOn="{StaticResource darkListBox}">
+                    <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <ContentPresenter />
-                            </ControlTemplate>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Copy tag name" Command="{Binding Path=DataContext.DoCopyTagName}"
+                                          CommandParameter="{Binding Path=SelectedItem}"/>
+                                <MenuItem Header="Copy tag value" Command="{Binding Path=DataContext.DoCopyTagValue}"
+                                          CommandParameter="{Binding Path=SelectedItem}"/>
+                            </ContextMenu>
                         </Setter.Value>
                     </Setter>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource darkListBoxItem}">
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Margin" Value="3,0,0,0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
