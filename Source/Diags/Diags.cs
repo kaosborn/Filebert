@@ -104,13 +104,13 @@ namespace KaosDiags
             }
         }
 
-        public bool IsWebCheckEnabled
+        public bool IsEacWebCheckEnabled
         {
             get => (hashFlags & Hashes._WebCheck) != 0;
             set
             {
                 hashFlags = value ? hashFlags | Hashes._WebCheck : hashFlags & ~Hashes._WebCheck;
-                RaisePropertyChangedEvent (nameof (IsWebCheckEnabled));
+                RaisePropertyChangedEvent (nameof (IsEacWebCheckEnabled));
             }
         }
 

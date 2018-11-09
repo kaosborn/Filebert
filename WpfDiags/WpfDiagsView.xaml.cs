@@ -122,7 +122,7 @@ namespace AppView
                 }
                 else if (args[ix] == "/webcheck")
                 {
-                    viewModel.Data.IsWebCheckEnabled = true;
+                    viewModel.Data.IsEacWebCheckEnabled = true;
                     argOk = true;
                 }
                 else if (ix == args.Length - 1)

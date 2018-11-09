@@ -104,7 +104,7 @@
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
                                 <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}" ToolTip="by CRC-32"/>
                                 <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}"/>
-                                <CheckBox Content="EAC log hash" IsChecked="{Binding Path=IsWebCheckEnabled, Mode=TwoWay}" ToolTip="requires internet connection"/>
+                                <CheckBox Content="EAC log hash" IsChecked="{Binding Path=IsEacWebCheckEnabled, Mode=TwoWay}" ToolTip="requires internet connection"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>

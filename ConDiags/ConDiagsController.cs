@@ -181,7 +181,7 @@ namespace AppController
                 }
                 else if (args[ix] == "/webcheck")
                 {
-                    model.Data.IsWebCheckEnabled = true;
+                    model.Data.IsEacWebCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix].StartsWith ("/p:"))

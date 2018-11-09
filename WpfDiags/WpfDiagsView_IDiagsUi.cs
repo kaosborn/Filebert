@@ -10,8 +10,8 @@ namespace AppView
     public partial class WpfDiagsView
     {
         private int totalLinesReported = 0;
-        private string curDir = null, curFile = null;
-        private bool dirShown = false, fileShown = false;
+        private string shownDir = null, shownFile = null;
+        private bool isDirShown = false, isFileShown = false;
 
         public string BrowseFile()
         {
@@ -38,25 +38,25 @@ namespace AppView
 
         public void FileProgress (string dirName, string fileName)
         {
-            if (curDir != dirName)
+            if (shownDir != dirName)
             {
-                curDir = dirName;
-                dirShown = false;
-                curFile = fileName;
-                fileShown = false;
+                shownDir = dirName;
+                isDirShown = false;
+                shownFile = fileName;
+                isFileShown = false;
             }
-            else if (curFile != fileName)
+            else if (shownFile != fileName)
             {
-                curFile = fileName;
-                fileShown = false;
+                shownFile = fileName;
+                isFileShown = false;
             }
         }
 
         public void SetText (string message)
         {
             consoleBox.Text = message;
-            curDir = null; curFile = null;
-            dirShown = false; fileShown = false;
+            shownDir = null; shownFile = null;
+            isDirShown = false; isFileShown = false;
             totalLinesReported = 0;
         }
 
@@ -72,9 +72,9 @@ namespace AppView
                 return;
             }
 
-            if (! fileShown && viewModel.Data.CurrentFile != null)
+            if (! isFileShown && viewModel.Data.CurrentFile != null)
             {
-                fileShown = true;
+                isFileShown = true;
 
                 if (totalLinesReported != 0)
                     if (viewModel.Data.Scope == Granularity.Detail)
@@ -82,9 +82,9 @@ namespace AppView
                     else if (! viewModel.Data.IsDigestForm)
                         consoleBox.AppendText (Environment.NewLine);
 
-                if (! dirShown)
+                if (! isDirShown)
                 {
-                    dirShown = true;
+                    isDirShown = true;
 
                     if (viewModel.Data.IsDigestForm)
                     {

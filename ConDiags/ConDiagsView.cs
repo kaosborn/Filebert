@@ -32,8 +32,8 @@ namespace AppView
 
         private bool isProgressDirty = false;
         private int totalLinesReported = 0;
-        private string curDir = null, curFile = null;
-        private bool dirShown = false, fileShown = false;
+        private string shownDir = null, shownFile = null;
+        private bool isDirShown = false, isFileShown = false;
 
         public string ProgressEraser => "\r              \r";
 
@@ -65,9 +65,9 @@ namespace AppView
                 isProgressDirty = false;
             }
 
-            if (! fileShown && curFile != null)
+            if (! isFileShown && shownFile != null)
             {
-                fileShown = true;
+                isFileShown = true;
 
                 if (totalLinesReported != 0)
                     if (diags.Scope == Granularity.Detail)
@@ -75,9 +75,9 @@ namespace AppView
                     else if (! diags.IsDigestForm)
                         Trace.WriteLine (String.Empty);
 
-                if (! dirShown)
+                if (! isDirShown)
                 {
-                    dirShown = true;
+                    isDirShown = true;
 
                     if (diags.IsDigestForm)
                     {
@@ -140,16 +140,16 @@ namespace AppView
 
         private void FileProgress (string dirName, string fileName)
         {
-            if (curDir != dirName)
+            if (shownDir != dirName)
             {
-                curDir = dirName;
-                dirShown = false;
-                curFile = fileName;
-                fileShown = false;
-            } else if (curFile != fileName)
+                shownDir = dirName;
+                isDirShown = false;
+                shownFile = fileName;
+                isFileShown = false;
+            } else if (shownFile != fileName)
             {
-                curFile = fileName;
-                fileShown = false;
+                shownFile = fileName;
+                isFileShown = false;
             }
             else
                 return;
