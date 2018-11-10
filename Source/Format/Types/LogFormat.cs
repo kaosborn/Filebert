@@ -2,6 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+#if MVVM
+using System.Windows.Input;
+using KaosMvvm;
+#endif
 using KaosIssue;
 
 namespace KaosFormat
@@ -16,6 +20,11 @@ namespace KaosFormat
 
             protected Model()
             { }
+
+#if MVVM
+            public void SetNavCommand (RelayCommand<object> command)
+             => Data.NavToFlac = command;
+#endif
 
             protected virtual void GetDiagnostics()
             {
@@ -225,7 +234,9 @@ namespace KaosFormat
             }
         }
 
-
+#if MVVM
+        public ICommand NavToFlac { get; private set; }
+#endif
         public string Application { get; protected set; }
         public string RipDate { get; protected set; }
         public string RipArtist { get; protected set; }

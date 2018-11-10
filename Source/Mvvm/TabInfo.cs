@@ -49,6 +49,9 @@ namespace AppViewModel
                 ++RepairableCount;
         }
 
+        public int IndexOf (FormatBase fmt)
+         => items.IndexOf (fmt);
+
         public bool GetIsRepairable (int index)
          => items[index].IsRepairable;
 

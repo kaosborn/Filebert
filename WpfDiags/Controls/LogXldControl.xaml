@@ -110,7 +110,16 @@
         <ListView Grid.Row="15" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
-                <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
+                <Style TargetType="ListView" BasedOn="{StaticResource darkListView}">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Go to .flac" Command="{Binding DataContext.NavToFlac}"
+                                          CommandParameter="{Binding Path=SelectedItem}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </ListView.Resources>
             <ListView.View>
                 <GridView>
@@ -179,7 +188,7 @@
                     <Setter Property="FontSize" Value="12"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Focusable" Value="false"/>
+                    <Setter Property="Focusable" Value="true"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsTrackOk}" Value="true">
                             <Setter Property="Foreground" Value="Chartreuse"/>

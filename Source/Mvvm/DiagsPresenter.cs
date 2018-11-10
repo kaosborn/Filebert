@@ -17,6 +17,7 @@ namespace AppViewModel
         // The ViewModel API of Model-View-ViewModel.
         public new class Model : Diags.Model
         {
+            private readonly RelayCommand<object> navToFlac;
             public IDiagsUi Ui { get; private set; }
             public new DiagsPresenter Data => (DiagsPresenter) _data;
 
@@ -54,6 +55,20 @@ namespace AppViewModel
                 Data.TabSha1x = GetTabInfo ("sha1x");
                 Data.TabSha256 = GetTabInfo ("sha256");
                 Data.TabWav = GetTabInfo ("wav");
+
+                navToFlac = new RelayCommand<object> ((object obj) =>
+                {
+                    if (obj is LogTrack track)
+                    {
+                        int ix = Data.TabFlac.IndexOf (track.Match);
+                        if (ix >= 0)
+                        {
+                            Data.TabFlac.Index = ix;
+                            Data.CurrentTabNumber = Data.TabFlac.TabPosition;
+                            Data.RaisePropertyChangedEvent (null);
+                        }
+                    }
+                });
 
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
@@ -235,9 +250,12 @@ namespace AppViewModel
                             {
                                 if (newTabInfoIx < 0 || parsing is LogFormat.Model || parsing is LogEacFormat.Model)
                                 { newTabInfoIx = tInfo.TabPosition; newTabInfoFmtIx = tInfo.Count; }
+
                                 tInfo.Add (parsing.Data);
+                                if (parsing is LogFormat.Model log)
+                                    log.SetNavCommand (navToFlac);
                             }
-                    }
+                        }
                 }
                 catch (IOException ex)
                 { jobArgs.Result = ex.Message; }
