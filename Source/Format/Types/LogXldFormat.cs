@@ -174,9 +174,9 @@ namespace KaosFormat
                         int.TryParse (px.Substring (6), out int tn);
                         if (tn != arItems.Count + 1)
                             return;
-                        if (! arg.Contains ("OK "))
-                            arItems.Add (-1);
-                        else
+                        if (arg == "Not Found")
+                            arItems.Add (0);
+                        else if (arg.Contains ("OK "))
                         {
                             int p1 = arg.IndexOf ("confidence ");
                             if (p1 < 0) return; // malformed AR
@@ -190,6 +190,8 @@ namespace KaosFormat
                             if (arg.Contains ("v2"))
                                 ++arV2;
                         }
+                        else
+                            arItems.Add (-1);
                         lx = parser.ReadLine();
                     }
                 }
