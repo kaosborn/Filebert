@@ -70,9 +70,9 @@ namespace KaosFormat
                         for (int tx = 0; tx < GetCount(); ++tx)
                         {
                             LogTrack track = GetItem (tx);
-                            if (track.match == null && track.CopyCRC == flacs[fx].ActualPcmCRC32)
+                            if (track.Match == null && track.CopyCRC == flacs[fx].ActualPcmCRC32)
                             {
-                                track.match = flacs[fx];
+                                track.Match = flacs[fx];
                                 track.IsMatchOk = tx == fx;
                                 if (track.IsMatchOk == true)
                                     --Data.RipMismatchCount;
@@ -82,7 +82,7 @@ namespace KaosFormat
                     for (int tx = 0; tx < GetCount(); ++tx)
                     {
                         LogTrack track = GetItem (tx);
-                        if (track.match == null)
+                        if (track.Match == null)
                             track.IsMatchOk = false;
                     }
                 }
@@ -104,8 +104,8 @@ namespace KaosFormat
 
         public bool? IsRipOk => (! IsTrackOk) ? false : IsMatchOk;
 
-        private FormatBase match = null;
-        public string MatchName => match?.Name;
+        public FormatBase Match { get; private set; } = null;
+        public string MatchName => Match?.Name;
 
         protected LogTrack (int number, string fileName, uint? testCRC, uint? copyCRC)
         {
