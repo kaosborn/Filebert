@@ -691,6 +691,36 @@ namespace KaosFormat
             return null;
         }
 
+
+        private string layout = null;
+        public string Layout
+        {
+            get
+            {
+                if (layout == null)
+                {
+                    var sb = new StringBuilder ("|");
+                    foreach (var item in Blocks.Items)
+                    {
+                        sb.Append (' ');
+                        sb.Append (item.Name);
+                        sb.Append (" (");
+                        sb.Append (item.Size);
+                        sb.Append (") |");
+                    }
+
+                    if (aHdr != null)
+                    {
+                        sb.Append (" Audio (");
+                        sb.Append (MediaCount);
+                        sb.Append (") |");
+                    }
+                    layout = sb.ToString();
+                }
+                return layout;
+            }
+        }
+
         public override void GetReportDetail (IList<string> report)
         {
             if (report.Count > 0)
@@ -739,26 +769,8 @@ namespace KaosFormat
             if (ActualPcmCRC32 != null)
                 report.Add ($"  Actual PCM CRC-32 = {ActualPcmCRC32ToHex}");
 
-            var sb = new StringBuilder();
-            sb.Append ("Layout = |");
-            foreach (var item in Blocks.Items)
-            {
-                sb.Append (' ');
-                sb.Append (item.Name);
-                sb.Append (" (");
-                sb.Append (item.Size);
-                sb.Append (") |");
-            }
-
-            if (aHdr != null)
-            {
-                sb.Append (" Audio (");
-                sb.Append (MediaCount);
-                sb.Append (") |");
-            }
-
             report.Add (String.Empty);
-            report.Add (sb.ToString());
+            report.Add ($"Layout = {Layout}");
 
             if (Blocks.Tags != null)
             {

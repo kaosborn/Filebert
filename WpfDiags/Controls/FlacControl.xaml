@@ -53,8 +53,12 @@
         <app:FileHeaderControl Grid.ColumnSpan="4"/>
         <TextBlock Grid.Row="2" Text="Sample rate:"/>
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=SampleRateText, Mode=OneWay}"/>
-        <TextBlock Grid.Row="3" Text="Channel assignment:"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=ChannelAssignmentText, Mode=OneWay}"/>
+        <TextBlock Grid.Row="3" Text="Channels:"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="9">
+            <TextBox Text="{Binding Path=ChannelCount, Mode=OneWay}"/>
+            <TextBlock Text="  Assignment:"/>
+            <TextBox Text="{Binding Path=ChannelAssignmentText, Mode=OneWay}"/>
+        </StackPanel>
         <TextBlock Grid.Row="4" Text="Sample size:"/>
         <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=SampleSizeText, Mode=OneWay}"/>
         <TextBlock Grid.Row="11" Text="Stored data CRC-16:"/>
@@ -110,9 +114,11 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
+        <TextBlock Grid.Row="16" Text="Layout:"/>
+        <TextBox Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Layout, Mode=OneWay}"/>
         <TextBlock Grid.Row="17" Text="Vendor tag:"/>
         <TextBox Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Blocks.Tags.Vendor, Mode=OneWay}"/>
-        <TextBlock Grid.Row="18" VerticalAlignment="Top" Text="Tags:"/>
+        <TextBlock Grid.Row="18" VerticalAlignment="Top" Text="Vorbis tags:"/>
         <ListBox Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="9"
                  ItemsSource="{Binding Blocks.Tags.Lines}" SelectionMode="Single">
             <ListBox.Resources>
