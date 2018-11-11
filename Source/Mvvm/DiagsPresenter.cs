@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using KaosIssue;
 using KaosFormat;
@@ -431,6 +432,8 @@ namespace AppViewModel
         public ICommand DoConsoleClear { get; private set; }
         public ICommand DoConsoleZoomMinus { get; private set; }
         public ICommand DoConsoleZoomPlus { get; private set; }
+        public ICommand DoCopyLValueUpper { get; private set; }
+        public ICommand DoCopyRValue { get; private set; }
 
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
@@ -456,6 +459,26 @@ namespace AppViewModel
             DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
             DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
             DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
+
+            DoCopyLValueUpper = new RelayCommand<object> ((object obj) =>
+            {
+                if (obj is string tag)
+                {
+                    int eqPos = tag.IndexOf ('=');
+                    if (eqPos > 0)
+                        Clipboard.SetText (tag.Substring (0, eqPos).ToUpper());
+                }
+            });
+
+            DoCopyRValue = new RelayCommand<object> ((object obj) =>
+            {
+                if (obj is string tag)
+                {
+                    int eqPos = tag.IndexOf ('=');
+                    if (eqPos >= 0)
+                        Clipboard.SetText (tag.Substring (eqPos+1));
+                }
+            });
         }
 
         public void OnFileDrop (string[] paths)

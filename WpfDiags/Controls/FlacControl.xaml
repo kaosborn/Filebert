@@ -120,16 +120,17 @@
         <TextBox Grid.Row="17" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Blocks.Tags.Vendor, Mode=OneWay}"/>
         <TextBlock Grid.Row="18" VerticalAlignment="Top" Text="Vorbis tags:"/>
         <ListBox Grid.Row="18" Grid.Column="1" Grid.ColumnSpan="9"
+                 Tag="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                  ItemsSource="{Binding Blocks.Tags.Lines}" SelectionMode="Single">
             <ListBox.Resources>
                 <Style TargetType="ListBox" BasedOn="{StaticResource darkListBox}">
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                <MenuItem Header="Copy tag name" Command="{Binding Path=DataContext.DoCopyTagName}"
-                                          CommandParameter="{Binding Path=SelectedItem}"/>
-                                <MenuItem Header="Copy tag value" Command="{Binding Path=DataContext.DoCopyTagValue}"
-                                          CommandParameter="{Binding Path=SelectedItem}"/>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Copy tag name" Command="{Binding Path=DoCopyLValueUpper}"
+                                          CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
+                                <MenuItem Header="Copy tag value" Command="{Binding Path=DoCopyRValue}"
+                                          CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
