@@ -6,14 +6,41 @@ namespace AppViewModel
 {
     public class TabInfo
     {
-        private List<FormatBase> items;
+        public class Model
+        {
+            public TabInfo Data { get; private set; }
+
+            public Model (string heading, int tabPosition)
+            {
+                Data = new TabInfo (tabPosition);
+
+                if (heading.StartsWith ("."))
+                {
+                    Data.LongName = heading.Substring (1);
+                    Data.items = new List<FormatBase.Model>();
+                }
+            }
+
+            public void Add (FormatBase.Model fmtModel)
+            {
+                Data.items.Add (fmtModel);
+                if (Data.MaxSeverity < fmtModel.Data.Issues.MaxSeverity)
+                    Data.MaxSeverity = fmtModel.Data.Issues.MaxSeverity;
+                if (fmtModel.Data.Issues.MaxSeverity >= Severity.Error)
+                    ++Data.ErrorCount;
+                if (fmtModel.Data.IsRepairable)
+                    ++Data.RepairableCount;
+            }
+        }
+
+        private List<FormatBase.Model> items;
         public string LongName { get; private set; }
         public int TabPosition { get; private set; }
         public Severity MaxSeverity { get; private set; }
         public int ErrorCount { get; private set; }
         public int RepairableCount { get; private set; }
         public int Count => items.Count;
-        public FormatBase Current => index < 0 ? null : items[index];
+        public FormatBase Current => index < 0 ? null : items[index].Data;
         public bool HasError => MaxSeverity >= Severity.Error;
         public bool HasRepairables => RepairableCount != 0;
 
@@ -28,34 +55,21 @@ namespace AppViewModel
             }
         }
 
-        public TabInfo (string heading, int tabPosition)
-        {
-            TabPosition = tabPosition;
-            if (heading.StartsWith ("."))
-            {
-                LongName = heading.Substring (1);
-                items = new List<FormatBase>();
-            }
-        }
-
-        public void Add (FormatBase fmt)
-        {
-            items.Add (fmt);
-            if (MaxSeverity < fmt.Issues.MaxSeverity)
-                MaxSeverity = fmt.Issues.MaxSeverity;
-            if (fmt.Issues.MaxSeverity >= Severity.Error)
-                ++ErrorCount;
-            if (fmt.IsRepairable)
-                ++RepairableCount;
-        }
+        private TabInfo (int tabPosition)
+         => TabPosition = tabPosition;
 
         public int IndexOf (FormatBase fmt)
-         => items.IndexOf (fmt);
+        {
+            for (int ix = 0; ix < items.Count; ++ix)
+                if (items[ix].Data == fmt)
+                    return ix;
+            return -1;
+        }
 
         public bool GetIsRepairable (int index)
-         => items[index].IsRepairable;
+         => items[index].Data.IsRepairable;
 
         public Severity GetMaxSeverity (int index)
-         => items[index].Issues.MaxSeverity;
+         => items[index].Data.Issues.MaxSeverity;
     }
 }
