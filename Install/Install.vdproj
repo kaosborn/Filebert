@@ -215,7 +215,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Filebert"
         "ProductCode" = "8:{62816875-9A1F-446A-9979-E2B21738A9CD}"
-        "PackageCode" = "8:{319A1185-0DCA-4F7F-93D9-6B86F7C49409}"
+        "PackageCode" = "8:{8C8EA993-02D9-4B2B-8EB3-BCCC135B8220}"
         "UpgradeCode" = "8:{74E5A7D7-99FC-4D68-B4B9-935D9F83B166}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -401,9 +401,9 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_027EA95108B644B7BBA6C04BDBEA46C6"
             {
-            "Name" = "8:Filebert (Windows)"
+            "Name" = "8:Filebert (GUI)"
             "Arguments" = "8:[BUTTON4] [BUTTON3] [BUTTON2]"
-            "Description" = "8:Great caustic wonder"
+            "Description" = "8:The great caustic wonder"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
@@ -1106,7 +1106,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Validate EAC and XLD Rip Directories"
+                            "Value" = "8:Validate EAC and XLD Rip Folders"
                             "DefaultValue" = "8:#1214"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1119,7 +1119,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Requires EAC or XLD generated .log files in same directory as audio files."
+                            "Value" = "8:Requires EAC or XLD generated .log files in the same folder as audio files."
                             "DefaultValue" = "8:#1215"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1132,7 +1132,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Perform no directory-wide validations"
+                            "Value" = "8:Perform no folder-level validations"
                             "DefaultValue" = "8:#1222"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1526,7 +1526,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_93AAEF2F5ED94C10B9EDF1B7F61B666B"
             {
-            "SourcePath" = "8:..\\WpfDiags\\obj\\Release\\FilebertWin.exe"
+            "SourcePath" = "8:..\\WpfDiags\\obj\\Debug\\FilebertWin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
@@ -1554,7 +1554,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E86DE964AEED4318B1C471BC4DE25581"
             {
-            "SourcePath" = "8:..\\ConDiags\\obj\\Release\\Filebert.exe"
+            "SourcePath" = "8:..\\ConDiags\\obj\\Debug\\Filebert.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
