@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-#if MVVM
-using KaosMvvm;
-#endif
 
 namespace KaosIssue
 {
@@ -159,9 +156,6 @@ namespace KaosIssue
             this.RepairPrompt = prompt;
             this.Repairer = repairer;
             this.IsFinalRepairer = isFinalRepairer;
-#if MVVM
-            DoRepair = repairer == null ? null : new RelayCommand (() => owner.Repair (Index));
-#endif
         }
 
         public Severity Level

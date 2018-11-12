@@ -437,6 +437,7 @@ namespace AppViewModel
         public ICommand DoConsoleZoomPlus { get; private set; }
         public ICommand DoCopyLValueUpper { get; private set; }
         public ICommand DoCopyRValue { get; private set; }
+        public ICommand DoRepair { get; private set; }
 
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
@@ -481,6 +482,13 @@ namespace AppViewModel
                     if (eqPos >= 0)
                         Clipboard.SetText (tag.Substring (eqPos+1));
                 }
+            });
+
+            DoRepair = new RelayCommand<object> ((object obj) =>
+            {
+                TabInfo.Model tim = tabInfos[CurrentTabNumber];
+                if (tim.Repair ((int) obj))
+                    RaisePropertyChangedEvent (null);
             });
         }
 

@@ -31,6 +31,21 @@ namespace AppViewModel
                 if (fmtModel.Data.IsRepairable)
                     ++Data.RepairableCount;
             }
+
+            public bool Repair (int issueIndex)
+            {
+                if (Data.Index >= 0)
+                {
+                    FormatBase.Model fmtModel = Data.items[Data.Index];
+                    string err = fmtModel.IssueModel.Repair (issueIndex);
+                    if (err == null)
+                    {
+                        --Data.RepairableCount;
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
         private List<FormatBase.Model> items;
