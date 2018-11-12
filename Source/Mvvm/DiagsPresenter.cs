@@ -66,7 +66,7 @@ namespace AppViewModel
                             Data.CurrentTabNumber = Data.TabFlac.TabPosition;
                             Data.RaisePropertyChangedEvent (null);
                         }
-                });
+                },  (object obj) => obj is LogTrack track && track.Match != null);
 
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;

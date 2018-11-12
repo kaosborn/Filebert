@@ -119,6 +119,11 @@
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsLosslessRip}" Value="false">
+                            <Setter Property="ContextMenu" Value="{x:Null}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </ListView.Resources>
             <ListView.View>
