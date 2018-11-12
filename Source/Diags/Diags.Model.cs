@@ -112,10 +112,22 @@ namespace KaosDiags
                 }
                 else
                 {
-                    var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
-                    Stream st = new FileStream (Data.Root, FileMode.Open, access, FileShare.Read);
-                    var fmtModel = CheckFile (st, Data.Root, out Severity result);
-                    Data.Result = result;
+                    SetCurrentFile (Path.GetDirectoryName (Data.Root), Path.GetFileName (Data.Root));
+
+                    FormatBase.Model fmtModel;
+                    try
+                    {
+                        var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
+                        Stream st = new FileStream (Data.Root, FileMode.Open, access, FileShare.Read);
+                        fmtModel = CheckFile (st, Data.Root, out Severity result);
+                        Data.Result = result;
+                    }
+                    catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
+                    {
+                        Data.Result = Severity.Fatal;
+                        Data.OnMessageSend (ex.Message.Trim(), Severity.Fatal);
+                        yield break;
+                    }
                     yield return fmtModel;
                 }
             }
@@ -135,6 +147,8 @@ namespace KaosDiags
                         FormatBase.Model fmtModel;
                         try
                         {
+                            SetCurrentFile (Path.GetDirectoryName (fInfo.FullName), Path.GetFileName (fInfo.FullName));
+
                             // Many exceptions also caught by outer caller:
                             var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                             Stream stream = new FileStream (fInfo.FullName, FileMode.Open, access, FileShare.Read);
@@ -166,7 +180,7 @@ namespace KaosDiags
                             if (badness > Data.Result)
                                 Data.Result = badness;
                         }
-                        catch (FileNotFoundException ex)
+                        catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
                         {
                             Data.Result = Severity.Fatal;
                             Data.OnMessageSend (ex.Message.Trim(), Severity.Fatal);
@@ -180,8 +194,6 @@ namespace KaosDiags
 
             private FormatBase.Model CheckFile (Stream stream, string path, out Severity resultCode)
             {
-                SetCurrentFile (Path.GetDirectoryName (path), Path.GetFileName (path));
-
                 bool isKnownExtension;
                 FileFormat trueFormat;
                 FormatBase.Model fmtModel = null;
