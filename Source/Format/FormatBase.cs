@@ -328,6 +328,7 @@ namespace KaosFormat
 
                 Data.Path = newPath;
                 Data.Name = System.IO.Path.GetFileName (newPath);
+                Data.NotifyPropertyChanged (null);
                 return null;
             }
 
