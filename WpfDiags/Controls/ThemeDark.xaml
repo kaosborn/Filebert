@@ -24,7 +24,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>
     </Style>
     <Style x:Key="darkTextBlock" TargetType="TextBlock">
-        <Setter Property="Margin" Value="3,-2,3,0"/>
+        <Setter Property="Margin" Value="3,-3,3,0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="darkTextBox" TargetType="TextBox">
@@ -34,7 +34,7 @@
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="IsReadOnly" Value="True"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Margin" Value="3,1,0,1"/>
         <Style.Triggers>
@@ -47,7 +47,7 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
         <Setter Property="Focusable" Value="True"/>
         <Setter Property="IsTabStop" Value="True"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Margin" Value="0,3,0,0"/>
     </Style>

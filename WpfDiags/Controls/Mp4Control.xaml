@@ -36,7 +36,7 @@
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
         <TextBlock Grid.Row="1" Text="Brand:"/>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Brand, Mode=OneWay}"/>
-        <GridSplitter Grid.Row="4" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="5" Grid.ColumnSpan="9"/>
+        <GridSplitter Grid.Row="3" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="4" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>

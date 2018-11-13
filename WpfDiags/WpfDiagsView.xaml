@@ -49,8 +49,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <DockPanel Margin="3,0,3,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
-                <Label Content="&#x2388;" Margin="-3,-10,-9,-10" VerticalAlignment="Top" FontSize="25" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                <Label Content="File _name:" Margin="0,-1,0,0" VerticalAlignment="Center" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Label Content="&#x2388;" Margin="-3,-12,-9,-10" VerticalAlignment="Center" FontSize="25" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Label Content="File _name:" Margin="0,2,0,0" VerticalAlignment="Center" AllowDrop="True" app:FileDragDropper.IsFileDragDropEnabled="True" app:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 <TextBox x:Name="filePath" Text="{Binding Path=Root, UpdateSourceTrigger=PropertyChanged}" TabIndex="0">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBoxRequired}"/>
@@ -59,7 +59,7 @@
             </DockPanel>
             <Button Content=" Browse..." Command="{Binding DoBrowse}" Grid.Column="3" Margin="6,3,6,3" VerticalAlignment="Top"/>
             <StackPanel Grid.Row="1" Grid.Column="2" Margin="3,0,3,0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="Filter:"/>
+                <Label Content="Filter:" Margin="0,-1,0,0" VerticalAlignment="Center"/>
                 <TextBox x:Name="filter" Width="60" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}" TabIndex="1">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBox}"/>
@@ -68,7 +68,7 @@
             </StackPanel>
             <WrapPanel Grid.Row="1" Grid.RowSpan="4">
                 <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Generate" HorizontalAlignment="Left" Margin="3,3,3,3">
+                    <GroupBox Header="Generate" HorizontalAlignment="Left" Margin="0,0,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Intrinsics" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.Intrinsic}}"/>
@@ -86,7 +86,7 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,3,3,3">
+                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,0,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8"/>
@@ -98,7 +98,7 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,3,3,3">
+                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,0,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
@@ -148,53 +148,53 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" Margin="3,0,3,6">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding TabIsFormat}" Value="false">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirst}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="|&lt;" Command="{Binding NavFirst}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&lt;" Command="{Binding NavPrev}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;" Command="{Binding NavNext}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;|" Command="{Binding NavLast}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock Text="{Binding Path=CurrentTabText}"/>
+                    <TextBlock Text="{Binding Path=CurrentTabText}" Margin="6,0,0,0"/>
                 </StackPanel>
-                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="3,0,3,6">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding TabHasErrors}" Value="false">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirstError}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="|&lt;" Command="{Binding NavFirstError}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&lt;" Command="{Binding NavPrevError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;" Command="{Binding NavNextError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;|" Command="{Binding NavLastError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock Text="{Binding Path=TabErrorText}" Foreground="Red"/>
+                    <TextBlock Text="{Binding Path=TabErrorText}" Foreground="OrangeRed" Margin="6,0,0,0"/>
                 </StackPanel>
-                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
+                <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Margin="3,0,3,6">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding TabHasRepairables}" Value="false">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Hidden"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirstRepair}" Margin="6,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="|&lt;" Command="{Binding NavFirstRepair}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&lt;" Command="{Binding NavPrevRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;" Command="{Binding NavNextRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                     <Button Content="&gt;|" Command="{Binding NavLastRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <TextBlock Text="{Binding Path=TabRepairablesText}" Foreground="Violet">
+                    <TextBlock Text="{Binding Path=TabRepairablesText}" Foreground="Violet" Margin="6,0,0,0">
                     </TextBlock>
                 </StackPanel>
             </Grid>
