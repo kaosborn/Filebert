@@ -36,7 +36,8 @@ namespace AppViewModel
                     string err = fmtModel.IssueModel.Repair (issueIndex);
                     if (err == null)
                     {
-                        --Data.RepairableCount;
+                        if (fmtModel.IssueModel.Data.RepairableCount == 0)
+                            --Data.RepairableCount;
                         return true;
                     }
                 }
