@@ -72,6 +72,7 @@ namespace KaosFormat
         public int? CtConfidence { get; private set; }
 
         public bool HasQuality => ! String.IsNullOrWhiteSpace (Qual);
+        public string HasOkText => HasOk ? "Yes" : "No";
 
         private LogEacTrack (int number, string path, string pregap, string peak, string speed,
                              string quality, uint? testCRC, uint? copyCRC, bool isOk, int? arVersion, int? confidence)

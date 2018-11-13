@@ -96,7 +96,7 @@
                             <Setter Property="Background" Value="LightGreen"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ArIssue.Failure}" Value="true">
-                            <Setter Property="Background" Value="Orange"/>
+                            <Setter Property="Background" Value="Red"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ArIssue.Level}" Value="{x:Static issue:Severity.Warning}">
                             <Setter Property="Background" Value="Yellow"/>
@@ -199,7 +199,7 @@
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsTrackOk}" Value="False">
-                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="Foreground" Value="OrangeRed"/>
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -207,7 +207,7 @@
                                 <Condition Binding="{Binding IsRipOk}" Value="false"/>
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Foreground" Value="Red"/>
+                                <Setter Property="Foreground" Value="OrangeRed"/>
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                     </Style.Triggers>
