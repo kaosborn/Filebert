@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:app="clr-namespace:AppView"
+             xmlns:format="clr-namespace:KaosFormat"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="600"
              DataContext="{Binding Path=TabMpg.Current}">
@@ -12,6 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ThemeDark.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <app:DataTypeConverter x:Key="typeConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -24,7 +26,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
@@ -35,9 +36,56 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
-        <TextBlock Grid.Row="1" Text="Is VOB:"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=IsVOB, Mode=OneWay}"/>
-        <GridSplitter Grid.Row="4" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="5" Grid.ColumnSpan="9"/>
+        <Grid Grid.Row="1" Grid.ColumnSpan="9">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}"
+                                     Value="{x:Type format:Mpeg1Format}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Format:"/>
+            <TextBox Grid.Column="1" Text="MPEG-1 (CDXA)"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="9">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}"
+                                     Value="{x:Type format:Mpeg2Format}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Format:"/>
+            <TextBox Grid.Column="1" Text="MPEG-2"/>
+            <TextBlock Grid.Row="1" Text="Is VOB:"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=IsVOB, Mode=OneWay}"/>
+        </Grid>
+        <GridSplitter Grid.Row="3" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="4" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>

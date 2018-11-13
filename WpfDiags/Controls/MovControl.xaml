@@ -25,13 +25,13 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
@@ -39,9 +39,12 @@
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="IsEnabled" Value="false"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}" Value="{x:Type format:MovFormat}">
+                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}"
+                                     Value="{x:Type format:MovFormat}">
                             <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsEnabled" Value="true"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -60,9 +63,13 @@
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="IsEnabled" Value="false"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}" Value="{x:Type format:MovFormat2}">
+                        <DataTrigger Binding="{Binding Path=DataContext,
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}"
+                                     Value="{x:Type format:MovFormat2}">
                             <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsEnabled" Value="true"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -74,24 +81,10 @@
                 <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Header string:"/>
-            <TextBox Grid.Column="1" Text="{Binding Path=Header, Mode=OneWay}"/>
+            <TextBlock Grid.Row="1" Text="Brand:"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Brand, Mode=OneWay}"/>
         </Grid>
-        <!--<TextBlock Grid.Row="2" Grid.Column="1" Text="TEST">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}" Value="{x:Type format:MovFormat2}">
-                            <Setter Property="Background" Value="Blue"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource typeConverter}}" Value="{x:Type format:MovFormat}">
-                            <Setter Property="Foreground" Value="Yellow"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>-->
-        <GridSplitter Grid.Row="4" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="5" Grid.ColumnSpan="9"/>
+        <GridSplitter Grid.Row="3" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="4" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>
