@@ -137,9 +137,6 @@ namespace KaosIssue
         private Func<bool,string> Repairer { get; set; }
         public bool IsFinalRepairer { get; private set; }
         public bool? IsRepairSuccessful { get; private set; }
-#if MVVM
-        public System.Windows.Input.ICommand DoRepair { get; private set; }
-#endif
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
