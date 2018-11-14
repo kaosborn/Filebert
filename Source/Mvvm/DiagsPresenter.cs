@@ -35,7 +35,8 @@ namespace AppViewModel
                 Data.TabAsf = GetTabInfoData ("asf");
                 Data.TabAvi = GetTabInfoData ("avi");
                 Data.TabCue = GetTabInfoData ("cue");
-                tabFlacModel = GetTabInfoModel ("flac"); Data.TabFlac = tabFlacModel.Data;
+                tabFlacModel = GetTabInfoModel ("flac");
+                Data.TabFlac = tabFlacModel.Data;
                 Data.TabFlv = GetTabInfoData ("flv");
                 Data.TabGif = GetTabInfoData ("gif");
                 Data.TabIco = GetTabInfoData ("ico");
@@ -460,8 +461,8 @@ namespace AppViewModel
 
             DoRepair = new RelayCommand<object> ((object obj) =>
             {
-                TabInfo.Model tim = tabInfos[CurrentTabNumber];
-                if (tim.Repair ((int) obj))
+                TabInfo.Model tiModel = tabInfos[CurrentTabNumber];
+                if (tiModel.Repair ((int) obj))
                     RaisePropertyChangedEvent (null);
             });
         }

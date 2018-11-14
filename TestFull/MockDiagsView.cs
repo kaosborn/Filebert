@@ -40,7 +40,7 @@ namespace TestDiags
          => console.AppendLine (message);
 
         public IList<string> GetHeadings()
-         => new List<string> { "Console", ".m3u", ".mp3", ".ogg" };
+         => new List<string> { "Console", ".flac", ".m3u", ".mp3", ".ogg" };
 
         public void ShowSummary (IList<string> rollups)
         { }
