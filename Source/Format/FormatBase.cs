@@ -293,8 +293,8 @@ namespace KaosFormat
                     File.Move (Data.Path, newPath);
                     Data.Path = newPath;
                     Data.Name = newName;
-                    Data.NotifyPropertyChanged (nameof (Data.Path));
-                    Data.NotifyPropertyChanged (nameof (Data.Name));
+                    Data.RaisePropertyChanged (nameof (Data.Path));
+                    Data.RaisePropertyChanged (nameof (Data.Name));
                 }
                 catch (Exception ex)
                 { return ex.Message.Trim (null); }
@@ -326,7 +326,7 @@ namespace KaosFormat
 
                 Data.Path = newPath;
                 Data.Name = System.IO.Path.GetFileName (newPath);
-                Data.NotifyPropertyChanged (null);
+                Data.RaisePropertyChanged (null);
                 return null;
             }
 
@@ -407,7 +407,7 @@ namespace KaosFormat
         public Issue FfIssue { get; private set; }  // Wrong file format.
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged (string propName)
+        public void RaisePropertyChanged (string propName)
         {
             if (PropertyChanged != null)
                 PropertyChanged (this, new PropertyChangedEventArgs (propName));

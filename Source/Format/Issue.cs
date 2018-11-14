@@ -52,7 +52,7 @@ namespace KaosIssue
                         Data.Severest = issue;
                     }
 
-                    Data.NotifyPropertyChanged (nameof (FixedMessage));
+                    Data.RaisePropertyChanged (nameof (FixedMessage));
                     return issue;
                 }
 
@@ -84,7 +84,7 @@ namespace KaosIssue
 
                     issue.RepairError = issue.Repairer (Data.RepairableCount <= 1 || issue.IsFinalRepairer);
                     issue.IsRepairSuccessful = issue.RepairError == null;
-                    issue.NotifyPropertyChanged (null);
+                    issue.RaisePropertyChanged (null);
                     if (! issue.IsFinalRepairer)
                         --Data.RepairableCount;
                     else
@@ -92,7 +92,7 @@ namespace KaosIssue
                         Data.RepairableCount = 0;
                         foreach (var item in Data.items)
                             if (item.Repairer != null && item.IsRepairSuccessful == null)
-                                item.NotifyPropertyChanged (null);
+                                item.RaisePropertyChanged (null);
                     }
                     return issue.RepairError;
                 }
@@ -103,7 +103,7 @@ namespace KaosIssue
             public ReadOnlyObservableCollection<Issue> Items { get; private set; }
 
             public event PropertyChangedEventHandler PropertyChanged;
-            public void NotifyPropertyChanged (string propName)
+            public void RaisePropertyChanged (string propName)
             { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
             public IssueTags WarnEscalator { get; private set; }
@@ -142,7 +142,7 @@ namespace KaosIssue
 #endif
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged (string propName)
+        public void RaisePropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
         private Issue (Vector.Model owner, string message, Severity level=Severity.Advisory, IssueTags tag=IssueTags.None,

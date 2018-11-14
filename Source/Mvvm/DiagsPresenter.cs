@@ -65,7 +65,7 @@ namespace AppViewModel
                         if (tabFlacModel.SetIndex (Data.TabFlac.IndexOf (track.Match)))
                         {
                             Data.CurrentTabNumber = Data.TabFlac.TabPosition;
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         }
                 },  (object obj) => obj is LogTrack track && track.Match != null);
 
@@ -82,28 +82,28 @@ namespace AppViewModel
             public void GetFirst()
             {
                 if (Data.tabInfos[Data.CurrentTabNumber].SetIndex (0))
-                    Data.RaisePropertyChangedEvent (null);
+                    Data.RaisePropertyChanged (null);
             }
 
             public void GetLast()
             {
                 TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Count - 1))
-                    Data.RaisePropertyChangedEvent (null);
+                    Data.RaisePropertyChanged (null);
             }
 
             public void GetPrev()
             {
                 TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Index - 1))
-                    Data.RaisePropertyChangedEvent (null);
+                    Data.RaisePropertyChanged (null);
             }
 
             public void GetNext()
             {
                 TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Index + 1))
-                    Data.RaisePropertyChangedEvent (null);
+                    Data.RaisePropertyChanged (null);
             }
 
             public void GetFirstRepair()
@@ -113,7 +113,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -125,7 +125,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -137,7 +137,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -149,7 +149,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -161,7 +161,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -173,7 +173,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -185,7 +185,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -197,7 +197,7 @@ namespace AppViewModel
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
                         if (tiModel.SetIndex (ix))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                         break;
                     }
             }
@@ -258,7 +258,7 @@ namespace AppViewModel
                     TabInfo.Model tiModel = Data.tabInfos[ix];
                     if (tiModel.Data.Index < 0)
                         if (tiModel.SetIndex (0))
-                            Data.RaisePropertyChangedEvent (null);
+                            Data.RaisePropertyChanged (null);
                 }
 
                 Data.Progress = null;
@@ -310,7 +310,7 @@ namespace AppViewModel
             set
             {
                 isBusy = value;
-                RaisePropertyChangedEvent (nameof (IsBusy));
+                RaisePropertyChanged (nameof (IsBusy));
             }
         }
 
@@ -321,7 +321,7 @@ namespace AppViewModel
             set
             {
                 currentTabNumber = value;
-                RaisePropertyChangedEvent (null);
+                RaisePropertyChanged (null);
             }
         }
 
@@ -371,7 +371,7 @@ namespace AppViewModel
             private set
             {
                 progress = value?? "Ready";
-                RaisePropertyChangedEvent (nameof (Progress));
+                RaisePropertyChanged (nameof (Progress));
             }
         }
 
@@ -463,7 +463,7 @@ namespace AppViewModel
             {
                 TabInfo.Model tiModel = tabInfos[CurrentTabNumber];
                 if (tiModel.Repair ((int) obj))
-                    RaisePropertyChangedEvent (null);
+                    RaisePropertyChanged (null);
             });
         }
 

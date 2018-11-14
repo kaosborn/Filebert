@@ -58,15 +58,11 @@ namespace KaosFormat
         public string Name
         {
             get { return name; }
-            private set
-            {
-                name = value;
-                NotifyPropertyChanged (null);
-            }
+            private set { name = value; RaisePropertyChanged (null); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged (string propName)
+        public void RaisePropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
         public FileItem (string name)

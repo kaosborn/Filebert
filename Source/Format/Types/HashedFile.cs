@@ -63,7 +63,7 @@ namespace KaosFormat
                     if (item.oldFileName != newOldName)
                     {
                         item.oldFileName = newOldName;
-                        item.NotifyPropertyChanged (null);
+                        item.RaisePropertyChanged (null);
                     }
                 }
 
@@ -86,7 +86,7 @@ namespace KaosFormat
                         {
                             item.IsMatch = item.actualHash != null? false : (bool?) null;
                             item.storedHash = null;
-                            item.NotifyPropertyChanged (null);
+                            item.RaisePropertyChanged (null);
                         }
                     }
                     else if (! item.actualHash.SequenceEqual (item.storedHash))
@@ -94,7 +94,7 @@ namespace KaosFormat
                         item.storedHash = new byte[item.actualHash.Length];
                         Array.Copy (item.actualHash, item.storedHash, item.storedHash.Length);
                         SetIsMatch (index, true);
-                        item.NotifyPropertyChanged (null);
+                        item.RaisePropertyChanged (null);
                     }
                 }
 
@@ -106,7 +106,7 @@ namespace KaosFormat
                         item.storedHash = new byte[newHash.Length];
                         Array.Copy (newHash, item.storedHash, newHash.Length);
                         SetIsMatch (index, newHash.SequenceEqual (item.actualHash));
-                        item.NotifyPropertyChanged (null);
+                        item.RaisePropertyChanged (null);
                     }
                 }
             }
@@ -171,7 +171,7 @@ namespace KaosFormat
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged (string propName)
+        public void RaisePropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
         private static readonly string[] ModeNames = new string[] { "?", "Text", "Binary", "Media", "Meta" };

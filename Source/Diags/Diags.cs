@@ -32,7 +32,7 @@ namespace KaosDiags
         public string Root
         {
             get => root;
-            set { root = value; RaisePropertyChangedEvent (nameof (Root)); }
+            set { root = value; RaisePropertyChanged (nameof (Root)); }
         }
 
         public string Filter { get; set; }
@@ -78,7 +78,7 @@ namespace KaosDiags
             set
             {
                 hashFlags = value ? hashFlags | Hashes.PcmMD5 : hashFlags & ~ Hashes.PcmMD5;
-                RaisePropertyChangedEvent (nameof (IsPcmMD5CheckEnabled));
+                RaisePropertyChanged (nameof (IsPcmMD5CheckEnabled));
             }
         }
 
@@ -88,7 +88,7 @@ namespace KaosDiags
             set
             {
                 hashFlags = value ? hashFlags | Hashes._FlacMatch : hashFlags & ~Hashes._FlacMatch;
-                RaisePropertyChangedEvent (nameof (IsFlacRipCheckEnabled));
+                RaisePropertyChanged (nameof (IsFlacRipCheckEnabled));
             }
         }
 
@@ -100,7 +100,7 @@ namespace KaosDiags
             set
             {
                 hashFlags = value ? hashFlags | Hashes._FlacTags : hashFlags & ~Hashes._FlacTags;
-                RaisePropertyChangedEvent (nameof (IsFlacTagsCheckEnabled));
+                RaisePropertyChanged (nameof (IsFlacTagsCheckEnabled));
             }
         }
 
@@ -110,7 +110,7 @@ namespace KaosDiags
             set
             {
                 hashFlags = value ? hashFlags | Hashes._WebCheck : hashFlags & ~Hashes._WebCheck;
-                RaisePropertyChangedEvent (nameof (IsEacWebCheckEnabled));
+                RaisePropertyChanged (nameof (IsEacWebCheckEnabled));
             }
         }
 
@@ -130,7 +130,7 @@ namespace KaosDiags
             set
             {
                 Response = value ? Interaction.PromptToRepair : Interaction.None;
-                RaisePropertyChangedEvent (nameof (IsRepairEnabled));
+                RaisePropertyChanged (nameof (IsRepairEnabled));
             }
         }
 
@@ -153,7 +153,7 @@ namespace KaosDiags
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChangedEvent (string propertyName)
+        protected void RaisePropertyChanged (string propertyName)
         {
             var handler = PropertyChanged;
             if (handler != null)
