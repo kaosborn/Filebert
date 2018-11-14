@@ -16,10 +16,10 @@ namespace KaosFormat
              => FilesModel = new FileItem.Vector.Model (rootPath);
 
             public void SetAllowRooted (bool allow)
-            { Data.ForbidRooted = ! allow; }
+             => Data.ForbidRooted = ! allow;
 
             public void SetIgnoredName (string name)
-            { Data.IgnoredName = name; }
+             => Data.IgnoredName = name;
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {
@@ -66,7 +66,7 @@ namespace KaosFormat
                             }
                         }
 
-                        var sfx = Data.Files.Items.Count == 1? String.Empty : "s";
+                        var sfx = Data.Files.Items.Count == 1 ? String.Empty : "s";
 
                         var tx = $"Existence check{sfx} of {Data.Files.Items.Count} file{sfx}";
                         if (notFoundTotal == 0)
@@ -74,7 +74,7 @@ namespace KaosFormat
                         else
                             tx += $" failed with {notFoundTotal} not found.";
 
-                        IssueModel.Add (tx, notFoundTotal == 0? Severity.Advisory : Severity.Error);
+                        IssueModel.Add (tx, notFoundTotal == 0 ? Severity.Advisory : Severity.Error);
                     }
 
                 base.CalcHashes (hashFlags, validationFlags);
@@ -103,7 +103,7 @@ namespace KaosFormat
 
             report.Add ("Files:");
             foreach (var item in Files.Items)
-                report.Add ((item.IsFound == true? "+ " : (item.IsFound == false? "* " : "  ")) + item.Name);
+                report.Add ((item.IsFound == true? "+ " : (item.IsFound == false ? "* " : "  ")) + item.Name);
         }
     }
 }

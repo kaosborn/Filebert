@@ -14,6 +14,7 @@ namespace KaosFormat
                 public Model()
                  => _data = Data = new Vector();
 
+                // alas it's .NET 4.0
                 public override LogTrack GetItem (int ix) => Data.items[ix];
                 public override int GetCount() => Data.items.Count;
 

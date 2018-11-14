@@ -293,8 +293,8 @@ namespace KaosFormat
                     File.Move (Data.Path, newPath);
                     Data.Path = newPath;
                     Data.Name = newName;
-                    Data.NotifyPropertyChanged ("Path");
-                    Data.NotifyPropertyChanged ("Name");
+                    Data.NotifyPropertyChanged (nameof (Data.Path));
+                    Data.NotifyPropertyChanged (nameof (Data.Name));
                 }
                 catch (Exception ex)
                 { return ex.Message.Trim (null); }
@@ -321,9 +321,7 @@ namespace KaosFormat
                     if (isFinalRepair)
                         CloseFile();
                 }
-                catch (UnauthorizedAccessException ex)
-                { return ex.Message.TrimEnd (null); }
-                catch (IOException ex)
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
                 { return ex.Message.TrimEnd (null); }
 
                 Data.Path = newPath;
@@ -338,7 +336,7 @@ namespace KaosFormat
                 Data.fileSHA1 = null;
                 Data.mediaSHA1 = null;
                 Data.metaSHA1 = null;
-                Data.FileSize = Data.fbs==null? 0 : Data.fbs.Length;
+                Data.FileSize = Data.fbs==null ? 0 : Data.fbs.Length;
             }
 
             public string TrimWatermark (bool isFinalRepair)
