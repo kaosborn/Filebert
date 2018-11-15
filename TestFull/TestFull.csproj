@@ -43,7 +43,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestAvi.cs" />
+    <Compile Include="TestExtensions.cs" />
+    <Compile Include="TestFlac.cs" />
+    <Compile Include="TestGif.cs" />
+    <Compile Include="TestIco.cs" />
+    <Compile Include="TestLogEac.cs" />
     <Compile Include="TestM3u.cs" />
+    <Compile Include="TestModel.cs" />
     <Compile Include="TestMp3.cs" />
     <Compile Include="TestMvvm.cs" />
     <Compile Include="MockDiagsView.cs" />
@@ -83,10 +90,46 @@
     <Content Include="Targets\Hashes\OK02.m3u">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\01 - 4 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\02 - 8 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\03 - 12 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence OK1\01 - 4 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence OK1\02 - 8 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence OK1\03 - 12 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Targets\Singles\01-Phantom.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Singles\02-WalkedOn.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\03-Silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\04-BadCRC.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\MarkedCrimeBlimp.avi">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\DutchIco.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\Korean.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\pic300x301.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Singles\StereoSilence10.wav">
@@ -109,7 +152,23 @@
     <None Include="Targets\Hashes\OK03.sha256">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\Tester - 2000 - FLAC Silence Bad1.log">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Targets\Rips\Tester - 2000 - FLAC Silence OK1\Tester - 2000 - FLAC Silence OK1.log">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Targets\Singles\EAC1NoHashOrCT.log">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Targets\Singles\Nightmare.log">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>if exist Targets (rmdir /S /Q Targets)</PreBuildEvent>
+  </PropertyGroup>
 </Project>
