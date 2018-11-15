@@ -328,7 +328,7 @@ namespace AppController
 
             Console.WriteLine ();
             Console.WriteLine ("The following file extensions are supported:");
-            Console.WriteLine (model.Data.FormatListText);
+            Console.WriteLine (Diags.FormatListText);
         }
 
         private static readonly string[] helpText =

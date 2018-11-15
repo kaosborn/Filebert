@@ -134,12 +134,11 @@ namespace KaosDiags
             }
         }
 
-        public string FormatListText
+        public static string FormatListText
         {
             get
             {
                 var sb = new StringBuilder();
-
                 foreach (var item in FileFormats.Items)
                     if ((item.Subname == null || item.Subname[0] != '*'))
                     {
@@ -147,7 +146,6 @@ namespace KaosDiags
                             sb.Append (", ");
                         sb.Append (item.LongName);
                     }
-
                 return sb.ToString();
             }
         }
