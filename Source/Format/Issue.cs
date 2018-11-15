@@ -117,7 +117,7 @@ namespace KaosIssue
 
             private Vector (IssueTags warnEscalator = IssueTags.None, IssueTags errEscalator=IssueTags.None)
             {
-                this.items = new ObservableCollection<Issue> ();
+                this.items = new ObservableCollection<Issue>();
                 this.Items = new ReadOnlyObservableCollection<Issue> (this.items);
                 this.MaxSeverity = Severity.NoIssue;
                 this.WarnEscalator = warnEscalator;

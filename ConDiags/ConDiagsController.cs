@@ -79,9 +79,7 @@ namespace AppController
                     exitCode = (int) model.Data.Result;
 #if ! DEBUG
                 }
-                catch (IOException ex)
-                { err = ex.Message; }
-                catch (ArgumentException ex)
+                catch (Exception ex) when (ex is IOException || ex is ArgumentException)
                 { err = ex.Message; }
 #endif
 

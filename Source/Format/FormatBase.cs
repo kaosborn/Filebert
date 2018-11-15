@@ -359,9 +359,7 @@ namespace KaosFormat
                     TruncateExcess();
                     Data.Watermark = Likeliness.None;
                 }
-                catch (UnauthorizedAccessException ex)
-                { err = ex.Message.TrimEnd (null); }
-                catch (IOException ex)
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
                 { err = ex.Message.TrimEnd (null); }
                 return err;
             }

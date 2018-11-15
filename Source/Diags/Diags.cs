@@ -187,15 +187,6 @@ namespace KaosDiags
                 }
                 if (item.TotalMisnamed != 0)
                     par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalMisnamed + " misnamed";
-                if (item.TotalMissing != 0)
-                    par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalMissing + " missing";
-                if (item.TotalCreated != 0)
-                    par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalCreated + " created";
-                if (item.TotalConverted != 0)
-                    par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalConverted + " converted";
-                if (item.TotalSigned != 0)
-                    par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalSigned + " signed";
-
                 if (! String.IsNullOrEmpty (par))
                     par += ")";
 

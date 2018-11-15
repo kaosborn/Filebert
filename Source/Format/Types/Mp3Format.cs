@@ -392,9 +392,7 @@ namespace KaosFormat
                     if (isFinalRepair)
                         CloseFile();
                 }
-                catch (UnauthorizedAccessException ex)
-                { err = ex.Message.TrimEnd (null); }
-                catch (IOException ex)
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
                 { err = ex.Message.TrimEnd (null); }
 
                 return err;
@@ -420,9 +418,7 @@ namespace KaosFormat
                     if (isFinalRepair)
                         CloseFile();
                 }
-                catch (UnauthorizedAccessException ex)
-                { err = ex.Message.TrimEnd (null); }
-                catch (IOException ex)
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
                 { err = ex.Message.TrimEnd (null); }
 
                 return err;
@@ -468,7 +464,7 @@ namespace KaosFormat
                 {
                     var sb = new StringBuilder ("|");
                     if (HasId3v2)
-                    { sb.Append (" ID3v2."); sb.Append (Id3v2Major); sb.Append (" ("); sb.Append (Id3v2Size); sb.Append(") |"); }
+                    { sb.Append (" ID3v2."); sb.Append (Id3v2Major); sb.Append (" ("); sb.Append (Id3v2Size); sb.Append (") |"); }
                     if (DeadBytes > 0)
                     { sb.Append (" Dead ("); sb.Append (DeadBytes); sb.Append (") |"); }
                     sb.Append (" Audio (");
@@ -481,7 +477,7 @@ namespace KaosFormat
                     if (HasId3v1Phantom)
                         sb.Append (" ID3v1 (128) |");
                     if (HasId3v1)
-                    { sb.Append(" ID3v1."); sb.Append (GetMinorOfV1 (id3v1Block)); sb.Append (" (128) |"); }
+                    { sb.Append (" ID3v1."); sb.Append (GetMinorOfV1 (id3v1Block)); sb.Append (" (128) |"); }
                     layout = sb.ToString();
                 }
                 return layout;

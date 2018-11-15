@@ -117,11 +117,7 @@ namespace KaosFormat
                                 IssueModel.Add ($"{Data.HasherName} mismatch on '{item.FileName}'.");
                         }
                     }
-                    catch (FileNotFoundException ex)
-                    { err = ex.Message.TrimEnd (null); }
-                    catch (IOException ex)
-                    { err = ex.Message.TrimEnd (null); }
-                    catch (UnauthorizedAccessException ex)
+                    catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
                     { err = ex.Message.TrimEnd (null); }
 
                     if (err != null)

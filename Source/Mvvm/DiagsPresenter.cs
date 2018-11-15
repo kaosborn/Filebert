@@ -25,8 +25,8 @@ namespace AppViewModel
 
             public Model (IDiagsUi ui)
             {
-                this.Ui = ui;
-                this._data = new DiagsPresenter (this);
+                Ui = ui;
+                _data = new DiagsPresenter (this);
 
                 foreach (string heading in Ui.GetHeadings())
                     Data.tabInfos.Add (new TabInfo.Model (heading, Data.tabInfos.Count));
@@ -59,15 +59,14 @@ namespace AppViewModel
                 Data.TabSha256 = GetTabInfoData ("sha256");
                 Data.TabWav = GetTabInfoData ("wav");
 
-                navToFlac = new RelayCommand<object> ((object obj) =>
+                navToFlac = new RelayCommand<object>(
+                (object obj) =>
                 {
                     if (obj is LogTrack track)
                         if (tabFlacModel.SetIndex (Data.TabFlac.IndexOf (track.Match)))
-                        {
-                            Data.CurrentTabNumber = Data.TabFlac.TabPosition;
-                            Data.RaisePropertyChanged (null);
-                        }
-                },  (object obj) => obj is LogTrack track && track.Match != null);
+                        { Data.CurrentTabNumber = Data.TabFlac.TabPosition; Data.RaisePropertyChanged (null); }
+                },
+                (object obj) => obj is LogTrack track && track.Match != null);
 
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
@@ -238,9 +237,7 @@ namespace AppViewModel
                             }
                         }
                 }
-                catch (IOException ex)
-                { jobArgs.Result = ex.Message; }
-                catch (ArgumentException ex)
+                catch (Exception ex) when (ex is IOException || ex is ArgumentException)
                 { jobArgs.Result = ex.Message; }
             }
 
@@ -307,22 +304,14 @@ namespace AppViewModel
         public bool IsBusy
         {
             get => isBusy;
-            set
-            {
-                isBusy = value;
-                RaisePropertyChanged (nameof (IsBusy));
-            }
+            set { isBusy = value; RaisePropertyChanged (nameof (IsBusy)); }
         }
 
         private int currentTabNumber;
         public int CurrentTabNumber 
         {
             get => currentTabNumber;
-            set
-            {
-                currentTabNumber = value;
-                RaisePropertyChanged (null);
-            }
+            set { currentTabNumber = value; RaisePropertyChanged (null); }
         }
 
         public int JobCounter { get; private set; } = 0;  // For unit tests.
@@ -368,11 +357,7 @@ namespace AppViewModel
         public string Progress
         {
             get => progress;
-            private set
-            {
-                progress = value?? "Ready";
-                RaisePropertyChanged (nameof (Progress));
-            }
+            private set { progress = value?? "Ready"; RaisePropertyChanged (nameof (Progress)); }
         }
 
         public override bool IsRepairEnabled
@@ -383,14 +368,14 @@ namespace AppViewModel
 
         public Hashes HashToggle
         {
-            get { return HashFlags; }
-            set { HashFlags = value < 0 ? (HashFlags & (Hashes) value) : (HashFlags | (Hashes) value); }
+            get => HashFlags;
+            set => HashFlags = value < 0 ? (HashFlags & (Hashes) value) : (HashFlags | (Hashes) value);
         }
 
         public Validations ValidationToggle
         {
-            get { return ValidationFlags; }
-            set { ValidationFlags = value < 0 ? (ValidationFlags & value) : (ValidationFlags | (Validations) value); }
+            get => ValidationFlags;
+            set => ValidationFlags = value < 0 ? (ValidationFlags & value) : (ValidationFlags | (Validations) value);
         }
 
         public ICommand DoBrowse { get; private set; }
@@ -439,7 +424,8 @@ namespace AppViewModel
             DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
             DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
 
-            DoCopyLValueUpper = new RelayCommand<object> ((object obj) =>
+            DoCopyLValueUpper = new RelayCommand<object>(
+            (object obj) =>
             {
                 if (obj is string tag)
                 {
@@ -449,17 +435,19 @@ namespace AppViewModel
                 }
             });
 
-            DoCopyRValue = new RelayCommand<object> ((object obj) =>
+            DoCopyRValue = new RelayCommand<object>(
+            (object obj) =>
             {
                 if (obj is string tag)
                 {
                     int eqPos = tag.IndexOf ('=');
                     if (eqPos >= 0)
-                        Clipboard.SetText (tag.Substring (eqPos+1));
+                        Clipboard.SetText (tag.Substring (eqPos + 1));
                 }
             });
 
-            DoRepair = new RelayCommand<object> ((object obj) =>
+            DoRepair = new RelayCommand<object>(
+            (object obj) =>
             {
                 TabInfo.Model tiModel = tabInfos[CurrentTabNumber];
                 if (tiModel.Repair ((int) obj))

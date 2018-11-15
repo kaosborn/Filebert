@@ -26,13 +26,9 @@ namespace KaosFormat
                     foreach (FileFormat format in Data.items)
                     {
                         format.TrueTotal = 0;
-                        format.TotalConverted = 0;
-                        format.TotalCreated = 0;
                         format.TotalDataErrors = 0;
                         format.TotalHeaderErrors = 0;
                         format.TotalMisnamed = 0;
-                        format.TotalMissing = 0;
-                        format.TotalSigned = 0;
                     }
                 }
 
@@ -61,18 +57,11 @@ namespace KaosFormat
         public ReadOnlyCollection<string> Names { get; private set; }
 
         public string Subname { get; private set; }
-
         public int TrueTotal { get; set; }
         public int TotalHeaderErrors { get; set; }
         public int TotalDataErrors { get; set; }
         public int TotalMisnamed { get; set; }
-        public int TotalMissing { get; set; }
-        public int TotalCreated { get; set; }
-        public int TotalConverted { get; set; }
-        public int TotalSigned { get; set; }
-
-        public string PrimaryName
-         => names[0];
+        public string PrimaryName => names[0];
 
         public FileFormat (FormatModelFactory factory, string[] names, string subname)
         {
