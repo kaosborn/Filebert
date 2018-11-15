@@ -38,17 +38,13 @@
     </UserControl.Resources>
     <ListBox ItemsSource="{Binding Issues.Items}" ItemTemplate="{StaticResource issuesTemplate}">
         <ListBox.ItemContainerStyle>
-            <Style TargetType="{x:Type ListBoxItem}">
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="IsTabStop" Value="False"/>
-                <Setter Property="Margin" Value="3,0,0,0"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
-                            <ContentPresenter />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource darkListBoxItem}">
+                <Setter Property="Focusable" Value="false"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsNoise}" Value="true">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
             </Style>
         </ListBox.ItemContainerStyle>
     </ListBox>

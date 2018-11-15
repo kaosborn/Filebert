@@ -137,6 +137,7 @@ namespace KaosIssue
         private Func<bool,string> Repairer { get; set; }
         public bool IsFinalRepairer { get; private set; }
         public bool? IsRepairSuccessful { get; private set; }
+        public bool IsNoise => Level <= Severity.Noise;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)

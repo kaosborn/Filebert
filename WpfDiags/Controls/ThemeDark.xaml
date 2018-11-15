@@ -14,7 +14,10 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
     </Style>
     <Style x:Key="darkListBoxItem" TargetType="ListBoxItem">
-        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="3,0,0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
     </Style>
     <Style x:Key="darkListView" TargetType="ListView">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>
