@@ -11,26 +11,21 @@ namespace TestDiags
         [TestMethod]
         public void Wav_1()
         {
-            WavFormat.Model wavModel;
+            var fName1 = @"Targets\Singles\StereoSilence10.wav";
 
-            var fn = @"Targets\Singles\StereoSilence10.wav";
-            var file = new FileInfo (fn);
-
-            using (var fs = new FileStream (fn, FileMode.Open, FileAccess.Read))
+            WavFormat wav;
+            using (Stream fs = new FileStream (fName1, FileMode.Open, FileAccess.Read))
             {
                 var hdr = new byte[0x2C];
                 var got = fs.Read (hdr, 0, hdr.Length);
                 Assert.AreEqual (hdr.Length, got);
 
-                wavModel = WavFormat.CreateModel (fs, hdr, fs.Name);
-                Assert.IsNotNull (wavModel);
+                WavFormat.Model wavModel = WavFormat.CreateModel (fs, hdr, fName1);
+                wav = wavModel.Data;
             }
 
-            WavFormat wav = wavModel.Data;
-
-            Assert.IsTrue (wav.Issues.MaxSeverity == Severity.NoIssue);
+            Assert.AreEqual (Severity.NoIssue, wav.Issues.MaxSeverity);
             Assert.AreEqual (0, wav.Issues.Items.Count);
-
             Assert.AreEqual (2, wav.ChannelCount);
             Assert.AreEqual (44100u, wav.SampleRate);
             Assert.IsTrue (wav.HasTags);

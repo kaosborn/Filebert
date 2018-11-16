@@ -1,5 +1,4 @@
-﻿//using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using KaosFormat;
 using KaosIssue;
@@ -12,14 +11,14 @@ namespace TestDiags
         [TestMethod]
         public void Mp3_1()
         {
-            var fn = @"Targets\Singles\01-Phantom.mp3";
+            var fileName1 = @"Targets\Singles\01-Phantom.mp3";
 
-            using (var fs = new FileStream (fn, FileMode.Open))
+            using (Stream fs = new FileStream (fileName1, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
                 fs.Read (hdr, 0, hdr.Length);
 
-                Mp3Format.Model mp3Model = Mp3Format.CreateModel (fs, hdr, fn);
+                Mp3Format.Model mp3Model = Mp3Format.CreateModel (fs, hdr, fileName1);
                 Mp3Format mp3 = mp3Model.Data;
 
                 Assert.IsNotNull (mp3);
@@ -40,15 +39,14 @@ namespace TestDiags
         [TestMethod]
         public void Mp3_BadCRC()
         {
-            var fn = @"Targets\Singles\02-WalkedOn.mp3";
+            var fName1 = @"Targets\Singles\02-WalkedOn.mp3";
 
-            using (var fs = new FileStream (fn, FileMode.Open))
+            using (Stream fs = new FileStream (fName1, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
                 fs.Read (hdr, 0, hdr.Length);
 
-                Mp3Format.Model mp3Model = Mp3Format.CreateModel (fs, hdr, fn);
-                Assert.IsNotNull (mp3Model);
+                Mp3Format.Model mp3Model = Mp3Format.CreateModel (fs, hdr, fName1);
 
                 mp3Model.CalcHashes (Hashes.Intrinsic, Validations.None);
                 Assert.IsTrue (mp3Model.Data.IsBadData);

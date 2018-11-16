@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using KaosFormat;
 using KaosIssue;
@@ -12,25 +11,21 @@ namespace TestDiags
         [TestMethod]
         public void Png_1()
         {
-            PngFormat.Model pngModel;
+            var fName1 = @"Targets\Singles\Tile1.png";
+
             PngFormat png;
-
-            var fn = @"Targets\Singles\Tile1.png";
-            var file = new FileInfo (fn);
-
-            using (var fs = new FileStream (fn, FileMode.Open, FileAccess.Read))
+            using (Stream fs = new FileStream (fName1, FileMode.Open, FileAccess.Read))
             {
                 var hdr = new byte[0x20];
                 var got = fs.Read (hdr, 0, hdr.Length);
                 Assert.AreEqual (hdr.Length, got);
 
-                pngModel = new PngFormat.Model (fs, fs.Name);
-                Assert.IsNotNull (pngModel);
+                var pngModel = new PngFormat.Model (fs, fName1);
+                png = pngModel.Data;
 
                 pngModel.CalcHashes (Hashes.Intrinsic, Validations.None);
             }
 
-            png = pngModel.Data;
 
             Assert.AreEqual (Severity.Noise, png.Issues.MaxSeverity);
             Assert.AreEqual (1, png.Issues.Items.Count);

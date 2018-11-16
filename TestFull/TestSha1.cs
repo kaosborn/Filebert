@@ -11,20 +11,18 @@ namespace TestDiags
         [TestMethod]
         public void Sha1_OK()
         {
-            var fn = @"Targets\Hashes\OK01.sha1";
-            using (var fs = new FileStream (fn, FileMode.Open, FileAccess.Read))
+            var fName1 = @"Targets\Hashes\OK01.sha1";
+
+            using (Stream fs = new FileStream (fName1, FileMode.Open, FileAccess.Read))
             {
-                var file = new FileInfo (fn);
                 var hdr = new byte[0x20];
                 var got = fs.Read (hdr, 0, hdr.Length);
                 Assert.AreEqual (hdr.Length, got);
 
-                Sha1Format.Model sha1Model = Sha1Format.CreateModel (fs, hdr, fs.Name);
-                Assert.IsNotNull (sha1Model);
-
+                Sha1Format.Model sha1Model = Sha1Format.CreateModel (fs, hdr, fName1);
                 Sha1Format sha1 = sha1Model.Data;
 
-                Assert.IsTrue (sha1.Issues.MaxSeverity == Severity.NoIssue);
+                Assert.AreEqual (Severity.NoIssue, sha1.Issues.MaxSeverity);
                 Assert.AreEqual (0, sha1.Issues.Items.Count);
                 Assert.AreEqual (2, sha1.HashedFiles.Items.Count);
 
@@ -38,20 +36,18 @@ namespace TestDiags
         [TestMethod]
         public void Sha1_Bad()
         {
-            var fn = @"Targets\Hashes\Bad01.sha1";
-            using (var fs = new FileStream (fn, FileMode.Open, FileAccess.Read))
+            var fName1 = @"Targets\Hashes\Bad01.sha1";
+
+            using (Stream fs = new FileStream (fName1, FileMode.Open, FileAccess.Read))
             {
-                var file = new FileInfo (fn);
                 var hdr = new byte[0x20];
                 var got = fs.Read (hdr, 0, hdr.Length);
                 Assert.AreEqual (hdr.Length, got);
 
-                Sha1Format.Model sha1Model = Sha1Format.CreateModel (fs, hdr, fs.Name);
-                Assert.IsNotNull (sha1Model);
-
+                Sha1Format.Model sha1Model = Sha1Format.CreateModel (fs, hdr, fName1);
                 Sha1Format sha1 = sha1Model.Data;
 
-                Assert.IsTrue (sha1.Issues.MaxSeverity == Severity.NoIssue);
+                Assert.AreEqual (Severity.NoIssue, sha1.Issues.MaxSeverity);
                 Assert.AreEqual (0, sha1.Issues.Items.Count);
                 Assert.AreEqual (2, sha1.HashedFiles.Items.Count);
 
