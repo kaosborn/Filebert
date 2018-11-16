@@ -107,15 +107,16 @@
         </TextBox>
         <TextBlock Grid.Row="14" Text="Signature:"/>
         <TextBox Grid.Row="14" Grid.Column="1" Text="{Binding Path=DerivedHash, Mode=OneWay}"/>
-        <ListView Grid.Row="15" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}">
+        <ListView Grid.Row="15" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}"
+                  Tag="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
                 <Style TargetType="ListView" BasedOn="{StaticResource darkListView}">
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}">
-                                <MenuItem Header="Go to .flac" Command="{Binding DataContext.NavToFlac}"
-                                          CommandParameter="{Binding Path=SelectedItem}"/>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Go to .flac" Command="{Binding Path=NavToFlac}"
+                                          CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

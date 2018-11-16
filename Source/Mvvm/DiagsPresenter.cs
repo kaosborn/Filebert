@@ -19,7 +19,6 @@ namespace AppViewModel
         public new class Model : Diags.Model
         {
             private readonly TabInfo.Model tabFlacModel;
-            private readonly RelayCommand<object> navToFlac;
             public IDiagsUi Ui { get; private set; }
             public new DiagsPresenter Data => (DiagsPresenter) _data;
 
@@ -59,15 +58,6 @@ namespace AppViewModel
                 Data.TabSha256 = GetTabInfoData ("sha256");
                 Data.TabWav = GetTabInfoData ("wav");
 
-                navToFlac = new RelayCommand<object>(
-                (object obj) =>
-                {
-                    if (obj is LogTrack track)
-                        if (tabFlacModel.SetIndex (Data.TabFlac.IndexOf (track.Match)))
-                        { Data.CurrentTabNumber = Data.TabFlac.TabPosition; Data.RaisePropertyChanged (null); }
-                },
-                (object obj) => obj is LogTrack track && track.Match != null);
-
                 base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
             }
@@ -77,6 +67,9 @@ namespace AppViewModel
 
             public TabInfo GetTabInfoData (string longName)
              => Data.tabInfos.FirstOrDefault (ti => ti.Data.LongName == longName)?.Data;
+
+            public bool SetFlacIndex (int index)
+             => tabFlacModel.SetIndex (index);
 
             public void GetFirst()
             {
@@ -232,8 +225,6 @@ namespace AppViewModel
                                 { newTabInfoIx = tiModel.Data.TabPosition; newTabInfoFmtIx = tiModel.Data.Count; }
 
                                 tiModel.Add (parsing);
-                                if (parsing is LogFormat.Model log)
-                                    log.SetNavCommand (navToFlac);
                             }
                         }
                 }
@@ -398,6 +389,7 @@ namespace AppViewModel
         public ICommand DoCopyLValueUpper { get; private set; }
         public ICommand DoCopyRValue { get; private set; }
         public ICommand DoRepair { get; private set; }
+        public ICommand NavToFlac { get; private set; }
 
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
@@ -453,7 +445,17 @@ namespace AppViewModel
                 if (tiModel.Repair ((int) obj))
                     RaisePropertyChanged (null);
             });
+
+            NavToFlac = new RelayCommand<object>(
+            (object obj) =>
+            {
+                if (obj is LogTrack track)
+                    if (model.SetFlacIndex (TabFlac.IndexOf (track.Match)))
+                    { CurrentTabNumber = TabFlac.TabPosition; RaisePropertyChanged (null); }
+            },
+            (object obj) => obj is LogTrack track && track.Match != null);
         }
+
 
         public void OnFileDrop (string[] paths)
         {
