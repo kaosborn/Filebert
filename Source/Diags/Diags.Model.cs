@@ -24,12 +24,12 @@ namespace KaosDiags
             {
                 this._data = new Diags (this);
                 Data.Root = root;
+                Data.Scope = scope;
                 Data.Filter = filter;
                 Data.Exclusion = exclusion;
-                Data.Response = action;
-                Data.Scope = scope;
                 Data.WarnEscalator = warnEscalator;
                 Data.ErrEscalator = errEscalator;
+                Data.Response = action;
             }
 
             protected Model()
@@ -38,30 +38,33 @@ namespace KaosDiags
                 LoadFormats();
             }
 
-            // Interrogate the assembly for any classes to add to the list of file formats. They:
-            // 1. Must be nested in a class that
-            //    1a. ends with "Format"
-            //    1b. derives from FormatBase
-            //    1c. contains the method public static CreateModel (Stream, byte[], string)
-            // 2. Must be named "Model" and derive from a FormatBase.ModelBase
-            // 4. Must contain the property public static string[] Names { get; }
-            // 5. May contain the property public static string Subname { get; }
+            // Interrogate the assembly for any classes to add to the list of file formats.
+            // Acceptable formats:
+            // 1. Must be named "Model"
+            // 2. Must derive from FormatBase.ModelBase
+            // 3. Must contain the property public static string[] Names { get; }
+            // 4. May contain the property public static string Subname { get; }
+            // 5. Must be nested. Outer class:
+            //    5a. Must end with "Format"
+            //    5b. Must derive from FormatBase
+            //    5c. Must contain the method public static CreateModel (Stream, byte[], string)
             private void LoadFormats()
             {
-                foreach (var type in Assembly.GetAssembly (typeof (FormatBase)).GetTypes())
+                // Load known formats into the static table by duck typing.
+                foreach (var duck in Assembly.GetAssembly (typeof (FormatBase)).GetTypes())
                 {
-                    if (type.IsClass && type.Name.EndsWith ("Format"))
+                    if (duck.IsClass && duck.Name.EndsWith ("Format"))
                     {
                         MethodInfo createrInfo = null, namesInfo = null, subnameInfo = null;
-                        var modelType = type.GetNestedType ("Model");
-                        foreach (var meth in type.GetMethods (BindingFlags.Public|BindingFlags.Static|BindingFlags.DeclaredOnly))
+                        Type modelType = duck.GetNestedType ("Model");
+                        foreach (var meth in duck.GetMethods (BindingFlags.Public|BindingFlags.Static|BindingFlags.DeclaredOnly))
                         {
-                            var ret = meth.ReturnType;
+                            Type ret = meth.ReturnType;
                             if (! meth.IsSpecialName)
                             {
                                 if (meth.Name == "CreateModel")
                                 {
-                                    var parm = meth.GetParameters();
+                                    ParameterInfo[] parm = meth.GetParameters();
                                     while (ret.BaseType != typeof (System.Object))
                                         ret = ret.BaseType;
                                     if (ret == typeof (FormatBase.Model) && parm.Length==3
@@ -73,7 +76,7 @@ namespace KaosDiags
                             }
                             else if (meth.Name=="get_Names" && ret == typeof (System.String[]))
                                 namesInfo = meth;
-                            else if (meth.IsSpecialName && meth.Name=="get_Subname" && ret == typeof (System.String))
+                            else if (meth.IsSpecialName && meth.Name == "get_Subname" && ret == typeof (System.String))
                                 subnameInfo = meth;
                         }
 
@@ -98,10 +101,10 @@ namespace KaosDiags
                 FileAttributes atts;
                 try
                 { atts = File.GetAttributes (Data.Root); }
-                catch (NotSupportedException)
+                catch (NotSupportedException ex)
                 {
                     Data.Result = Severity.Fatal;
-                    throw new ArgumentException ("Directory name is invalid.");
+                    throw new ArgumentException ("Directory name is invalid: " + ex.Message.Trim(null));
                 }
 
                 if ((atts & FileAttributes.Directory) == FileAttributes.Directory)
@@ -117,9 +120,9 @@ namespace KaosDiags
                     FormatBase.Model fmtModel;
                     try
                     {
-                        var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
-                        Stream st = new FileStream (Data.Root, FileMode.Open, access, FileShare.Read);
-                        fmtModel = CheckFile (st, Data.Root, out Severity result);
+                        FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
+                        Stream fs = new FileStream (Data.Root, FileMode.Open, xs, FileShare.Read);
+                        fmtModel = CheckFile (fs, Data.Root, out Severity result);
                         Data.Result = result;
                     }
                     catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
@@ -136,10 +139,10 @@ namespace KaosDiags
             {
                 foreach (string dn in new DirTraverser (Data.Root))
                 {
-                    var dInfo = new DirectoryInfo (dn);
-                    FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
                     var flacs = new List<FlacFormat>();
                     var mp3s = new List<Mp3Format>();
+                    var dInfo = new DirectoryInfo (dn);
+                    FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
                     int logCount = SortDir (fileInfos);
 
                     foreach (FileInfo fInfo in fileInfos)
@@ -150,9 +153,9 @@ namespace KaosDiags
                             SetCurrentFile (Path.GetDirectoryName (fInfo.FullName), Path.GetFileName (fInfo.FullName));
 
                             // Many exceptions also caught by outer caller:
-                            var access = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
-                            Stream stream = new FileStream (fInfo.FullName, FileMode.Open, access, FileShare.Read);
-                            fmtModel = CheckFile (stream, fInfo.FullName, out Severity badness);
+                            FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
+                            Stream fs = new FileStream (fInfo.FullName, FileMode.Open, xs, FileShare.Read);
+                            fmtModel = CheckFile (fs, fInfo.FullName, out Severity badness);
 
                             if (fmtModel is FlacFormat.Model flacModel)
                             {
@@ -192,7 +195,7 @@ namespace KaosDiags
                 }
             }
 
-            private FormatBase.Model CheckFile (Stream stream, string path, out Severity resultCode)
+            private FormatBase.Model CheckFile (Stream stream, string path, Hashes hashFlags, out Severity resultCode)
             {
                 bool isKnownExtension;
                 FileFormat trueFormat;
@@ -276,7 +279,7 @@ namespace KaosDiags
             {
                 Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
 
-                int logCount = fileInfos.Count (i => i.Name.EndsWith (".log"));
+                int logCount = fileInfos.Count (fi => fi.Name.EndsWith (".log"));
                 if (logCount > 0 && (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled))
                 {
                     int toSwap = logCount;
@@ -314,10 +317,9 @@ namespace KaosDiags
             public void ResetTotals()
             {
                 Data.TotalFiles = 0;
-                Data.TotalRepairable = 0;
                 Data.TotalErrors = 0;
                 Data.TotalWarnings = 0;
-
+                Data.TotalRepairable = 0;
                 FormatModel.ResetTotals();
             }
 

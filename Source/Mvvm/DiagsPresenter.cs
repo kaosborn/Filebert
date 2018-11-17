@@ -264,6 +264,8 @@ namespace AppViewModel
 
         private List<TabInfo.Model> tabInfos = new List<TabInfo.Model>();
 
+        public int JobCounter { get; private set; } = 0;  // For test.
+
         public TabInfo TabApe { get; private set; }
         public TabInfo TabAsf { get; private set; }
         public TabInfo TabAvi { get; private set; }
@@ -304,8 +306,6 @@ namespace AppViewModel
             get => currentTabNumber;
             set { currentTabNumber = value; RaisePropertyChanged (null); }
         }
-
-        public int JobCounter { get; private set; } = 0;  // For unit tests.
 
         public bool TabIsFormat => CurrentTabNumber != 0;
         public string CurrentTabText
@@ -394,9 +394,9 @@ namespace AppViewModel
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
             Scope = Granularity.Verbose;
+            Response = Interaction.None;
             HashFlags = Hashes.Intrinsic;
             ValidationFlags = Validations.Exists;
-            Response = Interaction.None;
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());
@@ -447,15 +447,12 @@ namespace AppViewModel
             });
 
             NavToFlac = new RelayCommand<object>(
-            (object obj) =>
-            {
-                if (obj is LogTrack track)
-                    if (model.SetFlacIndex (TabFlac.IndexOf (track.Match)))
-                    { CurrentTabNumber = TabFlac.TabPosition; RaisePropertyChanged (null); }
-            },
+            (object obj) => { if (obj is LogTrack track)
+                                if (model.SetFlacIndex (TabFlac.IndexOf (track.Match)))
+                                { CurrentTabNumber = TabFlac.TabPosition; RaisePropertyChanged (null); }
+                            },
             (object obj) => obj is LogTrack track && track.Match != null);
         }
-
 
         public void OnFileDrop (string[] paths)
         {

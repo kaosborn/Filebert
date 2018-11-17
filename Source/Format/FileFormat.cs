@@ -85,7 +85,7 @@ namespace KaosFormat
                 string result = null;
 
                 foreach (var name in Names)
-                    result = result==null? name : result + '/' + name;
+                    result = result==null ? name : result + '/' + name;
                 if (Subname != null)
                     result += " (" + Subname + ")";
 

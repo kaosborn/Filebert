@@ -12,7 +12,7 @@ namespace AppViewModel
 
             public Model (string heading, int tabPosition)
             {
-                Data = new TabInfo (tabPosition);
+                Data = new TabInfo { TabPosition = tabPosition };
                 Data.items = new List<FormatBase.Model>();
                 Data.LongName = heading.StartsWith (".") ? heading.Substring (1) : null;
             }
@@ -68,8 +68,7 @@ namespace AppViewModel
         public bool HasError => MaxSeverity >= Severity.Error;
         public bool HasRepairables => RepairableCount != 0;
 
-        private TabInfo (int tabPosition)
-         => TabPosition = tabPosition;
+        private TabInfo() { }
 
         public int IndexOf (FormatBase fmt)
         {
