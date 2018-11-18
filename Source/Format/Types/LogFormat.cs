@@ -113,10 +113,16 @@ namespace KaosFormat
 
             public void ValidateRip (IList<Mp3Format> mp3s)
             {
+                Severity baddest = Severity.NoIssue;
                 Data.IsLosslessRip = false;
                 PerformValidations();
 
-                Severity baddest = mp3s.Max (tk => tk.Issues.MaxSeverity);
+                if (mp3s.Count > 0)
+                {
+                    Severity baddestOfMp3s = mp3s.Max (tk => tk.Issues.MaxSeverity);
+                    if (baddest < baddestOfMp3s)
+                        baddest = baddestOfMp3s;
+                }
                 if (baddest >= Severity.Error)
                     IssueModel.Add (GetMessage (Severity.Error));
                 else if (baddest == Severity.Warning)
