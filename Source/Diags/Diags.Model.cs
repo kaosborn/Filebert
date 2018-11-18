@@ -122,7 +122,7 @@ namespace KaosDiags
                     {
                         FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                         Stream fs = new FileStream (Data.Root, FileMode.Open, xs, FileShare.Read);
-                        fmtModel = CheckFile (fs, Data.Root, out Severity result);
+                        fmtModel = CheckFile (fs, Data.Root, Data.HashFlags & ~ Hashes._FlacMatch, out Severity result);
                         Data.Result = result;
                     }
                     catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
@@ -152,10 +152,15 @@ namespace KaosDiags
                         {
                             SetCurrentFile (Path.GetDirectoryName (fInfo.FullName), Path.GetFileName (fInfo.FullName));
 
+                            // Unsetting _FlacMatch will optimize away unused PCM-32 calculations.
+                            Hashes hFlags = Data.HashFlags;
+                            if ((hFlags & Hashes._FlacMatch) != 0 && logCount == 0)
+                                hFlags &= ~ Hashes._FlacMatch;
+
                             // Many exceptions also caught by outer caller:
                             FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                             Stream fs = new FileStream (fInfo.FullName, FileMode.Open, xs, FileShare.Read);
-                            fmtModel = CheckFile (fs, fInfo.FullName, out Severity badness);
+                            fmtModel = CheckFile (fs, fInfo.FullName, hFlags, out Severity badness);
 
                             if (fmtModel is FlacFormat.Model flacModel)
                             {
@@ -202,7 +207,7 @@ namespace KaosDiags
                 FormatBase.Model fmtModel = null;
                 try
                 {
-                    fmtModel = FormatBase.Model.Create (stream, path, Data.HashFlags, Data.ValidationFlags,
+                    fmtModel = FormatBase.Model.Create (stream, path, hashFlags, Data.ValidationFlags,
                                                         Data.Filter, out isKnownExtension, out trueFormat);
                 }
 #pragma warning disable 0168
