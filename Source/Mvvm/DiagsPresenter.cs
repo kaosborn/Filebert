@@ -197,7 +197,7 @@ namespace AppViewModel
             public void Parse()
             {
                 Data.IsBusy = true;
-                Data.Progress = "Starting...";
+                Data.ProgressText = "Starting...";
                 Ui.FileProgress (null, null);
 
                 var bg = new BackgroundWorker();
@@ -215,9 +215,13 @@ namespace AppViewModel
                 try
                 {
                     foreach (FormatBase.Model parsing in CheckRoot())
+                    {
+                        ++Data.ProgressCounter;
+                        if (Data.ProgressTotal != 0)
+                            Data.ProgressPercent = 100 * Data.ProgressCounter / Data.ProgressTotal;
                         if (parsing != null)
                         {
-                            Data.Progress = parsing.Data.Name;
+                            Data.ProgressText = parsing.Data.Name;
                             TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.LongName);
                             if (tiModel != null)
                             {
@@ -227,6 +231,7 @@ namespace AppViewModel
                                 tiModel.Add (parsing);
                             }
                         }
+                    }
                 }
                 catch (Exception ex) when (ex is IOException || ex is ArgumentException)
                 { jobArgs.Result = ex.Message; }
@@ -249,13 +254,14 @@ namespace AppViewModel
                             Data.RaisePropertyChanged (null);
                 }
 
-                Data.Progress = null;
                 if (newTabInfoIx > 0)
                 {
                     Data.tabInfos[newTabInfoIx].SetIndex (newTabInfoFmtIx);
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
+                Data.ProgressPercent = 0;
+                Data.ProgressText = null;
                 Data.IsBusy = false;
                 ++Data.JobCounter;
             }
@@ -300,6 +306,36 @@ namespace AppViewModel
             set { isBusy = value; RaisePropertyChanged (nameof (IsBusy)); }
         }
 
+        private double progressFactor = 0;
+        public double ProgressFactor
+        {
+            get => progressFactor;
+            private set { progressFactor = value; RaisePropertyChanged (nameof (ProgressFactor)); }
+        }
+
+        private int progressPercent = 0;
+        public int ProgressPercent
+        {
+            get => progressPercent;
+            set
+            {
+                if (progressPercent != value)
+                {
+                    progressPercent = value;
+                    progressFactor = progressPercent / 100.0;
+                    RaisePropertyChanged (nameof (ProgressPercent));
+                    RaisePropertyChanged (nameof (progressFactor));
+                }
+            }
+        }
+
+        private string progressText = "Ready";
+        public string ProgressText
+        {
+            get => progressText;
+            private set { progressText = value?? "Ready"; RaisePropertyChanged (nameof (ProgressText)); }
+        }
+
         private int currentTabNumber;
         public int CurrentTabNumber 
         {
@@ -342,13 +378,6 @@ namespace AppViewModel
                 var result = ti.Data.RepairableCount.ToString();
                 return result + (ti.Data.RepairableCount == 1 ? " repairable" : " repairables");
             }
-        }
-
-        private string progress = "Ready";
-        public string Progress
-        {
-            get => progress;
-            private set { progress = value?? "Ready"; RaisePropertyChanged (nameof (Progress)); }
         }
 
         public override bool IsRepairEnabled

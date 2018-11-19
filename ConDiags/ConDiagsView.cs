@@ -154,14 +154,14 @@ namespace AppView
             else
                 return;
 
-            if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
+            if (controller.NotifyEvery != 0 && diags.ProgressCounter % controller.NotifyEvery == 0)
                 WriteProgress();
         }
 
         private void WriteProgress()
         {
             Console.Error.Write ("Checked ");
-            Console.Error.Write (diags.TotalFiles);
+            Console.Error.Write (diags.ProgressCounter);
             Console.Error.Write ('\r');
             isProgressDirty = true;
         }

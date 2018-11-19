@@ -46,6 +46,8 @@ namespace KaosDiags
 
         public string CurrentFile { get; private set; }
         public string CurrentDirectory { get; private set; }
+        public int ProgressTotal { get; private set; }
+        public int ProgressCounter { get; protected set; }
 
         public int TotalFiles { get; set; }
         public int TotalRepairable { get; set; }

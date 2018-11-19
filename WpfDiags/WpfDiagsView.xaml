@@ -10,6 +10,9 @@
         Title="Filebert" Height="640" Width="640" Style="{DynamicResource darkApp}"
         Loaded="Window_Loaded"
         DataContext="{Binding Path=DiagsPresenter}">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="Normal" ProgressValue="{Binding ProgressFactor}"/>
+    </Window.TaskbarItemInfo>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -244,7 +247,9 @@
                         </GroupBox>
                     </DockPanel>
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                    <TextBlock Text="{Binding Progress}" Grid.Row="2" Grid.ColumnSpan="2"/>
+                    <ProgressBar Grid.Row="2" Grid.ColumnSpan="9" BorderThickness="0"
+                                 Value="{Binding Path=ProgressPercent, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>
+                    <TextBlock Text="{Binding ProgressText}" Grid.Row="2" Grid.ColumnSpan="9"/>
                 </Grid>
             </TabItem>
             <TabItem Header=".ape" Grid.IsSharedSizeScope="True">

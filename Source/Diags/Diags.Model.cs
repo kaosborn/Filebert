@@ -110,6 +110,13 @@ namespace KaosDiags
                 if ((atts & FileAttributes.Directory) == FileAttributes.Directory)
                 {
                     Data.Result = Severity.NoIssue;
+                    Data.ProgressTotal = 0;
+                    foreach (var dummy in new DirTraverser (Data.Root))
+                    {
+                        var dInfo = new DirectoryInfo (dummy);
+                        FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
+                        Data.ProgressTotal += fileInfos.Length;
+                    }
                     foreach (FormatBase.Model fmtModel in CheckRootDir())
                         yield return fmtModel;
                 }
