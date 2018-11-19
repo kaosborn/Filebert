@@ -66,7 +66,6 @@ namespace AppController
                 { Trace.WriteLine ($"{ProductText} v{VersionText}"); Trace.WriteLine (String.Empty); }
 
                 viewFactory.Create (this, model.Data);
-
                 exitCode = (int) Severity.NoIssue;
                 string err = null;
 #if ! DEBUG
@@ -93,7 +92,7 @@ namespace AppController
             if (waitForKeyPress)
             {
                 Console.WriteLine();
-                Console.Write ("Press the escape key to exit...");
+                Console.Write ("Press the escape key to escape...");
                 while (Console.ReadKey().Key != ConsoleKey.Escape)
                 { }
             }
@@ -253,10 +252,10 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/R] [/f:<wildcard>] [/h:<hashes>] [/s:<scope>] [/strict] [/v:<validations>] [/w:<escalators>] [/e:<escalators>] [/out:<mirror>] [/p:<counter>] [/flacrip] [/mp3rip] [/webcheck] [/x:<exclusion>] [/k] <fileOrFolder>");
+            Console.WriteLine ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/strict] [/flacrip] [/mp3rip] [/webcheck] [/f:<wildcard>] [/x:<exclusion>] [/out:<mirror>] [/p:<counter>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
-            Console.WriteLine("Where <fileOrFolder> is a file or directory name without wildcards.");
+            Console.WriteLine("Where <fileOrFolder> is a file or folder name without wildcards.");
             Console.WriteLine();
 
             Console.Write ("Where <scope> from");
@@ -275,32 +274,18 @@ namespace AppController
             Console.Write ("Where <validations> is list of");
             foreach (var name in Enum.GetNames (typeof (Validations)))
                 Console.Write (" " + name);
-            Console.WriteLine();
-
-            Console.WriteLine();
-            Console.Write ("Where <escalators> is list of");
-            var groupNames = Enum.GetNames (typeof (IssueTags));
-            for (var di = 1; di < groupNames.Length; ++di)
-            {
-                Enum.TryParse<IssueTags> (groupNames[di], true, out IssueTags tag);
-                if (((int) tag & 0x00FFFFFF) != 0)
-                    Console.Write (" " + groupNames[di]);
-            }
             Console.WriteLine ();
             Console.WriteLine ();
             Console.WriteLine ("Example switches:");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /e:substandard to error on lower quality encodings.");
-
-            Console.WriteLine ();
-            Console.WriteLine ("Use /f:*.log to only diagnose files with the .log extension.");
+            Console.WriteLine ("Use /f:*.log to only check files with the .log extension.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /s:detail to display maximum diagnostics.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /h:FileMD5,FileSHA1 to generate file MD5 and SHA1 hashes.");
+            Console.WriteLine ("Use /h:Intrinsic,FileSHA1 to generate file SHA1 and intrinsic hashes.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /k to wait for keypress before exiting.");
@@ -312,7 +297,7 @@ namespace AppController
             Console.WriteLine ("Use /p:0 to suppress the progress counter.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /v:0 to only parse digests and perform no hash validations.");
+            Console.WriteLine ("Use /v:0 to only parse digest files and perform no hash validations.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /x:@ to ignore all paths that include the at sign.");
