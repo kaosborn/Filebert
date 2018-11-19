@@ -10,7 +10,6 @@ namespace AppViewModel
         void ShowLine (string message, Severity severity);
         void ShowSummary (IList<string> rollups);
         void SetText (string message);
-        void ConsoleZoom (int delta);
         IList<string> GetHeadings();
     }
 

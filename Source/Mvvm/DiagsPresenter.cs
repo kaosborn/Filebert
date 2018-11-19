@@ -398,6 +398,17 @@ namespace AppViewModel
             set => ValidationFlags = value < 0 ? (ValidationFlags & value) : (ValidationFlags | (Validations) value);
         }
 
+        private int consoleZoom = 14;
+        public int ConsoleZoom
+        {
+            get => consoleZoom;
+            set
+            {
+                if (value >= 6 && value <= 60)
+                { consoleZoom = value; RaisePropertyChanged (nameof (ConsoleZoom)); }
+            }
+        }
+
         public ICommand DoBrowse { get; private set; }
         public ICommand DoCheck { get; private set; }
         public ICommand NavFirst { get; private set; }
@@ -442,8 +453,8 @@ namespace AppViewModel
             NavPrevRepair = new RelayCommand (() => model.GetPrevRepair());
             NavNextRepair = new RelayCommand (() => model.GetNextRepair());
             DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
-            DoConsoleZoomMinus = new RelayCommand (() => model.Ui.ConsoleZoom (-1));
-            DoConsoleZoomPlus = new RelayCommand (() => model.Ui.ConsoleZoom (+1));
+            DoConsoleZoomMinus = new RelayCommand (() => --ConsoleZoom);
+            DoConsoleZoomPlus = new RelayCommand (() => ++ConsoleZoom);
 
             DoCopyLValueUpper = new RelayCommand<object>(
             (object obj) =>

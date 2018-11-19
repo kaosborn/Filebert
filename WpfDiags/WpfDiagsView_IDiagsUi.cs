@@ -20,13 +20,6 @@ namespace AppView
             return dlg.FileName;
         }
 
-        public void ConsoleZoom (int delta)
-        {
-            var newZoom = unchecked (consoleBox.FontSize + delta);
-            if (newZoom >= 4 && newZoom <= 60)
-                consoleBox.FontSize = newZoom;
-        }
-
         public IList<string> GetHeadings()
         {
             var result = new List<string>();

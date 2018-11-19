@@ -23,9 +23,6 @@ namespace TestDiags
         public string BrowseFile()
          => throw new NotImplementedException();
 
-        public void ConsoleZoom (int delta)
-         => throw new NotImplementedException();
-
         public void FileProgress (string dirName, string fileName)
         {
         }

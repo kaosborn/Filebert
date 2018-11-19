@@ -230,7 +230,7 @@
                             <Button Content=" Clear " Margin="6,6,6,6" Command="{Binding DoConsoleClear}"/>
                         </StackPanel>
                         <GroupBox Header="Output">
-                            <TextBox x:Name="consoleBox">
+                            <TextBox x:Name="consoleBox" FontSize="{Binding Path=ConsoleZoom, Mode=TwoWay}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox">
                                         <Setter Property="FontFamily" Value="Lucida Console"/>
