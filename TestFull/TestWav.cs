@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtWav
     {
         [TestMethod]
-        public void Wav_1()
+        public void UnitWav_1()
         {
             var fName1 = @"Targets\Singles\StereoSilence10.wav";
 

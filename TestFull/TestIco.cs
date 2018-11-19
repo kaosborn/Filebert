@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtIco
     {
         [TestMethod]
-        public void Ico_1()
+        public void UnitIco_1()
         {
             var fName1 = @"Targets\Singles\Korean.ico";
 
@@ -45,7 +45,7 @@ namespace TestDiags
 
 
         [TestMethod]
-        public void Ico_Misnamed()
+        public void UnitIco_Misnamed()
         {
             var fName1 = @"Targets\Singles\DutchIco.jpeg";
 

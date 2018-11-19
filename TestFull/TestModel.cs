@@ -21,16 +21,16 @@ namespace TestDiags
         [TestMethod]
         public void UnitM_FormatList()
         {
-            // Spin up model to initialize the class variables.
-            KaosDiags.Diags model = new KaosDiags.Diags.Model(null).Data;
+            // Spin up a Diags model to initialize the class variables.
+            KaosDiags.Diags diags = new KaosDiags.Diags.Model(null).Data;
             string formatListText = KaosDiags.Diags.FormatListText;
             Assert.AreEqual ("ape, asf/wmv/wma, avi/divx, cue, db (Thumbs), flac, flv, gif, ico, jpg/jpeg, log (EAC), log (XLD), m3u, m3u8, m4a, md5, mkv/mka, mov/qt, mp3, mp4, mpg/mpeg/vob, ogg, png, sha1, sha1x, sha256, wav", formatListText);
         }
 
         [TestMethod]
-        public void UnitVm_FormatList()
+        public void UnitVM_FormatList()
         {
-            // Spin up viewModel to initialize the class variables.
+            // Spin up a mocked view to initialize the class variables.
             AppViewModel.DiagsPresenter viewModel = new MockDiagsView().ViewModel;
             string formatListText = KaosDiags.Diags.FormatListText;
             Assert.AreEqual ("ape, asf/wmv/wma, avi/divx, cue, db (Thumbs), flac, flv, gif, ico, jpg/jpeg, log (EAC), log (XLD), m3u, m3u8, m4a, md5, mkv/mka, mov/qt, mp3, mp4, mpg/mpeg/vob, ogg, png, sha1, sha1x, sha256, wav", formatListText);

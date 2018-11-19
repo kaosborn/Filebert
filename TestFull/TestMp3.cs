@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtMp3
     {
         [TestMethod]
-        public void Mp3_1()
+        public void UnitMp3_1()
         {
             var fileName1 = @"Targets\Singles\01-Phantom.mp3";
 
@@ -37,7 +37,7 @@ namespace TestDiags
 
 
         [TestMethod]
-        public void Mp3_BadCRC()
+        public void UnitMp3_BadCRC()
         {
             var fName1 = @"Targets\Singles\02-WalkedOn.mp3";
 

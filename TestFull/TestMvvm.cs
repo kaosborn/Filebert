@@ -10,7 +10,7 @@ namespace TestDiags
     public class UnitMvvm
     {
         [TestMethod]
-        public void MvvmM3u()
+        public void UnitMvvm_M3u()
         {
             DiagsPresenter vm = new MockDiagsView().ViewModel;
             int tries = 2400;
@@ -42,7 +42,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void MvvmMp3()
+        public void UnitMvvm_Mp3()
         {
             DiagsPresenter vm = new MockDiagsView().ViewModel;
             int tries = 1200;

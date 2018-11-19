@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtSha256
     {
         [TestMethod]
-        public void Sha256_OK3()
+        public void UnitSha256_OK3()
         {
             var fName1 = @"Targets\Hashes\OK03.sha256";
 
@@ -33,7 +33,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Sha256_Empty()
+        public void UnitSha256_Empty()
         {
             var fName1 = @"Targets\Hashes\0bytes.sha256";
 

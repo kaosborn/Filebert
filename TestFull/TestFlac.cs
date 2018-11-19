@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtFlac
     {
         [TestMethod]
-        public void Flac_1()
+        public void UnitFlac_1()
         {
             var fName1 = @"Targets\Singles\03-Silence.flac";
 
@@ -34,7 +34,7 @@ namespace TestDiags
 
 
         [TestMethod]
-        public void Flac_2()
+        public void UnitFlac_2()
         {
             var fName1 = @"Targets\Singles\04-BadCRC.flac";
 

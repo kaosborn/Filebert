@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtPng
     {
         [TestMethod]
-        public void Png_1()
+        public void UnitPng_1()
         {
             var fName1 = @"Targets\Singles\Tile1.png";
 

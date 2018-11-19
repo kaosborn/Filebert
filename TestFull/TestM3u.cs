@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtM3u
     {
         [TestMethod]
-        public void M3u_1()
+        public void UnitM3u_1()
         {
             var fName1 = @"Targets\Hashes\OK02.m3u";
             using (Stream fs = new FileStream (fName1, FileMode.Open, FileAccess.Read))
@@ -39,7 +39,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void M3u_2()
+        public void UnitM3u_2()
         {
             var fName1 = @"Targets\Hashes\Bad02.m3u";
 

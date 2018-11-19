@@ -10,7 +10,7 @@ namespace TestDiags
     public class UnitFmtLogEac
     {
         [TestMethod]
-        public void UnitFmtLogEac_OK1()
+        public void UnitLogEac_OK1()
         {
             var dName1 = @"Targets\Rips\Tester - 2000 - FLAC Silence OK1\";
             var fName1 = dName1 + "Tester - 2000 - FLAC Silence OK1.log";
@@ -78,7 +78,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void UnitFmtLogEac_Bad1()
+        public void UnitLogEac_Bad1()
         {
             var dName1 = @"Targets\Rips\Tester - 2000 - FLAC Silence Bad1\";
             var fName1 = dName1 + "Tester - 2000 - FLAC Silence Bad1.log";
@@ -130,7 +130,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void UnitFmtLogEac_StrictWeb()
+        public void UnitLogEac_StrictWeb()
         {
             var fName1 = @"Targets\Singles\Nightmare.log";
             var fName2 = @"Targets\Singles\EAC1NoHashOrCT.log";

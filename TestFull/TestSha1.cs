@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtSha1
     {
         [TestMethod]
-        public void Sha1_OK()
+        public void UnitSha1_OK()
         {
             var fName1 = @"Targets\Hashes\OK01.sha1";
 
@@ -34,7 +34,7 @@ namespace TestDiags
 
 
         [TestMethod]
-        public void Sha1_Bad()
+        public void UnitSha1_Bad()
         {
             var fName1 = @"Targets\Hashes\Bad01.sha1";
 

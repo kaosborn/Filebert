@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtGif
     {
         [TestMethod]
-        public void Gif_1()
+        public void UnitGif_1()
         {
             var fName1 = @"Targets\Singles\pic300x301.gif";
 

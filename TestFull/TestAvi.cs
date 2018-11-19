@@ -9,7 +9,7 @@ namespace TestDiags
     public class UnitFmtAvi
     {
         [TestMethod]
-        public void Avi_1()
+        public void UnitAvi_1()
         {
             var fName1 = @"Targets\Singles\MarkedCrimeBlimp.avi";
 

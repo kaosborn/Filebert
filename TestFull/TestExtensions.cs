@@ -10,7 +10,7 @@ namespace TestDiags
     public class TestExtensions
     {
         [TestMethod]
-        public void Unit_ToBitString_2A()
+        public void UnitE_ToBitString_2A()
         {
             int val = unchecked ((int) 0xFFFF1E96);
 
@@ -24,7 +24,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_ToBitString_2B()
+        public void UnitE_ToBitString_2B()
         {
             var buf = new byte[] { 0x12, 0x34, 0x5E, 0x78 };
             var result = ConvertTo.ToBitString (buf, 3);
@@ -32,7 +32,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_ToHexString_1()
+        public void UnitE_ToHexString_1()
         {
             var buf = new byte[] { 0x12, 0xA4, 0xCD, 0x45 };
             var result = ConvertTo.ToHexString (buf);
@@ -41,7 +41,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Big16ToInt()
+        public void UnitE_Big16ToInt()
         {
             var buf = new byte[] { 0x12, 0xA4, 0xCD, 0x45 };
             var result = ConvertTo.FromBig16ToInt32 (buf, 1);
@@ -50,7 +50,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Big24ToInt()
+        public void UnitE_Big24ToInt()
         {
             var buf = new byte[] { 0x12, 0xA4, 0xCD, 0x45 };
             var result = ConvertTo.FromBig24ToInt32 (buf, 1);
@@ -61,7 +61,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Big32ToInt()
+        public void UnitE_Big32ToInt()
         {
             var buf = new byte[] { 0x12, 0xFF, 0xFF, 0xFF, 0xFE, 0xED };
             var result = ConvertTo.FromBig32ToInt32 (buf, 1);
@@ -71,7 +71,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Big32ToUInt()
+        public void UnitE_Big32ToUInt()
         {
             var buf = new byte[] { 0x12, 0xFF, 0xA4, 0xCD, 0x45, 0xED };
             var result = ConvertTo.FromBig32ToUInt32 (buf, 1);
@@ -81,7 +81,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Lit16ToInt()
+        public void UnitE_Lit16ToInt()
         {
             var buf = new byte[] { 0x12, 0xA4, 0xCD, 0x45 };
             var result = ConvertTo.FromLit16ToInt32 (buf, 1);
@@ -90,7 +90,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Lit32ToInt()
+        public void UnitE_Lit32ToInt()
         {
             var buf = new byte[] { 0x12, 0xFD, 0xFF, 0xFF, 0xFF, 0xED };
             var result = ConvertTo.FromLit32ToInt32 (buf, 1);
@@ -100,7 +100,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_AsciizToString()
+        public void UnitE_AsciizToString()
         {
             var buf = new byte[] { 0x30, 0x31, 0x42, 0x43, 0x44, 0, 0x46, 0x47 };
             var result = ConvertTo.FromAsciizToString (buf, 2);
@@ -110,7 +110,7 @@ namespace TestDiags
         }
 
         [TestMethod]
-        public void Unit_Wobbly()
+        public void UnitE_Wobbly()
         {
             var s1 = new MemoryStream (new byte[] { 0x61 });
             var r1 = s1.ReadWobbly (out byte[] buf);
