@@ -47,10 +47,7 @@ namespace KaosIssue
 
                     Severity level = issue.Level;
                     if (Data.MaxSeverity < level)
-                    {
                         Data.MaxSeverity = level;
-                        Data.Severest = issue;
-                    }
 
                     Data.RaisePropertyChanged (nameof (FixedMessage));
                     return issue;
@@ -66,10 +63,7 @@ namespace KaosIssue
                     {
                         Severity level = issue.Level;
                         if (Data.MaxSeverity < level)
-                        {
                             Data.MaxSeverity = level;
-                            Data.Severest = issue;
-                        }
                     }
                 }
 
@@ -109,7 +103,6 @@ namespace KaosIssue
             public IssueTags WarnEscalator { get; private set; }
             public IssueTags ErrEscalator { get; private set; }
             public Severity MaxSeverity { get; private set; }
-            public Issue Severest { get; private set; }
             public int RepairableCount { get; private set; }
 
             public bool HasError => MaxSeverity >= Severity.Error;
@@ -137,7 +130,6 @@ namespace KaosIssue
         private Func<bool,string> Repairer { get; set; }
         public bool IsFinalRepairer { get; private set; }
         public bool? IsRepairSuccessful { get; private set; }
-        public bool IsNoise => Level <= Severity.Noise;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
@@ -189,6 +181,7 @@ namespace KaosIssue
         public bool Success => (Tag & IssueTags.Success) != 0;
         public bool HasRepairer => Repairer != null;
         public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null && Level < Severity.Error;
+        public bool IsNoise => Level <= Severity.Noise;
         public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
         public override string ToString() => FixedMessage;
     }
