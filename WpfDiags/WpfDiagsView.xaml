@@ -74,34 +74,34 @@
                     <GroupBox Header="Generate" HorizontalAlignment="Left" Margin="0,0,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Intrinsics" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.Intrinsic}}"/>
-                                <CheckBox Content="File MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileMD5}}"/>
-                                <CheckBox Content="File SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA1}}"/>
-                                <CheckBox Content="File SHA256" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA256}}"/>
+                                <CheckBox Content="Intrinsics" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.Intrinsic}}" ToolTip="varies by file type"/>
+                                <CheckBox Content="File MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileMD5}}" ToolTip="32 hex digits"/>
+                                <CheckBox Content="File SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA1}}" ToolTip="40 hex digits"/>
+                                <CheckBox Content="File SHA256" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.FileSHA256}}" ToolTip="64 hex digits"/>
                             </WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Meta SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MetaSHA1}}"/>
-                                <CheckBox Content="Media SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MediaSHA1}}"/>
-                                <CheckBox Content="PCM MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmMD5}}" ToolTip="for .flac, .wav"/>
-                                <CheckBox Content="PCM CRC-32" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmCRC32}}" ToolTip="for .flac, .wav"/>
+                                <CheckBox Content="Meta SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MetaSHA1}}" ToolTip="all except media data"/>
+                                <CheckBox Content="Media SHA1" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.MediaSHA1}}" ToolTip="all except meta data"/>
+                                <CheckBox Content="PCM MD5" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmMD5}}" ToolTip="for .flac, .wav files"/>
+                                <CheckBox Content="PCM CRC-32" IsChecked="{Binding Path=HashToggle, Converter={StaticResource hashToggle}, ConverterParameter={x:Static format:Hashes.PcmCRC32}}" ToolTip="for .flac, .wav files"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,0,3,3">
+                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,0,3,3" ToolTip="time consuming">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8"/>
-                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" ToolTip="for .md5"/>
-                                <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}" ToolTip="for .sha1, .sha1x"/>
-                                <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}" ToolTip="for .sha256"/>
+                                <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8 files"/>
+                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" ToolTip="for .md5 file"/>
+                                <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}" ToolTip="for .sha1, .sha1x files"/>
+                                <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}" ToolTip="for .sha256 files"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,0,3,3">
+                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,0,3,3" ToolTip="requires a XLD or EAC .log file">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
