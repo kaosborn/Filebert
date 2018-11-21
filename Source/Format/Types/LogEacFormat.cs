@@ -100,9 +100,9 @@ namespace KaosFormat
 
                             if (lx.Contains ("ccurately ripped (confidence "))
                             {
-                                int arVersion = lx.Contains("AR v2")? 2 : 1;
-                                bool isOk = ToInt (lx, 40, out int val);
-                                int arConfidence = isOk && val > 0? val : -1;
+                                int arVersion = lx.Contains ("AR v2") ? 2 : 1;
+                                int advanced = ConvertTo.FromStringToInt32 (lx, 40, out int val);
+                                int arConfidence = advanced > 0 && val > 0 ? val : -1;
                                 lx = parser.ReadLineLTrim();
 
                                 if (Data.AccurateRipConfidence == null || Data.AccurateRipConfidence.Value > arConfidence)
@@ -151,7 +151,7 @@ namespace KaosFormat
             {
                 if (Data.storedHash == null)
                 {
-                    Severity sev = Data.EacVersionText != null && Data.EacVersionText.StartsWith ("1")? Severity.Warning : Severity.Noise;
+                    Severity sev = Data.EacVersionString != null && Data.EacVersionString.StartsWith ("1")? Severity.Warning : Severity.Noise;
                     Data.ShIssue = IssueModel.Add ("EAC log self-hash not present.", sev, IssueTags.StrictErr);
                 }
                 else
@@ -300,7 +300,7 @@ namespace KaosFormat
                         if (Data.AccurateRipConfidence.Value < 0)
                             arTag = IssueTags.Failure;
                     }
-                Data.ArIssue = IssueModel.Add ("AccurateRip verification " + Data.AccurateRipLong + ".", arSev, arTag);
+                Data.ArIssue = IssueModel.Add ($"AccurateRip verification {Data.AccurateRipText}.", arSev, arTag);
 
                 var ctSev = Severity.Trivia;
                 var ctTag = IssueTags.None;
@@ -313,18 +313,18 @@ namespace KaosFormat
                 else
                     ctTag = IssueTags.Success;
 
-                Data.CtIssue = IssueModel.Add ("CUETools DB verification " + Data.CueToolsLong + ".", ctSev, ctTag);
+                Data.CtIssue = IssueModel.Add ($"CUETools DB verification {Data.CueToolsText}.", ctSev, ctTag);
             }
         }
 
 
-        private static readonly byte[] logEacSig0x = new byte[] { (byte)'E', (byte)'A', (byte)'C', (byte)' ' };
+        private static readonly byte[] logEacSig0x = { (byte)'E', (byte)'A', (byte)'C', (byte)' ' };
         private static readonly byte[] logEacSig0y = Encoding.ASCII.GetBytes ("Exact Audio Copy V0");
         private static readonly byte[] logEacSig1x = Encoding.Unicode.GetBytes ("\uFEFFExact Audio Copy V");
 
         public LogEacTrack.Vector Tracks { get; private set; }
 
-        public string EacVersionText { get; private set; }
+        public string EacVersionString { get; private set; }
         public string Overread { get; private set; }
         public string Id3Tag { get; private set; }
         public string FillWithSilence { get; private set; }
@@ -342,32 +342,31 @@ namespace KaosFormat
         private string defeatCache;
         private string useC2;
         private string readMode;
-        private string readModeLongLazy;
 
         public string AccurateStream
         {
-            get { return accurateStream; }
-            private set { accurateStream = value; readModeLongLazy = null; }
+            get => accurateStream;
+            private set { accurateStream = value; readModeText = null; }
         }
         public string DefeatCache
         {
-            get { return defeatCache; }
-            private set { defeatCache = value; readModeLongLazy = null; }
+            get => defeatCache;
+            private set { defeatCache = value; readModeText = null; }
         }
         public string UseC2
         {
-            get { return useC2; }
-            private set { useC2 = value; readModeLongLazy = null; }
+            get => useC2;
+            private set { useC2 = value; readModeText = null; }
         }
         public string ReadMode
         {
-            get { return readMode; }
-            private set { readMode = value; readModeLongLazy = null; }
+            get => readMode;
+            private set { readMode = value; readModeText = null; }
         }
 
-        public string EacVersionLong => EacVersionText?? "unknown";
+        public string EacVersionText => EacVersionString?? "unknown";
 
-        public string CueToolsLong
+        public string CueToolsText
         {
             get
             {
@@ -378,27 +377,27 @@ namespace KaosFormat
             }
         }
 
-        public string ReadModeLong
+        private string readModeText;
+        public string ReadModeText
         {
             get
             {
-                if (readModeLongLazy == null)
+                if (readModeText == null)
                     if (AccurateStream == null && DefeatCache == null && UseC2 == null)
-                        readModeLongLazy = readMode;
+                        readModeText = readMode;
                     else
-                        readModeLongLazy = (readMode?? "?") + " ("
+                        readModeText = (readMode?? "?") + " ("
                             + "AccurateStream=" + (AccurateStream?? "?")
                             + ", DefeatCache=" + (DefeatCache?? "?")
                             + ", UseC2=" + (UseC2?? "?")
                             + ")";
-
-                return readModeLongLazy;
+                return readModeText;
             }
         }
 
         private byte[] storedHash;
-        public string SelfHashLong
-         => storedHash==null? (EacVersionText==null || EacVersionText.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
+        public string SelfHashText
+         => storedHash==null? (EacVersionString==null || EacVersionString.StartsWith ("0")? "none" : "missing") : ((storedHash.Length * 8).ToString() + " bits");
 
         public bool HasRpIssue => RpIssue != null;
 
@@ -424,7 +423,7 @@ namespace KaosFormat
             if (report.Count > 0)
                 report.Add (String.Empty);
 
-            report.Add ($"EAC version = {EacVersionLong}");
+            report.Add ($"EAC version = {EacVersionText}");
 
             if (storedHash != null)
                 report.Add ("EAC stored self-hash = " + ConvertTo.ToHexString (storedHash));

@@ -90,6 +90,18 @@ namespace KaosFormat
         public static UInt32 FromLit32ToUInt32 (byte[] data, int index)
         { unchecked { return data[index] | (UInt32) data[index+1] << 8 | (UInt32) data[index+2] << 16 | (UInt32) data[index+3] << 24; } }
 
+        // returns count advanced in source
+        public static int FromStringToInt32 (string source, int offset, out int result)
+        {
+            int start = offset;
+            while (start < source.Length && Char.IsWhiteSpace (source[start]))
+                ++start;
+            int stop = start;
+            while (stop < source.Length && Char.IsDigit (source[stop]))
+                ++stop;
+            int.TryParse (source.Substring (start, stop-start), out result);
+            return stop-offset;
+        }
 
         public static string FromAsciizToString (byte[] data, int offset = 0)
         {

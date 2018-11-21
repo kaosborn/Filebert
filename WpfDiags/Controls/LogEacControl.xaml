@@ -80,7 +80,7 @@
         <TextBlock Grid.Row="5" Text="Interface:"/>
         <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=Interface, Mode=OneWay}"/>
         <TextBlock Grid.Row="6" Text="Read mode:"/>
-        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=ReadModeLong, Mode=OneWay}">
+        <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="9" Text="{Binding Path=ReadModeText, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -170,9 +170,9 @@
             </TextBox.Style>
         </TextBox>
         <TextBlock Grid.Row="8" Grid.Column="6" Text="EAC version:"/>
-        <TextBox Grid.Row="8" Grid.Column="7" Text="{Binding Path=EacVersionLong, Mode=OneWay}"/>
+        <TextBox Grid.Row="8" Grid.Column="7" Text="{Binding Path=EacVersionText, Mode=OneWay}"/>
         <TextBlock Grid.Row="9" Grid.Column="6" Text="EAC self-hash:"/>
-        <TextBox Grid.Row="9" Grid.Column="7" Text="{Binding Path=SelfHashLong, Mode=OneWay}">
+        <TextBox Grid.Row="9" Grid.Column="7" Text="{Binding Path=SelfHashText, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -190,7 +190,7 @@
             </TextBox.Style>
         </TextBox>
         <TextBlock Grid.Row="10" Grid.Column="6" Text="AccurateRip:"/>
-        <TextBox Grid.Row="10" Grid.Column="7" Text="{Binding Path=AccurateRipLong, Mode=OneWay}">
+        <TextBox Grid.Row="10" Grid.Column="7" Text="{Binding Path=AccurateRipText, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -208,7 +208,7 @@
             </TextBox.Style>
         </TextBox>
         <TextBlock Grid.Row="11" Grid.Column="6" Text="CUETools DB:"/>
-        <TextBox Grid.Row="11" Grid.Column="7" Text="{Binding Path=CueToolsLong, Mode=OneWay}">
+        <TextBox Grid.Row="11" Grid.Column="7" Text="{Binding Path=CueToolsText, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>

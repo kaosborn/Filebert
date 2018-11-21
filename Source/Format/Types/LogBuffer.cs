@@ -83,16 +83,6 @@ namespace KaosFormat
     {
         public new partial class Model : LogFormat.Model
         {
-            public static bool ToInt (string source, int offset, out int result)
-            {
-                while (offset < source.Length && Char.IsWhiteSpace (source[offset]))
-                    ++offset;
-                int stop=offset;
-                while (stop < source.Length && Char.IsDigit (source[stop]))
-                    ++stop;
-                return int.TryParse (source.Substring (offset, stop-offset), out result);
-            }
-
             private string ParseHeader()
             {
                 string lx = parser.ReadLine();
@@ -100,7 +90,7 @@ namespace KaosFormat
                 {
                     var spacePos = lx.IndexOf (' ', 18);
                     if (spacePos > 0)
-                        Data.EacVersionText = lx.Substring (18, spacePos-18);
+                        Data.EacVersionString = lx.Substring (18, spacePos-18);
 
                     lx = parser.ReadLine();
                     lx = parser.ReadLine();
@@ -335,14 +325,14 @@ namespace KaosFormat
 
                 if (lx.StartsWith ("Accurately ripped (confidence "))
                 {
-                    arVersion = lx.Contains("AR v2")? 2 : 1;
-                    bool isOk = ToInt (lx, 30, out int val);
-                    arConfidence = isOk && val > 0? val : -1;
+                    arVersion = lx.Contains ("AR v2") ? 2 : 1;
+                    int advanced = ConvertTo.FromStringToInt32 (lx, 30, out int val);
+                    arConfidence = advanced > 0 && val > 0 ? val : -1;
                     lx = parser.ReadLineLTrim();
                 }
                 else if (lx.StartsWith ("Cannot be verified"))
                 {
-                    arVersion = lx.Contains("AR v2")? 2 : 1;
+                    arVersion = lx.Contains ("AR v2") ? 2 : 1;
                     arConfidence = -1;
                     lx = parser.ReadLineLTrim();
                 }
@@ -405,7 +395,7 @@ namespace KaosFormat
                         int ctConfidence = -1;
                         if (lx.Contains ("Accurately ripped"))
                         {
-                            bool isOK = ToInt (lx, 12, out ctConfidence);
+                            int advanced = ConvertTo.FromStringToInt32 (lx, 12, out ctConfidence);
                         }
                         Data.CueToolsConfidence = ctConfidence;
                         lx = parser.ReadLineLTrim();
@@ -422,8 +412,8 @@ namespace KaosFormat
                     int ctConfidence;
                     if (lx.Contains ("Accurately ripped"))
                     {
-                        bool isOK = ToInt (lx, 9, out ctConfidence);
-                        if (! isOK)
+                        int advanced = ConvertTo.FromStringToInt32 (lx, 9, out ctConfidence);
+                        if (advanced == 0)
                         { Data.CueToolsConfidence = -1; return lx; }
                     }
                     else if (lx.Contains ("Differs"))

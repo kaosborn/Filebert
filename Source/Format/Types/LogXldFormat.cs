@@ -282,7 +282,7 @@ namespace KaosFormat
                     { sev = Severity.Error; tag = IssueTags.Failure; }
                     else
                     { sev = Severity.Advisory; tag = Data.AccurateRipConfidence > 0 ? IssueTags.Success : IssueTags.None; }
-                    Data.ArIssue = IssueModel.Add ($"AccurateRip {Data.AccurateRipLong}.", sev, tag);
+                    Data.ArIssue = IssueModel.Add ($"AccurateRip {Data.AccurateRipText}.", sev, tag);
                 }
 
                 if (Data.storedHash == null)
@@ -322,7 +322,7 @@ namespace KaosFormat
             if (DefeatCache != null) report.Add ($"Disable cache = {DefeatCache}");
             if (UseC2 != null) report.Add ($"Use C2 = {UseC2}");
             if (GapHandling != null) report.Add ($"Gap handling = {GapHandling}");
-            report.Add ($"AccurateRip = {AccurateRipLong}");
+            report.Add ($"AccurateRip = {AccurateRipText}");
             if (StoredHash != null) report.Add ($"Signature = {DerivedHash}");
 
             report.Add (String.Empty);

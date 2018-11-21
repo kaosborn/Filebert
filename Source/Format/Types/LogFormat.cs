@@ -255,7 +255,7 @@ namespace KaosFormat
         public LogFormat (FormatBase.Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
-        public string AccurateRipLong
+        public string AccurateRipText
         {
             get
             {
