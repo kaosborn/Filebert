@@ -197,6 +197,7 @@ namespace AppViewModel
             public void Parse()
             {
                 Data.IsBusy = true;
+                Data.ProgressCounter = 0;
                 Data.ProgressText = "Starting...";
                 Ui.FileProgress (null, null);
 
@@ -263,6 +264,7 @@ namespace AppViewModel
                 Data.ProgressPercent = 0;
                 Data.ProgressText = null;
                 Data.IsBusy = false;
+                Data.ProgressTotal = 0;
                 ++Data.JobCounter;
             }
         }
