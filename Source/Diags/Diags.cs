@@ -46,8 +46,26 @@ namespace KaosDiags
 
         public string CurrentFile { get; private set; }
         public string CurrentDirectory { get; private set; }
-        public int ProgressTotal { get; private set; }
-        public int ProgressCounter { get; protected set; }
+
+        private int progressCounter = 0;
+        public int ProgressCounter
+        {
+            get => progressCounter;
+            protected set => SetProgressCounter (value);
+        }
+
+        protected virtual void SetProgressCounter (int value)
+         => progressCounter = value;
+
+        private int progressTotal = 0;
+        public int ProgressTotal
+        {
+            get => progressTotal;
+            protected set => SetProgressTotal (value);
+        }
+
+        protected virtual void SetProgressTotal (int value)
+         => progressTotal = value;
 
         public int TotalFiles { get; set; }
         public int TotalRepairable { get; set; }

@@ -196,8 +196,7 @@ namespace AppViewModel
 
             public void Parse()
             {
-                Data.IsBusy = true;
-                Data.ProgressCounter = 0;
+                Data.ProgressCounter = 1;
                 Data.ProgressText = "Starting...";
                 Ui.FileProgress (null, null);
 
@@ -218,8 +217,6 @@ namespace AppViewModel
                     foreach (FormatBase.Model parsing in CheckRoot())
                     {
                         ++Data.ProgressCounter;
-                        if (Data.ProgressTotal != 0)
-                            Data.ProgressPercent = 100 * Data.ProgressCounter / Data.ProgressTotal;
                         if (parsing != null)
                         {
                             Data.ProgressText = parsing.Data.Name;
@@ -261,9 +258,7 @@ namespace AppViewModel
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
-                Data.ProgressPercent = 0;
                 Data.ProgressText = null;
-                Data.IsBusy = false;
                 Data.ProgressTotal = 0;
                 ++Data.JobCounter;
             }
@@ -301,11 +296,26 @@ namespace AppViewModel
         public TabInfo TabSha256 { get; private set; }
         public TabInfo TabWav { get; private set; }
 
-        private bool isBusy = false;
-        public bool IsBusy
+        public bool IsBusy => ProgressCounter != 0;
+
+        protected override void SetProgressCounter (int counter)
         {
-            get => isBusy;
-            set { isBusy = value; RaisePropertyChanged (nameof (IsBusy)); }
+            bool raiseChange = ProgressCounter == 0 || counter == 0;
+            base.SetProgressCounter (counter);
+            if (raiseChange)
+                RaisePropertyChanged (nameof (IsBusy));
+            if (ProgressTotal != 0)
+                ProgressPercent = 100 * ProgressCounter / ProgressTotal;
+        }
+
+        protected override void SetProgressTotal (int value)
+        {
+            base.SetProgressTotal (value);
+            if (value == 0)
+            {
+                SetProgressCounter (0);
+                ProgressPercent = 0;
+            }
         }
 
         private double progressFactor = 0;
