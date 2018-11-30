@@ -313,12 +313,6 @@ namespace KaosDiags
                 return logCount;
             }
 
-            public void SetCurrentFile (string baseName)
-            {
-                Data.CurrentFile = baseName;
-                Data.OnFileVisit (Data.CurrentDirectory, baseName);
-            }
-
             public void SetCurrentFile (string directoryName, string fileName)
             {
                 Data.CurrentFile = fileName;
