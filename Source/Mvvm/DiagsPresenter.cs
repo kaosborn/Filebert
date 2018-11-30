@@ -28,7 +28,7 @@ namespace AppViewModel
                 _data = new DiagsPresenter (this);
 
                 foreach (string heading in Ui.GetHeadings())
-                    Data.tabInfos.Add (new TabInfo.Model (heading, Data.tabInfos.Count));
+                    Data.tiModels.Add (new TabInfo.Model (heading, Data.tiModels.Count));
 
                 Data.TabApe = GetTabInfoData ("ape");
                 Data.TabAsf = GetTabInfoData ("asf");
@@ -63,44 +63,44 @@ namespace AppViewModel
             }
 
             public TabInfo.Model GetTabInfoModel (string longName)
-             => Data.tabInfos.FirstOrDefault (ti => ti.Data.LongName == longName);
+             => Data.tiModels.FirstOrDefault (ti => ti.Data.LongName == longName);
 
             public TabInfo GetTabInfoData (string longName)
-             => Data.tabInfos.FirstOrDefault (ti => ti.Data.LongName == longName)?.Data;
+             => Data.tiModels.FirstOrDefault (ti => ti.Data.LongName == longName)?.Data;
 
             public bool SetFlacIndex (int index)
              => tabFlacModel.SetIndex (index);
 
             public void GetFirst()
             {
-                if (Data.tabInfos[Data.CurrentTabNumber].SetIndex (0))
+                if (Data.tiModels[Data.CurrentTabNumber].SetIndex (0))
                     Data.RaisePropertyChanged (null);
             }
 
             public void GetLast()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Count - 1))
                     Data.RaisePropertyChanged (null);
             }
 
             public void GetPrev()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Index - 1))
                     Data.RaisePropertyChanged (null);
             }
 
             public void GetNext()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 if (tiModel.SetIndex (tiModel.Data.Index + 1))
                     Data.RaisePropertyChanged (null);
             }
 
             public void GetFirstRepair()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = 0; ix < tiModel.Data.Count; ++ix)
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
@@ -112,7 +112,7 @@ namespace AppViewModel
 
             public void GetLastRepair()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Count; --ix >= 0; )
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
@@ -124,7 +124,7 @@ namespace AppViewModel
 
             public void GetPrevRepair()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Index; --ix >= 0; )
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
@@ -136,7 +136,7 @@ namespace AppViewModel
 
             public void GetNextRepair()
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Index; ++ix < tiModel.Data.Count; )
                     if (tiModel.Data.GetIsRepairable (ix))
                     {
@@ -148,7 +148,7 @@ namespace AppViewModel
 
             public void GetFirstBySeverity (Severity badness)
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = 0; ix < tiModel.Data.Count; ++ix)
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
@@ -160,7 +160,7 @@ namespace AppViewModel
 
             public void GetLastBySeverity (Severity badness)
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Count; --ix >= 0; )
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
@@ -172,7 +172,7 @@ namespace AppViewModel
 
             public void GetPrevBySeverity (Severity badness)
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Index; --ix >= 0; )
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
@@ -184,7 +184,7 @@ namespace AppViewModel
 
             public void GetNextBySeverity (Severity badness)
             {
-                TabInfo.Model tiModel = Data.tabInfos[Data.CurrentTabNumber];
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
                 for (int ix = tiModel.Data.Index; ++ix < tiModel.Data.Count; )
                     if (tiModel.Data.GetMaxSeverity (ix) >= badness)
                     {
@@ -244,9 +244,9 @@ namespace AppViewModel
 
                 Ui.ShowSummary (Data.GetReportRollups ("checked"));
 
-                for (int ix = 1; ix < Data.tabInfos.Count; ++ix)
+                for (int ix = 1; ix < Data.tiModels.Count; ++ix)
                 {
-                    TabInfo.Model tiModel = Data.tabInfos[ix];
+                    TabInfo.Model tiModel = Data.tiModels[ix];
                     if (tiModel.Data.Index < 0)
                         if (tiModel.SetIndex (0))
                             Data.RaisePropertyChanged (null);
@@ -254,7 +254,7 @@ namespace AppViewModel
 
                 if (newTabInfoIx > 0)
                 {
-                    Data.tabInfos[newTabInfoIx].SetIndex (newTabInfoFmtIx);
+                    Data.tiModels[newTabInfoIx].SetIndex (newTabInfoFmtIx);
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
@@ -265,7 +265,7 @@ namespace AppViewModel
         }
 
 
-        private List<TabInfo.Model> tabInfos = new List<TabInfo.Model>();
+        private List<TabInfo.Model> tiModels = new List<TabInfo.Model>();
 
         public int JobCounter { get; private set; } = 0;  // For test.
 
@@ -362,31 +362,31 @@ namespace AppViewModel
             {
                 if (CurrentTabNumber == 0)
                     return null;
-                var ti = tabInfos[CurrentTabNumber];
-                return (ti.Data.Index+1).ToString() + " of " + ti.Data.Count + " ." + tabInfos[CurrentTabNumber].Data.LongName;
+                var ti = tiModels[CurrentTabNumber];
+                return (ti.Data.Index+1).ToString() + " of " + ti.Data.Count + " ." + tiModels[CurrentTabNumber].Data.LongName;
             }
         }
 
-        public bool TabHasErrors => CurrentTabNumber > 0 && tabInfos[CurrentTabNumber].Data.ErrorCount > 0;
+        public bool TabHasErrors => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.ErrorCount > 0;
         public string TabErrorText
         {
             get
             {
                 if (CurrentTabNumber == 0)
                     return null;
-                var ti = tabInfos[CurrentTabNumber];
+                var ti = tiModels[CurrentTabNumber];
                 return ti.Data.ErrorCount.ToString() + " failed";
             }
         }
 
-        public bool TabHasRepairables => CurrentTabNumber > 0 && tabInfos[CurrentTabNumber].Data.RepairableCount > 0;
+        public bool TabHasRepairables => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.RepairableCount > 0;
         public string TabRepairablesText
         {
             get
             {
                 if (CurrentTabNumber == 0)
                     return null;
-                var ti = tabInfos[CurrentTabNumber];
+                var ti = tiModels[CurrentTabNumber];
                 var result = ti.Data.RepairableCount.ToString();
                 return result + (ti.Data.RepairableCount == 1 ? " repairable" : " repairables");
             }
@@ -493,7 +493,7 @@ namespace AppViewModel
             DoRepair = new RelayCommand<object>(
             (object obj) =>
             {
-                TabInfo.Model tiModel = tabInfos[CurrentTabNumber];
+                TabInfo.Model tiModel = tiModels[CurrentTabNumber];
                 if (tiModel.Repair ((int) obj))
                     RaisePropertyChanged (null);
             });
