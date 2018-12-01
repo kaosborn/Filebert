@@ -44,7 +44,13 @@ namespace KaosDiags
         public IssueTags ErrEscalator { get; set; }
         public Severity Result { get; private set; } = Severity.NoIssue;
 
-        public string CurrentFile { get; private set; }
+        private string currentFile = null;
+        public string CurrentFile
+        {
+            get => currentFile;
+            private set { currentFile = value; RaisePropertyChanged (nameof (CurrentFile)); }
+        }
+
         public string CurrentDirectory { get; private set; }
 
         private int progressCounter = 0;

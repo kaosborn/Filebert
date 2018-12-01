@@ -136,10 +136,12 @@ namespace KaosDiags
                     {
                         Data.Result = Severity.Fatal;
                         Data.OnMessageSend (ex.Message.Trim(), Severity.Fatal);
+                        SetCurrentFile (null, null);
                         yield break;
                     }
                     yield return fmtModel;
                 }
+                SetCurrentFile (null, null);
             }
 
             private IEnumerable<FormatBase.Model> CheckRootDir()

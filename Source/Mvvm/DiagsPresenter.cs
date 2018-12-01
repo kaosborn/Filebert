@@ -197,7 +197,6 @@ namespace AppViewModel
             public void Parse()
             {
                 Data.ProgressCounter = 1;
-                Data.ProgressText = "Starting...";
                 Ui.FileProgress (null, null);
 
                 var bg = new BackgroundWorker();
@@ -219,7 +218,6 @@ namespace AppViewModel
                         ++Data.ProgressCounter;
                         if (parsing != null)
                         {
-                            Data.ProgressText = parsing.Data.Name;
                             TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.LongName);
                             if (tiModel != null)
                             {
@@ -258,7 +256,6 @@ namespace AppViewModel
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
-                Data.ProgressText = null;
                 Data.ProgressTotal = 0;
                 ++Data.JobCounter;
             }
@@ -339,13 +336,6 @@ namespace AppViewModel
                     RaisePropertyChanged (nameof (progressFactor));
                 }
             }
-        }
-
-        private string progressText = "Ready";
-        public string ProgressText
-        {
-            get => progressText;
-            private set { progressText = value?? "Ready"; RaisePropertyChanged (nameof (ProgressText)); }
         }
 
         private int currentTabNumber;
