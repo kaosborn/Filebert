@@ -379,8 +379,13 @@ namespace AppViewModel
             get => consoleZoom;
             set
             {
-                if (value >= 6 && value <= 60)
-                { consoleZoom = value; RaisePropertyChanged (nameof (ConsoleZoom)); }
+                if (value < 6)
+                    consoleZoom = 6;
+                else if (value > 60)
+                    consoleZoom = 60;
+                else
+                    consoleZoom = value;
+                RaisePropertyChanged (nameof (ConsoleZoom));
             }
         }
 
