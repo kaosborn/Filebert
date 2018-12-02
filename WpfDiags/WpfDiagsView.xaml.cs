@@ -62,7 +62,7 @@ namespace AppView
                 { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
-            sb.Append ("Where <fileOrFolderName> is a file or directory name without wildcards.\n");
+            sb.Append ("Where <fileOrFolderName> is a file or folder name without wildcards.\n");
             sb.Append (Environment.NewLine);
 
             consoleBox.Text += sb.ToString();
