@@ -58,8 +58,8 @@ namespace AppViewModel
                 Data.TabSha256 = GetTabInfoData ("sha256");
                 Data.TabWav = GetTabInfoData ("wav");
 
-                base.Data.FileVisit += Ui.FileProgress;
                 base.Data.MessageSend += Ui.ShowLine;
+                base.Data.PropertyChanged += Data.NotifyPropertyChanged;
             }
 
             public TabInfo.Model GetTabInfoModel (string longName)
@@ -196,9 +196,6 @@ namespace AppViewModel
 
             public void Parse()
             {
-                Data.ProgressCounter = 1;
-                Ui.FileProgress (null, null);
-
                 var bg = new BackgroundWorker();
                 bg.DoWork += Job;
                 bg.RunWorkerCompleted += JobCompleted;
@@ -214,8 +211,6 @@ namespace AppViewModel
                 try
                 {
                     foreach (FormatBase.Model parsing in CheckRoot())
-                    {
-                        ++Data.ProgressCounter;
                         if (parsing != null)
                         {
                             TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.LongName);
@@ -227,7 +222,6 @@ namespace AppViewModel
                                 tiModel.Add (parsing);
                             }
                         }
-                    }
                 }
                 catch (Exception ex) when (ex is IOException || ex is ArgumentException)
                 { jobArgs.Result = ex.Message; }
@@ -235,8 +229,9 @@ namespace AppViewModel
 
             void JobCompleted (object sender, RunWorkerCompletedEventArgs args)
             {
-                var err = (string) args.Result;
+                SetCurrentFile (null, null);
 
+                var err = (string) args.Result;
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error);
 
@@ -256,7 +251,7 @@ namespace AppViewModel
                     Data.CurrentTabNumber = newTabInfoIx;
                 }
 
-                Data.ProgressTotal = 0;
+                Data.ProgressCounter = null;
                 ++Data.JobCounter;
             }
         }
@@ -292,28 +287,6 @@ namespace AppViewModel
         public TabInfo TabSha1x { get; private set; }
         public TabInfo TabSha256 { get; private set; }
         public TabInfo TabWav { get; private set; }
-
-        public bool IsBusy => ProgressCounter != 0;
-
-        protected override void SetProgressCounter (int counter)
-        {
-            bool raiseChange = ProgressCounter == 0 || counter == 0;
-            base.SetProgressCounter (counter);
-            if (raiseChange)
-                RaisePropertyChanged (nameof (IsBusy));
-            if (ProgressTotal != 0)
-                ProgressPercent = 100 * ProgressCounter / ProgressTotal;
-        }
-
-        protected override void SetProgressTotal (int value)
-        {
-            base.SetProgressTotal (value);
-            if (value == 0)
-            {
-                SetProgressCounter (0);
-                ProgressPercent = 0;
-            }
-        }
 
         private double progressFactor = 0;
         public double ProgressFactor
@@ -500,6 +473,15 @@ namespace AppViewModel
         {
             if (paths.Length > 0)
                 Root = paths[0];
+        }
+
+        private void NotifyPropertyChanged (object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof (ProgressCounter))
+                if (ProgressCounter == null)
+                    ProgressPercent = 0;
+                else if (ProgressTotal != 0)
+                    ProgressPercent = 100 * ProgressCounter.Value / ProgressTotal;
         }
     }
 }

@@ -23,7 +23,6 @@ namespace KaosDiags
         public Func<string,string,string,string> InputLine;
         public event MessageSendHandler MessageSend;
         public event ReportCloseHandler ReportClose;
-        public event FileVisitEventHandler FileVisit;
 
         public string Product { get; set; }
         public string ProductVersion { get; set; }
@@ -53,26 +52,17 @@ namespace KaosDiags
 
         public string CurrentDirectory { get; private set; }
 
-        private int progressCounter = 0;
-        public int ProgressCounter
+        public bool IsDirShown { get; set; } = false;
+        public bool IsFileShown { get; set; } = false;
+
+        private int? progressCounter = null;
+        public int? ProgressCounter
         {
             get => progressCounter;
-            protected set => SetProgressCounter (value);
+            protected set { progressCounter = value; RaisePropertyChanged (nameof (ProgressCounter)); }
         }
 
-        protected virtual void SetProgressCounter (int value)
-         => progressCounter = value;
-
-        private int progressTotal = 0;
-        public int ProgressTotal
-        {
-            get => progressTotal;
-            protected set => SetProgressTotal (value);
-        }
-
-        protected virtual void SetProgressTotal (int value)
-         => progressTotal = value;
-
+        public int ProgressTotal { get; protected set; } = 0;
         public int TotalFiles { get; set; }
         public int TotalRepairable { get; set; }
         public int TotalWarnings { get; set; }
@@ -292,12 +282,6 @@ namespace KaosDiags
         {
             if (ReportClose != null)
                 ReportClose();
-        }
-
-        public void OnFileVisit (string directoryName, string fileName)
-        {
-            if (FileVisit != null)
-                FileVisit (directoryName, fileName);
         }
     }
 }

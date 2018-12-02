@@ -98,6 +98,8 @@ namespace KaosDiags
                 if (String.IsNullOrWhiteSpace (Data.Root))
                     yield break;
 
+                Data.ProgressCounter = 0;
+
                 FileAttributes atts;
                 try
                 { atts = File.GetAttributes (Data.Root); }
@@ -118,7 +120,10 @@ namespace KaosDiags
                         Data.ProgressTotal += fileInfos.Length;
                     }
                     foreach (FormatBase.Model fmtModel in CheckRootDir())
+                    {
+                        ++Data.ProgressCounter;
                         yield return fmtModel;
+                    }
                 }
                 else
                 {
@@ -136,12 +141,10 @@ namespace KaosDiags
                     {
                         Data.Result = Severity.Fatal;
                         Data.OnMessageSend (ex.Message.Trim(), Severity.Fatal);
-                        SetCurrentFile (null, null);
                         yield break;
                     }
                     yield return fmtModel;
                 }
-                SetCurrentFile (null, null);
             }
 
             private IEnumerable<FormatBase.Model> CheckRootDir()
@@ -315,11 +318,23 @@ namespace KaosDiags
                 return logCount;
             }
 
+            private string shownDir=null, shownFile=null;
             public void SetCurrentFile (string directoryName, string fileName)
             {
+                if (shownDir != directoryName)
+                {
+                    shownDir = directoryName;
+                    shownFile = fileName;
+                    Data.IsDirShown = Data.IsFileShown = false;
+                }
+                else if (shownFile != fileName)
+                {
+                    shownFile = fileName;
+                    Data.IsFileShown = false;
+                }
+
                 Data.CurrentFile = fileName;
                 Data.CurrentDirectory = directoryName;
-                Data.OnFileVisit (directoryName, fileName);
             }
 
             public void ResetTotals()

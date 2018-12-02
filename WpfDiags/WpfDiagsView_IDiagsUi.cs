@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using KaosFormat;
 using KaosIssue;
 
 namespace AppView
@@ -10,8 +9,6 @@ namespace AppView
     public partial class WpfDiagsView
     {
         private int totalLinesReported = 0;
-        private string shownDir = null, shownFile = null;
-        private bool isDirShown = false, isFileShown = false;
 
         public string BrowseFile()
         {
@@ -29,27 +26,9 @@ namespace AppView
             return result;
         }
 
-        public void FileProgress (string dirName, string fileName)
-        {
-            if (shownDir != dirName)
-            {
-                shownDir = dirName;
-                isDirShown = false;
-                shownFile = fileName;
-                isFileShown = false;
-            }
-            else if (shownFile != fileName)
-            {
-                shownFile = fileName;
-                isFileShown = false;
-            }
-        }
-
         public void SetText (string message)
         {
             consoleBox.Text = message;
-            shownDir = null; shownFile = null;
-            isDirShown = false; isFileShown = false;
             totalLinesReported = 0;
         }
 
@@ -65,9 +44,9 @@ namespace AppView
                 return;
             }
 
-            if (! isFileShown && viewModel.Data.CurrentFile != null)
+            if (! viewModel.Data.IsFileShown && viewModel.Data.CurrentFile != null)
             {
-                isFileShown = true;
+                viewModel.Data.IsFileShown = true;
 
                 if (totalLinesReported != 0)
                     if (viewModel.Data.Scope == Granularity.Detail)
@@ -75,9 +54,9 @@ namespace AppView
                     else if (! viewModel.Data.IsDigestForm)
                         consoleBox.AppendText (Environment.NewLine);
 
-                if (! isDirShown)
+                if (! viewModel.Data.IsDirShown)
                 {
-                    isDirShown = true;
+                    viewModel.Data.IsDirShown = true;
 
                     if (viewModel.Data.IsDigestForm)
                     {

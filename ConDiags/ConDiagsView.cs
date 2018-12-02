@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using KaosIssue;
@@ -27,12 +28,8 @@ namespace AppView
     {
         private ConDiagsController controller;
         private Diags diags;
-
         private bool isProgressDirty = false;
         private int totalLinesReported = 0;
-        private string shownDir = null, shownFile = null;
-        private bool isDirShown = false, isFileShown = false;
-
         public string ProgressEraser => "\r              \r";
 
         static int Main (string[] args)
@@ -52,7 +49,7 @@ namespace AppView
             this.diags.QuestionAsk = Question;
             this.diags.MessageSend += Logger;
             this.diags.ReportClose += Summarize;
-            this.diags.FileVisit += FileProgress;
+            this.diags.PropertyChanged += NotifyPropertyChanged;
         }
 
         private void Logger (string message, Severity severity)
@@ -63,9 +60,9 @@ namespace AppView
                 isProgressDirty = false;
             }
 
-            if (! isFileShown && shownFile != null)
+            if (! diags.IsFileShown && diags.CurrentFile != null)
             {
-                isFileShown = true;
+               diags.IsFileShown = true;
 
                 if (totalLinesReported != 0)
                     if (diags.Scope == Granularity.Detail)
@@ -73,9 +70,9 @@ namespace AppView
                     else if (! diags.IsDigestForm)
                         Trace.WriteLine (String.Empty);
 
-                if (! isDirShown)
+                if (! diags.IsDirShown)
                 {
-                    isDirShown = true;
+                    diags.IsDirShown = true;
 
                     if (diags.IsDigestForm)
                     {
@@ -136,24 +133,12 @@ namespace AppView
             }
         }
 
-        private void FileProgress (string dirName, string fileName)
+        private void NotifyPropertyChanged (object sender, PropertyChangedEventArgs args)
         {
-            if (shownDir != dirName)
-            {
-                shownDir = dirName;
-                isDirShown = false;
-                shownFile = fileName;
-                isFileShown = false;
-            } else if (shownFile != fileName)
-            {
-                shownFile = fileName;
-                isFileShown = false;
-            }
-            else
-                return;
-
-            if (controller.NotifyEvery != 0 && diags.ProgressCounter % controller.NotifyEvery == 0)
-                WriteProgress();
+            if (args.PropertyName == nameof (diags.ProgressCounter))
+                if (controller.NotifyEvery != 0 && diags.ProgressCounter != null)
+                    if (diags.ProgressCounter.Value % controller.NotifyEvery == 0)
+                        WriteProgress();
         }
 
         private void WriteProgress()

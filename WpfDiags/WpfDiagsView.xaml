@@ -136,10 +136,10 @@
             <Button Content=" Check " Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" Command="{Binding DoCheck}" IsDefault="True" Margin="6,3,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Button.Style>
                     <Style TargetType="Button">
-                        <Setter Property="IsEnabled" Value="true"/>
+                        <Setter Property="IsEnabled" Value="false"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsBusy}" Value="true">
-                                <Setter Property="IsEnabled" Value="false"/>
+                            <DataTrigger Binding="{Binding ProgressCounter}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="true"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
