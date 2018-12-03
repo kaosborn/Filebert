@@ -88,7 +88,7 @@
         <TextBlock Grid.Row="10" Text="Gap handling:"/>
         <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Path=GapHandling, Mode=OneWay}"/>
         <TextBlock Grid.Row="12" Text="AccurateRip:"/>
-        <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding Path=AccurateRipLong, Mode=OneWay}">
+        <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding Path=AccurateRipText, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
