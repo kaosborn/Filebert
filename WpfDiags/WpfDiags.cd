@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AppViewModel.DiagsPresenter">
+    <Position X="2.5" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="currentTabNumber" Hidden="true" />
+      <Property Name="CurrentTabNumber" Hidden="true" />
+      <Property Name="CurrentTabText" Hidden="true" />
+      <Method Name="DiagsPresenter" Hidden="true" />
+      <Property Name="DoBrowse" Hidden="true" />
+      <Property Name="DoCheck" Hidden="true" />
+      <Property Name="DoConsoleClear" Hidden="true" />
+      <Property Name="DoConsoleZoomMinus" Hidden="true" />
+      <Property Name="DoConsoleZoomPlus" Hidden="true" />
+      <Property Name="DoCopyLValueUpper" Hidden="true" />
+      <Property Name="DoCopyRValue" Hidden="true" />
+      <Property Name="DoRepair" Hidden="true" />
+      <Property Name="HashToggle" Hidden="true" />
+      <Field Name="isBusy" Hidden="true" />
+      <Property Name="IsBusy" Hidden="true" />
+      <Property Name="IsRepairEnabled" Hidden="true" />
+      <Property Name="JobCounter" Hidden="true" />
+      <Property Name="NavFirst" Hidden="true" />
+      <Property Name="NavFirstError" Hidden="true" />
+      <Property Name="NavFirstRepair" Hidden="true" />
+      <Property Name="NavLast" Hidden="true" />
+      <Property Name="NavLastError" Hidden="true" />
+      <Property Name="NavLastRepair" Hidden="true" />
+      <Property Name="NavNext" Hidden="true" />
+      <Property Name="NavNextError" Hidden="true" />
+      <Property Name="NavNextRepair" Hidden="true" />
+      <Property Name="NavPrev" Hidden="true" />
+      <Property Name="NavPrevError" Hidden="true" />
+      <Property Name="NavPrevRepair" Hidden="true" />
+      <Property Name="NavToFlac" Hidden="true" />
+      <Method Name="OnFileDrop" Hidden="true" />
+      <Field Name="progress" Hidden="true" />
+      <Property Name="Progress" Hidden="true" />
+      <Property Name="TabApe" Hidden="true" />
+      <Property Name="TabAsf" Hidden="true" />
+      <Property Name="TabAvi" Hidden="true" />
+      <Property Name="TabCue" Hidden="true" />
+      <Property Name="TabErrorText" Hidden="true" />
+      <Property Name="TabFlac" Hidden="true" />
+      <Property Name="TabFlv" Hidden="true" />
+      <Property Name="TabGif" Hidden="true" />
+      <Property Name="TabHasErrors" Hidden="true" />
+      <Property Name="TabHasRepairables" Hidden="true" />
+      <Property Name="TabIco" Hidden="true" />
+      <Field Name="tabInfos" Hidden="true" />
+      <Property Name="TabIsFormat" Hidden="true" />
+      <Property Name="TabJpg" Hidden="true" />
+      <Property Name="TabLogEac" Hidden="true" />
+      <Property Name="TabLogXld" Hidden="true" />
+      <Property Name="TabM3u" Hidden="true" />
+      <Property Name="TabM3u8" Hidden="true" />
+      <Property Name="TabM4a" Hidden="true" />
+      <Property Name="TabMd5" Hidden="true" />
+      <Property Name="TabMkv" Hidden="true" />
+      <Property Name="TabMov" Hidden="true" />
+      <Property Name="TabMp3" Hidden="true" />
+      <Property Name="TabMp4" Hidden="true" />
+      <Property Name="TabMpg" Hidden="true" />
+      <Property Name="TabOgg" Hidden="true" />
+      <Property Name="TabPng" Hidden="true" />
+      <Property Name="TabRepairablesText" Hidden="true" />
+      <Property Name="TabSha1" Hidden="true" />
+      <Property Name="TabSha1x" Hidden="true" />
+      <Property Name="TabSha256" Hidden="true" />
+      <Property Name="TabWav" Hidden="true" />
+      <Property Name="ValidationToggle" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="AppViewModel.DiagsPresenter.Model">
+        <Members>
+          <Method Name="GetFirst" Hidden="true" />
+          <Method Name="GetFirstBySeverity" Hidden="true" />
+          <Method Name="GetFirstRepair" Hidden="true" />
+          <Method Name="GetLast" Hidden="true" />
+          <Method Name="GetLastBySeverity" Hidden="true" />
+          <Method Name="GetLastRepair" Hidden="true" />
+          <Method Name="GetNext" Hidden="true" />
+          <Method Name="GetNextBySeverity" Hidden="true" />
+          <Method Name="GetNextRepair" Hidden="true" />
+          <Method Name="GetPrev" Hidden="true" />
+          <Method Name="GetPrevBySeverity" Hidden="true" />
+          <Method Name="GetPrevRepair" Hidden="true" />
+          <Method Name="GetTabInfoData" Hidden="true" />
+          <Method Name="GetTabInfoModel" Hidden="true" />
+          <Method Name="Job" Hidden="true" />
+          <Method Name="JobCompleted" Hidden="true" />
+          <Method Name="Model" Hidden="true" />
+          <Field Name="newTabInfoFmtIx" Hidden="true" />
+          <Field Name="newTabInfoIx" Hidden="true" />
+          <Method Name="Parse" Hidden="true" />
+          <Method Name="SetFlacIndex" Hidden="true" />
+          <Field Name="tabFlacModel" Hidden="true" />
+        </Members>
+        <TypeIdentifier>
+          <NewMemberFileName>T:\Dev\VS2017\KaosDiags\Source\Mvvm\DiagsPresenter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>oGgAmiA2GIUgEQgIIEQgQAFQKECAIgIAQYgQkAGiQjA=</HashCode>
+      <FileName>T:\Dev\VS2017\KaosDiags\Source\Mvvm\DiagsPresenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="AppViewModel.IFileDragDropTarget" Collapsed="true">
+    <Position X="5" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>T:\Dev\VS2017\KaosDiags\Source\Mvvm\IDiagsUi.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

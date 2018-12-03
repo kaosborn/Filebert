@@ -14,14 +14,8 @@ namespace KaosDiags
     public partial class Diags : INotifyPropertyChanged
     {
         public static FileFormat.Vector FileFormats { get; private set; }
-
         public Func<string,bool?> QuestionAsk;
-        public Func<string,string,char> InputChar;
-        public Func<string,string,string,string> InputLine;
         public event MessageSendHandler MessageSend;
-
-        public string Product { get; set; }
-        public string ProductVersion { get; set; }
 
         private string root;
         public string Root

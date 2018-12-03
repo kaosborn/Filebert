@@ -305,6 +305,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="WpfDiags.cd" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FilebertWin.ico" />
