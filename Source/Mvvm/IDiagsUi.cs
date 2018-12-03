@@ -7,7 +7,6 @@ namespace AppViewModel
     {
         string BrowseFile();
         void ShowLine (string message, Severity severity);
-        void ShowSummary (IList<string> rollups);
         void SetText (string message);
         IList<string> GetHeadings();
     }

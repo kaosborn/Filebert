@@ -10,9 +10,6 @@ namespace KaosDiags
     public enum Interaction { None, PromptToRepair, RepairLater };
 
     public delegate void MessageSendHandler (string message, Severity severity);
-    public delegate void ReportCloseHandler ();
-    public delegate void FileVisitEventHandler (string dirName, string fileName);
-
 
     public partial class Diags : INotifyPropertyChanged
     {
@@ -22,7 +19,6 @@ namespace KaosDiags
         public Func<string,string,char> InputChar;
         public Func<string,string,string,string> InputLine;
         public event MessageSendHandler MessageSend;
-        public event ReportCloseHandler ReportClose;
 
         public string Product { get; set; }
         public string ProductVersion { get; set; }
@@ -52,9 +48,6 @@ namespace KaosDiags
 
         public string CurrentDirectory { get; private set; }
 
-        public bool IsDirShown { get; set; } = false;
-        public bool IsFileShown { get; set; } = false;
-
         private int? progressCounter = null;
         public int? ProgressCounter
         {
@@ -62,6 +55,9 @@ namespace KaosDiags
             protected set { progressCounter = value; RaisePropertyChanged (nameof (ProgressCounter)); }
         }
 
+        public bool IsDirShown { get; set; } = false;
+        public bool IsFileShown { get; set; } = false;
+        public int ConsoleLinesReported { get; protected set; } = -1;
         public int ProgressTotal { get; protected set; } = 0;
         public int TotalFiles { get; set; }
         public int TotalRepairable { get; set; }
@@ -274,14 +270,9 @@ namespace KaosDiags
 
         public void OnMessageSend (string message, Severity severity=Severity.NoIssue)
         {
+            ++ConsoleLinesReported;
             if (MessageSend != null)
                 MessageSend (message, severity);
-        }
-
-        public void OnReportClose()
-        {
-            if (ReportClose != null)
-                ReportClose();
         }
     }
 }

@@ -28,8 +28,7 @@ namespace AppView
     {
         private ConDiagsController controller;
         private Diags diags;
-        private bool isProgressDirty = false;
-        private int totalLinesReported = 0;
+        private bool isProgressDirty=false;
         public string ProgressEraser => "\r              \r";
 
         static int Main (string[] args)
@@ -48,7 +47,6 @@ namespace AppView
             this.diags = diags;
             this.diags.QuestionAsk = Question;
             this.diags.MessageSend += Logger;
-            this.diags.ReportClose += Summarize;
             this.diags.PropertyChanged += NotifyPropertyChanged;
         }
 
@@ -64,7 +62,7 @@ namespace AppView
             {
                diags.IsFileShown = true;
 
-                if (totalLinesReported != 0)
+                if (diags.ConsoleLinesReported > 0)
                     if (diags.Scope == Granularity.Detail)
                     { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MinorSeparator); }
                     else if (! diags.IsDigestForm)
@@ -76,7 +74,7 @@ namespace AppView
 
                     if (diags.IsDigestForm)
                     {
-                        if (totalLinesReported != 0)
+                        if (diags.ConsoleLinesReported > 0)
                             Trace.WriteLine (String.Empty);
                         Trace.Write ("; ");
                     }
@@ -102,35 +100,9 @@ namespace AppView
             }
             Trace.WriteLine (message);
 
-            if (controller.NotifyEvery != 0 && diags.TotalFiles % controller.NotifyEvery == 0)
-                WriteProgress();
-
-            ++totalLinesReported;
-        }
-
-        private void Summarize()
-        {
             if (controller.NotifyEvery != 0)
-                Console.Error.Write (ProgressEraser);
-
-            if (diags.TotalFiles > 1 || diags.Scope > Granularity.Detail)
-            {
-                if (totalLinesReported > 0)
-                {
-                    Trace.WriteLine (String.Empty);
-                    if (diags.IsDigestForm)
-                        Trace.Write ("; ");
-                    Trace.WriteLine (Diags.MajorSeparator);
-                }
-
-                var rollups = diags.GetReportRollups ("checked");
-                foreach (var lx in rollups)
-                {
-                    if (diags.IsDigestForm)
-                        Trace.Write ("; ");
-                    Trace.WriteLine (lx);
-                }
-            }
+                if (diags.CurrentFile != null && diags.ProgressCounter % controller.NotifyEvery == 0)
+                    WriteProgress();
         }
 
         private void NotifyPropertyChanged (object sender, PropertyChangedEventArgs args)

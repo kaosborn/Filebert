@@ -8,8 +8,6 @@ namespace AppView
     // Implement IDiagsUi here
     public partial class WpfDiagsView
     {
-        private int totalLinesReported = 0;
-
         public string BrowseFile()
         {
             var dlg = new Microsoft.Win32.OpenFileDialog() { Filter="Media files (*.*)|*.*" };
@@ -26,11 +24,8 @@ namespace AppView
             return result;
         }
 
-        public void SetText (string message)
-        {
-            consoleBox.Text = message;
-            totalLinesReported = 0;
-        }
+        public void SetText (string multiline)
+         => consoleBox.Text = multiline;
 
         public void ShowLine (string message, Severity severity)
         {
@@ -48,7 +43,7 @@ namespace AppView
             {
                 viewModel.Data.IsFileShown = true;
 
-                if (totalLinesReported != 0)
+                if (viewModel.Data.ConsoleLinesReported > 0)
                     if (viewModel.Data.Scope == Granularity.Detail)
                         consoleBox.AppendText (Environment.NewLine + Environment.NewLine + KaosDiags.Diags.MinorSeparator + Environment.NewLine);
                     else if (! viewModel.Data.IsDigestForm)
@@ -60,7 +55,7 @@ namespace AppView
 
                     if (viewModel.Data.IsDigestForm)
                     {
-                        if (totalLinesReported != 0)
+                        if (viewModel.Data.ConsoleLinesReported > 0)
                             consoleBox.AppendText (Environment.NewLine);
                         consoleBox.AppendText ("; ");
                     }
@@ -88,33 +83,6 @@ namespace AppView
             }
             consoleBox.AppendText (message);
             consoleBox.AppendText (Environment.NewLine);
-            ++totalLinesReported;
-        }
-
-        public void ShowSummary (IList<string> rollups)
-        {
-            if (viewModel.Data.TotalFiles > 1)
-            {
-                if (totalLinesReported > 0)
-                {
-                    consoleBox.AppendText (Environment.NewLine);
-                    if (viewModel.Data.IsDigestForm)
-                        consoleBox.AppendText ("; ");
-                    consoleBox.AppendText (KaosDiags.Diags.MajorSeparator);
-                    consoleBox.AppendText (Environment.NewLine);
-                }
-
-                foreach (var lx in rollups)
-                {
-                    if (viewModel.Data.IsDigestForm)
-                        consoleBox.AppendText ("; ");
-                    consoleBox.AppendText (lx);
-                    consoleBox.AppendText (Environment.NewLine);
-                }
-                consoleBox.AppendText (Environment.NewLine);
-            }
-
-            viewModel.ResetTotals();
         }
     }
 }

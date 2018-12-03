@@ -346,7 +346,7 @@ namespace KaosDiags
                 FormatModel.ResetTotals();
             }
 
-            private bool reportHasWarn = false, reportHasErr = false;
+            private bool reportHasWarn=false, reportHasErr=false;
             private Granularity reportScope;
             private int reportIssueIndex;
 
@@ -406,6 +406,26 @@ namespace KaosDiags
                     ++reportIssueIndex;
                 }
             }
+
+            public void ReportSummary (string verb)
+            {
+                SetCurrentFile (null, null);
+                IList<string> rollups = Data.GetReportRollups (verb);
+                if (Data.TotalFiles > 1)
+                {
+                    if (Data.ConsoleLinesReported > 0)
+                    {
+                        Data.OnMessageSend (String.Empty);
+                        Data.OnMessageSend ((Data.IsDigestForm ? "; " : String.Empty) + KaosDiags.Diags.MajorSeparator);
+                    }
+
+                    foreach (var lx in rollups)
+                        Data.OnMessageSend (Data.IsDigestForm ? "; " + lx : lx);
+                }
+
+                ResetTotals();
+            }
+
 
             private bool RepairFile (FormatBase.Model formatModel)
             {

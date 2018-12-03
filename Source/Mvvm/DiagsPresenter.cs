@@ -235,7 +235,7 @@ namespace AppViewModel
                 if (err != null)
                     Ui.ShowLine (err, Severity.Error);
 
-                Ui.ShowSummary (Data.GetReportRollups ("checked"));
+                ReportSummary ("checked");
 
                 for (int ix = 1; ix < Data.tiModels.Count; ++ix)
                 {
@@ -432,7 +432,7 @@ namespace AppViewModel
             NavLastRepair = new RelayCommand (() => model.GetLastRepair());
             NavPrevRepair = new RelayCommand (() => model.GetPrevRepair());
             NavNextRepair = new RelayCommand (() => model.GetNextRepair());
-            DoConsoleClear = new RelayCommand (() => model.Ui.SetText (""));
+            DoConsoleClear = new RelayCommand (() => { model.Ui.SetText (""); ConsoleLinesReported = -1; });
             DoConsoleZoomMinus = new RelayCommand (() => --ConsoleZoom);
             DoConsoleZoomPlus = new RelayCommand (() => ++ConsoleZoom);
 
