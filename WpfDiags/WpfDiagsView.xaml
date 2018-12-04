@@ -247,7 +247,7 @@
                         </GroupBox>
                     </DockPanel>
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"/>
-                    <ProgressBar Grid.Row="2" Grid.ColumnSpan="9" BorderThickness="0" Margin="0"
+                    <ProgressBar Grid.Row="2" Grid.ColumnSpan="9" BorderThickness="0"
                                  Value="{Binding Path=ProgressPercent, Mode=OneWay}" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"/>
                     <TextBlock Text="{Binding CurrentFile}" Grid.Row="2" Grid.ColumnSpan="9"/>
                 </Grid>
