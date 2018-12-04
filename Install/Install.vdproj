@@ -386,7 +386,7 @@
                                                     "Condition" = "8:"
                                                     "Transitive" = "11:FALSE"
                                                     "ValueTypes" = "3:1"
-                                                    "Value" = "8:cmd /T:5F /k \"\"[TARGETDIR]filebert.exe\" [BUTTON4] [BUTTON3] [BUTTON2] \"%L\"\""
+                                                    "Value" = "8:cmd /T:1F /k \"\"[TARGETDIR]filebert.exe\" [BUTTON4] [BUTTON3] [BUTTON2] \"%L\"\""
                                                     }
                                                 }
                                             }
@@ -1561,7 +1561,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_93AAEF2F5ED94C10B9EDF1B7F61B666B"
             {
-            "SourcePath" = "8:..\\WpfDiags\\obj\\Release\\FilebertWin.exe"
+            "SourcePath" = "8:..\\WpfDiags\\obj\\Debug\\FilebertWin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
@@ -1589,7 +1589,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E86DE964AEED4318B1C471BC4DE25581"
             {
-            "SourcePath" = "8:..\\ConDiags\\obj\\Release\\Filebert.exe"
+            "SourcePath" = "8:..\\ConDiags\\obj\\Debug\\Filebert.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
