@@ -210,7 +210,7 @@ namespace AppViewModel
 
                 try
                 {
-                    foreach (FormatBase.Model parsing in CheckRoot())
+                    foreach (FormatBase.Model parsing in CheckRoot (isTwoPass:true))
                         if (parsing != null)
                         {
                             TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.LongName);

@@ -93,7 +93,7 @@ namespace KaosDiags
                 FormatModel.Sort();
             }
 
-            public IEnumerable<FormatBase.Model> CheckRoot()
+            public IEnumerable<FormatBase.Model> CheckRoot (bool isTwoPass=false)
             {
                 if (String.IsNullOrWhiteSpace (Data.Root))
                     yield break;
@@ -113,12 +113,13 @@ namespace KaosDiags
                 {
                     Data.Result = Severity.NoIssue;
                     Data.ProgressTotal = 0;
-                    foreach (var dummy in new DirTraverser (Data.Root))
-                    {
-                        var dInfo = new DirectoryInfo (dummy);
-                        FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
-                        Data.ProgressTotal += fileInfos.Length;
-                    }
+                    if (isTwoPass)
+                        foreach (var dummy in new DirTraverser (Data.Root))
+                        {
+                            var dInfo = new DirectoryInfo (dummy);
+                            FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
+                            Data.ProgressTotal += fileInfos.Length;
+                        }
                     foreach (FormatBase.Model fmtModel in CheckRootDir())
                     {
                         ++Data.ProgressCounter;
