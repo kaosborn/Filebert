@@ -6,7 +6,7 @@ namespace KaosCrypto
     {
         // Polynomial = x^16 + x^15 + x^2 + x^0, init = 0
         // CRC-16-ANSI Reversed (0xA001 reflected is 0x8005)
-        private static readonly UInt16[] flipCRC16R =
+        private static readonly UInt16[] flipCrc16r =
         {
             0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
             0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
@@ -54,12 +54,12 @@ namespace KaosCrypto
         {
             var stop = offset + count;
             for (var ix = offset; ix < stop; ++ix)
-                crc = (UInt16) ((crc >> 8) ^ flipCRC16R[(crc & 0x00FF) ^ data[ix]]);
+                crc = (UInt16) ((crc >> 8) ^ flipCrc16r[(crc & 0x00FF) ^ data[ix]]);
         }
 
         public override byte[] GetHashAndReset()
         {
-            var result = BitConverter.GetBytes (crc);
+            byte[] result = BitConverter.GetBytes (crc);
             crc = 0;
             return result;
         }

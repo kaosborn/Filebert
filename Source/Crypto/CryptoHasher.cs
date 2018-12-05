@@ -21,10 +21,10 @@ namespace KaosCrypto
                 return;
 
             if (offset1 < 0)
-                throw new ArgumentOutOfRangeException ("offset1", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (offset1), "Must be non-negative");
 
             if (offset2 < 0)
-                throw new ArgumentOutOfRangeException ("offset2", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (offset2), "Must be non-negative");
 
             if (count1 < 0 || offset1 + count1 > data.Length)
                 throw new ArgumentException ("Invalid value");
@@ -45,10 +45,10 @@ namespace KaosCrypto
                 return;
 
             if (offset < 0)
-                throw new ArgumentOutOfRangeException ("offset", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (offset), "Must be non-negative");
 
             if (count < 0)
-                throw new ArgumentOutOfRangeException ("count", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (count), "Must be non-negative");
 
             var buf = new byte[Math.Min (PageSize, count)];
             var stop = offset + count;
@@ -83,10 +83,10 @@ namespace KaosCrypto
                  stop2 = offset2 + count2;
 
             if (offset1 < 0)
-                throw new ArgumentOutOfRangeException ("offset1", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (offset1), "Must be non-negative");
 
             if (offset2 < 0)
-                throw new ArgumentOutOfRangeException ("offset2", "Must be non-negative");
+                throw new ArgumentOutOfRangeException (nameof (offset2), "Must be non-negative");
 
             stream.Position = offset1;
 
@@ -175,7 +175,7 @@ namespace KaosCrypto
         public override byte[] GetHashAndReset()
         {
             hasher.TransformFinalBlock (bb0, 0, 0);
-            var result = hasher.Hash;
+            byte[] result = hasher.Hash;
             hasher.Initialize();
             return result;
         }

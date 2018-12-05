@@ -6,7 +6,7 @@ namespace KaosCrypto
     {
         // Polynomial = x^16 + x^15 + x^2 + x^0, init = 0
         // CRC-16-ANSI Normal
-        private static readonly UInt16[] flipCRC16N =
+        private static readonly UInt16[] flipCrc16n =
         {
             0x0000, 0x8005, 0x800F, 0x000A, 0x801B, 0x001E, 0x0014, 0x8011,
             0x8033, 0x0036, 0x003C, 0x8039, 0x0028, 0x802D, 0x8027, 0x0022,
@@ -54,7 +54,7 @@ namespace KaosCrypto
         {
             var stop = offset + count;
             for (var ix = offset; ix < stop; ++ix)
-                crc = (UInt16) ((crc<<8) ^ flipCRC16N[(crc>>8) ^ array[ix]]);
+                crc = (UInt16) ((crc<<8) ^ flipCrc16n[(crc>>8) ^ array[ix]]);
         }
 
         public override byte[] GetHashAndReset()

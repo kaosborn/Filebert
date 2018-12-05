@@ -6,7 +6,7 @@ namespace KaosCrypto
     {
         // Polynomial = x^8 + x^2 + x^1 + x^0, init = 0
         // CRC-8-CCITT
-        private static readonly byte[] flipCRC8 =
+        private static readonly byte[] flipCrc8 =
         {
             0x00, 0x07, 0x0E, 0x09, 0x1C, 0x1B, 0x12, 0x15,
             0x38, 0x3F, 0x36, 0x31, 0x24, 0x23, 0x2A, 0x2D,
@@ -54,7 +54,7 @@ namespace KaosCrypto
         {
             var stop = offset + count;
             for (var ix = offset; ix < stop; ++ix)
-                crc = flipCRC8[crc ^ data[ix]];
+                crc = flipCrc8[crc ^ data[ix]];
         }
 
         public override byte[] GetHashAndReset()

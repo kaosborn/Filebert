@@ -6,7 +6,7 @@ namespace KaosCrypto
     {
         // Polynomial = X^32+X^26+X^23+X^22+X^16+X^12+X^11+X^10+X^8+X^7+X^5+X^4+X^2+X^1+X^0, init=0
         // CRC-32 Normal with initial value of 0
-        private static readonly UInt32[] flipCRC32N0 =
+        private static readonly UInt32[] flipCrc32n0 =
         {
             0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9, 0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,
             0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6, 0x2B4BCB61, 0x350C9B64, 0x31CD86D3, 0x3C8EA00A, 0x384FBDBD,
@@ -54,7 +54,7 @@ namespace KaosCrypto
         {
             var stop = offset + count;
             for (var ix = offset; ix < stop; ++ix)
-                crc = (crc << 8) ^ flipCRC32N0[((crc >> 24) ^ data[ix]) & 0xFF];
+                crc = (crc << 8) ^ flipCrc32n0[((crc >> 24) ^ data[ix]) & 0xFF];
         }
 
         public override byte[] GetHashAndReset()
