@@ -98,6 +98,18 @@ namespace KaosFormat
                             else
                                 Data.MediaCount = Data.ValidSize - Data.mediaPosition + chunkSize + 0xC;
                             break;
+                        case "phys":
+                            if (chunkSize < 9)
+                                IssueModel.Add ("'PHYS' chunk is short.");
+                            else if (Data.DotsPerMeter1 != null)
+                                IssueModel.Add ("Multiple 'PHYS' chunks.");
+                            else
+                            {
+                                Data.DotsPerMeter1 = ConvertTo.FromBig32ToInt32 (fBuf, (int) Data.ValidSize + 8);
+                                Data.DotsPerMeter2 = ConvertTo.FromBig32ToInt32 (fBuf, (int) Data.ValidSize + 12);
+                                Data.Units = fBuf[(int) Data.ValidSize + 9];
+                            }
+                            break;
                         case "text":
                             if (chunkSize > 0x7FFF)
                                 IssueModel.Add ("String size too large.");
@@ -133,6 +145,9 @@ namespace KaosFormat
 
                 if (Data.Width <= 0 || Data.Height <= 0)
                     IssueModel.Add ("Invalid dimensions.");
+
+                if (Data.DotsPerMeter1 != Data.DotsPerMeter2)
+                    IssueModel.Add ("Density aspect not 1.", Severity.Warning);
 
                 if (Data.BitDepth != 1 && Data.BitDepth != 2 && Data.BitDepth != 4 && Data.BitDepth != 8 && Data.BitDepth != 16)
                     IssueModel.Add ($"Invalid bit depth '{Data.BitDepth}'.");
@@ -202,12 +217,16 @@ namespace KaosFormat
         public byte BitDepth { get; private set; }
         public byte ColorType { get; private set; }
         public byte CompressionMethod { get; private set; }
+        public int? DotsPerMeter1 { get; private set; }
+        public int? DotsPerMeter2 { get; private set; }
+        public byte? Units { get; private set; }
         public byte FilterMethod { get; private set; }
         public byte InterlaceMethod { get; private set; }
         public float? Gamma { get; private set; }
         public int? BadCrcCount { get; private set; }
 
         public string Dimensions => Width.ToString() + "x" + Height;
+        public int? DotsPerInch => (DotsPerMeter1 == null) ? (int?) null : (int?) (DotsPerMeter1.Value / 39.3701 + .5);
         public int ChunkCount => Chunks.Items.Count;
         public int? GoodChunkCount => BadCrcCount == null ? (int?) null : Chunks.Items.Count - BadCrcCount.Value;
         public override bool IsBadData => BadCrcCount != null && BadCrcCount.Value != 0;
@@ -237,6 +256,8 @@ namespace KaosFormat
         public override void GetReportDetail (IList<string> report)
         {
             report.Add ($"Dimensions = {Dimensions}");
+            report.Add ($"Dots per meter = {DotsPerMeter1}");
+            report.Add ($"Derived DPI = {DotsPerInch}");
             report.Add ($"Color type = {ColorType} ({ColorTypeText})");
             report.Add ("Gamma = " + (Gamma == null? "None" : Gamma.ToString()));
             report.Add ($"Bit depth = {BitDepth}");
