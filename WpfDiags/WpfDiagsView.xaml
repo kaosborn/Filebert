@@ -112,25 +112,17 @@
                         </WrapPanel>
                     </GroupBox>
                 </WrapPanel>
-                <WrapPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="5" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <GroupBox Header="Strict" HorizontalAlignment="Left" Margin="3,0,3,3">
-                            <WrapPanel>
-                                <WrapPanel Orientation="Vertical">
-                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsStrict, Mode=TwoWay}" ToolTip="bump severities"/>
-                                </WrapPanel>
-                            </WrapPanel>
-                        </GroupBox>
-                    </WrapPanel>
-                    <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <GroupBox Header="Repairs" HorizontalAlignment="Left" Margin="3,3,3,3">
-                            <WrapPanel>
-                                <WrapPanel Orientation="Vertical">
-                                    <CheckBox Content="Enable" IsChecked="{Binding Path=IsRepairEnabled, Mode=TwoWay}" ToolTip="requires file locks"/>
-                                </WrapPanel>
-                            </WrapPanel>
-                        </GroupBox>
-                    </WrapPanel>
+                <WrapPanel Orientation="Vertical" Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <GroupBox Header="Strict" HorizontalAlignment="Left" Margin="3,0,3,3">
+                        <WrapPanel Orientation="Vertical">
+                            <CheckBox Content="Enable" IsChecked="{Binding Path=IsStrict, Mode=TwoWay}" ToolTip="bump severities"/>
+                        </WrapPanel>
+                    </GroupBox>
+                    <GroupBox Header="Repairs" HorizontalAlignment="Left" Margin="3,3,3,3">
+                        <WrapPanel Orientation="Vertical">
+                            <CheckBox Content="Enable" IsChecked="{Binding Path=IsRepairEnabled, Mode=TwoWay}" ToolTip="requires file locks"/>
+                        </WrapPanel>
+                    </GroupBox>
                 </WrapPanel>
             </WrapPanel>
             <Button Content=" Check " Grid.Row="1" Grid.Column="3" Grid.RowSpan="3" Command="{Binding DoCheck}" IsDefault="True" Margin="6,3,6,0" HorizontalAlignment="Center" VerticalAlignment="Top">
