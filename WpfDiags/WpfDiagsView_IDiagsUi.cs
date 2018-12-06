@@ -24,7 +24,7 @@ namespace AppView
             return result;
         }
 
-        public void SetText (string multiline)
+        public void SetConsoleText (string multiline)
          => consoleBox.Text = multiline;
 
         public void ShowLine (string message, Severity severity)

@@ -432,7 +432,7 @@ namespace AppViewModel
             NavLastRepair = new RelayCommand (() => model.GetLastRepair());
             NavPrevRepair = new RelayCommand (() => model.GetPrevRepair());
             NavNextRepair = new RelayCommand (() => model.GetNextRepair());
-            DoConsoleClear = new RelayCommand (() => { model.Ui.SetText (""); ConsoleLinesReported = -1; });
+            DoConsoleClear = new RelayCommand (() => { model.Ui.SetConsoleText (""); ConsoleLinesReported = -1; });
             DoConsoleZoomMinus = new RelayCommand (() => --ConsoleZoom);
             DoConsoleZoomPlus = new RelayCommand (() => ++ConsoleZoom);
 

@@ -23,11 +23,7 @@ namespace TestDiags
         public string BrowseFile()
          => throw new NotImplementedException();
 
-        public void FileProgress (string dirName, string fileName)
-        {
-        }
-
-        public void SetText (string message)
+        public void SetConsoleText (string message)
         {
             console.Clear();
             console.AppendLine (message);
@@ -38,8 +34,5 @@ namespace TestDiags
 
         public IList<string> GetHeadings()
          => new List<string> { "Console", ".flac", ".m3u", ".mp3", ".ogg" };
-
-        public void ShowSummary (IList<string> rollups)
-        { }
     }
 }
