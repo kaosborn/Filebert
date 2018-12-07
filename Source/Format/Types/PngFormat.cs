@@ -57,21 +57,6 @@ namespace KaosFormat
                 }
 
                 Data.ValidSize = 8;
-
-                if (fBuf[0x0C]!='I' || fBuf[0x0D]!='H' || Data.fBuf[0x0E]!='D' || Data.fBuf[0x0F]!='R')
-                {
-                    IssueModel.Add ("Missing 'IHDR' chunk.", Severity.Fatal);
-                    return;
-                }
-
-                Data.Width = ConvertTo.FromBig32ToInt32 (fBuf, 0x10);
-                Data.Height = ConvertTo.FromBig32ToInt32 (fBuf, 0x14);
-                Data.BitDepth = fBuf[0x18];
-                Data.ColorType = fBuf[0x19];
-                Data.CompressionMethod = fBuf[0x1A];
-                Data.FilterMethod = fBuf[0x1B];
-                Data.InterlaceMethod = fBuf[0x1C];
-
                 do
                 {
                     UInt32 chunkSize = ConvertTo.FromBig32ToUInt32 (fBuf, (int) Data.ValidSize);
@@ -98,11 +83,27 @@ namespace KaosFormat
                             else
                                 Data.MediaCount = Data.ValidSize - Data.mediaPosition + chunkSize + 0xC;
                             break;
+                        case "ihdr":
+                            if (chunkSize < 13)
+                                IssueModel.Add ("IHDR chunk is short.");
+                            else if (Data.Width != null)
+                                IssueModel.Add ("Multiple IHDR chunks.");
+                            else
+                            {
+                                Data.Width = ConvertTo.FromBig32ToInt32 (fBuf, (int) Data.ValidSize + 8);
+                                Data.Height = ConvertTo.FromBig32ToInt32 (fBuf, (int) Data.ValidSize + 12);
+                                Data.BitDepth = fBuf[(int) Data.ValidSize + 16];
+                                Data.ColorType = fBuf[(int) Data.ValidSize + 17];
+                                Data.CompressionMethod = fBuf[(int) Data.ValidSize + 18];
+                                Data.FilterMethod = fBuf[(int) Data.ValidSize + 19];
+                                Data.InterlaceMethod = fBuf[(int) Data.ValidSize + 20];
+                            }
+                            break;
                         case "phys":
                             if (chunkSize < 9)
-                                IssueModel.Add ("'PHYS' chunk is short.");
+                                IssueModel.Add ("PHYS chunk is short.");
                             else if (Data.DotsPerMeter1 != null)
-                                IssueModel.Add ("Multiple 'PHYS' chunks.");
+                                IssueModel.Add ("Multiple PHYS chunks.");
                             else
                             {
                                 Data.DotsPerMeter1 = ConvertTo.FromBig32ToInt32 (fBuf, (int) Data.ValidSize + 8);
@@ -118,7 +119,7 @@ namespace KaosFormat
                                 var escaped = new StringBuilder();
                                 for (int ix = (int) Data.ValidSize+8; ix < (int) Data.ValidSize+8+chunkSize; ++ix)
                                     if (fBuf[ix] < ' ' || fBuf[ix] > 0x7F)
-                                        escaped.AppendFormat ("\\{0:x2}", fBuf[ix]);
+                                        escaped.Append ($"\\{fBuf[ix]:x2}");
                                     else
                                         escaped.Append ((char) fBuf[ix]);
 
@@ -126,13 +127,12 @@ namespace KaosFormat
                             }
                             break;
                         case "gama":
-                            if (Data.Gamma != null)
-                                IssueModel.Add ("Unexpected multiple gamma chunks.");
+                            if (chunkSize < 4)
+                                IssueModel.Add ("GAMA chunk is short.");
+                            else if (Data.Gamma != null)
+                                IssueModel.Add ("Multiple GAMA chunks.");
                             else
-                                if (chunkSize != 4)
-                                    IssueModel.Add ($"Bad gamma chunk size '{chunkSize}', expecting '4'.");
-                                else
-                                    Data.Gamma = ConvertTo.FromBig32ToUInt32 (fBuf, (int) Data.ValidSize+8) / 100000f;
+                                Data.Gamma = ConvertTo.FromBig32ToUInt32 (fBuf, (int) Data.ValidSize+8) / 100000f;
                             break;
                     }
 
@@ -140,8 +140,11 @@ namespace KaosFormat
                 }
                 while (Data.ValidSize < Data.FileSize);
 
+                if (Data.Width == null)
+                    IssueModel.Add ("Missing IHDR chunk.");
+
                 if (Data.Chunks.Items[Data.Chunks.Items.Count-1].Type != "IEND")
-                    IssueModel.Add ("Missing 'IEND' chunk.");
+                    IssueModel.Add ("Missing IEND chunk.");
 
                 if (Data.Width <= 0 || Data.Height <= 0)
                     IssueModel.Add ("Invalid dimensions.");
@@ -212,18 +215,20 @@ namespace KaosFormat
         private readonly ObservableCollection<string> texts;
         public ReadOnlyObservableCollection<string> Texts { get; private set; }
 
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public byte BitDepth { get; private set; }
-        public byte ColorType { get; private set; }
-        public byte CompressionMethod { get; private set; }
+        public int? Width { get; private set; }
+        public int? Height { get; private set; }
+        public byte? BitDepth { get; private set; }
+        public byte? ColorType { get; private set; }
+        public byte? CompressionMethod { get; private set; }
+        public byte? FilterMethod { get; private set; }
+        public byte? InterlaceMethod { get; private set; }
         public int? DotsPerMeter1 { get; private set; }
         public int? DotsPerMeter2 { get; private set; }
         public byte? Units { get; private set; }
-        public byte FilterMethod { get; private set; }
-        public byte InterlaceMethod { get; private set; }
         public float? Gamma { get; private set; }
         public int? BadCrcCount { get; private set; }
+
+        public string GammaText => Gamma == null ? "(none)" : Gamma.ToString();
 
         public string Dimensions => Width.ToString() + "x" + Height;
         public int? DotsPerInch => (DotsPerMeter1 == null) ? (int?) null : (int?) (DotsPerMeter1.Value / 39.3701 + .5);
@@ -243,7 +248,7 @@ namespace KaosFormat
             }
         }
 
-        public Issue CdIssue { get; private set; }
+        public Issue CdIssue { get; private set; }  // data CRC
 
         public PngFormat (Model model, Stream stream, string path) : base (model, stream, path)
         {
@@ -256,12 +261,12 @@ namespace KaosFormat
         public override void GetReportDetail (IList<string> report)
         {
             report.Add ($"Dimensions = {Dimensions}");
-            report.Add ($"Dots per meter = {DotsPerMeter1}");
-            report.Add ($"Derived DPI = {DotsPerInch}");
             report.Add ($"Color type = {ColorType} ({ColorTypeText})");
-            report.Add ("Gamma = " + (Gamma == null? "None" : Gamma.ToString()));
+            report.Add ($"Gamma = {GammaText}");
             report.Add ($"Bit depth = {BitDepth}");
             report.Add ($"Interlace method = {InterlaceMethod}");
+            if (DotsPerMeter1 != null) report.Add ($"Dots per meter = {DotsPerMeter1}");
+            if (DotsPerInch != null) report.Add ($"Derived DPI = {DotsPerInch}");
 
             if (Texts.Count > 0)
             {

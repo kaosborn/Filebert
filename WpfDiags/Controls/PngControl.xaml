@@ -28,6 +28,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
@@ -42,10 +43,16 @@
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Dimensions, Mode=OneWay}"/>
         <TextBlock Grid.Row="3" Text="Bit Depth:"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=BitDepth, Mode=OneWay}"/>
-        <TextBlock Grid.Row="4" Text="Total page count:"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=ChunkCount, Mode=OneWay}"/>
-        <TextBlock Grid.Row="5" Text="Verified page count:"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=GoodChunkCount, Mode=OneWay}">
+        <TextBlock Grid.Row="4" Text="Dots per meter:"/>
+        <StackPanel Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="9" Orientation="Horizontal">
+            <TextBox Text="{Binding Path=DotsPerMeter1, Mode=OneWay}"/>
+            <TextBlock Text="  Derived DPI:"/>
+            <TextBox Text="{Binding Path=DotsPerInch, Mode=OneWay}"/>
+        </StackPanel>
+        <TextBlock Grid.Row="5" Text="Total page count:"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=ChunkCount, Mode=OneWay}"/>
+        <TextBlock Grid.Row="6" Text="Verified page count:"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=GoodChunkCount, Mode=OneWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource darkTextBox}">
                     <Style.Triggers>
@@ -59,7 +66,7 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-        <GridSplitter Grid.Row="7" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="8" Grid.ColumnSpan="9"/>
+        <GridSplitter Grid.Row="8" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="9" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>
