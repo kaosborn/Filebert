@@ -213,7 +213,7 @@ namespace AppViewModel
                     foreach (FormatBase.Model parsing in CheckRoot (isTwoPass:true))
                         if (parsing != null)
                         {
-                            TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.LongName);
+                            TabInfo.Model tiModel = GetTabInfoModel (parsing.Data.FullName);
                             if (tiModel != null)
                             {
                                 if (newTabInfoIx < 0 || parsing is LogFormat.Model || parsing is LogEacFormat.Model)

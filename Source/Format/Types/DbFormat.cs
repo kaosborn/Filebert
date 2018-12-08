@@ -5,17 +5,10 @@ namespace KaosFormat
 {
     public class DbFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "db" };
-
-        public static string Subname
-         => "Thumbs";
-
-        public override string[] ValidNames
-         => Names;
-
-        public override string LongName
-         => "db (Thumbs)";
+        public static string[] Names => new string[] { "db" };
+        public static string SSubname => "Thumbs";
+        public override string[] ValidNames => Names;
+        public override string Subname => "Thumbs";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {
@@ -48,17 +41,10 @@ namespace KaosFormat
     // Class DbOtherFormat exists just to suppress errors on non-thumbs .db files.
     public class DbOtherFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "db" };
-
-        public static string Subname
-         => "*hidden*";
-
-        public override string[] ValidNames
-         => Names;
-
-        public override string LongName
-         => "db (*hidden*)";
+        public static string[] Names => new string[] { "db" };
+        public static string SSubname => "*hidden*";
+        public override string[] ValidNames => Names;
+        public override string Subname => "*hidden*";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

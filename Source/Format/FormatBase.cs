@@ -429,7 +429,9 @@ namespace KaosFormat
         public abstract string[] ValidNames
         { get; }
 
-        public virtual string LongName => ValidNames[0];
+        public virtual string Subname => null;
+        public string FullName => Subname == null ? ValidNames[0] : ValidNames[0] + " (" + Subname + ')';
+
         public virtual bool IsBadHeader => false;
         public virtual bool IsBadData => false;
 

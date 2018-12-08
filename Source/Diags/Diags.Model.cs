@@ -43,7 +43,7 @@ namespace KaosDiags
             // 1. Must be named "Model"
             // 2. Must derive from FormatBase.ModelBase
             // 3. Must contain the property public static string[] Names { get; }
-            // 4. May contain the property public static string Subname { get; }
+            // 4. May contain the property public static string SSubname { get; }
             // 5. Must be nested. Outer class:
             //    5a. Must end with "Format"
             //    5b. Must derive from FormatBase
@@ -76,7 +76,7 @@ namespace KaosDiags
                             }
                             else if (meth.Name=="get_Names" && ret == typeof (System.String[]))
                                 namesInfo = meth;
-                            else if (meth.IsSpecialName && meth.Name == "get_Subname" && ret == typeof (System.String))
+                            else if (meth.IsSpecialName && meth.Name == "get_SSubname" && ret == typeof (System.String))
                                 subnameInfo = meth;
                         }
 
