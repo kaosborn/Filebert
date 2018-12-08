@@ -681,7 +681,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Please use Windows Update to check for the latest updates to .NET Framework 4.0."
+                            "Value" = "8:Please use Windows Update to check for the latest updates to .NET Framework 4.0. For full functionality, ensure that flac.exe is available to the command line."
                             "DefaultValue" = "8:#1258"
                             "UsePlugInResources" = "11:TRUE"
                             }
