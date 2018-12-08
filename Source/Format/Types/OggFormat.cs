@@ -11,8 +11,8 @@ namespace KaosFormat
     // www.ietf.org/rfc/rfc3533.txt
     public class OggFormat : FormatBase
     {
-        public static string[] Names => new string[] { "ogg" };
-        public override string[] ValidNames => Names;
+        public static string[] SNames => new string[] { "ogg" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

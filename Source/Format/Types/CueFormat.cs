@@ -9,11 +9,8 @@ namespace KaosFormat
     // digitalx.org/cue-sheet/syntax/index.html
     public class CueFormat : FilesContainer
     {
-        public static string[] Names
-         => new string[] { "cue" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "cue" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

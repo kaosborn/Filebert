@@ -14,8 +14,8 @@ namespace KaosFormat
 
     public partial class Mp3Format : FormatBase
     {
-        public static string[] Names => new string[] { "mp3" };
-        public override string[] ValidNames => Names;
+        public static string[] SNames => new string[] { "mp3" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

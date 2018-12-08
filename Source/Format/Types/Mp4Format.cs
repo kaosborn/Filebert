@@ -5,11 +5,8 @@ namespace KaosFormat
     // Typically contains H.264 audio/visual
     public class Mp4Format : Mpeg4Container
     {
-        public static string[] Names
-         => new string[] { "mp4" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "mp4" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

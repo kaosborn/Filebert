@@ -5,11 +5,8 @@ namespace KaosFormat
     // Typically contains AAC (Apple lossy audio) or ALAC (Apple lossless audio)
     public class M4aFormat : Mpeg4Container
     {
-        public static string[] Names
-         => new string[] { "m4a" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "m4a" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

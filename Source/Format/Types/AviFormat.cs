@@ -8,11 +8,8 @@ namespace KaosFormat
 {
     public class AviFormat : RiffContainer
     {
-        public static string[] Names
-         => new string[] { "avi", "divx" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "avi", "divx" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

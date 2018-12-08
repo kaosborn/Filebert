@@ -5,8 +5,7 @@ namespace KaosFormat
 {
     public class Mpeg1Format : RiffContainer
     {
-        public override string[] ValidNames
-         => Mpeg2Format.Names;
+        public override string[] Names => Mpeg2Format.SNames;
 
         public new class Model : RiffContainer.Model
         {

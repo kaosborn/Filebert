@@ -10,9 +10,9 @@ namespace KaosFormat
 {
     public class LogEacFormat : LogFormat
     {
-        public static string[] Names => new string[] { "log" };
+        public static string[] SNames => new string[] { "log" };
         public static string SSubname => "EAC";
-        public override string[] ValidNames => Names;
+        public override string[] Names => SNames;
         public override string Subname => "EAC";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)

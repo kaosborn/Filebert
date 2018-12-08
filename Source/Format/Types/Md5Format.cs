@@ -5,11 +5,8 @@ namespace KaosFormat
 {
     public class Md5Format : HashesContainer
     {
-        public static string[] Names
-         => new string[] { "md5" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "md5" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

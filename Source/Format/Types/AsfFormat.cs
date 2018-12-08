@@ -4,11 +4,8 @@ namespace KaosFormat
 {
     public class AsfFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "asf", "wmv", "wma" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "asf", "wmv", "wma" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

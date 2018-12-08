@@ -12,11 +12,8 @@ namespace KaosFormat
 {
     public class PngFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "png" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "png" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

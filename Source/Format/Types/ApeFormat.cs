@@ -4,11 +4,8 @@ namespace KaosFormat
 {
     public class ApeFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "ape" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "ape" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

@@ -6,11 +6,8 @@ namespace KaosFormat
 {
     public class Sha1xFormat : HashesContainer
     {
-        public static string[] Names
-         => new string[] { "sha1x" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "sha1x" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

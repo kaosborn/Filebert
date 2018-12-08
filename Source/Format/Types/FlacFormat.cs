@@ -12,11 +12,8 @@ namespace KaosFormat
     // xiph.org/flac/format.html
     public partial class FlacFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "flac" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "flac" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

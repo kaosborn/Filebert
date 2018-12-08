@@ -4,11 +4,8 @@ namespace KaosFormat
 {
     public class MovFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "mov", "qt" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "mov", "qt" };
+        public override string[] Names => SNames;
 
         public static FormatBase.Model CreateModel (Stream stream, byte[] hdr, string path)
         {
@@ -43,8 +40,7 @@ namespace KaosFormat
 
     public class MovFormat2 : Mpeg4Container
     {
-        public override string[] ValidNames
-         => MovFormat.Names;
+        public override string[] Names => MovFormat.SNames;
 
         public new class Model : Mpeg4Container.Model
         {

@@ -14,11 +14,8 @@ namespace KaosFormat
 
     public class JpegFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "jpg", "jpeg" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "jpg", "jpeg" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

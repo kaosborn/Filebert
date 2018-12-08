@@ -10,9 +10,9 @@ namespace KaosFormat
 {
     public class LogXldFormat : LogFormat
     {
-        public static string[] Names => new string[] { "log" };
+        public static string[] SNames => new string[] { "log" };
         public static string SSubname => "XLD";
-        public override string[] ValidNames => Names;
+        public override string[] Names => SNames;
         public override string Subname => "XLD";
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)

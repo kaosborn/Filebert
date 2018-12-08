@@ -38,11 +38,8 @@ namespace KaosFormat
     // daubnet.com/en/file-format-ico
     public class IcoFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "ico" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "ico" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

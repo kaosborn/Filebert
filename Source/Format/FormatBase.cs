@@ -306,15 +306,15 @@ namespace KaosFormat
             /// <returns>Error text if failure; null if success.</returns>
             public string RepairWrongExtension (bool isFinalRepair)
             {
-                if (Data.Issues.HasFatal || Data.ValidNames.Length == 0)
+                if (Data.Issues.HasFatal || Data.Names.Length == 0)
                     return "Invalid attempt";
 
-                foreach (var vfn in Data.ValidNames)
+                foreach (var vfn in Data.Names)
                     if (Data.NamedFormat == vfn)
                         return "Invalid attempt";
 
                 CloseFile();
-                string newPath = System.IO.Path.ChangeExtension (Data.Path, Data.ValidNames[0]);
+                string newPath = System.IO.Path.ChangeExtension (Data.Path, Data.Names[0]);
                 try
                 {
                     File.Move (Data.Path, newPath);
@@ -426,11 +426,11 @@ namespace KaosFormat
         protected FormatBase (Model model, Stream stream, string path) : this (stream, path)
          => this.Issues = model.IssueModel.Data;
 
-        public abstract string[] ValidNames
+        public abstract string[] Names
         { get; }
 
         public virtual string Subname => null;
-        public string FullName => Subname == null ? ValidNames[0] : ValidNames[0] + " (" + Subname + ')';
+        public string FullName => Subname == null ? Names[0] : Names[0] + " (" + Subname + ')';
 
         public virtual bool IsBadHeader => false;
         public virtual bool IsBadData => false;
@@ -518,7 +518,7 @@ namespace KaosFormat
         public virtual void GetReportDetail (IList<string> report)
         {
             var sb = new StringBuilder ("(");
-            using (var it = ((IEnumerable<string>) ValidNames).GetEnumerator())
+            using (var it = ((IEnumerable<string>) Names).GetEnumerator())
             {
                 for (it.MoveNext();;)
                 {

@@ -8,11 +8,8 @@ namespace KaosFormat
     // en.wikipedia.org/wiki/Flv#Flash_Video_Structure
     public class FlvFormat : FormatBase
     {
-        public static string[] Names
-         => new string[] { "flv" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "flv" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {

@@ -10,11 +10,8 @@ namespace KaosFormat
     //
     public class Mpeg2Format : FormatBase
     {
-        public static string[] Names
-         => new string[] { "mpg", "mpeg", "vob" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "mpg", "mpeg", "vob" };
+        public override string[] Names => SNames;
 
         public static FormatBase.Model CreateModel (Stream stream, byte[] hdr, string path)
         {

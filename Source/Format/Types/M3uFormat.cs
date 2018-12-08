@@ -6,11 +6,8 @@ namespace KaosFormat
     // en.wikipedia.org/wiki/M3U
     public class M3uFormat : FilesContainer
     {
-        public static string[] Names
-         => new string[] { "m3u" };
-
-        public override string[] ValidNames
-         => Names;
+        public static string[] SNames => new string[] { "m3u" };
+        public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
         {
