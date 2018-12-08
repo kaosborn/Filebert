@@ -48,11 +48,11 @@ namespace KaosFormat
                     baddest = Data.Issues.MaxSeverity;
 
                 if (baddest >= Severity.Error)
-                    Data.RpIssue = IssueModel.Add ("FLAC rip check failed.", baddest, IssueTags.Failure);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to FLAC rip check failed.", baddest, IssueTags.Failure);
                 else if (baddest >= Severity.Warning)
-                    Data.RpIssue = IssueModel.Add ("FLAC rip check successful with warnings.", baddest, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to FLAC rip check successful with warnings.", baddest, IssueTags.Success);
                 else
-                    Data.RpIssue = IssueModel.Add ("FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to FLAC rip check successful!", Severity.Advisory, IssueTags.Success);
                 return;
 
                 void PerformValidations()
