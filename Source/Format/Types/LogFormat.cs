@@ -59,7 +59,7 @@ namespace KaosFormat
                 {
                     if (flacs.Count != TracksModel.GetCount() || flacs.Count == 0)
                     {
-                        Data.TkIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac files, .log contains {TracksModel.GetCount()} tracks.");
+                        Data.TkIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac files, {Data.Subname} log contains {TracksModel.GetCount()} tracks.");
                         baddest = Severity.Error;
                         return;
                     }
@@ -120,29 +120,29 @@ namespace KaosFormat
                 if (mp3s.Count > 0)
                 {
                     Severity baddestOfMp3s = mp3s.Max (tk => tk.Issues.MaxSeverity);
-                    if (baddest < baddestOfMp3s)
-                        baddest = baddestOfMp3s;
+                    if (baddestOfMp3s >= Severity.Error)
+                        IssueModel.Add (GetMessage (Severity.Error));
+                    else if (baddestOfMp3s == Severity.Warning)
+                        IssueModel.Add (GetMessage (Severity.Warning));
+                    //if (baddest < baddestOfMp3s)
+                    //    baddest = baddestOfMp3s;
                 }
-                if (baddest >= Severity.Error)
-                    IssueModel.Add (GetMessage (Severity.Error));
-                else if (baddest == Severity.Warning)
-                    IssueModel.Add (GetMessage (Severity.Warning));
 
                 if (baddest < IssueModel.Data.MaxSeverity)
                     baddest = IssueModel.Data.MaxSeverity;
 
                 if (baddest >= Severity.Error)
-                    Data.RpIssue = IssueModel.Add ("MP3 rip check failed.", baddest, IssueTags.Failure);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to MP3 rip check failed.", baddest, IssueTags.Failure);
                 else if (baddest == Severity.Warning)
-                    Data.RpIssue = IssueModel.Add ("MP3 rip check successful with warnings.", baddest, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to MP3 rip check OK with warnings.", baddest, IssueTags.Success);
                 else
-                    Data.RpIssue = IssueModel.Add ("MP3 rip check okay!", Severity.Advisory, IssueTags.Success);
+                    Data.RpIssue = IssueModel.Add ($"{Data.Subname} to MP3 rip check OK!", Severity.Advisory, IssueTags.Success);
 
                 void PerformValidations()
                 {
                     if (mp3s.Count != TracksModel.GetCount() || mp3s.Count == 0)
                     {
-                        Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} MP3s, EAC log contains {TracksModel.GetCount()} tracks.", Severity.Error, IssueTags.Failure);
+                        Data.TkIssue = IssueModel.Add ($"Directory contains {mp3s.Count} .mp3 files, {Data.Subname} log contains {TracksModel.GetCount()} tracks.", Severity.Error, IssueTags.Failure);
                         baddest = Severity.Error;
                         return;
                     }
