@@ -1,15 +1,19 @@
-Filebert is a Windows .NET 4 program that performs media file diagnostics.
+![logo](Images/FirstAidWin256.png)
+# Filebert
 
-Filebert is a standalone, portable executable that requires .NET 4 for usage.
-An installer is provided although Filebert may be installed just by copying the `.exe` file.
+Filebert is a Windows .NET 4.0 program that performs media file diagnostics.
+Windows XP thru 10 are supported with limited support for other operating systems.
+
+An installer is provided although a portable install may be performed by copying either of the standalone `.exe` files.
 The installer makes no registry changes other than what is needed for basic installation.
-Settings are configured by supplying command-line arguments.
+Settings are configured by supplying command-line arguments only.
+Full functionality requires that `flac.exe` is available to the command line.
 
-A console version of this program is also supplied for advanced users.
-The console version allows batch operation, logging, and cross-platform usage.
-Otherwise, its behavior is consistent with the GUI version.
+A console version of Filebert is available as well as a windowed version.
+The console version allows batch operation, advanced logging, and cross-platform usage.
+Otherwise, its behavior is consistent with the windowed version.
 
-Filebert is open-source freeware with the complete source at this repository.
+Filebert is freeware with complete source available for inspection at GitHub.
 
 ## [** DOWNLOAD **](https://github.com/kaosborn/Filebert/releases/)
 
@@ -17,16 +21,16 @@ Filebert is open-source freeware with the complete source at this repository.
 
 ## Repository layout
 
-This repository is organized as a single Visual Studio solution with additional documentation files in the root.
+This Git repository is organized as a single Visual Studio solution with additional documentation files in the root.
 These are the top-level folders:
 
-* `ConDiags` - The console front-end branded as Filebert.
-* `Harness400` - The domain compiled for test and development only.
-* `Install` - Builds `UperApps.msi` installer for all tools.
-* `Source` - All the "business" logic of file formats organized into shared libraries.
+* `ConDiags` - Builds the console front end.
+* `Harness400` - Builds the domain. For test and development only.
+* `Install` - Builds `Filebert.msi` installer for all tools.
+* `Source` - C# shared libraries.
 * `TestFull` - A woefully short set of unit tests. Code coverage is pitiful.
-* `WpfDiags` - GUI front-end of Filebert.
+* `WpfDiags` - Builds the GUI front end.
 
-For additional developer notes, see:
+For additional developer notes:
 
 https://github.com/kaosborn/Filebert/wiki/Developer-notes
