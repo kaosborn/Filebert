@@ -249,7 +249,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:No Company"
+        "Manufacturer" = "8:"
         "ARPHELPTELEPHONE" = "8:1-800-555-1212"
         "ARPHELPLINK" = "8:https://github.com/kaosborn/Filebert/issues"
         "Title" = "8:Filebert Installer"
@@ -1561,7 +1561,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_93AAEF2F5ED94C10B9EDF1B7F61B666B"
             {
-            "SourcePath" = "8:..\\WpfDiags\\obj\\Debug\\FilebertWin.exe"
+            "SourcePath" = "8:..\\WpfDiags\\obj\\Release\\FilebertWin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
@@ -1589,7 +1589,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E86DE964AEED4318B1C471BC4DE25581"
             {
-            "SourcePath" = "8:..\\ConDiags\\obj\\Debug\\Filebert.exe"
+            "SourcePath" = "8:..\\ConDiags\\obj\\Release\\Filebert.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
