@@ -249,7 +249,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:"
+        "Manufacturer" = "8: "
         "ARPHELPTELEPHONE" = "8:1-800-555-1212"
         "ARPHELPLINK" = "8:https://github.com/kaosborn/Filebert/issues"
         "Title" = "8:Filebert Installer"
