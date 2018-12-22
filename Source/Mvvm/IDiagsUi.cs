@@ -10,9 +10,4 @@ namespace AppViewModel
         void SetConsoleText (string message);
         IList<string> GetHeadings();
     }
-
-    public interface IFileDragDropTarget
-    {
-        void OnFileDrop (string[] paths);
-    }
 }
