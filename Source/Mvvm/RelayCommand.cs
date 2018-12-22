@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace KaosMvvm
+namespace AppViewModel
 {
     // No parameter version.
     public class RelayCommand : ICommand

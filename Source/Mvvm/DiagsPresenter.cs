@@ -8,7 +8,6 @@ using System.Windows.Input;
 using KaosIssue;
 using KaosFormat;
 using KaosDiags;
-using KaosMvvm;
 
 namespace AppViewModel
 {

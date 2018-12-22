@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using AppViewModel;
 
-namespace AppView
+namespace AppViewModel
 {
     public class FileDragDropper
     {
