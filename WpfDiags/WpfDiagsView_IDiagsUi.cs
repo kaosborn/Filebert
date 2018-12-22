@@ -39,42 +39,42 @@ namespace AppView
                 return;
             }
 
-            if (! viewModel.Data.IsFileShown && viewModel.Data.CurrentFile != null)
+            if (! viewModel.IsFileShown && viewModel.CurrentFile != null)
             {
-                viewModel.Data.IsFileShown = true;
+                viewModel.IsFileShown = true;
 
-                if (viewModel.Data.ConsoleLinesReported > 0)
-                    if (viewModel.Data.Scope == Granularity.Detail)
+                if (viewModel.ConsoleLinesReported > 0)
+                    if (viewModel.Scope == Granularity.Detail)
                         consoleBox.AppendText (Environment.NewLine + KaosDiags.Diags.MinorSeparator + Environment.NewLine);
-                    else if (! viewModel.Data.IsDigestForm)
+                    else if (!viewModel.IsDigestForm)
                         consoleBox.AppendText (Environment.NewLine);
 
-                if (! viewModel.Data.IsDirShown)
+                if (!viewModel.IsDirShown)
                 {
-                    viewModel.Data.IsDirShown = true;
+                    viewModel.IsDirShown = true;
 
-                    if (viewModel.Data.IsDigestForm)
+                    if (viewModel.IsDigestForm)
                     {
-                        if (viewModel.Data.ConsoleLinesReported > 0)
+                        if (viewModel.ConsoleLinesReported > 0)
                             consoleBox.AppendText (Environment.NewLine);
                         consoleBox.AppendText ("; ");
                     }
-                    consoleBox.AppendText (viewModel.Data.CurrentDirectory);
-                    if (viewModel.Data.CurrentDirectory[viewModel.Data.CurrentDirectory.Length-1] != System.IO.Path.DirectorySeparatorChar)
+                    consoleBox.AppendText (viewModel.CurrentDirectory);
+                    if (viewModel.CurrentDirectory[viewModel.CurrentDirectory.Length-1] != System.IO.Path.DirectorySeparatorChar)
                         consoleBox.AppendText (System.IO.Path.DirectorySeparatorChar.ToString());
                     consoleBox.AppendText (Environment.NewLine);
                 }
 
-                if (! viewModel.Data.IsDigestForm)
+                if (!viewModel.IsDigestForm)
                 {
-                    consoleBox.AppendText (viewModel.Data.CurrentFile);
+                    consoleBox.AppendText (viewModel.CurrentFile);
                     consoleBox.AppendText (Environment.NewLine);
                 }
             }
 
             if (severity != Severity.NoIssue)
             {
-                if (viewModel.Data.IsDigestForm)
+                if (viewModel.IsDigestForm)
                     consoleBox.AppendText ("; ");
                 if (severity <= Severity.Advisory)
                     consoleBox.AppendText ("  ");

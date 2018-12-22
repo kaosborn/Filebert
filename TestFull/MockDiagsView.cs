@@ -10,14 +10,13 @@ namespace TestDiags
     public class MockDiagsView : IDiagsUi
     {
         private StringBuilder console = new StringBuilder();
-        private DiagsPresenter.Model model;
-        public DiagsPresenter ViewModel => model.Data;
+        public DiagsPresenter ViewModel { get; private set; }
 
         public MockDiagsView()
         {
-            model = new DiagsPresenter.Model (this);
-            model.Data.Scope = Granularity.Detail;
-            model.Data.HashFlags = Hashes.Intrinsic;
+            ViewModel = new DiagsPresenter.Model (this).ViewModel;
+            ViewModel.Scope = Granularity.Detail;
+            ViewModel.HashFlags = Hashes.Intrinsic;
         }
 
         public string BrowseFile()

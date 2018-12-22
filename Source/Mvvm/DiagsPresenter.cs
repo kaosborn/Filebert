@@ -21,6 +21,7 @@ namespace AppViewModel
             private readonly TabInfo.Model tabFlacModel;
             public IDiagsUi Ui { get; private set; }
             public new DiagsPresenter Data => (DiagsPresenter) _data;
+            public DiagsPresenter ViewModel => (DiagsPresenter) _data;
 
             public Model (IDiagsUi ui)
             {

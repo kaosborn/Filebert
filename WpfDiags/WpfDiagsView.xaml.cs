@@ -12,7 +12,7 @@ namespace AppView
     public partial class WpfDiagsView : Window, IDiagsUi
     {
         private readonly string[] args;
-        private DiagsPresenter.Model viewModel;
+        private DiagsPresenter viewModel;
 
         public static string ProductText
         {
@@ -82,7 +82,7 @@ namespace AppView
 
                 if (args[ix] == "/R")
                 {
-                    viewModel.Data.IsRepairEnabled = true;
+                    viewModel.IsRepairEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix].StartsWith ("/s:"))
@@ -90,39 +90,39 @@ namespace AppView
                     argOk = Enum.TryParse<Granularity> (args[ix].Substring (3), true, out Granularity arg);
                     argOk = argOk && Enum.IsDefined (typeof (Granularity), arg);
                     if (argOk)
-                        viewModel.Data.Scope = arg;
+                        viewModel.Scope = arg;
                 }
                 if (args[ix].StartsWith ("/h:"))
                 {
                     argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
                     argOk = argOk && arg == (arg & (Hashes._FlacMatch - 1));
                     if (argOk)
-                        viewModel.Data.HashFlags = arg;
+                        viewModel.HashFlags = arg;
                 }
                 else if (args[ix] == "/strict")
                 {
-                    viewModel.Data.IsStrict = true;
+                    viewModel.IsStrict = true;
                     argOk = true;
                 }
                 else if (args[ix].StartsWith ("/v:"))
                 {
                     argOk = Enum.TryParse<Validations> (args[ix].Substring (3), true, out Validations arg);
                     if (argOk)
-                        viewModel.Data.ValidationFlags = arg;
+                        viewModel.ValidationFlags = arg;
                 }
                 else if (args[ix] == "/flacrip")
                 {
-                    viewModel.Data.IsFlacRipCheckEnabled = true;
+                    viewModel.IsFlacRipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/mp3rip")
                 {
-                    viewModel.Data.IsMp3RipCheckEnabled = true;
+                    viewModel.IsMp3RipCheckEnabled = true;
                     argOk = true;
                 }
                 else if (args[ix] == "/webcheck")
                 {
-                    viewModel.Data.IsEacWebCheckEnabled = true;
+                    viewModel.IsEacWebCheckEnabled = true;
                     argOk = true;
                 }
                 else if (ix == args.Length - 1)
@@ -130,7 +130,7 @@ namespace AppView
                     var arg = args[ix].Trim (null);
                     argOk = arg.Length > 0 && (arg[0] != '/' || Path.DirectorySeparatorChar == '/');
                     if (argOk)
-                        viewModel.Data.Root = arg;
+                        viewModel.Root = arg;
                 }
 
                 if (! argOk)
@@ -147,12 +147,13 @@ namespace AppView
         public void Window_Loaded (object sender, RoutedEventArgs ea)
         {
             Title = $"{ProductText} v{VersionText}";
-            viewModel = new DiagsPresenter.Model (this);
-            viewModel.Data.Scope = Granularity.Lucid;
-            viewModel.Data.HashFlags = Hashes.Intrinsic;
-            viewModel.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
+
+            viewModel = new DiagsPresenter.Model (this).ViewModel;
+            viewModel.Scope = Granularity.Lucid;
+            viewModel.HashFlags = Hashes.Intrinsic;
+            viewModel.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
             ParseArgs();
-            DataContext = viewModel.Data;
+            DataContext = viewModel;
         }
     }
 }
