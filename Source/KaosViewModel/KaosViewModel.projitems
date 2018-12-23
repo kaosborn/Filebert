@@ -9,6 +9,7 @@
     <Import_RootNamespace>KaosViewModel</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FileDragDropper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IFileDragDropTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
   </ItemGroup>
