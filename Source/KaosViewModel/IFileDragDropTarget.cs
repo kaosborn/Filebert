@@ -1,4 +1,4 @@
-﻿namespace AppViewModel
+﻿namespace KaosViewModel
 {
     public interface IFileDragDropTarget
     {

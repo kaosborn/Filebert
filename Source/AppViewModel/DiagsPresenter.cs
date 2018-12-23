@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using KaosViewModel;
 using KaosIssue;
 using KaosFormat;
 using KaosDiags;

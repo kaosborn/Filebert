@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AppViewModel
+namespace KaosViewModel
 {
     public class FileDragDropper
     {

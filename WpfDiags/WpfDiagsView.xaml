@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:app="clr-namespace:AppView"
-        xmlns:avm="clr-namespace:AppViewModel"
+        xmlns:kvm="clr-namespace:KaosViewModel"
         xmlns:format="clr-namespace:KaosFormat"
         xmlns:issue="clr-namespace:KaosIssue"
         mc:Ignorable="d"
@@ -53,8 +53,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <DockPanel Margin="3,0,3,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
-                <Label Content="&#x2388;" Margin="-3,-12,-9,-10" VerticalAlignment="Center" FontSize="25" AllowDrop="True" avm:FileDragDropper.IsFileDragDropEnabled="True" avm:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                <Label Content="File _name:" Margin="0,2,0,0" VerticalAlignment="Center" AllowDrop="True" avm:FileDragDropper.IsFileDragDropEnabled="True" avm:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Label Content="&#x2388;" Margin="-3,-12,-9,-10" VerticalAlignment="Center" FontSize="25" AllowDrop="True" kvm:FileDragDropper.IsFileDragDropEnabled="True" kvm:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Label Content="File _name:" Margin="0,2,0,0" VerticalAlignment="Center" AllowDrop="True" kvm:FileDragDropper.IsFileDragDropEnabled="True" kvm:FileDragDropper.FileDragDropTarget="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
                 <TextBox x:Name="filePath" Text="{Binding Path=Root, UpdateSourceTrigger=PropertyChanged}" TabIndex="0">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource darkTextInputBoxRequired}"/>
