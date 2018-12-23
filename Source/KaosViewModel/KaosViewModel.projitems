@@ -3,16 +3,13 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>5f0471a7-a28c-42ac-9bcf-d283bad61a09</SharedGUID>
+    <SharedGUID>91550135-6eb8-41d9-a67d-79a9d4f2f84c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Mvvm</Import_RootNamespace>
+    <Import_RootNamespace>KaosViewModel</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DiagsPresenter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IDiagsUi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IFileDragDropTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RelayCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TabInfo.cs" />
   </ItemGroup>
 </Project>
