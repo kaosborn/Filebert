@@ -7,14 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDiags", "WpfDiags\WpfDia
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Crypto", "Source\Crypto\Crypto.shproj", "{7DD83A86-4768-423E-9339-50BBC1ED1487}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Diags", "Source\Diags\Diags.shproj", "{3AF3A1B2-FF76-405A-903E-C9B2DF580300}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SysIo", "Source\SysIo\SysIo.shproj", "{2893FF69-8187-4376-B170-A210C60B5B63}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Format", "Source\Format\Format.shproj", "{5CAABE2D-EED6-4E95-A20B-24DD785F2A3A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConDiags", "ConDiags\ConDiags.csproj", "{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness400", "Harness400\Harness400.csproj", "{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}"
@@ -27,30 +19,38 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AppViewModel", "Source\AppV
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosViewModel", "Source\KaosViewModel\KaosViewModel.shproj", "{91550135-6EB8-41D9-A67D-79A9D4F2F84C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosSysIo", "Source\KaosSysIo\KaosSysIo.shproj", "{E96BF7C1-A0C2-449E-98D8-09839B14EED1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosCrypto", "Source\KaosCrypto\KaosCrypto.shproj", "{5EAEE967-89EF-4E0B-B0E2-46546B81228D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosDiags", "Source\KaosDiags\KaosDiags.shproj", "{0BFEA52C-8D91-4BB3-9AC8-39A246FC14A3}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosFormat", "Source\KaosFormat\KaosFormat.shproj", "{DAB51A5A-2DD3-41B5-BC35-09825F0185F1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Source\KaosDiags\KaosDiags.projitems*{0bfea52c-8d91-4bb3-9ac8-39a246fc14a3}*SharedItemsImports = 13
 		Source\AppViewModel\AppViewModel.projitems*{1066d891-6990-4e15-9e3d-be06f1b9aa06}*SharedItemsImports = 13
-		Source\SysIo\SysIo.projitems*{2893ff69-8187-4376-b170-a210c60b5b63}*SharedItemsImports = 13
-		Source\Diags\Diags.projitems*{3af3a1b2-ff76-405a-903e-c9b2df580300}*SharedItemsImports = 13
-		Source\Format\Format.projitems*{5caabe2d-eed6-4e95-a20b-24dd785f2a3a}*SharedItemsImports = 13
+		Source\KaosCrypto\KaosCrypto.projitems*{5eaee967-89ef-4e0b-b0e2-46546b81228d}*SharedItemsImports = 13
 		Source\AppViewModel\AppViewModel.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
-		Source\Crypto\Crypto.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
-		Source\Diags\Diags.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
-		Source\Format\Format.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\KaosCrypto\KaosCrypto.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\KaosDiags\KaosDiags.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\KaosFormat\KaosFormat.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
+		Source\KaosSysIo\KaosSysIo.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
 		Source\KaosViewModel\KaosViewModel.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
-		Source\SysIo\SysIo.projitems*{69262b82-195c-4784-9591-afcaa0921fc9}*SharedItemsImports = 4
-		Source\Crypto\Crypto.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
-		Source\Diags\Diags.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
-		Source\Format\Format.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
-		Source\SysIo\SysIo.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
-		Source\Crypto\Crypto.projitems*{7dd83a86-4768-423e-9339-50bbc1ed1487}*SharedItemsImports = 13
+		Source\KaosCrypto\KaosCrypto.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\KaosDiags\KaosDiags.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\KaosFormat\KaosFormat.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
+		Source\KaosSysIo\KaosSysIo.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
 		Source\KaosViewModel\KaosViewModel.projitems*{91550135-6eb8-41d9-a67d-79a9d4f2f84c}*SharedItemsImports = 13
+		Source\KaosFormat\KaosFormat.projitems*{dab51a5a-2dd3-41b5-bc35-09825f0185f1}*SharedItemsImports = 13
 		Source\AppViewModel\AppViewModel.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\Crypto\Crypto.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\Diags\Diags.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\Format\Format.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\KaosCrypto\KaosCrypto.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\KaosDiags\KaosDiags.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\KaosFormat\KaosFormat.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\KaosSysIo\KaosSysIo.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
 		Source\KaosViewModel\KaosViewModel.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\SysIo\SysIo.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
+		Source\KaosSysIo\KaosSysIo.projitems*{e96bf7c1-a0c2-449e-98d8-09839b14eed1}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,12 +80,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{7DD83A86-4768-423E-9339-50BBC1ED1487} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{3AF3A1B2-FF76-405A-903E-C9B2DF580300} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{2893FF69-8187-4376-B170-A210C60B5B63} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{5CAABE2D-EED6-4E95-A20B-24DD785F2A3A} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
 		{1066D891-6990-4E15-9E3D-BE06F1B9AA06} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
 		{91550135-6EB8-41D9-A67D-79A9D4F2F84C} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{E96BF7C1-A0C2-449E-98D8-09839B14EED1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{5EAEE967-89EF-4E0B-B0E2-46546B81228D} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{0BFEA52C-8D91-4BB3-9AC8-39A246FC14A3} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{DAB51A5A-2DD3-41B5-BC35-09825F0185F1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A78269A7-58AF-4709-835E-CA6CC1AE5647}

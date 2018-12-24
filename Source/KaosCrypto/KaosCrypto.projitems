@@ -3,10 +3,10 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>7dd83a86-4768-423e-9339-50bbc1ed1487</SharedGUID>
+    <SharedGUID>5eaee967-89ef-4e0b-b0e2-46546b81228d</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Crypto</Import_RootNamespace>
+    <Import_RootNamespace>KaosCrypto</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Crc16nHasher.cs" />

@@ -54,9 +54,9 @@
   <ItemGroup>
     <Content Include="Filebert.ico" />
   </ItemGroup>
-  <Import Project="..\Source\Crypto\Crypto.projitems" Label="Shared" />
-  <Import Project="..\Source\Diags\Diags.projitems" Label="Shared" />
-  <Import Project="..\Source\Format\Format.projitems" Label="Shared" />
-  <Import Project="..\Source\SysIo\SysIo.projitems" Label="Shared" />
+  <Import Project="..\Source\KaosSysIo\KaosSysIo.projitems" Label="Shared" />
+  <Import Project="..\Source\KaosCrypto\KaosCrypto.projitems" Label="Shared" />
+  <Import Project="..\Source\KaosDiags\KaosDiags.projitems" Label="Shared" />
+  <Import Project="..\Source\KaosFormat\KaosFormat.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
