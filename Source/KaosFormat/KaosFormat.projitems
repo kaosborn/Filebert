@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormatBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Issue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\ApeFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\AsfFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\AviFormat.cs" />

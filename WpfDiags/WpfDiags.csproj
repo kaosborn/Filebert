@@ -314,5 +314,6 @@
   <Import Project="..\Source\KaosCrypto\KaosCrypto.projitems" Label="Shared" />
   <Import Project="..\Source\KaosDiags\KaosDiags.projitems" Label="Shared" />
   <Import Project="..\Source\KaosFormat\KaosFormat.projitems" Label="Shared" />
+  <Import Project="..\Source\KaosIssue\KaosIssue.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
