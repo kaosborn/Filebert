@@ -288,7 +288,7 @@ namespace KaosFormat
 
     public class MkvFormat : FormatBase
     {
-        public static string[] SNames => new string[] { "mkv", "mka" };
+        public static string[] SNames => new string[] { "mkv", "mka", "webm" };
         public override string[] Names => SNames;
 
         public static Model CreateModel (Stream stream, byte[] hdr, string path)
