@@ -229,7 +229,7 @@ namespace AppController
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 object[] attributes = assembly.GetCustomAttributes (typeof (AssemblyProductAttribute), false);
-                return attributes.Length == 0? "" : ((AssemblyProductAttribute) attributes[0]).Product;
+                return attributes.Length == 0 ? String.Empty : ((AssemblyProductAttribute) attributes[0]).Product;
             }
         }
 
@@ -240,7 +240,7 @@ namespace AppController
                 var assembly = Assembly.GetExecutingAssembly();
                 string result = assembly.GetName().Version.ToString();
                 if (result.Length > 3 && result.EndsWith (".0"))
-                    result = result.Substring (0, result.Length-2);
+                    result = result.Substring (0, result.Length - 2);
                 return result;
             }
         }
