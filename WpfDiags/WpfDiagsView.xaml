@@ -90,7 +90,7 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,0,3,3" ToolTip="time consuming">
+                    <GroupBox Header="Validate" HorizontalAlignment="Left" Margin="3,0,3,3" ToolTip="a time consuming operation">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8 files"/>
@@ -102,13 +102,13 @@
                     </GroupBox>
                 </WrapPanel>
                 <WrapPanel Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,0,3,3" ToolTip="requires a XLD or EAC .log file">
+                    <GroupBox Header="Rip checks" HorizontalAlignment="Left" Margin="3,0,3,3">
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
-                                <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}"/>
-                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}" ToolTip="by CRC-32"/>
-                                <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}"/>
-                                <CheckBox Content="EAC log hash" IsChecked="{Binding Path=IsEacWebCheckEnabled, Mode=TwoWay}" ToolTip="requires internet connection"/>
+                                <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}" ToolTip="by XLD or EAC .log track count"/>
+                                <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}" ToolTip="by XLD or EAC .log track CRC-32"/>
+                                <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}" ToolTip="caustic analysis of metadata"/>
+                                <CheckBox Content="EAC log hash" IsChecked="{Binding Path=IsEacWebCheckEnabled, Mode=TwoWay}" ToolTip="sends EAC .log to http://www.exactaudiocopy.de/log/check.aspx"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>
