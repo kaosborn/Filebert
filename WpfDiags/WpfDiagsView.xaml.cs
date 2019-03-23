@@ -13,6 +13,7 @@ namespace AppView
     {
         private readonly string[] args;
         private DiagsPresenter viewModel;
+        private bool isImmediate=false;
 
         public static string ProductText
         {
@@ -125,6 +126,8 @@ namespace AppView
                     viewModel.IsEacWebCheckEnabled = true;
                     argOk = true;
                 }
+                else if (args[ix] == "/go")
+                    argOk = isImmediate = true;
                 else if (ix == args.Length - 1)
                 {
                     var arg = args[ix].Trim (null);
@@ -148,12 +151,13 @@ namespace AppView
         {
             Title = $"{ProductText} v{VersionText}";
 
-            viewModel = new DiagsPresenter.Model (this).ViewModel;
-            viewModel.Scope = Granularity.Lucid;
-            viewModel.HashFlags = Hashes.Intrinsic;
-            viewModel.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
+            var presenterModel = new DiagsPresenter.Model (this);
+            viewModel = presenterModel.ViewModel;
             ParseArgs();
             DataContext = viewModel;
+
+            if (isImmediate && ! String.IsNullOrWhiteSpace (viewModel.Root))
+                presenterModel.Parse();
         }
     }
 }
