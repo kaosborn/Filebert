@@ -49,21 +49,34 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/R] [/s:<scope>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [<fileOrFolderName>]");
+            sb.Append ($"{exe} [/R] [/s:<scope>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [/go] [<fileOrFolderName>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
-            sb.Append ("Where <scope> from");
+            sb.Append ("where <scope> from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
             { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
-            sb.Append ("Where <hashes> from");
+            sb.Append ("where <hashes> from");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
                 if (name[0] != '_')
                 { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
-            sb.Append ("Where <fileOrFolderName> is a file or folder name without wildcards.\n");
+            sb.Append ("where <fileOrFolderName> is a file or folder name without wildcards.");
+            sb.Append (Environment.NewLine);
+            sb.Append (Environment.NewLine);
+
+            sb.Append ("Examples:");
+            sb.Append (Environment.NewLine);
+
+            sb.Append ("Use /h:Intrinsic,FileSHA1 to generate file SHA1 and intrinsic hashes.");
+            sb.Append (Environment.NewLine);
+
+            sb.Append ("Use /f:* to diagnose files with any extension.");
+            sb.Append (Environment.NewLine);
+
+            sb.Append ("Use /go T:\\MyFile.ogg to immediately diagnose the supplied file or folder.");
             sb.Append (Environment.NewLine);
 
             consoleBox.Text += sb.ToString();
