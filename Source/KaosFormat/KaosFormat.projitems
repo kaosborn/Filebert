@@ -54,6 +54,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1Format.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Sha1xFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\Sha256Format.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\UnknownFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\WavFormat.cs" />
   </ItemGroup>
 </Project>
