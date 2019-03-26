@@ -115,7 +115,11 @@ namespace KaosFormat
                             do
                             {
                                 if (! scan.MoveNext())
-                                    return null;
+                                {
+                                    var result = new UnknownFormat.Model (fs0, path);
+                                    result.CalcHashes (hashFlags, validationFlags);
+                                    return result;
+                                }
                                 if (scan.Current.Names.Contains (ext))
                                     continue;
                                 model = scan.Current.ModelFactory (fs0, hdr, path);

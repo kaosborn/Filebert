@@ -50,7 +50,7 @@ namespace KaosDiags
             //    5c. Must contain the method public static CreateModel (Stream, byte[], string)
             private void LoadFormats()
             {
-                // Load known formats into the static table by duck typing.
+                // Load known formats into the static table via duck typing.
                 foreach (var duck in Assembly.GetAssembly (typeof (FormatBase)).GetTypes())
                 {
                     if (duck.IsClass && duck.Name.EndsWith ("Format"))
@@ -205,7 +205,7 @@ namespace KaosDiags
                         {
                             Data.Result = Severity.Fatal;
                             Data.OnMessageSend (ex.Message.Trim(), Severity.Fatal);
-                            Data.OnMessageSend ("Ignored.", Severity.Advisory);
+                            Data.OnMessageSend ("Unrecognized.", Severity.Advisory);
                             continue;
                         }
                         yield return fmtModel;
@@ -237,41 +237,32 @@ namespace KaosDiags
 #endif
                 }
 
-                if (! isKnownExtension)
-                {
-                    if (Data.Scope <= Granularity.Verbose && ! Data.IsDigestForm)
-                        Data.OnMessageSend ("Ignored.", Severity.Trivia);
-                    resultCode = Severity.NoIssue;
-                    return fmtModel;
-                }
 
                 if (fmtModel == null)
                 {
-                    if (trueFormat != null)
-                        resultCode = Severity.NoIssue;
-                    else
+                    if (Data.Scope <= Granularity.Verbose)
                     {
-                        if (Data.Scope <= Granularity.Quiet)
-                            Data.OnMessageSend ("Unrecognized contents.", Severity.Error);
-                        ++Data.TotalErrors;
-                        resultCode = Severity.Fatal;
+                        if (Data.Scope == Granularity.Verbose && Data.IsDigestForm)
+                            Data.OnMessageSend ("; " + Data.CurrentFile, Severity.NoIssue);
+                        Data.OnMessageSend ("Unknown extension ignored.", Severity.Trivia);
                     }
+                    resultCode = Severity.NoIssue;
                     return null;
                 }
 
-                ++Data.TotalFiles;
-                trueFormat.TrueTotal += 1;
-
                 FormatBase fmt = fmtModel.Data;
 
-                if (fmt.IsBadHeader)
-                    ++trueFormat.TotalHeaderErrors;
-
-                if (fmt.IsBadData)
-                    ++trueFormat.TotalDataErrors;
+                ++Data.TotalFiles;
+                if (trueFormat != null)
+                {
+                    ++trueFormat.TrueTotal;
+                    if (fmt.IsBadHeader)
+                        ++trueFormat.TotalHeaderErrors;
+                    if (fmt.IsBadData)
+                        ++trueFormat.TotalDataErrors;
+                }
 
                 fmtModel.IssueModel.Escalate (Data.WarnEscalator, Data.ErrEscalator);
-
                 ReportFormat (fmt);
 
                 if (! fmt.Issues.HasError)
@@ -297,6 +288,7 @@ namespace KaosDiags
             {
                 Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
 
+                // Now bubble .log files down.
                 int logCount = fileInfos.Count (fi => fi.Name.EndsWith (".log"));
                 if (logCount > 0 && (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled))
                 {
