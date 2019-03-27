@@ -455,16 +455,16 @@ namespace KaosFormat
                 if ((hashFlags & (Hashes._FlacTags)) != 0)
                 {
                     TagCheckNumber ("TRACKNUMBER");
-                    TagCheckNumber ("TRACKTOTAL", true);
+                    TagCheckNumber ("TRACKTOTAL", optional:true);
                     TagCheckNumber ("DISCNUMBER", true);
                     TagCheckNumber ("DISCTOTAL", true);
                     TagCheckDate ("DATE");
-                    TagCheckDate ("RELEASE DATE", true);
+                    TagCheckDate ("RELEASE DATE", optional:true);
                     TagCheckDate ("ORIGINAL RELEASE DATE", true);
                     TagCheckText ("TITLE");
                     TagCheckText ("ARTIST");
                     TagCheckText ("ALBUM");
-                    TagCheckText ("ALBUMARTIST", true);
+                    TagCheckText ("ALBUMARTIST", optional:true);
                     TagCheckText ("ALBUMARTISTSORTORDER", true);
                     TagCheckText ("ORGANIZATION", true);
                     TagCheckText ("BARCODE", true);

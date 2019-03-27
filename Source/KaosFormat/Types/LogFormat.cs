@@ -95,9 +95,9 @@ namespace KaosFormat
                         }
                     }
                     if (warns.Length > 0)
-                        IssueModel.Add ("Tag issues on track" + warns + ".", Severity.Warning);
+                        IssueModel.Add ($"Tag issues on track{warns}.", Severity.Warning);
                     if (errs.Length > 0)
-                        IssueModel.Add ("Tag issues on track" + errs + ".", Severity.Error);
+                        IssueModel.Add ($"Tag issues on track{errs}.", Severity.Error);
 
                     baddest = flacs.Max (tk => tk.Issues.MaxSeverity);
                     if (flacs.Count != flacs.Where (tk => tk.ActualAudioBlockCRC16 != null).Count())
@@ -124,8 +124,6 @@ namespace KaosFormat
                         IssueModel.Add (GetMessage (Severity.Error));
                     else if (baddestOfMp3s == Severity.Warning)
                         IssueModel.Add (GetMessage (Severity.Warning));
-                    //if (baddest < baddestOfMp3s)
-                    //    baddest = baddestOfMp3s;
                 }
 
                 if (baddest < IssueModel.Data.MaxSeverity)
@@ -262,7 +260,7 @@ namespace KaosFormat
                 if (AccurateRipConfidence == null) return "not attempted";
                 if (AccurateRipConfidence.Value < 0) return "failed";
                 if (AccurateRipConfidence.Value == 0) return "data not present";
-                return "confidence " + AccurateRipConfidence.Value + " (v" + AccurateRip + ")";
+                return $"confidence {AccurateRipConfidence.Value} (v{AccurateRip})";
             }
         }
     }

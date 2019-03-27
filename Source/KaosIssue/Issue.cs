@@ -84,7 +84,7 @@ namespace KaosIssue
                     else
                     {
                         Data.RepairableCount = 0;
-                        foreach (var item in Data.items)
+                        foreach (Issue item in Data.items)
                             if (item.Repairer != null && item.IsRepairSuccessful == null)
                                 item.RaisePropertyChanged (null);
                     }
@@ -108,7 +108,7 @@ namespace KaosIssue
             public bool HasError => MaxSeverity >= Severity.Error;
             public bool HasFatal => MaxSeverity >= Severity.Fatal;
 
-            private Vector (IssueTags warnEscalator = IssueTags.None, IssueTags errEscalator=IssueTags.None)
+            private Vector (IssueTags warnEscalator=IssueTags.None, IssueTags errEscalator=IssueTags.None)
             {
                 this.items = new ObservableCollection<Issue>();
                 this.Items = new ReadOnlyObservableCollection<Issue> (this.items);
