@@ -241,7 +241,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Filebert"
         "ProductCode" = "8:{8B49EA9A-B4E6-40E5-B1F2-43B148153365}"
-        "PackageCode" = "8:{57D2A3CD-8CA3-4007-A653-A3B284F6903D}"
+        "PackageCode" = "8:{49304E62-66D6-4585-B1A0-F7CA9321A7E7}"
         "UpgradeCode" = "8:{74E5A7D7-99FC-4D68-B4B9-935D9F83B166}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1039,7 +1039,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:Verbose: Throw in some noise"
+                            "Value" = "8:Verbose: Include trivia too"
                             "DefaultValue" = "8:#1224"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1104,7 +1104,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:/s:Lucid"
+                            "Value" = "8:/s:Verbose"
                             "DefaultValue" = "8:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
