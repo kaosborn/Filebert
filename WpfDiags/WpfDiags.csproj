@@ -187,6 +187,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors.cs" />
     <Compile Include="Controls\ApeControl.xaml.cs">
       <DependentUpon>ApeControl.xaml</DependentUpon>
     </Compile>

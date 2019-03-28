@@ -9,6 +9,7 @@
         xmlns:issue="clr-namespace:KaosIssue"
         mc:Ignorable="d"
         Title="Filebert" Height="640" Width="640" Style="{DynamicResource darkApp}"
+        app:TagHelpDialogBehavior.TagHelpHits="{Binding TagHelpHits}"
         Loaded="Window_Loaded"
         DataContext="{Binding Path=DiagsPresenter}">
     <Window.TaskbarItemInfo>
@@ -107,8 +108,19 @@
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Count MP3s" IsChecked="{Binding Path=IsMp3RipCheckEnabled, Mode=TwoWay}" ToolTip="by XLD or EAC .log track count"/>
                                 <CheckBox Content="Match FLACs" IsChecked="{Binding Path=IsFlacRipCheckEnabled, Mode=TwoWay}" ToolTip="by XLD or EAC .log track CRC-32"/>
-                                <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}" ToolTip="caustic analysis of metadata"/>
-                                <CheckBox Content="EAC log hash" IsChecked="{Binding Path=IsEacWebCheckEnabled, Mode=TwoWay}" ToolTip="sends EAC .log to http://www.exactaudiocopy.de/log/check.aspx"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Content="FLAC tags" IsChecked="{Binding Path=IsFlacTagsCheckEnabled, Mode=TwoWay}" ToolTip="caustic analysis of metadata"/>
+                                    <TextBlock Text="?" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Grid.Column="1" Margin="3,-1,0,0" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Command="{Binding DoTagHelp}" MouseAction="LeftClick"/>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </Grid>
+                                <CheckBox Content="EAC log hash" IsChecked="{Binding IsEacWebCheckEnabled}" ToolTip="sends EAC .log to http://www.exactaudiocopy.de/log/check.aspx"/>
                             </WrapPanel>
                         </WrapPanel>
                     </GroupBox>

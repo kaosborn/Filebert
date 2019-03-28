@@ -289,6 +289,17 @@ namespace AppViewModel
         public TabInfo TabSha256 { get; private set; }
         public TabInfo TabWav { get; private set; }
 
+        private int tagHelpHits=0;
+        public int TagHelpHits
+        {
+            get => tagHelpHits;
+            set
+            {
+                tagHelpHits = value;
+                RaisePropertyChanged (nameof (TagHelpHits));
+            }
+        }
+
         private double progressFactor = 0;
         public double ProgressFactor
         {
@@ -392,6 +403,7 @@ namespace AppViewModel
 
         public ICommand DoBrowse { get; private set; }
         public ICommand DoCheck { get; private set; }
+        public ICommand DoTagHelp { get; private set; }
         public ICommand NavFirst { get; private set; }
         public ICommand NavLast { get; private set; }
         public ICommand NavPrev { get; private set; }
@@ -421,6 +433,7 @@ namespace AppViewModel
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());
+            DoTagHelp = new RelayCommand (() => ++TagHelpHits);
             NavFirst = new RelayCommand (() => model.GetFirst());
             NavLast = new RelayCommand (() => model.GetLast());
             NavPrev = new RelayCommand (() => model.GetPrev());
