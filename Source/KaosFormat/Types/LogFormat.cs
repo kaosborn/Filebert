@@ -106,8 +106,12 @@ namespace KaosFormat
                     TracksModel.MatchFlacs (flacs);
                     if (TracksModel.Data.RipMismatchCount != 0)
                         Data.MhIssue = IssueModel.Add ("Log CRC-32 match to FLAC PCM CRC-32 failed.", Severity.Error, IssueTags.Failure);
-                    else if (checkTags)
-                        CheckFlacRipTags (flacs);
+                    else
+                    {
+                        Data.MhIssue = IssueModel.Add ("Log/FLAC CRC-32s match for all tracks.", Severity.Trivia);
+                        if (checkTags)
+                            CheckFlacRipTags (flacs);
+                    }
                 }
             }
 
@@ -192,7 +196,7 @@ namespace KaosFormat
                     if (int.TryParse (trackTagCapture, out int trackNum))
                     {
                         if (prevTrackNum >= 0 && trackNum != prevTrackNum + 1)
-                            IssueModel.Add ($"Gap in TRACKNUMBER tags near '{trackTag}'.");
+                            IssueModel.Add ($"Gap in TRACKNUMBER tags near '{trackTag}'.", Severity.Error, IssueTags.BadTag);
                         prevTrackNum = trackNum;
                     }
                 }
