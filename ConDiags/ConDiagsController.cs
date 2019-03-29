@@ -252,39 +252,36 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/strict] [/flacrip] [/mp3rip] [/webcheck] [/f:<wildcard>] [/x:<exclusion>] [/out:<mirror>] [/p:<counter>] [/k] <fileOrFolder>");
+            Console.WriteLine ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/webcheck] [/strict] [/f:<wildcard>] [/x:<exclusion>] [/out:<mirror>] [/p:<counter>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
-            Console.WriteLine("Where <fileOrFolder> is a file or folder name without wildcards.");
-            Console.WriteLine();
-
-            Console.Write ("Where <scope> from");
+            Console.Write ("where <scope> is one from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
                 Console.Write (" " + name);
             Console.WriteLine();
 
-            Console.WriteLine();
-            Console.Write ("Where <hashes> is list of");
+            Console.Write ("where <hashes> is list from");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
                 if (name[0] != '_')
                     Console.Write (" " + name);
             Console.WriteLine();
 
-            Console.WriteLine();
-            Console.Write ("Where <validations> is list of");
+            Console.Write ("where <validations> is list from");
             foreach (var name in Enum.GetNames (typeof (Validations)))
                 Console.Write (" " + name);
             Console.WriteLine ();
-            Console.WriteLine ();
-            Console.WriteLine ("Example switches:");
+
+            Console.WriteLine ("where <fileOrFolder> is a file or folder name without wildcards.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /f:*.log to only check files with the .log extension.");
+            Console.WriteLine ("Examples:");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /s:detail to display maximum diagnostics.");
+            Console.WriteLine ("Use /f:* to diagnose files with any extension.");
+            Console.WriteLine ("Use /f:*.log to check only files with the .log extension.");
 
             Console.WriteLine ();
+            Console.WriteLine ("Use /h:0 to disable all hash calculations including CRCs.");
             Console.WriteLine ("Use /h:Intrinsic,FileSHA1 to generate file SHA1 and intrinsic hashes.");
 
             Console.WriteLine ();
@@ -297,7 +294,11 @@ namespace AppController
             Console.WriteLine ("Use /p:0 to suppress the progress counter.");
 
             Console.WriteLine ();
-            Console.WriteLine ("Use /v:0 to only parse digest files and perform no hash validations.");
+            Console.WriteLine ("Use /s:detail to display maximum diagnostics.");
+
+            Console.WriteLine ();
+            Console.WriteLine ("Use /v:0 to parse digest files and perform no validations.");
+            Console.WriteLine ("Use /v:exists,md5,sha1,sha256 to validate all playlists and digests.");
 
             Console.WriteLine ();
             Console.WriteLine ("Use /x:@ to ignore all paths that include the at sign.");
@@ -310,26 +311,23 @@ namespace AppController
                 Console.WriteLine (line);
 
             Console.WriteLine ();
-            Console.WriteLine ("The following file extensions are supported:");
+            Console.WriteLine ("The following file extensions are known:");
             Console.WriteLine (Diags.FormatListText);
         }
 
         private static readonly string[] helpText =
 {
 "This program performs diagnostics on the supplied file or on all eligible",
-"files in the supplied directory and its subdirectories.  Diagnostics may be",
-"extensive or just a simple magic number test.  The most extensive diagnostics",
+"files in the supplied directory and its subdirectories. Diagnostics may be",
+"extensive or just a simple magic number test. The most extensive diagnostics",
 "are performed on .mp3 and .flac files which include CRC verification.",
 "",
-"Some issues may be repaired.  No repairs will be made unless the /R switch is",
-"given *and* each repair is confirmed.  These are the repairable issues:",
+"Some issues may be repaired. No repairs will be made unless the /R switch is",
+"given *and* each repair is confirmed. These are the repairable issues:",
 "1. A phantom .mp3 ID3v1 tag.",
-"2. EAC-induced bug that sometimes creates an .mp3 with a bad ID3v2 tag size.",
+"2. Old EAC bug that sometimes created an .mp3 with a bad ID3v2 tag size.",
 "3. End-of-file watermarks on .avi, .mp4, .mkv files.",
-"4. Incorrect extensions.",
-"",
-"Use the /h switch to generate any combination of hashes or use /h:None to",
-"disable all hash calculations including CRC verifications."
+"4. Incorrect extensions."
 };
     }
 }

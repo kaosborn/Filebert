@@ -49,34 +49,52 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/R] [/s:<scope>] [/h:<hashes>] [/strict] [/flacrip] [/mp3rip] [/webcheck] [/go] [<fileOrFolderName>]");
+            sb.Append ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/webcheck] [/strict] [/f:<wildcard>] [/go] [<fileOrFolder>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
-            sb.Append ("where <scope> from");
+            sb.Append ("where <scope> is one from");
             foreach (var name in Enum.GetNames (typeof (Granularity)))
             { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
-            sb.Append ("where <hashes> from");
+            sb.Append ("where <hashes> is list from");
             foreach (var name in Enum.GetNames (typeof (Hashes)))
                 if (name[0] != '_')
                 { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
-            sb.Append ("where <fileOrFolderName> is a file or folder name without wildcards.");
-            sb.Append (Environment.NewLine);
+            sb.Append ("where <validations> is list from");
+            foreach (var name in Enum.GetNames (typeof (Validations)))
+            { sb.Append (" "); sb.Append (name); }
             sb.Append (Environment.NewLine);
 
+            sb.Append ("where <fileOrFolder> is a file or folder name without wildcards.");
+            sb.Append (Environment.NewLine);
+
+            sb.Append (Environment.NewLine);
             sb.Append ("Examples:");
             sb.Append (Environment.NewLine);
+            sb.Append (Environment.NewLine);
 
+            sb.Append ("Use /h:0 to disable all hash calculations including CRCs.");
+            sb.Append (Environment.NewLine);
             sb.Append ("Use /h:Intrinsic,FileSHA1 to generate file SHA1 and intrinsic hashes.");
             sb.Append (Environment.NewLine);
 
+            sb.Append (Environment.NewLine);
             sb.Append ("Use /f:* to diagnose files with any extension.");
             sb.Append (Environment.NewLine);
+            sb.Append ("Use /f:*.log to check only files with the .log extension.");
+            sb.Append (Environment.NewLine);
 
-            sb.Append ("Use /go T:\\MyFile.ogg to immediately diagnose the supplied file or folder.");
+            sb.Append (Environment.NewLine);
+            sb.Append ("Use /v:0 to parse digest files without performing hash validations.");
+            sb.Append (Environment.NewLine);
+            sb.Append ("Use /v:exists,md5,sha1,sha256 to validate all playlists and digests.");
+            sb.Append (Environment.NewLine);
+
+            sb.Append (Environment.NewLine);
+            sb.Append ("Use /go T:\\MyFile.ogg to immediately diagnose the supplied file.");
             sb.Append (Environment.NewLine);
 
             consoleBox.Text += sb.ToString();
