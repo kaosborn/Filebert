@@ -17,6 +17,7 @@
       <Property Name="DoCopyLValueUpper" Hidden="true" />
       <Property Name="DoCopyRValue" Hidden="true" />
       <Property Name="DoRepair" Hidden="true" />
+      <Property Name="DoTagHelp" Hidden="true" />
       <Property Name="HashToggle" Hidden="true" />
       <Property Name="IsRepairEnabled" Hidden="true" />
       <Property Name="JobCounter" Hidden="true" />
@@ -70,6 +71,8 @@
       <Property Name="TabSha1x" Hidden="true" />
       <Property Name="TabSha256" Hidden="true" />
       <Property Name="TabWav" Hidden="true" />
+      <Field Name="tagHelpHits" Hidden="true" />
+      <Property Name="TagHelpHits" Hidden="true" />
       <Field Name="tiModels" Hidden="true" />
       <Property Name="ValidationToggle" Hidden="true" />
     </Members>
@@ -85,7 +88,7 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>oGgAmqB2GIUgQYgIIAQgQAEQKECAIgIAQQgQkAEiQjA=</HashCode>
+      <HashCode>oGgAmqB2GIUgRYgIIAQgQAEQKECAIgIAQQgQkAEiQjA=</HashCode>
       <FileName>T:\Dev\VS2017\KaosDiags\Source\AppViewModel\DiagsPresenter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -186,7 +189,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAQAEAAAACAIAAAAAAAQAAgAEAgAAAAAAAAEAgAAAAg=</HashCode>
+      <HashCode>AAQAEAAAADAIAAAAAAAQAAgAEAgAAAAAAAAEAgAAAAg=</HashCode>
       <FileName>WpfDiagsView.xaml.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
