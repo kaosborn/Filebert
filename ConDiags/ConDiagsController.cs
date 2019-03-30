@@ -176,6 +176,8 @@ namespace AppController
                     model.Data.IsMp3RipCheckEnabled = true;
                     argOk = true;
                 }
+                else if (args[ix] == "/tags")
+                    argOk = model.Data.IsFlacTagsCheckEnabled = true;
                 else if (args[ix] == "/webcheck")
                 {
                     model.Data.IsEacWebCheckEnabled = true;
@@ -252,7 +254,7 @@ namespace AppController
             Console.WriteLine ($"{ProductText} v{VersionText}");
             Console.WriteLine ();
             Console.WriteLine ("Usage:");
-            Console.WriteLine ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/webcheck] [/strict] [/f:<wildcard>] [/x:<exclusion>] [/out:<mirror>] [/p:<counter>] [/k] <fileOrFolder>");
+            Console.WriteLine ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/tags] [/webcheck] [/strict] [/f:<wildcard>] [/x:<exclusion>] [/out:<mirror>] [/p:<counter>] [/k] <fileOrFolder>");
 
             Console.WriteLine();
             Console.Write ("where <scope> is one from");

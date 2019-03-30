@@ -49,7 +49,7 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/webcheck] [/strict] [/f:<wildcard>] [/go] [<fileOrFolder>]");
+            sb.Append ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/tags] [/webcheck] [/strict] [/f:<wildcard>] [/go] [<fileOrFolder>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
             sb.Append ("where <scope> is one from");
@@ -156,6 +156,8 @@ namespace AppView
                     viewModel.IsMp3RipCheckEnabled = true;
                     argOk = true;
                 }
+                else if (args[ix] == "/tags")
+                    argOk = viewModel.IsFlacTagsCheckEnabled = true;
                 else if (args[ix] == "/webcheck")
                 {
                     viewModel.IsEacWebCheckEnabled = true;
