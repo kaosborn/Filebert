@@ -97,22 +97,26 @@ namespace AppView
             sb.Append ("Use /go T:\\MyFile.ogg to immediately diagnose the supplied file.");
             sb.Append (Environment.NewLine);
 
+            sb.Append (Environment.NewLine);
+            sb.Append ("Use /? to show this help.");
+            sb.Append (Environment.NewLine);
+            sb.Append (Environment.NewLine);
+
             consoleBox.Text += sb.ToString();
         }
 
         private int ParseArgs()
         {
-            if (args.Length > 0 && (args[0]=="/?" || args[0]=="/help" || args[0]=="-?" || args[0]=="-help"))
-            {
-                ShowUsage();
-                return (int) Severity.Noise;
-            }
-
             for (int ix = 0; ix < args.Length; ++ix)
             {
                 bool argOk = false;
 
-                if (args[ix] == "/R")
+                if (args[ix] == "/?")
+                {
+                    ShowUsage();
+                    argOk = true;
+                }
+                else if (args[ix] == "/R")
                 {
                     viewModel.IsRepairEnabled = true;
                     argOk = true;
