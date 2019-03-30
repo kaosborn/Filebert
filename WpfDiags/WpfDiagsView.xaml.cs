@@ -189,9 +189,9 @@ namespace AppView
             var presenterModel = new DiagsPresenter.Model (this);
             viewModel = presenterModel.ViewModel;
             ParseArgs();
-            DataContext = viewModel;
 
-            if (isImmediate && ! String.IsNullOrWhiteSpace (viewModel.Root))
+            DataContext = viewModel;
+            if (isImmediate)
                 presenterModel.Parse();
         }
     }

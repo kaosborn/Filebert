@@ -197,10 +197,13 @@ namespace AppViewModel
 
             public void Parse()
             {
-                var bg = new BackgroundWorker();
-                bg.DoWork += Job;
-                bg.RunWorkerCompleted += JobCompleted;
-                bg.RunWorkerAsync();
+                if (! String.IsNullOrWhiteSpace (ViewModel.Root))
+                {
+                    var bg = new BackgroundWorker();
+                    bg.DoWork += Job;
+                    bg.RunWorkerCompleted += JobCompleted;
+                    bg.RunWorkerAsync();
+                }
             }
 
             int newTabInfoIx, newTabInfoFmtIx;
