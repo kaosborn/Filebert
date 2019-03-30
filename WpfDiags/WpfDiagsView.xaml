@@ -95,7 +95,7 @@
                         <WrapPanel>
                             <WrapPanel Orientation="Vertical">
                                 <CheckBox Content="Exists" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.Exists}}" ToolTip="for .cue, .m3u, .m3u8 files"/>
-                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" ToolTip="for .md5 file"/>
+                                <CheckBox Content="MD5" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.MD5}}" ToolTip="for .md5 files"/>
                                 <CheckBox Content="SHA1" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA1}}" ToolTip="for .sha1, .sha1x files"/>
                                 <CheckBox Content="SHA256" IsChecked="{Binding Path=ValidationToggle, Converter={StaticResource validationToggle}, ConverterParameter={x:Static format:Validations.SHA256}}" ToolTip="for .sha256 files"/>
                             </WrapPanel>
