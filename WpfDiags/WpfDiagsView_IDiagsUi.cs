@@ -46,10 +46,10 @@ namespace AppView
                 if (viewModel.ConsoleLinesReported > 0)
                     if (viewModel.Scope == Granularity.Detail)
                         consoleBox.AppendText (Environment.NewLine + KaosDiags.Diags.MinorSeparator + Environment.NewLine);
-                    else if (!viewModel.IsDigestForm)
+                    else if (! viewModel.IsDigestForm)
                         consoleBox.AppendText (Environment.NewLine);
 
-                if (!viewModel.IsDirShown)
+                if (! viewModel.IsDirShown)
                 {
                     viewModel.IsDirShown = true;
 
@@ -65,7 +65,7 @@ namespace AppView
                     consoleBox.AppendText (Environment.NewLine);
                 }
 
-                if (!viewModel.IsDigestForm)
+                if (! viewModel.IsDigestForm)
                 {
                     consoleBox.AppendText (viewModel.CurrentFile);
                     consoleBox.AppendText (Environment.NewLine);
