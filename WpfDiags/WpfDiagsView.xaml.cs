@@ -49,7 +49,7 @@ namespace AppView
             string exe = System.Diagnostics.Process.GetCurrentProcess().ProcessName;
 
             sb.Append (Environment.NewLine + "Usage:" + Environment.NewLine);
-            sb.Append ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/tags] [/webcheck] [/strict] [/f:<wildcard>] [/go] [<fileOrFolder>]");
+            sb.Append ($"{exe} [/s:<scope>] [/h:<hashes>] [/v:<validations>] [/R] [/flacrip] [/mp3rip] [/tags] [/webcheck] [/strict] [/f:<wildcard>] [/check] [<fileOrFolder>]");
             sb.Append (Environment.NewLine + Environment.NewLine);
 
             sb.Append ("where <scope> is one from");
@@ -84,7 +84,7 @@ namespace AppView
             sb.Append (Environment.NewLine);
             sb.Append ("Use /f:* to diagnose files with any extension.");
             sb.Append (Environment.NewLine);
-            sb.Append ("Use /f:*.log to check only files with the .log extension.");
+            sb.Append ("Use /f:*.log to diagnose files with the .log extension only.");
             sb.Append (Environment.NewLine);
 
             sb.Append (Environment.NewLine);
@@ -94,7 +94,7 @@ namespace AppView
             sb.Append (Environment.NewLine);
 
             sb.Append (Environment.NewLine);
-            sb.Append ("Use /go T:\\MyFile.ogg to immediately diagnose the supplied file.");
+            sb.Append ("Use /check T:\\MyFile.ogg to immediately diagnose the supplied file.");
             sb.Append (Environment.NewLine);
 
             sb.Append (Environment.NewLine);
@@ -163,7 +163,7 @@ namespace AppView
                     viewModel.IsEacWebCheckEnabled = true;
                     argOk = true;
                 }
-                else if (args[ix] == "/go")
+                else if (args[ix] == "/check")
                     argOk = isImmediate = true;
                 else if (ix == args.Length - 1)
                 {
