@@ -200,7 +200,6 @@
     <Compile Include="Controls\CueControl.xaml.cs">
       <DependentUpon>CueControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Extender.cs" />
     <Compile Include="Controls\FileHeaderControl.xaml.cs">
       <DependentUpon>FileHeaderControl.xaml</DependentUpon>
     </Compile>
