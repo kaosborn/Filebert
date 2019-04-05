@@ -221,7 +221,7 @@
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.ColumnSpan="2">
                         <StackPanel>
-                            <Label Content="Report" Margin="6,6,0,0"/>
+                            <Label Content="Scope" Margin="6,6,0,0"/>
                             <RadioButton Content="Quiet" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Quiet}}" ToolTip="errors only"/>
                             <RadioButton Content="Terse" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Terse}}" ToolTip="warnings and errors only"/>
                             <RadioButton Content="Lucid" Margin="3,0,0,0" IsChecked="{Binding Path=Scope, Converter={StaticResource compConverter}, ConverterParameter={x:Static issue:Granularity.Lucid}}" ToolTip="includes advisories"/>
