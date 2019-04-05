@@ -5,7 +5,7 @@ namespace KaosSysIo
 {
     public class DirTraverser : IEnumerable<string>
     {
-        private string[] dirs;
+        private readonly string[] dirs;
         private int index;
 
         public DirTraverser (string root)

@@ -159,10 +159,7 @@ namespace AppView
                 else if (args[ix] == "/tags")
                     argOk = viewModel.IsFlacTagsCheckEnabled = true;
                 else if (args[ix] == "/webcheck")
-                {
-                    viewModel.IsEacWebCheckEnabled = true;
-                    argOk = true;
-                }
+                    argOk = viewModel.IsEacWebCheckEnabled = true;
                 else if (args[ix] == "/check")
                     argOk = isImmediate = true;
                 else if (ix == args.Length - 1)

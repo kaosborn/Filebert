@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
@@ -8,16 +7,12 @@ namespace AppView
     public static class TagHelpDialogBehavior
     {
         public static readonly DependencyProperty TagHelpHitsProperty = DependencyProperty.RegisterAttached
-            ("TagHelpHits",
-            typeof (int),
-            typeof (TagHelpDialogBehavior),
-            new PropertyMetadata (default (int), OnTagHelpHitsChange));
+        ("TagHelpHits", typeof (int), typeof (TagHelpDialogBehavior), new PropertyMetadata (default (int), OnTagHelpHitsChange));
 
         public static void SetTagHelpHits (DependencyObject source, int value)
          => source.SetValue (TagHelpHitsProperty, value);
 
-        public static int GetTagHelpHits
-            (DependencyObject source)
+        public static int GetTagHelpHits (DependencyObject source)
          => (int) source.GetValue (TagHelpHitsProperty);
 
         private static readonly string helpText = @"TRACKNUMBER
