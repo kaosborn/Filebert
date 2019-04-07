@@ -26,10 +26,16 @@ These are the top-level folders:
 
 * `ConDiags` - Builds the console front end.
 * `Harness400` - Builds the domain. For test and development only.
-* `Install` - Builds `Filebert.msi` installer for all tools.
-* `Source` - C# shared libraries.
-* `TestFull` - A woefully short set of unit tests. Code coverage is pitiful.
-* `WpfDiags` - Builds the GUI front end.
+* `Install` - Builds the `Filebert.msi` installer.
+* `Source` - Shared projects by namespace.
+* `TestFull` - MSTest unit tests with mock. Code coverage is pitiful.
+* `WpfDiags` - Builds the WPF front end.
+
+## Build requirements
+
+* Visual Studio Community 2019 (or 2017) including .NET Framework 4 tools.
+* Microsoft Visual Studio Installer Projects extension.
+* Release configuration, F6 key.
 
 For additional developer notes:
 
