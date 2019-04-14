@@ -128,7 +128,7 @@ namespace AppView
                     if (argOk)
                         viewModel.Scope = arg;
                 }
-                if (args[ix].StartsWith ("/h:"))
+                else if (args[ix].StartsWith ("/h:"))
                 {
                     argOk = Enum.TryParse<Hashes> (args[ix].Substring (3), true, out Hashes arg);
                     argOk = argOk && arg == (arg & (Hashes._FlacMatch - 1));
