@@ -288,27 +288,35 @@ namespace KaosDiags
             {
                 Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
 
-                // Now bubble .log files down.
-                int logCount = fileInfos.Count (fi => fi.Name.EndsWith (".log"));
-                if (logCount > 0 && (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled))
+                // Check folder-level rip files last.
+                moveAllToEnd (".cue");
+                return moveAllToEnd (".log");
+
+                int moveAllToEnd (string extension)
                 {
-                    int toSwap = logCount;
-                    int dest = fileInfos.Length - 1;
-                    for (int ix = dest; ix >= 0; --ix)
-                        if (fileInfos[ix].Name.EndsWith (".log"))
+                    int pivot;
+                    for (pivot = fileInfos.Length; pivot > 0; --pivot)
+                        if (! fileInfos[pivot - 1].Name.EndsWith (extension))
+                            break;
+
+                    for (int ix = 0; ix < pivot; ++ix)
+                        if (fileInfos[ix].Name.EndsWith (extension))
                         {
-                            if (ix != dest)
-                            {
-                                FileInfo temp = fileInfos[ix];
-                                fileInfos[ix] = fileInfos[dest];
-                                fileInfos[dest] = temp;
-                            }
-                            if (--toSwap <= 0)
-                                break;
-                            --dest;
+                            FileInfo temp = fileInfos[ix];
+                            for (int iy = ix+1; iy < pivot; ++iy)
+                                if (fileInfos[iy].Name.EndsWith (extension))
+                                {
+                                    fileInfos[iy-1] = temp;
+                                    temp = fileInfos[iy];
+                                }
+                                else
+                                    fileInfos[iy-1] = fileInfos[iy];
+                            --pivot;
+                            fileInfos[pivot] = temp;
                         }
+
+                    return fileInfos.Length - pivot;
                 }
-                return logCount;
             }
 
             private string shownDir=null, shownFile=null;
