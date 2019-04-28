@@ -349,7 +349,7 @@ namespace KaosFormat
                     if (block.BlockType == FlacBlockType.Padding || block.BlockType == FlacBlockType.Picture)
                         picPlusPadSize += block.Size;
 
-                if (picPlusPadSize > 512*1024)
+                if (picPlusPadSize > 1024*1024)
                     IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.StrictErr);
             }
 
