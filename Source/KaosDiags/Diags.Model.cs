@@ -135,7 +135,9 @@ namespace KaosDiags
                     {
                         FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                         Stream fs = new FileStream (Data.Root, FileMode.Open, xs, FileShare.Read);
-                        fmtModel = CheckFile (fs, Data.Root, Data.HashFlags & ~ Hashes._FlacMatch, out Severity result);
+                        fmtModel = CheckFile (fs, Data.Root, Data.HashFlags & ~ Hashes._FlacMatch, out FileFormat trueFormat, out Severity result);
+                        if (result < Severity.Error)
+                            TryRepairs (fmtModel, trueFormat);
                         Data.Result = result;
                     }
                     catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
@@ -173,32 +175,35 @@ namespace KaosDiags
                             // Many exceptions also caught by outer caller:
                             FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                             Stream fs = new FileStream (fInfo.FullName, FileMode.Open, xs, FileShare.Read);
-                            fmtModel = CheckFile (fs, fInfo.FullName, hFlags, out Severity badness);
+                            fmtModel = CheckFile (fs, fInfo.FullName, hFlags, out FileFormat trueFormat, out Severity badness);
 
-                            if (fmtModel is FlacFormat.Model flacModel)
+                            if (fmtModel != null)
                             {
-                                if (logCount == 0)
-                                    flacModel.IssueModel.Add ("Found .flac file without .log file in same folder.", Severity.Noise, IssueTags.StrictErr);
-                                flacs.Add (flacModel.Data);
-                                ReportIssues (flacModel.Data.Issues);
-                            }
-                            else if (fmtModel is Mp3Format.Model mp3Model)
-                                mp3s.Add (mp3Model.Data);
-                            else if (fmtModel is LogFormat.Model logModel)
-                                if (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled)
+                                if (fmtModel is FlacFormat.Model flacModel)
                                 {
-                                    if (logCount > 1)
-                                        logModel.SetRpIssue ("Folder contains more than one .log file.");
-                                    else if (flacs.Count > 0 && mp3s.Count > 0)
-                                        logModel.SetRpIssue ("Folder contains both .flac and .mp3 files.");
-                                    else if (! Data.IsMp3RipCheckEnabled || Data.IsFlacRipCheckEnabled && flacs.Count > 0)
-                                        logModel.ValidateRip (flacs, Data.IsFlacTagsCheckEnabled);
-                                    else
-                                        logModel.ValidateRip (mp3s);
-                                    ReportIssues (logModel.Data.Issues);
+                                    if (logCount == 0)
+                                        flacModel.IssueModel.Add ("Found .flac file without .log file in same folder.", Severity.Noise, IssueTags.StrictErr);
+                                    flacs.Add (flacModel.Data);
                                 }
+                                else if (fmtModel is Mp3Format.Model mp3Model)
+                                    mp3s.Add (mp3Model.Data);
+                                else if (fmtModel is CueFormat.Model cueModel)
+                                    cueModel.Validate (flacs);
+                                else if (fmtModel is LogFormat.Model logModel)
+                                    if (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled)
+                                        if (logCount > 1)
+                                            logModel.SetRpIssue ("Folder contains more than one .log file.");
+                                        else if (flacs.Count > 0 && mp3s.Count > 0)
+                                            logModel.SetRpIssue ("Folder contains both .flac and .mp3 files.");
+                                        else if (! Data.IsMp3RipCheckEnabled || Data.IsFlacRipCheckEnabled && flacs.Count > 0)
+                                            logModel.ValidateRip (flacs, Data.IsFlacTagsCheckEnabled);
+                                        else
+                                            logModel.ValidateRip (mp3s);
 
-                            if (badness > Data.Result)
+                                ReportIssues (fmtModel.Data.Issues);
+                                TryRepairs (fmtModel, trueFormat);
+                            }
+                            if (Data.Result < badness)
                                 Data.Result = badness;
                         }
                         catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
@@ -213,15 +218,13 @@ namespace KaosDiags
                 }
             }
 
-            private FormatBase.Model CheckFile (Stream stream, string path, Hashes hashFlags, out Severity resultCode)
+            private FormatBase.Model CheckFile (Stream stream, string path, Hashes hashFlags, out FileFormat trueFormat, out Severity resultCode)
             {
-                bool isKnownExtension;
-                FileFormat trueFormat;
                 FormatBase.Model fmtModel = null;
                 try
                 {
                     fmtModel = FormatBase.Model.Create (stream, path, hashFlags, Data.ValidationFlags,
-                                                        Data.Filter, out isKnownExtension, out trueFormat);
+                                                        Data.Filter, out bool isKnownExtension, out trueFormat);
                 }
 #pragma warning disable 0168
                 catch (Exception ex)
@@ -232,6 +235,7 @@ namespace KaosDiags
 #else
                     Data.OnMessageSend ("Exception: " + ex.Message.TrimEnd (null), Severity.Fatal);
                     ++Data.TotalErrors;
+                    trueFormat = null;
                     resultCode = Severity.Fatal;
                     return null;
 #endif
@@ -246,6 +250,7 @@ namespace KaosDiags
                             Data.OnMessageSend ("; " + Data.CurrentFile, Severity.NoIssue);
                         Data.OnMessageSend ("Unknown extension ignored.", Severity.Trivia);
                     }
+                    stream.Dispose();
                     resultCode = Severity.NoIssue;
                     return null;
                 }
@@ -264,24 +269,37 @@ namespace KaosDiags
 
                 fmtModel.IssueModel.Escalate (Data.WarnEscalator, Data.ErrEscalator);
                 ReportFormat (fmt);
-
-                if (! fmt.Issues.HasError)
-                {
-                    int startRepairableCount = fmt.Issues.RepairableCount;
-                    if (startRepairableCount > 0)
-                    {
-                        ++Data.TotalRepairable;
-                        var didRename = RepairFile (fmtModel);
-                        if (didRename)
-                            --trueFormat.TotalMisnamed;
-                        if (fmt.Issues.RepairableCount == 0)
-                            --Data.TotalRepairable;
-                        Data.TotalRepairs += startRepairableCount - fmt.Issues.RepairableCount;
-                    }
-                }
-
                 resultCode = fmt.Issues.MaxSeverity;
                 return fmtModel;
+            }
+
+            private void TryRepairs (FormatBase.Model fmtModel, FileFormat trueFormat)
+            {
+                if (! fmtModel.IssueModel.Data.HasError)
+                {
+                    int startRepairableCount = fmtModel.IssueModel.Data.RepairableCount;
+                    if (startRepairableCount != 0)
+                        if (Data.Response == Interaction.PromptToRepair)
+                        {
+                            ++Data.TotalRepairable;
+                            bool didRename = RepairFile (fmtModel);
+                            if (didRename)
+                            {
+                                System.Diagnostics.Debug.Assert (trueFormat != null);
+                                if (trueFormat != null)
+                                    --trueFormat.TotalMisnamed;
+                            }
+
+                            if (fmtModel.IssueModel.Data.RepairableCount == 0)
+                                --Data.TotalRepairable;
+                            Data.TotalRepairs += startRepairableCount - fmtModel.IssueModel.Data.RepairableCount;
+                        }
+                        else if (Data.Response == Interaction.RepairLater)
+                            // Keep file open.
+                            return;
+                }
+
+                fmtModel.CloseFile();
             }
 
             private int SortDir (FileInfo[] fileInfos)

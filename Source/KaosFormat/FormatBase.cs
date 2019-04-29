@@ -69,105 +69,84 @@ namespace KaosFormat
                 ext = ext.Substring(1).ToLower();
 
                 var hdr = new byte[0x2C];
+                fs0.Read (hdr, 0, hdr.Length);
 
-                try
+                using (var scan = KaosDiags.Diags.FileFormats.Items.GetEnumerator())
                 {
-                    // Max size of first read is kinda arbitrary.
-                    fs0.Read (hdr, 0, hdr.Length);
-
-                    using (var scan = KaosDiags.Diags.FileFormats.Items.GetEnumerator())
+                    for (FileFormat other = null;;)
                     {
-                        for (FileFormat other = null;;)
+                        if (scan.MoveNext())
                         {
-                            if (scan.MoveNext())
+                            if (scan.Current.Names.Contains (ext))
                             {
-                                if (scan.Current.Names.Contains (ext))
+                                isKnown = true;
+                                if (scan.Current.Subname != null && scan.Current.Subname[0] == '*')
+                                    other = scan.Current;
+                                else
                                 {
-                                    isKnown = true;
-                                    if (scan.Current.Subname != null && scan.Current.Subname[0] == '*')
-                                        other = scan.Current;
-                                    else
+                                    model = scan.Current.ModelFactory (fs0, hdr, path);
+                                    if (model != null)
                                     {
-                                        model = scan.Current.ModelFactory (fs0, hdr, path);
-                                        if (model != null)
-                                        {
-                                            actual = scan.Current;
-                                            break;
-                                        }
+                                        actual = scan.Current;
+                                        break;
                                     }
                                 }
-                                continue;
                             }
+                            continue;
+                        }
 
-                            if (! isKnown && filter == null)
+                        if (! isKnown && filter == null)
+                            return null;
+
+                        if (other != null)
+                        {
+                            actual = other;
+                            if (other.Subname[0] == '*')
                                 return null;
-
-                            if (other != null)
-                            {
-                                actual = other;
-                                if (other.Subname[0] == '*')
-                                    return null;
-                                model = other.ModelFactory (fs0, hdr, path);
-                                break;
-                            }
-
-                            scan.Reset();
-                            do
-                            {
-                                if (! scan.MoveNext())
-                                {
-                                    var result = new UnknownFormat.Model (fs0, path);
-                                    result.CalcHashes (hashFlags, validationFlags);
-                                    return result;
-                                }
-                                if (scan.Current.Names.Contains (ext))
-                                    continue;
-                                model = scan.Current.ModelFactory (fs0, hdr, path);
-                            }
-                            while (model == null);
-
-                            actual = scan.Current;
-                            isKnown = true;
-                            isMisname = true;
+                            model = other.ModelFactory (fs0, hdr, path);
                             break;
                         }
-                    }
 
-                    if (model != null)
-                    {
-                        FormatBase fmt = model.Data;
-                        if (! fmt.Issues.HasFatal)
+                        scan.Reset();
+                        do
                         {
-                            if (fmt.mediaPosition < 0)
+                            if (! scan.MoveNext())
                             {
-                                fmt.mediaPosition = 0;
-                                fmt.MediaCount = fmt.FileSize;
+                                var result = new UnknownFormat.Model (fs0, path);
+                                result.CalcHashes (hashFlags, validationFlags);
+                                return result;
                             }
-
-                            model.CalcHashes (hashFlags, validationFlags);
-
-                            if (isMisname)
-                            {
-                                // This repair goes last because it must close the file.
-                                ++actual.TotalMisnamed;
-                                fmt.FfIssue = model.IssueModel.Add
-                                    ($"True file format is .{actual.PrimaryName}.", Severity.Warning, 0,
-                                      "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, isFinalRepairer:true);
-                            }
+                            if (scan.Current.Names.Contains (ext))
+                                continue;
+                            model = scan.Current.ModelFactory (fs0, hdr, path);
                         }
+                        while (model == null);
 
-                        if (fs0.CanWrite && ! fmt.Issues.HasError && fmt.Issues.RepairableCount > 0)
-                            fs0 = null;  // Keeps it open.
-                        fmt.fBuf = null;
+                        actual = scan.Current;
+                        isKnown = true;
+                        isMisname = true;
+                        break;
                     }
                 }
-                finally
+
+                FormatBase fmt = model.Data;
+                if (! fmt.Issues.HasFatal)
                 {
-                    if (fs0 != null)
+                    if (fmt.mediaPosition < 0)
                     {
-                        if (model != null)
-                            model.Data.fbs = null;
-                        fs0.Dispose();
+                        fmt.mediaPosition = 0;
+                        fmt.MediaCount = fmt.FileSize;
+                    }
+
+                    model.CalcHashes (hashFlags, validationFlags);
+
+                    if (isMisname)
+                    {
+                        // This repair goes last because it must close the file.
+                        ++actual.TotalMisnamed;
+                        fmt.FfIssue = model.IssueModel.Add
+                            ($"True file format is .{actual.PrimaryName}.", Severity.Warning, 0,
+                                "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, isFinalRepairer:true);
                     }
                 }
 

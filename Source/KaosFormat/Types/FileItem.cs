@@ -19,6 +19,9 @@ namespace KaosFormat
                 public void Add (string fileName)
                  => Data.items.Add (new FileItem (fileName));
 
+                public void Add1252 (string fileName, int start, int len)
+                 => Data.items.Add (new FileItem (fileName, start, len));
+
                 public void SetName (int index, string fileName)
                  => Data.items[index].Name = fileName;
 
@@ -61,6 +64,10 @@ namespace KaosFormat
             private set { name = value; RaisePropertyChanged (null); }
         }
 
+        public int BufIndex { get; private set; }
+        public int BufLength { get; private set; }
+        public int BufIndex2 => BufIndex + BufLength;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
@@ -68,6 +75,14 @@ namespace KaosFormat
         public FileItem (string name)
         {
             this.Name = name;
+            this.IsFound = null;
+        }
+
+        public FileItem (string name, int bufIndex, int bufLength)
+        {
+            this.Name = name;
+            this.BufIndex = bufIndex;
+            this.BufLength = bufLength;
             this.IsFound = null;
         }
 

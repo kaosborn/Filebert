@@ -39,6 +39,12 @@ namespace KaosFormat
                         FilesModel.Add (lx);
                 }
             }
+
+            public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
+            {
+                base.CalcHashes (hashFlags, validationFlags);
+                GetDiagnostics();
+            }
         }
 
 

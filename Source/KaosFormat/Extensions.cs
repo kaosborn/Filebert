@@ -123,6 +123,15 @@ namespace KaosFormat
             return result;
         }
 
+        public static bool StartsWithAscii (byte[] data, int offset, string val)
+        {
+            if (offset + val.Length >= data.Length)
+                return false;
+            for (int ix = 0; ix < val.Length; ++ix)
+                if (data[offset+ix] != val[ix])
+                    return false;
+            return true;
+        }
 
         public static string ToBitString (byte[] data, int length)
         {

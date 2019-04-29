@@ -28,9 +28,6 @@ namespace KaosFormat
 
                 if ((validationFlags & Validations.Exists) != 0)
                     if (Data.Files.Items.Count != 1 || Data.Files.Items[0].Name != Data.IgnoredName)
-                    {
-                        int notFoundTotal = 0;
-
                         for (int ix = 0; ix < Data.Files.Items.Count; ++ix)
                         {
                             FileItem item = Data.Files.Items[ix];
@@ -51,7 +48,7 @@ namespace KaosFormat
                                 {
                                     IssueModel.Add ($"Malformed file name '{name}': {ex.Message}");
                                     FilesModel.SetIsFound (ix, false);
-                                    ++notFoundTotal;
+                                    ++Data.MissingCount;
                                     continue;
                                 }
 
@@ -60,24 +57,37 @@ namespace KaosFormat
                                 FilesModel.SetIsFound (ix, isFound);
                                 if (! isFound)
                                 {
-                                    IssueModel.Add ($"Missing file '{item.Name}'.");
-                                    ++notFoundTotal;
+                                    IssueModel.Add ($"File '{item.Name}' not found.", Severity.Advisory);
+                                    ++Data.MissingCount;
                                 }
                             }
                         }
 
-                        var sfx = Data.Files.Items.Count == 1 ? String.Empty : "s";
-
-                        var tx = $"Existence check{sfx} of {Data.Files.Items.Count} file{sfx}";
-                        if (notFoundTotal == 0)
-                            tx += " successful.";
-                        else
-                            tx += $" failed with {notFoundTotal} not found.";
-
-                        IssueModel.Add (tx, notFoundTotal == 0 ? Severity.Advisory : Severity.Error);
-                    }
-
                 base.CalcHashes (hashFlags, validationFlags);
+            }
+
+            protected void GetDiagnostics (string repairPrompt=null, Func<bool,string> repairer=null)
+            {
+                Severity sev = Severity.Advisory;
+                IssueTags tag;
+                var sfx = Data.Files.Items.Count == 1 ? String.Empty : "s";
+                var msg = $"Existence check{sfx} of {Data.Files.Items.Count} file{sfx}";
+
+                if (Data.MissingCount == 0)
+                {
+                    msg += " successful.";
+                    tag = IssueTags.Success;
+                    repairPrompt = null;
+                    repairer = null;
+                }
+                else
+                {
+                    msg += $" failed with {Data.MissingCount} not found.";
+                    sev = repairPrompt != null ? Severity.Warning : Severity.Error;
+                    tag = IssueTags.Failure;
+                }
+
+                Data.FcIssue = IssueModel.Add (msg, sev, tag, repairPrompt, repairer);
             }
         }
 
@@ -86,6 +96,9 @@ namespace KaosFormat
         public bool AllowNonFile { get; private set; }
         public bool ForbidRooted { get; private set; }
         public string IgnoredName { get; private set; }
+
+        public int MissingCount { get; private set; }
+        public Issue FcIssue { get; protected set; }
 
         protected FilesContainer (Model model, Stream stream, string path) : base (model, stream, path)
         {

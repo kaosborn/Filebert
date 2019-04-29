@@ -1,7 +1,7 @@
-﻿using System;
+﻿using KaosIssue;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using KaosIssue;
 
 namespace KaosFormat
 {
@@ -23,42 +23,151 @@ namespace KaosFormat
         public new class Model : FilesContainer.Model
         {
             public new readonly CueFormat Data;
+            private readonly byte[] buf1=null;
 
             public Model (Stream stream, string path) : base (path)
             {
                 base._data = Data = new CueFormat (this, stream, path);
-
                 SetIgnoredName ("Range.wav");
-                Data.fbs.Position = 0;
-                TextReader tr = new StreamReader (Data.fbs, FormatBase.Cp1252);
 
-                for (int line = 1; ; ++line)
+                if (Data.FileSize > 512*1024)
                 {
-                    var lx = tr.ReadLine();
-                    if (lx == null)
-                        break;
+                    IssueModel.Add ("Oversized file", Severity.Fatal);
+                    return;
+                }
 
-                    lx = lx.TrimStart();
-                    if (lx.Length == 0)
-                        continue;
+                Data.fBuf = buf1 = new byte[Data.FileSize];
+                Data.fbs.Position = 0;
+                if (Data.fbs.Read (Data.fBuf, 0, (int) Data.FileSize) != Data.FileSize)
+                {
+                    IssueModel.Add ("Read error", Severity.Fatal);
+                    return;
+                }
 
-                    if (lx.StartsWith ("CATALOG "))
+                int fIx=0, fIx1=0, fIx2=0, bIxNS=-1, quoteIx1=-1, quoteIx2=-1;
+                for (int line = 1;;)
+                {
+                    if (fIx < Data.fBuf.Length)
                     {
-                        Data.Catalog = lx.Substring (8).Trim();
+                        byte ch = Data.fBuf[fIx];
+                        ++fIx;
+                        if (ch == (byte) '\r')
+                            fIx2 = fIx < Data.fBuf.Length && Data.fBuf[fIx] == (byte) '\n' ? fIx+1 : fIx;
+                        else if (ch == (byte) '\n')
+                            fIx2 = fIx;
+                        else
+                        {
+                            if (ch == '\"')
+                            {
+                                if (quoteIx1 < 0)
+                                    quoteIx1 = fIx;
+                                else if (quoteIx2 < 0)
+                                    quoteIx2 = fIx-1;
+                            }
+                            else if (bIxNS < 0 && ch != ' ')
+                                bIxNS = fIx-1;
+                            continue;
+                        }
+                    }
+                    else
+                        fIx2 = fIx;
+
+                    if (ConvertTo.StartsWithAscii (Data.fBuf, bIxNS, "CATALOG "))
+                    {
+                        Data.Catalog = FormatBase.Cp1252.GetString (Data.fBuf, bIxNS+8, fIx2-bIxNS-8).Trim (null);
                         if (Data.Catalog.Length != 13)
                             IssueModel.Add ("Invalid CATALOG.");
-                        continue;
+                    }
+                    else if (ConvertTo.StartsWithAscii (Data.fBuf, bIxNS, "FILE "))
+                    {
+                        if (quoteIx2 <= quoteIx1)
+                            IssueModel.Add ("Malformed FILE.");
+                        else
+                        {
+                            string quoted = FormatBase.Cp1252.GetString (Data.fBuf, quoteIx1, quoteIx2 - quoteIx1);
+                            FilesModel.Add1252 (quoted, quoteIx1, quoteIx2-quoteIx1);
+                        }
                     }
 
-                    if (lx.Length > 0 && lx.StartsWith ("FILE "))
-                    {
-                        var name = Data.GetQuotedField (lx, 5);
-                        if (name.Length == 0)
-                            IssueModel.Add ("Missing file name.");
-                        else
-                            FilesModel.Add (name);
-                    }
+                    fIx = fIx1 = bIxNS = fIx2;
+                    quoteIx1 = quoteIx2 = -1;
+                    ++line;
+                    if (fIx >= Data.fBuf.Length)
+                        break;
                 }
+            }
+
+            public void Validate (IList<FlacFormat> flacs)
+            {
+                actualFlacs = flacs;
+
+                if (flacs == null)
+                    GetDiagnostics();
+                else if (flacs.Count == Data.Files.Items.Count)
+                    GetDiagnostics ("Repair bad file reference(s)", RepairMissing);
+                else if (Data.Files.Items.Count != 1)
+                    Data.FcIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac file(s) yet .cue contains {Data.Files.Items.Count} file reference(s).",
+                                                   Severity.Error,
+                                                   IssueTags.Failure);
+            }
+
+            private IList<FlacFormat> actualFlacs = null;
+            public string RepairMissing (bool isFinalRepair)
+            {
+                if (buf1 == null || actualFlacs == null || actualFlacs.Count == 0 || actualFlacs.Count != Data.Files.Items.Count || Data.Issues.MaxSeverity >= Severity.Error)
+                    return "Invalid attempt";
+
+                string err = null;
+
+                int buf2Size = buf1.Length;
+                for (int ix = 0; ix < actualFlacs.Count; ++ix)
+                    buf2Size += actualFlacs[ix].Name.Length - Data.Files.Items[ix].Name.Length;
+                var buf2 = new byte[buf2Size];
+                int bufIx0 = Data.Files.Items[0].BufIndex;
+                int length = bufIx0;
+                Array.Copy (buf1, buf2, bufIx0);
+
+                int dstIx = 0;
+                for (int ix = 0;;)
+                {
+                    dstIx += length;
+                    if (dstIx >= buf2.Length)
+                        break;
+                    byte[] nameBytes = FormatBase.Cp1252.GetBytes (actualFlacs[ix].Name);
+                    Array.Copy (nameBytes, 0, buf2, dstIx, nameBytes.Length);
+                    dstIx += nameBytes.Length;
+
+                    string try1252 = FormatBase.Cp1252.GetString (nameBytes);
+                    if (err == null && try1252 != actualFlacs[ix].Name)
+                        err = "Track file name(s) not Windows-1252 clean.";
+
+                    int srcIx = Data.Files.Items[ix].BufIndex2;
+                    ++ix;
+                    length = (ix == actualFlacs.Count ? buf1.Length : Data.Files.Items[ix].BufIndex) - srcIx;
+                    Array.Copy (buf1, srcIx, buf2, dstIx, length);
+                }
+
+                if (err == null)
+                    try
+                    {
+                        Data.fbs.Position = bufIx0;
+                        Data.fbs.Write (buf2, bufIx0, buf2.Length-bufIx0);
+                        if (Data.fbs.Length != buf2.Length)
+                            Data.fbs.SetLength (buf2.Length);
+
+                        if (isFinalRepair)
+                            CloseFile();
+
+                        for (int ix = 0; ix < Data.Files.Items.Count; ++ix)
+                        {
+                            FilesModel.SetIsFound (ix, true);
+                            FilesModel.SetName (ix, actualFlacs[ix].Name);
+                        }
+                    }
+                    catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
+                    { err = ex.Message.TrimEnd (null); }
+
+                return err;
             }
         }
 
@@ -67,27 +176,6 @@ namespace KaosFormat
 
         private CueFormat (Model model, Stream stream, string path) : base (model, stream, path)
         { }
-
-        public string GetQuotedField (string text, int pos)
-        {
-            do
-            {
-                if (pos >= text.Length)
-                    return String.Empty;
-            }
-            while (text[pos]==' ' || text[pos]=='\t');
-
-            if (text[pos]=='"')
-            {
-                int pos2 = text.IndexOf ('"', pos+1);
-                return text.Substring (pos+1, pos2-pos-1);
-            }
-            else
-            {
-                int pos2 = text.IndexOf (' ', pos+1);
-                return text.Substring (pos, pos2-pos);
-            }
-        }
 
         public override void GetReportDetail (IList<string> report)
         {
