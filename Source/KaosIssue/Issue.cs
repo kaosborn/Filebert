@@ -170,9 +170,9 @@ namespace KaosIssue
                 if (Level >= Severity.Warning)
                     result = $"{Level}: {result}";
                 if (IsRepairSuccessful == true)
-                    result += " (repair successful)";
+                    result += " [Repaired!]";
                 else if (RepairError != null)
-                    result += $" (repair failed: {RepairError})";
+                    result += $" [Repair failed: {RepairError}]";
                 return result;
             }
         }
