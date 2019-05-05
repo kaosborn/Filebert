@@ -62,9 +62,11 @@ namespace TestDiags
             {
                 var track = log.Tracks.Items[ix];
                 var flac = track.Match as FlacFormat;
+
+                Assert.IsNotNull (flac, "Assure flac.exe in PATH.");
+
                 var trackNumTag = flac.GetTagValue ("TRACKNUMBER");
 
-                Assert.IsNotNull (flac);
                 Assert.AreEqual (1, flac.Issues.Items.Count);
                 Assert.AreEqual (Severity.Noise, flac.Issues.MaxSeverity);
                 Assert.AreEqual ((ix+1).ToString(), trackNumTag);
