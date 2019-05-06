@@ -166,10 +166,18 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirst}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&lt;" Command="{Binding NavPrev}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;" Command="{Binding NavNext}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;|" Command="{Binding NavLast}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Command="{Binding NavFirst}" Margin="0">
+                        <Polygon Width="16" Height="16" Points="6,8 13,1 13,15 6,8  6,1 4,1 4,15 6,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavPrev}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="5,8 12,1 12,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavNext}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="12,8 5,1 5,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavLast}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="11,8 4,1 4,15 11,8  11,1 13,1 13,15 11,15" Fill="Black"/>
+                    </Button>
                     <TextBlock Text="{Binding Path=CurrentTabText}" Margin="6,0,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="3,0,3,6">
@@ -182,10 +190,18 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirstError}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&lt;" Command="{Binding NavPrevError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;" Command="{Binding NavNextError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;|" Command="{Binding NavLastError}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Command="{Binding NavFirstError}" Margin="0">
+                        <Polygon Width="16" Height="16" Points="6,8 13,1 13,15 6,8  6,1 4,1 4,15 6,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavPrevError}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="5,8 12,1 12,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavNextError}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="12,8 5,1 5,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavLastError}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="11,8 4,1 4,15 11,8  11,1 13,1 13,15 11,15" Fill="Black"/>
+                    </Button>
                     <TextBlock Text="{Binding Path=TabErrorText}" Foreground="OrangeRed" Margin="6,0,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Margin="3,0,3,6">
@@ -198,10 +214,18 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Button Content="|&lt;" Command="{Binding NavFirstRepair}" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&lt;" Command="{Binding NavPrevRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;" Command="{Binding NavNextRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Button Content="&gt;|" Command="{Binding NavLastRepair}" Margin="3,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Command="{Binding NavFirstRepair}" Margin="0">
+                        <Polygon Width="16" Height="16" Points="6,8 13,1 13,15 6,8  6,1 4,1 4,15 6,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavPrevRepair}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="5,8 12,1 12,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavNextRepair}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="12,8 5,1 5,15" Fill="Black"/>
+                    </Button>
+                    <Button Command="{Binding NavLastRepair}" Margin="3,0,0,0">
+                        <Polygon Width="16" Height="16" Points="11,8 4,1 4,15 11,8  11,1 13,1 13,15 11,15" Fill="Black"/>
+                    </Button>
                     <TextBlock Text="{Binding Path=TabRepairablesText}" Foreground="Violet" Margin="6,0,0,0">
                     </TextBlock>
                 </StackPanel>
@@ -232,7 +256,7 @@
                                 <Button Content=" - " Command="{Binding DoConsoleZoomMinus}" Margin="6,3,3,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
                                 <Button Content=" + " Command="{Binding DoConsoleZoomPlus}" Margin="3,3,6,6" HorizontalAlignment="Center" FontFamily="Lucida Console"/>
                             </StackPanel>
-                            <Button Content=" Clear " Margin="6,6,6,6" Command="{Binding DoConsoleClear}"/>
+                            <Button Content=" Clear " Margin="6,6,6,6" Command="{Binding DoConsoleClear}" HorizontalAlignment="Center"/>
                         </StackPanel>
                         <GroupBox Header="Output">
                             <TextBox x:Name="consoleBox" FontSize="{Binding Path=ConsoleZoom, Mode=TwoWay}">
