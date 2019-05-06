@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestAvi.cs" />
+    <Compile Include="TestCue.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestFlac.cs" />
     <Compile Include="TestGif.cs" />
@@ -89,6 +90,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Hashes\OK02.m3u">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\01 - 4 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\02 - 8 frames of silence.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\03 - 12 frames of silence.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\01 - 4 frames of silence.flac">
@@ -153,6 +163,15 @@
     <None Include="Targets\Hashes\OK03.sha256">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\Cue with 3 files.cue">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\!Cue with 4 files.cue">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Rips\Tester - 2000 - FLAC Repairable\Tester - 2000 - FLAC Silence.log">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Targets\Rips\Tester - 2000 - FLAC Silence Bad1\Tester - 2000 - FLAC Silence Bad1.log">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
