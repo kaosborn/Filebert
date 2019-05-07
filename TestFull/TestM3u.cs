@@ -22,14 +22,16 @@ namespace TestDiags
                 M3uFormat.Model m3uModel = M3uFormat.CreateModel (fs, hdr, fName1);
                 M3uFormat m3u = m3uModel.Data;
 
-                Assert.AreEqual (Severity.NoIssue, m3u.Issues.MaxSeverity);
-                Assert.AreEqual (0, m3u.Issues.Items.Count);
+                m3uModel.CalcHashes (Hashes.None, Validations.Exists);
+
+                Assert.AreEqual (Severity.Advisory, m3u.Issues.MaxSeverity);
+                Assert.AreEqual (1, m3u.Issues.Items.Count);
                 Assert.AreEqual (3, m3u.Files.Items.Count);
 
                 foreach (var item in m3u.Files.Items)
-                    Assert.IsNull (item.IsFound);
-
-                m3uModel.CalcHashes (Hashes.None, Validations.Exists);
+                { 
+                    Assert.IsTrue (item.IsFound == true);
+                }
 
                 Assert.AreEqual (1, m3u.Issues.Items.Count);
                 Assert.AreEqual (Severity.Advisory, m3u.Issues.MaxSeverity);

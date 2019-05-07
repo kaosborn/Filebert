@@ -27,6 +27,8 @@ namespace KaosFormat
                     return;
 
                 if ((validationFlags & Validations.Exists) != 0)
+                {
+                    Data.MissingCount = 0;
                     if (Data.Files.Items.Count != 1 || Data.Files.Items[0].Name != Data.IgnoredName)
                         for (int ix = 0; ix < Data.Files.Items.Count; ++ix)
                         {
@@ -62,18 +64,22 @@ namespace KaosFormat
                                 }
                             }
                         }
+                }
 
                 base.CalcHashes (hashFlags, validationFlags);
             }
 
             protected void GetDiagnostics (string repairPrompt=null, Func<bool,string> repairer=null)
             {
+                if (Data.MissingCount == null)
+                    return;
+
                 Severity sev = Severity.Advisory;
                 IssueTags tag;
                 var sfx = Data.Files.Items.Count == 1 ? String.Empty : "s";
                 var msg = $"Existence check{sfx} of {Data.Files.Items.Count} file{sfx}";
 
-                if (Data.MissingCount == 0)
+                if (Data.MissingCount.Value == 0)
                 {
                     msg += " successful.";
                     tag = IssueTags.Success;
@@ -97,7 +103,7 @@ namespace KaosFormat
         public bool ForbidRooted { get; private set; }
         public string IgnoredName { get; private set; }
 
-        public int MissingCount { get; private set; }
+        public int? MissingCount { get; private set; }
         public Issue FcIssue { get; protected set; }
 
         protected FilesContainer (Model model, Stream stream, string path) : base (model, stream, path)
