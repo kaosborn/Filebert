@@ -431,8 +431,6 @@ namespace AppViewModel
         {
             Scope = Granularity.Verbose;
             Response = Interaction.None;
-            HashFlags = Hashes.Intrinsic;
-            ValidationFlags = Validations.Exists;
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());

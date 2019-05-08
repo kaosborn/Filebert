@@ -41,8 +41,6 @@ namespace AppController
         {
             model = new Diags.Model (null);
             model.Data.Scope = Granularity.Lucid;
-            model.Data.HashFlags = Hashes.Intrinsic;
-            model.Data.ValidationFlags = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
 
             int exitCode = ParseArgs (args);
             if (exitCode == 0)

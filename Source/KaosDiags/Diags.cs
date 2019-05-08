@@ -28,7 +28,7 @@ namespace KaosDiags
         public string Exclusion { get; set; }
         public Interaction Response { get; protected set; }
         public Granularity Scope { get; set; }
-        public Validations ValidationFlags { get; set; }
+        public Validations ValidationFlags { get; set; } = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
         public IssueTags WarnEscalator { get; set; }
         public IssueTags ErrEscalator { get; set; }
         public Severity Result { get; private set; } = Severity.NoIssue;
@@ -71,7 +71,7 @@ namespace KaosDiags
         public bool IsDigestForm => Scope != Granularity.Detail
                     && (hashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0;
 
-        private Hashes hashFlags = 0;
+        private Hashes hashFlags = Hashes.Intrinsic;
         public Hashes HashFlags
         {
             get => hashFlags;
