@@ -40,7 +40,6 @@ namespace AppController
         public int Run()
         {
             model = new Diags.Model (null);
-            model.Data.Scope = Granularity.Lucid;
 
             int exitCode = ParseArgs (args);
             if (exitCode == 0)

@@ -429,7 +429,6 @@ namespace AppViewModel
 
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
-            Scope = Granularity.Verbose;
             Response = Interaction.None;
 
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
