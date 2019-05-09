@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace KaosFormat
 {
@@ -101,10 +102,15 @@ namespace KaosFormat
             {
                 actualFlacs = flacs;
 
-                if (flacs == null)
+                if (flacs == null || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
                     GetDiagnostics();
                 else if (flacs.Count == Data.Files.Items.Count)
-                    GetDiagnostics ("Repair bad file reference(s)", RepairMissing);
+                {
+                    var m = "Repair bad file reference";
+                    if (Data.MissingCount != 1)
+                        m += "s";
+                    GetDiagnostics (m, RepairMissing);
+                }
                 else if (Data.Files.Items.Count != 1)
                     Data.FcIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac file(s) yet .cue contains {Data.Files.Items.Count} file reference(s).",
                                                    Severity.Error,
