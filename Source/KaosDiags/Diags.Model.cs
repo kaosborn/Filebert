@@ -17,19 +17,10 @@ namespace KaosDiags
             public Diags Data => _data;
             public FileFormat.Vector.Model FormatModel;
 
-            public Model (string root, string filter=null, string exclusion=null,
-                Interaction action=Interaction.None, Granularity scope=Granularity.Detail,
-                IssueTags warnEscalator=IssueTags.None, IssueTags errEscalator=IssueTags.None)
-                : this()
+            public Model (string root) : this()
             {
                 this._data = new Diags (this);
                 Data.Root = root;
-                Data.Scope = scope;
-                Data.Filter = filter;
-                Data.Exclusion = exclusion;
-                Data.WarnEscalator = warnEscalator;
-                Data.ErrEscalator = errEscalator;
-                Data.Response = action;
             }
 
             protected Model()

@@ -429,8 +429,6 @@ namespace AppViewModel
 
         private DiagsPresenter (DiagsPresenter.Model model) : base (model)
         {
-            Response = Interaction.None;
-
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());
             DoTagHelp = new RelayCommand (() => ++TagHelpHits);

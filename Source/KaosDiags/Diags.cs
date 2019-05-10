@@ -25,12 +25,12 @@ namespace KaosDiags
         }
 
         public string Filter { get; set; }
-        public string Exclusion { get; set; }
-        public Interaction Response { get; protected set; }
+        public string Exclusion { get; set; } = null;
+        public Interaction Response { get; protected set; } = Interaction.None;
         public Granularity Scope { get; set; } = Granularity.Verbose;
         public Validations ValidationFlags { get; set; } = Validations.Exists|Validations.MD5|Validations.SHA1|Validations.SHA256;
-        public IssueTags WarnEscalator { get; set; }
-        public IssueTags ErrEscalator { get; set; }
+        public IssueTags WarnEscalator { get; set; } = IssueTags.None;
+        public IssueTags ErrEscalator { get; set; } = IssueTags.None;
         public Severity Result { get; private set; } = Severity.NoIssue;
 
         private string currentFile = null;
