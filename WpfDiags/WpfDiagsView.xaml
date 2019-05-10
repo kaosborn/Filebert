@@ -258,7 +258,7 @@
                             </StackPanel>
                             <Button Content=" Clear " Margin="6,6,6,6" Command="{Binding DoConsoleClear}" HorizontalAlignment="Center"/>
                         </StackPanel>
-                        <GroupBox Header="Output">
+                        <GroupBox Header="Report">
                             <TextBox x:Name="consoleBox" FontSize="{Binding Path=ConsoleZoom, Mode=TwoWay}">
                                 <TextBox.Style>
                                     <Style TargetType="TextBox">
