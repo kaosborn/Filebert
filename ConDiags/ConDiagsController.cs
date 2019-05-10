@@ -24,8 +24,8 @@ namespace AppController
 
     public class ConDiagsController
     {
-        private IConDiagsViewFactory viewFactory;
-        private string[] args;
+        private readonly IConDiagsViewFactory viewFactory;
+        private readonly string[] args;
         private Diags.Model model;
         private bool waitForKeyPress = false;
         private string mirrorName = null;
@@ -41,7 +41,7 @@ namespace AppController
         {
             model = new Diags.Model (null);
 
-            int exitCode = ParseArgs (args);
+            int exitCode = ParseArgs();
             if (exitCode == 0)
             {
                 if (model.Data.Scope == Granularity.Detail)
@@ -97,7 +97,7 @@ namespace AppController
             return exitCode;
         }
 
-        private int ParseArgs (string[] Args)
+        private int ParseArgs()
         {
             if (args.Length==0 || args[0]=="/?" || args[0]=="/help" || args[0]=="-?" || args[0]=="-help")
             {

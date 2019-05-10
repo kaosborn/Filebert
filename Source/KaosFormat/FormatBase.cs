@@ -355,9 +355,6 @@ namespace KaosFormat
                 Data.excess = null;
             }
 
-            public void ClearFile()
-             => Data.fbs = null;
-
             public void CloseFile()
             {
                 if (Data.fbs != null)
