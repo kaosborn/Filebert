@@ -127,8 +127,7 @@ namespace KaosDiags
                         FileAccess xs = Data.Response != Interaction.None ? FileAccess.ReadWrite : FileAccess.Read;
                         Stream fs = new FileStream (Data.Root, FileMode.Open, xs, FileShare.Read);
                         fmtModel = CheckFile (fs, Data.Root, Data.HashFlags & ~ Hashes._FlacMatch, out FileFormat trueFormat, out Severity result);
-                        if (result < Severity.Error)
-                            TryRepairs (fmtModel, trueFormat);
+                        TryRepairs (fmtModel, trueFormat);
                         Data.Result = result;
                     }
                     catch (Exception ex) when (ex is FileNotFoundException || ex is IOException || ex is UnauthorizedAccessException)
