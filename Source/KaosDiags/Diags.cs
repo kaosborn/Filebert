@@ -24,7 +24,7 @@ namespace KaosDiags
             set { root = value; RaisePropertyChanged (nameof (Root)); }
         }
 
-        public string Filter { get; set; }
+        public string Filter { get; set; } = null;
         public string Exclusion { get; set; } = null;
         public Interaction Response { get; protected set; } = Interaction.None;
         public Granularity Scope { get; set; } = Granularity.Verbose;
@@ -186,13 +186,13 @@ namespace KaosDiags
                 }
                 if (item.TotalDataErrors != 0)
                 {
-                    par += String.IsNullOrEmpty (par)? " (" : ", ";
+                    par += String.IsNullOrEmpty (par) ? " (" : ", ";
                     par += item.TotalDataErrors + " data CRC error";
                     if (item.TotalDataErrors > 1)
                         par += 's';
                 }
                 if (item.TotalMisnamed != 0)
-                    par += (String.IsNullOrEmpty (par)? " (" : ", ") + item.TotalMisnamed + " misnamed";
+                    par += (String.IsNullOrEmpty (par) ? " (" : ", ") + item.TotalMisnamed + " misnamed";
                 if (! String.IsNullOrEmpty (par))
                     par += ")";
 

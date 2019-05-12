@@ -93,7 +93,7 @@ namespace KaosIssue
             }
 
 
-            private ObservableCollection<Issue> items;
+            private readonly ObservableCollection<Issue> items;
             public ReadOnlyObservableCollection<Issue> Items { get; private set; }
 
             public event PropertyChangedEventHandler PropertyChanged;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using KaosIssue;
 using KaosFormat;
@@ -93,7 +92,9 @@ namespace KaosDiags
 
                 FileAttributes atts;
                 try
-                { atts = File.GetAttributes (Data.Root); }
+                {
+                    atts = File.GetAttributes (Data.Root);
+                }
                 catch (NotSupportedException ex)
                 {
                     Data.Result = Severity.Fatal;
@@ -105,9 +106,9 @@ namespace KaosDiags
                     Data.Result = Severity.NoIssue;
                     Data.ProgressTotal = 0;
                     if (isTwoPass)
-                        foreach (var dummy in new DirTraverser (Data.Root))
+                        foreach (var name in new DirTraverser (Data.Root))
                         {
-                            var dInfo = new DirectoryInfo (dummy);
+                            var dInfo = new DirectoryInfo (name);
                             FileInfo[] fileInfos = Data.Filter == null ? dInfo.GetFiles() : dInfo.GetFiles (Data.Filter);
                             Data.ProgressTotal += fileInfos.Length;
                         }
@@ -213,8 +214,7 @@ namespace KaosDiags
                 FormatBase.Model fmtModel = null;
                 try
                 {
-                    fmtModel = FormatBase.Model.Create (stream, path, hashFlags, Data.ValidationFlags,
-                                                        Data.Filter, out bool isKnownExtension, out trueFormat);
+                    fmtModel = FormatBase.Model.Create (stream, path, hashFlags, Data.ValidationFlags, Data.Filter, out trueFormat);
                 }
 #pragma warning disable 0168
                 catch (Exception ex)
@@ -230,7 +230,6 @@ namespace KaosDiags
                     return null;
 #endif
                 }
-
 
                 if (fmtModel == null)
                 {
@@ -390,19 +389,11 @@ namespace KaosDiags
                     if (severity == Severity.Warning)
                     {
                         if (! reportHasWarn)
-                        {
-                            reportHasWarn = true;
-                            ++Data.TotalWarnings;
-                        }
+                        { reportHasWarn = true; ++Data.TotalWarnings; }
                     }
                     else if (severity >= Severity.Error)
-                    {
                         if (! reportHasErr)
-                        {
-                            reportHasErr = true;
-                            ++Data.TotalErrors;
-                        }
-                    }
+                        { reportHasErr = true; ++Data.TotalErrors; }
 
                     if (item.IsReportable (reportScope))
                     {

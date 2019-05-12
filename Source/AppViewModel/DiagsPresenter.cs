@@ -261,7 +261,7 @@ namespace AppViewModel
         }
 
 
-        private List<TabInfo.Model> tiModels = new List<TabInfo.Model>();
+        private readonly List<TabInfo.Model> tiModels = new List<TabInfo.Model>();
 
         public int JobCounter { get; private set; } = 0;  // For test.
 

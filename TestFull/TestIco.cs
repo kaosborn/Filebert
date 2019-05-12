@@ -54,7 +54,7 @@ namespace TestDiags
             FormatBase fmt;
             using (Stream s1 = new FileStream (fName1, FileMode.Open))
             {
-                FormatBase.Model fmtModel = FormatBase.Model.Create (s1, fName1, 0, 0, null, out bool isKnown, out FileFormat actual);
+                FormatBase.Model fmtModel = FormatBase.Model.Create (s1, fName1, 0, 0, null, out FileFormat actual);
                 fmt = fmtModel.Data;
 
                 Assert.IsInstanceOfType (fmtModel, typeof (IcoFormat.Model));

@@ -26,8 +26,8 @@ namespace AppView
 
     class ConDiagsView
     {
-        private ConDiagsController controller;
-        private Diags diags;
+        private readonly ConDiagsController controller;
+        private readonly Diags diags;
         private bool isProgressDirty=false;
         public string ProgressEraser => "\r              \r";
 

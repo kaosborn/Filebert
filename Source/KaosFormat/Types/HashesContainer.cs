@@ -141,7 +141,7 @@ namespace KaosFormat
 
 
         private static readonly string modeChars = "! *:?";
-        private Encoding encoding;
+        private readonly Encoding encoding;
 
         public HashedFile.Vector HashedFiles { get; private set; }
         public Validations Validation { get; protected set; }

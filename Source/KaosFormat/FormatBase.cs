@@ -41,24 +41,18 @@ namespace KaosFormat
 
             public static Model Create (Stream fs, string path, Hashes hashFlags)
             {
-                var model = Create (fs, path, hashFlags, 0, null, out bool isKnown, out FileFormat actual);
+                var model = Create (fs, path, hashFlags, 0, null, out FileFormat actual);
                 if (model != null)
                     model.CloseFile();
                 return model;
             }
 
-            /// <summary>
-            /// Factory method for various file formats.
-            /// </summary>
-            /// <param name="formats">Candidate formats for result.</param>
-            /// <param name="fs0">Handle to stream of unknown type.</param>
-            /// <param name="path">Full name of fs0.</param>
-            /// <returns>Abstract superclass of new instance.</returns>
+            /// <summary>Factory method for various file formats.</summary>
             public static Model Create (Stream fs0, string path,
-                Hashes hashFlags, Validations validationFlags, string filter,
-                out bool isKnown, out FileFormat actual)
+                                        Hashes hashFlags, Validations validationFlags,
+                                        string filter, out FileFormat actual)
             {
-                isKnown = false;
+                bool isKnown = false;
                 actual = null;
 
                 FormatBase.Model model = null;
@@ -146,7 +140,7 @@ namespace KaosFormat
                         ++actual.TotalMisnamed;
                         fmt.FfIssue = model.IssueModel.Add
                             ($"True file format is .{actual.PrimaryName}.", Severity.Warning, 0,
-                                "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, isFinalRepairer:true);
+                              "Rename to extension of ." + actual.PrimaryName, model.RepairWrongExtension, isFinalRepairer:true);
                     }
                 }
 
