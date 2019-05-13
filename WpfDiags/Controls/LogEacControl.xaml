@@ -60,12 +60,16 @@
                             <Setter Property="Foreground" Value="Chartreuse"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Warning}">
-                                <Setter Property="Text" Value="&#x2665;"/>   <!-- solid heart -->
-                                <Setter Property="Foreground" Value="Yellow"/>
+                            <Setter Property="Text" Value="&#x2665;"/>   <!-- solid heart -->
+                            <Setter Property="Foreground" Value="Yellow"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Error}">
                             <Setter Property="Text" Value="&#x2612;"/>   <!-- X -->
                             <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RpIssue.Level}" Value="{x:Static issue:Severity.Fatal}">
+                            <Setter Property="Text" Value="&#x2612;"/>   <!-- X -->
+                            <Setter Property="Foreground" Value="DeepPink"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
