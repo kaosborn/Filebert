@@ -87,7 +87,10 @@ namespace KaosFormat
                         return;
                     }
 
-                    var blockSize = ConvertTo.FromBig24ToInt32 (bb, 1);
+                    if (bb[0] == 0xFF)
+                        break;
+
+                    int blockSize = ConvertTo.FromBig24ToInt32 (bb, 1);
                     Data.ValidSize += 4;
 
                     switch ((FlacBlockType) (bb[0] & 0x7F))
@@ -158,14 +161,15 @@ namespace KaosFormat
                             var height = ConvertTo.FromBig32ToInt32 (pb, mimeLen + descLen + 16);
                             Data.Blocks.AddPic (blockSize, picType, width, height);
                             break;
-                        default:
-                            IssueModel.Add ("Encountered unexpected metadata block type of " + (bb[0] & 0x7F), Severity.Fatal);
+                        case FlacBlockType.Invalid:
+                            IssueModel.Add ("Encountered invalid block type", Severity.Fatal);
                             return;
+                        default:
+                            IssueModel.Add ($"Encountered reserved block type '{bb[0]}'", Severity.Warning);
+                            break;
                     }
 
                     Data.ValidSize += blockSize;
-                    if ((bb[0] & 0x80) != 0)
-                        break;
                 }
 
                 try

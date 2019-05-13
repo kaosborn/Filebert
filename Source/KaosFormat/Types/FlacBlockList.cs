@@ -5,7 +5,7 @@ using System.Text;
 namespace KaosFormat
 {
     public enum FlacBlockType
-    { StreamInfo, Padding, Application, SeekTable, Tags, CueSheet, Picture }
+    { StreamInfo, Padding, Application, SeekTable, Tags, CueSheet, Picture, Invalid=127 }
 
     // FLAC lifted this list from the ID3v2 spec.
     public enum PicType
