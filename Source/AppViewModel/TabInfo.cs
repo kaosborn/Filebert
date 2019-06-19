@@ -19,13 +19,23 @@ namespace AppViewModel
 
             public void Add (FormatBase.Model fmtModel)
             {
-                Data.items.Add (fmtModel);
                 if (Data.MaxSeverity < fmtModel.Data.Issues.MaxSeverity)
                     Data.MaxSeverity = fmtModel.Data.Issues.MaxSeverity;
                 if (fmtModel.Data.Issues.MaxSeverity >= Severity.Error)
+                {
+                    if (Data.ErrorCount == 0)
+                        Data.firstError = Data.items.Count;
+                    Data.lastError = Data.items.Count;
                     ++Data.ErrorCount;
+                }
                 if (fmtModel.Data.IsRepairable)
+                {
+                    if (Data.RepairableCount == 0)
+                        Data.firstRepairable = Data.items.Count;
+                    Data.lastRepairable = Data.items.Count;
                     ++Data.RepairableCount;
+                }
+                Data.items.Add (fmtModel);
             }
 
             public bool Repair (int issueIndex)
@@ -37,7 +47,22 @@ namespace AppViewModel
                     if (err == null)
                     {
                         if (fmtModel.IssueModel.Data.RepairableCount == 0)
+                        {
                             --Data.RepairableCount;
+                            if (Data.RepairableCount == 0)
+                            { Data.firstRepairable = 0; Data.lastRepairable = -1; }
+                            else
+                                if (issueIndex == Data.firstRepairable)
+                                {
+                                    for (int ix = issueIndex+1; ; ++ix)
+                                        if (Data.items[ix].Data.IsRepairable)
+                                        { Data.firstRepairable = ix; break; }
+                                }
+                                else if (issueIndex == Data.lastRepairable)
+                                    for (int ix = issueIndex-1; ; --ix)
+                                        if (Data.items[ix].Data.IsRepairable)
+                                        { Data.lastRepairable = ix; break; }
+                        }
                         return true;
                     }
                 }
@@ -57,6 +82,11 @@ namespace AppViewModel
 
 
         private List<FormatBase.Model> items;
+        private int firstError = 0;
+        private int lastError = -1;
+        private int firstRepairable = 0;
+        private int lastRepairable = -1;
+
         public int Index { get; private set; } = -1;
         public int TabPosition { get; private set; }
         public string LongName { get; private set; }
@@ -67,6 +97,21 @@ namespace AppViewModel
         public FormatBase Current => Index < 0 ? null : items[Index].Data;
         public bool HasError => MaxSeverity >= Severity.Error;
         public bool HasRepairables => RepairableCount != 0;
+
+        public bool IsFirstSeekable => Count > 0 && Index != 0;
+        public bool IsLastSeekable => Count > 0 && Index != Count-1;
+        public bool IsPrevSeekable => Count > 0 && Index > 0;
+        public bool IsNextSeekable => Count > 0 && Index < Count-1;
+
+        public bool IsFirstErrorSeekable => ErrorCount > 0 && Index != firstError;
+        public bool IsLastErrorSeekable => ErrorCount > 0 && Index != lastError;
+        public bool IsPrevErrorSeekable => ErrorCount > 0 && Index > firstError;
+        public bool IsNextErrorSeekable => ErrorCount > 0 && Index < lastError;
+
+        public bool IsFirstRepairableSeekable => RepairableCount > 0 && Index != firstRepairable;
+        public bool IsLastRepairableSeekable => RepairableCount > 0 && Index != lastRepairable;
+        public bool IsPrevRepairableSeekable => RepairableCount > 0 && Index > firstRepairable;
+        public bool IsNextRepairableSeekable => RepairableCount > 0 && Index < lastRepairable;
 
         private TabInfo() { }
 

@@ -357,6 +357,19 @@ namespace AppViewModel
             }
         }
 
+        public bool CanSeekFirst => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsFirstSeekable;
+        public bool CanSeekLast => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsLastSeekable;
+        public bool CanSeekPrev => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsPrevSeekable;
+        public bool CanSeekNext => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsNextSeekable;
+        public bool CanSeekFirstError => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsFirstErrorSeekable;
+        public bool CanSeekLastError => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsLastErrorSeekable;
+        public bool CanSeekPrevError => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsPrevErrorSeekable;
+        public bool CanSeekNextError => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsNextErrorSeekable;
+        public bool CanSeekFirstRepairable => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsFirstRepairableSeekable;
+        public bool CanSeekLastRepairable => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsLastRepairableSeekable;
+        public bool CanSeekPrevRepairable => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsPrevRepairableSeekable;
+        public bool CanSeekNextRepairable => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsNextRepairableSeekable;
+
         public bool TabHasRepairables => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.RepairableCount > 0;
         public string TabRepairablesText
         {
@@ -432,18 +445,18 @@ namespace AppViewModel
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());
             DoTagHelp = new RelayCommand (() => ++TagHelpHits);
-            NavFirst = new RelayCommand (() => model.GetFirst());
-            NavLast = new RelayCommand (() => model.GetLast());
-            NavPrev = new RelayCommand (() => model.GetPrev());
-            NavNext = new RelayCommand (() => model.GetNext());
-            NavFirstError = new RelayCommand (() => model.GetFirstBySeverity (Severity.Error));
-            NavLastError = new RelayCommand (() => model.GetLastBySeverity (Severity.Error));
-            NavPrevError = new RelayCommand (() => model.GetPrevBySeverity (Severity.Error));
-            NavNextError = new RelayCommand (() => model.GetNextBySeverity (Severity.Error));
-            NavFirstRepair = new RelayCommand (() => model.GetFirstRepair());
-            NavLastRepair = new RelayCommand (() => model.GetLastRepair());
-            NavPrevRepair = new RelayCommand (() => model.GetPrevRepair());
-            NavNextRepair = new RelayCommand (() => model.GetNextRepair());
+            NavFirst = new RelayCommand (() => model.GetFirst(), (object _) => model.Data.CanSeekFirst);
+            NavLast = new RelayCommand (() => model.GetLast(), (object _) => model.Data.CanSeekLast);
+            NavPrev = new RelayCommand (() => model.GetPrev(), (object _) => model.Data.CanSeekPrev);
+            NavNext = new RelayCommand (() => model.GetNext(), (object _) => model.Data.CanSeekNext);
+            NavFirstError = new RelayCommand (() => model.GetFirstBySeverity (Severity.Error), (object _) => model.Data.CanSeekFirstError);
+            NavLastError = new RelayCommand (() => model.GetLastBySeverity (Severity.Error), (object _) => model.Data.CanSeekLastError);
+            NavPrevError = new RelayCommand (() => model.GetPrevBySeverity (Severity.Error), (object _) => model.Data.CanSeekPrevError);
+            NavNextError = new RelayCommand (() => model.GetNextBySeverity (Severity.Error), (object _) => model.Data.CanSeekNextError);
+            NavFirstRepair = new RelayCommand (() => model.GetFirstRepair(), (object _) => model.Data.CanSeekFirstRepairable);
+            NavLastRepair = new RelayCommand (() => model.GetLastRepair(), (object _) => model.Data.CanSeekLastRepairable);
+            NavPrevRepair = new RelayCommand (() => model.GetPrevRepair(), (object _) => model.Data.CanSeekPrevRepairable);
+            NavNextRepair = new RelayCommand (() => model.GetNextRepair(), (object _) => model.Data.CanSeekNextRepairable);
             DoConsoleClear = new RelayCommand (() => { model.Ui.SetConsoleText (""); ConsoleLinesReported = -1; });
             DoConsoleZoomMinus = new RelayCommand (() => --ConsoleZoom);
             DoConsoleZoomPlus = new RelayCommand (() => ++ConsoleZoom);
