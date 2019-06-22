@@ -20,18 +20,17 @@ namespace KaosFormat
             return null;
         }
 
-
         public new class Model : FilesContainer.Model
         {
             public new readonly CueFormat Data;
-            private readonly byte[] buf1=null;
+            private readonly byte[] buf1 = null;
 
             public Model (Stream stream, string path) : base (path)
             {
                 base._data = Data = new CueFormat (this, stream, path);
                 SetIgnoredName ("Range.wav");
 
-                if (Data.FileSize > 512*1024)
+                if (Data.FileSize > 512 * 1024)
                 {
                     IssueModel.Add ("Oversized file", Severity.Fatal);
                     return;

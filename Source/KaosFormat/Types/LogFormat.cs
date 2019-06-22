@@ -119,7 +119,7 @@ namespace KaosFormat
             {
                 Severity baddest = Severity.NoIssue;
                 Data.IsLosslessRip = false;
-                PerformValidations();
+                performValidations();
 
                 if (mp3s.Count > 0)
                 {
@@ -140,7 +140,7 @@ namespace KaosFormat
                 else
                     Data.RpIssue = IssueModel.Add ($"{Data.Subname} to MP3 rip check OK!", Severity.Advisory, IssueTags.Success);
 
-                void PerformValidations()
+                void performValidations()
                 {
                     if (mp3s.Count != TracksModel.GetCount() || mp3s.Count == 0)
                     {
