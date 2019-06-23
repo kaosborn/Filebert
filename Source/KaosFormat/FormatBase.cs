@@ -378,6 +378,8 @@ namespace KaosFormat
         public bool IsRepairable => fbs != null;
         public Issue FfIssue { get; private set; }  // Wrong file format.
 
+        public Encoding Codepage { get; protected set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
         {

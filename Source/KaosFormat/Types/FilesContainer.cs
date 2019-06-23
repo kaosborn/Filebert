@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using KaosIssue;
 
 namespace KaosFormat
@@ -20,6 +21,39 @@ namespace KaosFormat
 
             public void SetIgnoredName (string name)
              => Data.IgnoredName = name;
+
+            protected void ReadPlaylist (Encoding codePage)
+            {
+                long fileSize = Data.FileSize;
+                if (fileSize > 512 * 1024)
+                {
+                    IssueModel.Add ("Oversized file", Severity.Fatal);
+                    return;
+                }
+
+                Data.fBuf = new byte[fileSize];
+                Data.fbs.Position = 0;
+                if (Data.fbs.Read (Data.fBuf, 0, (int) fileSize) != fileSize)
+                {
+                    IssueModel.Add ("Read error", Severity.Fatal);
+                    return;
+                }
+
+                using (TextReader reader = new StreamReader (new MemoryStream (Data.fBuf), codePage))
+                {
+                    for (;;)
+                    {
+                        var lx = reader.ReadLine();
+                        if (lx == null)
+                            break;
+                        lx = lx.TrimStart();
+                        if (lx.Length > 0 && lx[0] != '#')
+                            FilesModel.Add (lx);
+                    }
+                }
+
+                Data.Codepage = codePage;
+            }
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
             {

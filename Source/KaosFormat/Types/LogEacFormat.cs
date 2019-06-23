@@ -760,8 +760,6 @@ namespace KaosFormat
         public Issue QiIssue { get; private set; }  // Quality %
         public Issue TsIssue { get; private set; }
 
-        public Encoding Codepage { get; private set; }
-
         private LogEacFormat (Model model, Stream stream, string path) : base (model, stream, path)
          => this.Tracks = model.TracksModel.Data;
 

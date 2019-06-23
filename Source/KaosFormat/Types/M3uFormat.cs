@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 
 namespace KaosFormat
 {
@@ -25,19 +25,7 @@ namespace KaosFormat
             public Model (Stream stream, string path) : base (path)
             {
                 base._data = Data = new M3uFormat (this, stream, path);
-
-                stream.Position = 0;
-                TextReader tr = new StreamReader (stream, FormatBase.Cp1252);
-
-                for (int line = 1; ; ++line)
-                {
-                    var lx = tr.ReadLine();
-                    if (lx == null)
-                        break;
-                    lx = lx.TrimStart();
-                    if (lx.Length > 0 && lx[0] != '#')
-                        FilesModel.Add (lx);
-                }
+                ReadPlaylist (Encoding.GetEncoding (1252));
             }
 
             public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
