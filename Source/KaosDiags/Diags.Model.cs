@@ -295,7 +295,7 @@ namespace KaosDiags
             {
                 Array.Sort (fileInfos, (f1, f2) => String.CompareOrdinal (f1.Name, f2.Name));
 
-                // Check folder-level rip files last.
+                // Move folder-level rip files to the end.
                 moveAllToEnd (".cue");
                 return moveAllToEnd (".log");
 
@@ -306,8 +306,10 @@ namespace KaosDiags
                         if (! fileInfos[pivot - 1].Name.EndsWith (extension))
                             break;
 
-                    for (int ix = 0; ix < pivot; ++ix)
-                        if (fileInfos[ix].Name.EndsWith (extension))
+                    for (int ix = 0; ix < pivot;)
+                        if (! fileInfos[ix].Name.EndsWith (extension))
+                            ++ix;
+                        else
                         {
                             FileInfo temp = fileInfos[ix];
                             for (int iy = ix+1; iy < pivot; ++iy)
