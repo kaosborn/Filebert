@@ -380,6 +380,17 @@ namespace KaosFormat
 
         public Encoding Codepage { get; protected set; }
 
+        string contentText=null;
+        public string ContentText
+        {
+            get
+            {
+                if (contentText == null && Codepage != null && fBuf != null)
+                    contentText = Codepage.GetString (fBuf);
+                return contentText;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
         {

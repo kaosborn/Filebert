@@ -72,6 +72,15 @@ namespace AppViewModel
             public bool SetFlacIndex (int index)
              => tabFlacModel.SetIndex (index);
 
+            public void ShowContents()
+            {
+                TabInfo.Model tiModel = Data.tiModels[Data.CurrentTabNumber];
+                FormatBase fmt = tiModel.GetFormatBase();
+                if (Object.ReferenceEquals (fmt, Data.BaseFormat))
+                    Data.BaseFormat = null;
+                Data.BaseFormat = fmt;
+            }
+
             public void GetFirst()
             {
                 if (Data.tiModels[Data.CurrentTabNumber].SetIndex (0))
@@ -303,6 +312,13 @@ namespace AppViewModel
             }
         }
 
+        public FormatBase baseFormat=null;
+        public FormatBase BaseFormat
+        {
+          get => baseFormat;
+          private set { baseFormat = value; RaisePropertyChanged (nameof (BaseFormat)); }
+        }
+
         private double progressFactor = 0;
         public double ProgressFactor
         {
@@ -420,6 +436,7 @@ namespace AppViewModel
         public ICommand DoBrowse { get; private set; }
         public ICommand DoCheck { get; private set; }
         public ICommand DoTagHelp { get; private set; }
+        public ICommand NavContents { get; private set; }
         public ICommand NavFirst { get; private set; }
         public ICommand NavLast { get; private set; }
         public ICommand NavPrev { get; private set; }
@@ -445,6 +462,7 @@ namespace AppViewModel
             DoBrowse = new RelayCommand (() => model.Data.Root = model.Ui.BrowseFile());
             DoCheck = new RelayCommand (() => model.Parse());
             DoTagHelp = new RelayCommand (() => ++TagHelpHits);
+            NavContents = new RelayCommand (() => model.ShowContents());
             NavFirst = new RelayCommand (() => model.GetFirst(), (object _) => model.Data.CanSeekFirst);
             NavLast = new RelayCommand (() => model.GetLast(), (object _) => model.Data.CanSeekLast);
             NavPrev = new RelayCommand (() => model.GetPrev(), (object _) => model.Data.CanSeekPrev);

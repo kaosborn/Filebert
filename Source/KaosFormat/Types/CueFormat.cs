@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace KaosFormat
 {
@@ -43,6 +44,8 @@ namespace KaosFormat
                     IssueModel.Add ("Read error", Severity.Fatal);
                     return;
                 }
+
+                Data.Codepage = Encoding.GetEncoding (1252);
 
                 int fIx=0, fIx1=0, fIx2=0, bIxNS=-1, quoteIx1=-1, quoteIx2=-1;
                 for (int line = 1;;)

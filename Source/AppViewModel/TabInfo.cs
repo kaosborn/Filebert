@@ -69,6 +69,15 @@ namespace AppViewModel
                 return false;
             }
 
+            public FormatBase GetFormatBase()
+            {
+                if (Data.Index < 0)
+                    return null;
+
+                FormatBase.Model fmtModel = Data.items[Data.Index];
+                return fmtModel.Data;
+            }
+
             public bool SetIndex (int index)
             {
                 if (index >= 0 && index < Data.Count)

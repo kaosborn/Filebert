@@ -25,12 +25,20 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3"/>
             <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
-        <app:FileHeaderControl Grid.ColumnSpan="4"/>
-        <ListView Grid.Row="1" SelectionMode="Multiple" ItemsSource="{Binding Files.Items}">
+        <app:FileHeaderControl/>
+        <TextBlock Grid.Column="2" Grid.RowSpan="2" ToolTip="Click to view"
+                   Text="&#x2B00;" FontSize="32" Foreground="White" Background="#00000000"
+                   Margin="0,0,0,-7" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding DataContext.NavContents, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" MouseAction="LeftClick"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <ListView Grid.Row="2" SelectionMode="Multiple" ItemsSource="{Binding Files.Items}">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -67,7 +75,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch"/>
-        <app:IssuesControl Grid.Row="3"/>
+        <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="4"/>
     </Grid>
 </UserControl>

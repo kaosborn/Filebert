@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using KaosFormat;
 
 namespace AppView
 {
@@ -60,6 +62,56 @@ Notes:
                     Placement = PlacementMode.MousePoint, StaysOpen = false
                 };
             dialog.IsOpen = true;
+        }
+    }
+
+    public static class ShowContentsDialogBehavior
+    {
+        public static readonly DependencyProperty ShowContentsProperty = DependencyProperty.RegisterAttached
+        ("ShowContents", typeof (FormatBase), typeof (ShowContentsDialogBehavior), new PropertyMetadata (default (FormatBase), OnShowContentsChange));
+
+        public static void SetShowContents (DependencyObject source, FormatBase value)
+         => source.SetValue (ShowContentsProperty, value);
+
+        public static FormatBase GetShowContents (DependencyObject source)
+         => (FormatBase) source.GetValue (ShowContentsProperty);
+
+        private static void OnShowContentsChange (DependencyObject depy, DependencyPropertyChangedEventArgs args)
+        {
+            if (args.NewValue is FormatBase fmt)
+            {
+                string text = fmt.ContentText;
+                if (text != null)
+                {
+                    foreach (var owned in ((Window) depy).OwnedWindows)
+                        if (owned is Window ownedWindow && Object.ReferenceEquals (fmt, ownedWindow.Tag))
+                        {
+                            ownedWindow.Activate();
+                            return;
+                        }
+
+                    var contentDialog = new Window
+                    {
+                        Owner = (Window) depy,
+                        Title = fmt.Name,
+                        ShowInTaskbar = false,
+                        SizeToContent = SizeToContent.WidthAndHeight,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Tag = fmt,
+                        Content = new TextBox()
+                        {
+                            Text = text,
+                            AcceptsReturn = true,
+                            IsReadOnly = true,
+                            MaxHeight=640,
+                            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+                            VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                        }
+                    };
+
+                    contentDialog.Show();
+                }
+            }
         }
     }
 }

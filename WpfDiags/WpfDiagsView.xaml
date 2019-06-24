@@ -10,6 +10,7 @@
         mc:Ignorable="d"
         Title="Filebert" Height="640" Width="640" Style="{DynamicResource darkApp}"
         app:TagHelpDialogBehavior.TagHelpHits="{Binding TagHelpHits}"
+        app:ShowContentsDialogBehavior.ShowContents="{Binding BaseFormat}"
         Loaded="Window_Loaded"
         DataContext="{Binding Path=DiagsPresenter}">
     <Window.TaskbarItemInfo>
@@ -168,6 +169,15 @@
                     </StackPanel.Style>
                     <Button Command="{Binding NavFirst}" Margin="0">
                         <Polygon Width="16" Height="16" Points="6,8 13,1 13,15 6,8  6,1 4,1 4,15 6,15" Fill="Black"/>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Background" Value="Red"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
                     </Button>
                     <Button Command="{Binding NavPrev}" Margin="3,0,0,0">
                         <Polygon Width="16" Height="16" Points="5,8 12,1 12,15" Fill="Black"/>

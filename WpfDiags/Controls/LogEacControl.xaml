@@ -48,6 +48,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="9"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <app:FileHeaderControl Grid.ColumnSpan="9"/>
@@ -229,7 +230,13 @@
                 </Style>
             </TextBox.Style>
         </TextBox>
-
+        <TextBlock Grid.Row="8" Grid.Column="8" Grid.RowSpan="4" ToolTip="Click to view"
+                   Text="&#x2B00;" FontSize="32" Foreground="White" Background="#00000000"
+                   Margin="0,0,0,-10" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding DataContext.NavContents, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" MouseAction="LeftClick"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
         <ListView Grid.Row="13" Grid.ColumnSpan="9" ItemsSource="{Binding Tracks.Items}"
                   Tag="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
             <ListView.Resources>
