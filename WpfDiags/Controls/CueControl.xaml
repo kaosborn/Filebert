@@ -17,13 +17,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto" MinHeight="20"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="9">
             <Grid.Resources>
                 <Style TargetType="TextBlock" BasedOn="{StaticResource darkTextBlock}">
@@ -34,7 +32,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="3"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
@@ -45,19 +42,18 @@
             <TextBlock Grid.Row="1" Text="Catalog:"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Catalog, Mode=OneWay}"/>
         </Grid>
-        <Grid Grid.Row="1" Grid.ColumnSpan="9">
+        <TextBlock Grid.RowSpan="2" Grid.Column="2" ToolTip="Click to view"
+                   Text="&#x2B00;" FontSize="32" Foreground="White" Background="#00000000"
+                   Margin="0,0,0,-7" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding DataContext.NavContents, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" MouseAction="LeftClick"/>
+            </TextBlock.InputBindings>
+        </TextBlock>
+        <Grid Grid.Row="2" Grid.ColumnSpan="9">
             <Grid.Resources>
                 <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
                 <Style TargetType="ListView" BasedOn="{StaticResource darkListView}"/>
             </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="3"/>
-                <RowDefinition Height="Auto" MinHeight="20"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
             <ListView Grid.ColumnSpan="9" SelectionMode="Multiple" ItemsSource="{Binding Files.Items}">
                 <ListView.Resources>
                     <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource darkHeader}"/>
@@ -99,8 +95,8 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <GridSplitter Grid.Row="1" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
-            <app:IssuesControl Grid.Row="2" Grid.ColumnSpan="9"/>
         </Grid>
+        <GridSplitter Grid.Row="3" Grid.ColumnSpan="9" HorizontalAlignment="Stretch"/>
+        <app:IssuesControl Grid.Row="4" Grid.ColumnSpan="9"/>
     </Grid>
 </UserControl>

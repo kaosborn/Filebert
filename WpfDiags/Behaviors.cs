@@ -97,13 +97,13 @@ Notes:
                         ShowInTaskbar = false,
                         SizeToContent = SizeToContent.WidthAndHeight,
                         WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        MaxHeight = 640,
                         Tag = fmt,
                         Content = new TextBox()
                         {
                             Text = text,
                             AcceptsReturn = true,
                             IsReadOnly = true,
-                            MaxHeight=640,
                             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                             VerticalScrollBarVisibility = ScrollBarVisibility.Auto
                         }
