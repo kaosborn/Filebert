@@ -25,6 +25,12 @@ namespace KaosFormat
                 base._data = Data = new M3u8Format (this, stream, path);
                 ReadPlaylist (Encoding.UTF8);
             }
+
+            public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
+            {
+                base.CalcHashes (hashFlags, validationFlags);
+                GetDiagnostics();
+            }
         }
 
 
