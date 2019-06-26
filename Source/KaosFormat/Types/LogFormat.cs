@@ -32,7 +32,7 @@ namespace KaosFormat
                 else if (TracksModel.Data.TestMismatchCount != 0)
                     Data.TpIssue = IssueModel.Add ("Test/copy CRC-32 mismatch.", Severity.Error, IssueTags.Failure);
                 else
-                    Data.TpIssue = IssueModel.Add ("Test/copy CRC-32s match for all tracks.", Severity.Trivia, IssueTags.Success);
+                    Data.TkIssue = IssueModel.Add ("Test/copy CRC-32s match for all tracks.", Severity.Trivia, IssueTags.Success);
             }
 
             public void SetRpIssue (string err)
