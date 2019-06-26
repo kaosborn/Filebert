@@ -24,7 +24,6 @@ namespace KaosFormat
         public new class Model : FilesContainer.Model
         {
             public new readonly CueFormat Data;
-            private readonly byte[] buf1 = null;
 
             public Model (Stream stream, string path) : base (path)
             {
@@ -37,7 +36,7 @@ namespace KaosFormat
                     return;
                 }
 
-                Data.fBuf = buf1 = new byte[Data.FileSize];
+                Data.fBuf = new byte[Data.FileSize];
                 Data.fbs.Position = 0;
                 if (Data.fbs.Read (Data.fBuf, 0, (int) Data.FileSize) != Data.FileSize)
                 {
@@ -122,18 +121,18 @@ namespace KaosFormat
             private IList<FlacFormat> actualFlacs = null;
             public string RepairMissing (bool isFinalRepair)
             {
-                if (buf1 == null || actualFlacs == null || actualFlacs.Count == 0 || actualFlacs.Count != Data.Files.Items.Count || Data.Issues.MaxSeverity >= Severity.Error)
+                if (Data.fBuf == null || actualFlacs == null || actualFlacs.Count == 0 || actualFlacs.Count != Data.Files.Items.Count || Data.Issues.MaxSeverity >= Severity.Error)
                     return "Invalid attempt";
 
                 string err = null;
 
-                int buf2Size = buf1.Length;
+                int buf2Size = Data.fBuf.Length;
                 for (int ix = 0; ix < actualFlacs.Count; ++ix)
                     buf2Size += actualFlacs[ix].Name.Length - Data.Files.Items[ix].Name.Length;
                 var buf2 = new byte[buf2Size];
                 int bufIx0 = Data.Files.Items[0].BufIndex;
                 int length = bufIx0;
-                Array.Copy (buf1, buf2, bufIx0);
+                Array.Copy (Data.fBuf, buf2, bufIx0);
 
                 int dstIx = 0;
                 for (int ix = 0;;)
@@ -151,8 +150,8 @@ namespace KaosFormat
 
                     int srcIx = Data.Files.Items[ix].BufIndex2;
                     ++ix;
-                    length = (ix == actualFlacs.Count ? buf1.Length : Data.Files.Items[ix].BufIndex) - srcIx;
-                    Array.Copy (buf1, srcIx, buf2, dstIx, length);
+                    length = (ix == actualFlacs.Count ? Data.fBuf.Length : Data.Files.Items[ix].BufIndex) - srcIx;
+                    Array.Copy (Data.fBuf, srcIx, buf2, dstIx, length);
                 }
 
                 if (err == null)
