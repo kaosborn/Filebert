@@ -183,6 +183,7 @@ namespace KaosIssue
         public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null && Level < Severity.Error;
         public bool IsNoise => Level <= Severity.Noise;
         public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
+        public string RepairQuestion => RepairPrompt + "?";
         public override string ToString() => FixedMessage;
     }
 }

@@ -14,7 +14,7 @@
             <DataTemplate x:Key="issuesTemplate">
                 <StackPanel Orientation="Horizontal">
                     <Button Content=" Repair " Command="{Binding DataContext.DoRepair, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="3,0,0,0"
-                            CommandParameter="{Binding Path=Index}">
+                            CommandParameter="{Binding Path=Index}" ToolTip="{Binding Path=RepairQuestion}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Style.Triggers>
