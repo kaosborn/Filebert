@@ -118,7 +118,7 @@ namespace TestDiags
                     var flacModel = FlacFormat.CreateModel (fs, hdr, flacInfo.FullName);
 
                     Assert.IsNotNull (flacModel);
-                    Assert.IsTrue (flacModel.Data.Issues.MaxSeverity < Severity.Warning);
+                    Assert.AreEqual (Severity.Warning, flacModel.Data.Issues.MaxSeverity);
 
                     flacModel.CalcHashes (Hashes.Intrinsic|Hashes.PcmCRC32, Validations.None);
                     flacs.Add (flacModel.Data);

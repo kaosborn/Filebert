@@ -131,6 +131,18 @@
     <Content Include="Targets\Singles\04-BadCRC.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Targets\Singles\05-Overpad.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\06-OverArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\07-OverPadArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\08-NoPadArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Targets\Singles\MarkedCrimeBlimp.avi">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

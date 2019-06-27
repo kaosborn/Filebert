@@ -18,11 +18,13 @@ namespace KaosFormat
 
     public abstract class FlacBlockItem
     {
+        public int Position { get; private set; }
         public int Size { get; private set; }
+        public int NextPosition => Position + Size;
         public string Name => BlockType.ToString();
 
-        public FlacBlockItem (int size)
-         => Size = size;
+        public FlacBlockItem (int position, int size)
+        { this.Position = position; this.Size = size; }
 
         public abstract FlacBlockType BlockType
         { get; }
@@ -34,11 +36,10 @@ namespace KaosFormat
 
     public class FlacPadBlock : FlacBlockItem
     {
-        public FlacPadBlock (int size) : base (size)
+        public FlacPadBlock (int position, int size) : base (position, size)
         { }
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.Padding;
+        public override FlacBlockType BlockType => FlacBlockType.Padding;
     }
 
 
@@ -46,11 +47,10 @@ namespace KaosFormat
     {
         public int ApplicationId { get; private set; }
 
-        public FlacAppBlock (int size, int appId) : base (size)
+        public FlacAppBlock (int position, int size, int appId) : base (position, size)
          => this.ApplicationId = appId;
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.Application;
+        public override FlacBlockType BlockType => FlacBlockType.Application;
     }
 
 
@@ -58,11 +58,10 @@ namespace KaosFormat
     {
         private byte[] table;
 
-        public FlacSeekTableBlock (int size, byte[] table) : base (size)
+        public FlacSeekTableBlock (int position, int size, byte[] table) : base (position, size)
          => this.table = table;
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.SeekTable;
+        public override FlacBlockType BlockType => FlacBlockType.SeekTable;
 
         public override string ToString()
         {
@@ -125,7 +124,7 @@ namespace KaosFormat
             return result;
         }
 
-        public FlacTagsBlock (int size, byte[] rawTagData) : base (size)
+        public FlacTagsBlock (int position, int size, byte[] rawTagData) : base (position, size)
         {
             this.lines = new List<string>();
             this.Lines = new ReadOnlyCollection<string> (this.lines);
@@ -150,8 +149,7 @@ namespace KaosFormat
             System.Diagnostics.Debug.Assert (pos == tagData.Length);
         }
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.Tags;
+        public override FlacBlockType BlockType => FlacBlockType.Tags;
     }
 
 
@@ -160,14 +158,13 @@ namespace KaosFormat
         public bool IsCD { get; private set; }
         public int TrackCount { get; private set; }
 
-        public FlacCuesheetBlock (int size, bool isCD, int trackCount) : base (size)
+        public FlacCuesheetBlock (int position, int size, bool isCD, int trackCount) : base (position, size)
         {
             this.IsCD = isCD;
             this.TrackCount = trackCount;
         }
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.CueSheet;
+        public override FlacBlockType BlockType => FlacBlockType.CueSheet;
 
         public override string ToString()
         {
@@ -185,15 +182,14 @@ namespace KaosFormat
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public FlacPicBlock (int size, PicType picType, int width, int height) : base (size)
+        public FlacPicBlock (int position, int size, PicType picType, int width, int height) : base (position, size)
         {
             this.PicType = picType;
             this.Width = width;
             this.Height = height;
         }
 
-        public override FlacBlockType BlockType
-         => FlacBlockType.Picture;
+        public override FlacBlockType BlockType => FlacBlockType.Picture;
 
         public override string ToString()
          => base.ToString() + " (" + PicType + "-" + Width + "x" + Height + ")";
@@ -205,6 +201,8 @@ namespace KaosFormat
         private readonly List<FlacBlockItem> items;
         public ReadOnlyCollection<FlacBlockItem> Items { get; private set; }
 
+        public FlacPadBlock PadBlock { get; private set; } = null;
+        public FlacPicBlock PicBlock { get; private set; } = null;
         public FlacTagsBlock Tags { get; private set; }
 
         public FlacBlockList()
@@ -213,42 +211,46 @@ namespace KaosFormat
             this.Items = new ReadOnlyCollection<FlacBlockItem> (this.items);
         }
 
-        public void AddPad (int size)
+        public void AddPad (int position, int size)
         {
-            var block = new FlacPadBlock (size);
+            var block = new FlacPadBlock (position, size);
+            items.Add (block);
+            if (PadBlock == null)
+                PadBlock = block;
+        }
+
+        public void AddApp (int position, int size, int appId)
+        {
+            var block = new FlacAppBlock (position, size, appId);
             items.Add (block);
         }
 
-        public void AddApp (int size, int appId)
+        public void AddSeekTable (int position, int size, byte[] table)
         {
-            var block = new FlacAppBlock (size, appId);
+            var block = new FlacSeekTableBlock (position, size, table);
             items.Add (block);
         }
 
-        public void AddSeekTable (int size, byte[] table)
+        public void AddTags (int position, int size, byte[] rawTags)
         {
-            var block = new FlacSeekTableBlock (size, table);
+            var block = new FlacTagsBlock (position, size, rawTags);
+            items.Add (block);
+            if (Tags == null)
+                Tags = block;
+        }
+
+        public void AddCuesheet (int position, int size, bool isCD, int trackCount)
+        {
+            var block = new FlacCuesheetBlock (position, size, isCD, trackCount);
             items.Add (block);
         }
 
-        public void AddTags (int size, byte[] rawTags)
+        public void AddPic (int position, int size, PicType picType, int width, int height)
         {
-            System.Diagnostics.Debug.Assert (Tags == null);
-
-            Tags = new FlacTagsBlock (size, rawTags);
-            items.Add (Tags);
-        }
-
-        public void AddCuesheet (int size, bool isCD, int trackCount)
-        {
-            var block = new FlacCuesheetBlock (size, isCD, trackCount);
+            var block = new FlacPicBlock (position, size, picType, width, height);
             items.Add (block);
-        }
-
-        public void AddPic (int size, PicType picType, int width, int height)
-        {
-            var pic = new FlacPicBlock (size, picType, width, height);
-            items.Add (pic);
+            if (PicBlock == null)
+                PicBlock = block;
         }
     }
 }

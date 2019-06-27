@@ -9,6 +9,12 @@ namespace TestDiags
     [TestClass]
     public class UnitMvvm
     {
+        [AssemblyInitialize()]
+        public static void AssemblyInit (TestContext context)
+        {
+            FlacFormat.SetMaxPicPlusPadSize (200);
+        }
+
         [TestMethod]
         public void UnitMvvm_M3u()
         {

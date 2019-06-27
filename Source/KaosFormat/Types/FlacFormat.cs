@@ -54,7 +54,7 @@ namespace KaosFormat
                 Data.MinBlockSize = ConvertTo.FromBig16ToInt32 (bb, 2);
                 Data.MinFrameSize = ConvertTo.FromBig24ToInt32 (bb, 4);
                 Data.MaxFrameSize = ConvertTo.FromBig24ToInt32 (bb, 7);
-            
+
                 Data.MetaSampleRate = bb[10] << 12 | bb[11] << 4 | bb[12] >> 4;
                 Data.ChannelCount = ((bb[12] & 0x0E) >> 1) + 1;
                 Data.BitsPerSample = (((bb[12] & 1) << 4) | (bb[13] >> 4)) + 1;
@@ -96,7 +96,7 @@ namespace KaosFormat
                     switch ((FlacBlockType) (bb[0] & 0x7F))
                     {
                         case FlacBlockType.Padding:
-                            Data.Blocks.AddPad (blockSize);
+                            Data.Blocks.AddPad ((int) Data.ValidSize, blockSize);
                             break;
                         case FlacBlockType.Application:
                             got = Data.fbs.Read (bb, 0, 4);
@@ -106,7 +106,7 @@ namespace KaosFormat
                                 return;
                             }
                             int appId = ConvertTo.FromBig32ToInt32 (bb, 0);
-                            Data.Blocks.AddApp (blockSize, appId);
+                            Data.Blocks.AddApp ((int) Data.ValidSize, blockSize, appId);
                             break;
                         case FlacBlockType.SeekTable:
                             var st = new byte[blockSize];
@@ -116,7 +116,7 @@ namespace KaosFormat
                                 IssueModel.Add ("File truncated near seek table", Severity.Fatal);
                                 return;
                             }
-                            Data.Blocks.AddSeekTable (blockSize, st);
+                            Data.Blocks.AddSeekTable ((int) Data.ValidSize, blockSize, st);
                             break;
                         case FlacBlockType.Tags:
                             bb = new byte[blockSize];
@@ -124,13 +124,13 @@ namespace KaosFormat
                             got = Data.fbs.Read (bb, 0, blockSize);
                             if (got != blockSize)
                             {
-                                IssueModel.Add ("File truncated near tags", Severity.Fatal);
+                                IssueModel.Add("File truncated near tags", Severity.Fatal);
                                 return;
                             }
                             if (Data.Blocks.Tags != null)
                                 IssueModel.Add ("Contains multiple tag blocks", Severity.Error);
                             else
-                                Data.Blocks.AddTags (blockSize, bb);
+                                Data.Blocks.AddTags ((int) Data.ValidSize, blockSize, bb);
                             break;
                         case FlacBlockType.CueSheet:
                             var sb = new byte[284];
@@ -142,7 +142,7 @@ namespace KaosFormat
                             }
                             var isCD = (sb[24] & 0x80) != 0;
                             int trackCount = sb[283];
-                            Data.Blocks.AddCuesheet (blockSize, isCD, trackCount);
+                            Data.Blocks.AddCuesheet ((int) Data.ValidSize, blockSize, isCD, trackCount);
                             break;
                         case FlacBlockType.Picture:
                             var pb = new byte[blockSize];
@@ -159,7 +159,7 @@ namespace KaosFormat
                             var desc = Encoding.UTF8.GetString (pb, mimeLen+12, descLen);
                             var width = ConvertTo.FromBig32ToInt32 (pb, mimeLen + descLen + 12);
                             var height = ConvertTo.FromBig32ToInt32 (pb, mimeLen + descLen + 16);
-                            Data.Blocks.AddPic (blockSize, picType, width, height);
+                            Data.Blocks.AddPic ((int) Data.ValidSize, blockSize, picType, width, height);
                             break;
                         case FlacBlockType.Invalid:
                             IssueModel.Add ("Encountered invalid block type", Severity.Fatal);
@@ -348,13 +348,63 @@ namespace KaosFormat
                         IssueModel.Add ("Tag contains character(s) beyond the basic multilingual plane (may cause player issues): " + lx, Severity.Trivia);
                 }
 
-                int picPlusPadSize = 0;
-                foreach (FlacBlockItem block in Data.Blocks.Items)
-                    if (block.BlockType == FlacBlockType.Padding || block.BlockType == FlacBlockType.Picture)
-                        picPlusPadSize += block.Size;
+                int picPlusPadSize = Data.Blocks.Items.Where (b => b.BlockType == FlacBlockType.Padding || b.BlockType == FlacBlockType.Picture).Sum (b => b.Size);
+                int bloat = picPlusPadSize - MaxPicPlusPadSize;
+                if (bloat > 0)
+                {
+                    var msg = $"Artwork/padding consume {picPlusPadSize} bytes.";
 
-                if (picPlusPadSize > 1024*1024)
-                    IssueModel.Add ($"Artwork plus padding consume {picPlusPadSize} bytes.", Severity.Trivia, IssueTags.StrictErr);
+                    repairPadSize = Data.Blocks.PadBlock.Size - bloat;
+                    if (repairPadSize < 0)
+                        IssueModel.Add (msg, Severity.Trivia, IssueTags.StrictErr);
+                    else
+                    {
+                        if (repairPadSize > 4096)
+                            repairPadSize = 4096;
+                        IssueModel.Add (msg, Severity.Trivia, IssueTags.StrictWarn,
+                            $"Trim {Data.Blocks.PadBlock.Size-repairPadSize} bytes of excess padding",
+                            RepairArtPadBloat);
+                    }
+                }
+            }
+
+            private int repairPadSize=-1;
+
+            public string RepairArtPadBloat (bool isFinalRepair)
+            {
+                if (Data.fbs == null || Data.Issues.MaxSeverity >= Severity.Error || repairPadSize < 0)
+                    return "Invalid attempt";
+
+                string err = null;
+                try
+                {
+                    int squeeze = Data.Blocks.PadBlock.Size - repairPadSize;
+                    int padPosition = Data.Blocks.PadBlock.Position;
+                    int nextPosition = Data.Blocks.PadBlock.NextPosition;
+
+                    var padHdr = new byte[3];
+                    padHdr[0] = (byte) (repairPadSize >> 16);
+                    padHdr[1] = (byte) ((repairPadSize >> 8) & 0xFF);
+                    padHdr[2] = (byte) (repairPadSize & 0xFF);
+
+                    var part2 = new byte[(int) Data.FileSize - nextPosition];
+                    Data.fbs.Position = nextPosition;
+                    int got = Data.fbs.Read (part2, 0, part2.Length);
+                    if (got != part2.Length)
+                        return "Read error";
+
+                    Data.fbs.Position = padPosition - 3;
+                    Data.fbs.Write (padHdr, 0, 3);
+                    Data.fbs.Position = padPosition + repairPadSize;
+                    Data.fbs.Write (part2, 0, part2.Length);
+                    Data.fbs.SetLength (Data.FileSize - squeeze);
+
+                    if (isFinalRepair)
+                        CloseFile();
+                }
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
+                { err = ex.Message.TrimEnd(null); }
+                return err;
             }
 
             private static Process StartFlac (string name)
@@ -527,6 +577,7 @@ namespace KaosFormat
             }
         }
 
+
         private static string[] SampleRateMap =
         { "g0000", "88.2kHz", "176.4kHz", "192kHz", "8kHz", "16kHz", "22.05kHz", "24kHz",
           "32kHz", "44.1kHz", "48kHz", "96kHz", "g1100", "g1101", "g1110", "invalid" };
@@ -542,6 +593,13 @@ namespace KaosFormat
             "left/side stereo", "right/side stereo", "mid/side stereo",
             "R1011", "R1100", "R1101", "R1111"
         };
+
+        static public int MaxPicPlusPadSize { get; private set; } = 1024*1024;
+        static public void SetMaxPicPlusPadSize (int maxSize)
+        {
+            if (maxSize >= 0)
+                MaxPicPlusPadSize = maxSize;
+        }
 
         private byte[] mHdr = null;
         private byte[] aHdr = null;
