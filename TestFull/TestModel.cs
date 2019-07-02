@@ -16,7 +16,7 @@ namespace TestDiags
             // Check for least common denominator full framework:
             Assembly view = Assembly.GetAssembly (typeof (KaosDiags.Diags));
             TargetFrameworkAttribute vFramework = view.GetCustomAttributes(false).OfType<TargetFrameworkAttribute>().Single();
-            Assert.AreEqual (".NETFramework,Version=v4.0,Profile=Client", vFramework.FrameworkName);
+            Assert.AreEqual (".NETFramework,Version=v4.0", vFramework.FrameworkName);
         }
 
         [TestMethod]
