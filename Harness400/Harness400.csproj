@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DiagsDomain.cd" />
+  </ItemGroup>
   <Import Project="..\Source\AppViewModel\AppViewModel.projitems" Label="Shared" />
   <Import Project="..\Source\KaosViewModel\KaosViewModel.projitems" Label="Shared" />
   <Import Project="..\Source\KaosSysIo\KaosSysIo.projitems" Label="Shared" />
