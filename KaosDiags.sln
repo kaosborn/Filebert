@@ -27,6 +27,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosFormat", "Source\KaosFo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosIssue", "Source\KaosIssue\KaosIssue.shproj", "{ACB707F0-86A6-49D8-9CB3-0AF81E838B6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test400", "Test400\Test400.csproj", "{080CE209-E01A-4955-B364-289356E9F6E5}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\KaosDiags\KaosDiags.projitems*{0bfea52c-8d91-4bb3-9ac8-39a246fc14a3}*SharedItemsImports = 13
@@ -75,6 +77,10 @@ Global
 		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Debug|Any CPU.ActiveCfg = Debug
 		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Release|Any CPU.ActiveCfg = Release
+		{080CE209-E01A-4955-B364-289356E9F6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080CE209-E01A-4955-B364-289356E9F6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080CE209-E01A-4955-B364-289356E9F6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080CE209-E01A-4955-B364-289356E9F6E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
