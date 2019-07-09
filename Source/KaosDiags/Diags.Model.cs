@@ -159,7 +159,7 @@ namespace KaosDiags
                             SetCurrentFile (Path.GetDirectoryName (fInfo.FullName), Path.GetFileName (fInfo.FullName));
 
                             // Unsetting _FlacMatch will optimize away unused PCM-32 calculations.
-                            Hashes hFlags = Data.HashFlags;
+                            Hashes hFlags = Data.HashFlags | Hashes._DirCheck;
                             if ((hFlags & Hashes._FlacMatch) != 0 && logCount == 0)
                                 hFlags &= ~ Hashes._FlacMatch;
 
@@ -179,7 +179,7 @@ namespace KaosDiags
                                 else if (fmtModel is Mp3Format.Model mp3Model)
                                     mp3s.Add (mp3Model.Data);
                                 else if (fmtModel is CueFormat.Model cueModel)
-                                    cueModel.Validate (flacs);
+                                    cueModel.Validate (hFlags, flacs);
                                 else if (fmtModel is LogFormat.Model logModel)
                                     if (Data.IsFlacRipCheckEnabled || Data.IsMp3RipCheckEnabled)
                                         if (logCount > 1)

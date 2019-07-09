@@ -402,7 +402,7 @@ namespace AppViewModel
         public override bool IsRepairEnabled
         {
             get => Response != Interaction.None;
-            set => Response = value ? Interaction.RepairLater : Interaction.None;
+            set => SetResponse (value ? Interaction.RepairLater : Interaction.None);
         }
 
         public Hashes HashToggle

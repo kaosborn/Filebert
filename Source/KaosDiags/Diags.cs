@@ -71,7 +71,7 @@ namespace KaosDiags
         public bool IsDigestForm => Scope != Granularity.Detail
                     && (hashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0;
 
-        private Hashes hashFlags = Hashes.Intrinsic;
+        protected Hashes hashFlags = Hashes.Intrinsic;
         public Hashes HashFlags
         {
             get => hashFlags;
@@ -133,11 +133,14 @@ namespace KaosDiags
         public virtual bool IsRepairEnabled
         {
             get => Response != Interaction.None;
-            set
-            {
-                Response = value ? Interaction.PromptToRepair : Interaction.None;
-                RaisePropertyChanged (nameof (IsRepairEnabled));
-            }
+            set => SetResponse (value ? Interaction.PromptToRepair : Interaction.None);
+        }
+
+        protected void SetResponse (Interaction response)
+        {
+            Response = response;
+            hashFlags = Response != Interaction.None ? (hashFlags | Hashes._Repairing) : (hashFlags & ~ Hashes._Repairing);
+            RaisePropertyChanged (nameof (IsRepairEnabled));
         }
 
         public static string FormatListText

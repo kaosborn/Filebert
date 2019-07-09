@@ -99,11 +99,11 @@ namespace KaosFormat
                 }
             }
 
-            public void Validate (IList<FlacFormat> flacs)
+            public void Validate (Hashes hashFlags, IList<FlacFormat> flacs)
             {
                 actualFlacs = flacs;
 
-                if (flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
+                if ((hashFlags & Hashes._Repairing) == 0 || flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
                     GetDiagnostics();
                 else if (flacs.Count == Data.Files.Items.Count)
                 {
@@ -114,8 +114,15 @@ namespace KaosFormat
                 }
                 else if (Data.Files.Items.Count != 1)
                     Data.FcIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac file(s) yet .cue contains {Data.Files.Items.Count} file reference(s).",
-                                                   Severity.Error,
-                                                   IssueTags.Failure);
+                                                   Severity.Error, IssueTags.Failure);
+            }
+
+            public override void CalcHashes (Hashes hashFlags, Validations validationFlags)
+            {
+                base.CalcHashes (hashFlags, validationFlags);
+
+                if ((hashFlags & Hashes._DirCheck) == 0)
+                    GetDiagnostics();
             }
 
             private IList<FlacFormat> actualFlacs = null;
