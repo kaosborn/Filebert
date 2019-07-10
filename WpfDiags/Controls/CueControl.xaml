@@ -42,7 +42,7 @@
             <TextBlock Grid.Row="1" Text="Catalog:"/>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Catalog, Mode=OneWay}"/>
         </Grid>
-        <TextBlock Grid.RowSpan="2" Grid.Column="2" ToolTip="Click to view"
+        <TextBlock Grid.RowSpan="2" Grid.Column="2" ToolTip="click to view"
                    Text="&#x2B00;" FontSize="32" Foreground="White" Background="#00000000"
                    Margin="0,0,0,-7" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <TextBlock.InputBindings>
