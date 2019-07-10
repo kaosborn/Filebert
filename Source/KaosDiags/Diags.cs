@@ -51,7 +51,7 @@ namespace KaosDiags
 
         public bool IsDirShown { get; set; } = false;
         public bool IsFileShown { get; set; } = false;
-        public int ConsoleLinesReported { get; protected set; } = -1;
+        public int ConsoleLinesReported { get; protected set; } = 0;
         public int ProgressTotal { get; protected set; } = 0;
         public int TotalFiles { get; set; }
         public int TotalRepairable { get; set; }

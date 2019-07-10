@@ -43,7 +43,7 @@ namespace AppView
             {
                 viewModel.IsFileShown = true;
 
-                if (viewModel.ConsoleLinesReported > 0)
+                if (viewModel.ConsoleLinesReported > 1)
                     if (viewModel.Scope == Granularity.Detail)
                         consoleBox.AppendText (Environment.NewLine + KaosDiags.Diags.MinorSeparator + Environment.NewLine);
                     else if (! viewModel.IsDigestForm)
@@ -55,7 +55,7 @@ namespace AppView
 
                     if (viewModel.IsDigestForm)
                     {
-                        if (viewModel.ConsoleLinesReported > 0)
+                        if (viewModel.ConsoleLinesReported > 1)
                             consoleBox.AppendText (Environment.NewLine);
                         consoleBox.AppendText ("; ");
                     }

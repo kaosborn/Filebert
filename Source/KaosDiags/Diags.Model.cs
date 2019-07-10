@@ -413,9 +413,9 @@ namespace KaosDiags
             {
                 SetCurrentFile (null, null);
                 IList<string> rollups = Data.GetReportRollups (verb);
-                if (Data.TotalFiles > 1)
+                if (Data.TotalFiles > 0)
                 {
-                    if (Data.ConsoleLinesReported > 0)
+                    if (Data.ConsoleLinesReported > 1)
                     {
                         Data.OnMessageSend (String.Empty);
                         Data.OnMessageSend ((Data.IsDigestForm ? "; " : String.Empty) + KaosDiags.Diags.MajorSeparator);

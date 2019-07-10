@@ -62,7 +62,7 @@ namespace AppView
             {
                diags.IsFileShown = true;
 
-                if (diags.ConsoleLinesReported > 0)
+                if (diags.ConsoleLinesReported > 1)
                     if (diags.Scope == Granularity.Detail)
                     { Trace.WriteLine (String.Empty); Trace.WriteLine (Diags.MinorSeparator); }
                     else if (! diags.IsDigestForm)
@@ -74,7 +74,7 @@ namespace AppView
 
                     if (diags.IsDigestForm)
                     {
-                        if (diags.ConsoleLinesReported > 0)
+                        if (diags.ConsoleLinesReported > 1)
                             Trace.WriteLine (String.Empty);
                         Trace.Write ("; ");
                     }
