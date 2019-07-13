@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\AifControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ApeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +193,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Behaviors.cs" />
+    <Compile Include="Controls\AifControl.xaml.cs">
+      <DependentUpon>AifControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ApeControl.xaml.cs">
       <DependentUpon>ApeControl.xaml</DependentUpon>
     </Compile>

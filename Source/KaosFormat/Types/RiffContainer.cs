@@ -39,7 +39,7 @@ namespace KaosFormat
                     }
                     catch (EndOfStreamException)
                     {
-                        IssueModel.Add ("File truncated or corrupt", Severity.Fatal);
+                        IssueModel.Add ("File truncated or corrupt.", Severity.Fatal);
                         return;
                     }
                     var got = Data.fbs.Read (buf, 0, 8);
@@ -89,8 +89,8 @@ namespace KaosFormat
             }
         }
 
-        public long RiffSize { get; private set; }
-        public int RiffChunkCount { get; private set; }
+        public long RiffSize { get; protected set; }
+        public int RiffChunkCount { get; protected set; }
         public long JunkSize { get; private set; }
 
         public long ExpectedPaddedSize => ((ValidSize - JunkSize + 2048 + 8) / 2048) * 2048;

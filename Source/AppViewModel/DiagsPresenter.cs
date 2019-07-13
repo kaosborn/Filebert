@@ -31,6 +31,7 @@ namespace AppViewModel
                 foreach (string heading in Ui.GetHeadings())
                     Data.tiModels.Add (new TabInfo.Model (heading, Data.tiModels.Count));
 
+                Data.TabAif = GetTabInfoData ("aif");
                 Data.TabApe = GetTabInfoData ("ape");
                 Data.TabAsf = GetTabInfoData ("asf");
                 Data.TabAvi = GetTabInfoData ("avi");
@@ -274,6 +275,7 @@ namespace AppViewModel
 
         public int JobCounter { get; private set; } = 0;  // For test.
 
+        public TabInfo TabAif { get; private set; }
         public TabInfo TabApe { get; private set; }
         public TabInfo TabAsf { get; private set; }
         public TabInfo TabAvi { get; private set; }
@@ -343,7 +345,7 @@ namespace AppViewModel
         }
 
         private int currentTabNumber;
-        public int CurrentTabNumber 
+        public int CurrentTabNumber
         {
             get => currentTabNumber;
             set { currentTabNumber = value; RaisePropertyChanged (null); }

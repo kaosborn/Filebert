@@ -8,7 +8,7 @@ namespace TestDiags
     [TestClass]
     public class TestDiags
     {
-        public string ExpectedTypes => "ape, asf/wmv/wma, avi/divx, cue, db (Thumbs), flac, flv, gif, ico, jpg/jpeg, log (EAC), log (XLD), m3u, m3u8, m4a, md5, mkv/mka/webm, mov/qt, mp3, mp4, mpg/mpeg/vob, ogg/ogm/ogv, png, sha1, sha1x, sha256, wav";
+        public string ExpectedTypes => "aif/aiff/aifc, ape, asf/wmv/wma, avi/divx, cue, db (Thumbs), flac, flv, gif, ico, jpg/jpeg, log (EAC), log (XLD), m3u, m3u8, m4a, md5, mkv/mka/webm, mov/qt, mp3, mp4, mpg/mpeg/vob, ogg/ogm/ogv, png, sha1, sha1x, sha256, wav";
 
         [TestMethod]
         public void UnitV_FrameworkProfile()
