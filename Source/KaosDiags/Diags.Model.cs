@@ -413,17 +413,15 @@ namespace KaosDiags
             {
                 SetCurrentFile (null, null);
                 IList<string> rollups = Data.GetReportRollups (verb);
-                if (Data.TotalFiles > 0)
-                {
-                    if (Data.ConsoleLinesReported > 1)
-                    {
-                        Data.OnMessageSend (String.Empty);
-                        Data.OnMessageSend ((Data.IsDigestForm ? "; " : String.Empty) + KaosDiags.Diags.MajorSeparator);
-                    }
 
-                    foreach (var lx in rollups)
-                        Data.OnMessageSend (Data.IsDigestForm ? "; " + lx : lx);
+                if (Data.ConsoleLinesReported > 0)
+                {
+                    Data.OnMessageSend (String.Empty);
+                    Data.OnMessageSend ((Data.IsDigestForm ? "; " : String.Empty) + KaosDiags.Diags.MajorSeparator);
                 }
+
+                foreach (var lx in rollups)
+                    Data.OnMessageSend (Data.IsDigestForm ? "; " + lx : lx);
 
                 ResetTotals();
             }
