@@ -60,7 +60,12 @@ namespace AppController
                     { Console.Error.WriteLine ("Ignoring malformed <mirror>"); }
 
                 if (model.Data.Scope <= Granularity.Verbose)
-                { Trace.WriteLine ($"{ProductText} v{VersionText}"); Trace.WriteLine (String.Empty); }
+                {
+                    if (model.Data.IsDigestForm)
+                        Trace.Write ("; ");
+                    Trace.WriteLine ($"{ProductText} v{VersionText}");
+                    Trace.WriteLine (String.Empty);
+                }
 
                 viewFactory.Create (this, model.Data);
                 exitCode = (int) Severity.NoIssue;
