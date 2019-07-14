@@ -103,7 +103,7 @@ namespace KaosFormat
                 base.CalcHashes (hashFlags, validationFlags);
             }
 
-            protected void GetDiagnostics (string repairPrompt=null, Func<bool,string> repairer=null)
+            protected void GetDiagnostics (string repairPrompt=null, Func<bool,string> repairer=null, bool isRepairing=false)
             {
                 if (Data.MissingCount == null)
                     return;
@@ -123,7 +123,7 @@ namespace KaosFormat
                 else
                 {
                     msg += $" failed with {Data.MissingCount} not found.";
-                    sev = repairPrompt != null ? Severity.Warning : Severity.Error;
+                    sev = repairPrompt != null && isRepairing ? Severity.Warning : Severity.Error;
                     tag = IssueTags.Failure;
                 }
 

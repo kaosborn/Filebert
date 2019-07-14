@@ -103,14 +103,15 @@ namespace KaosFormat
             {
                 actualFlacs = flacs;
 
-                if ((hashFlags & Hashes._Repairing) == 0 || flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
+                if (
+                    flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
                     GetDiagnostics();
                 else if (flacs.Count == Data.Files.Items.Count)
                 {
                     var m = "Repair bad file reference";
                     if (Data.MissingCount != 1)
                         m += "s";
-                    GetDiagnostics (m, RepairMissing);
+                    GetDiagnostics (m, RepairMissing, (hashFlags & Hashes._Repairing) != 0);
                 }
                 else if (Data.Files.Items.Count != 1)
                     Data.FcIssue = IssueModel.Add ($"Folder contains {flacs.Count} .flac file(s) yet .cue contains {Data.Files.Items.Count} file reference(s).",

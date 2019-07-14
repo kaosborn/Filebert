@@ -403,7 +403,7 @@ namespace KaosDiags
                             if (reportScope <= Granularity.Detail)
                             { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
 
-                        Data.OnMessageSend (item.Message, severity);
+                        Data.OnMessageSend (item.FixedMessage, severity);
                     }
                     ++reportIssueIndex;
                 }

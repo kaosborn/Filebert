@@ -167,12 +167,13 @@ namespace KaosIssue
             get
             {
                 string result = Message;
-                if (Level >= Severity.Warning)
-                    result = $"{Level}: {result}";
-                if (IsRepairSuccessful == true)
-                    result += " [Repaired!]";
-                else if (RepairError != null)
-                    result += $" [Repair failed: {RepairError}]";
+                if (Level >= Severity.Warning && Repairer != null)
+                    if (IsRepairSuccessful == null)
+                        result += " [repairable]";
+                    else if (IsRepairSuccessful == true)
+                        result += " [repaired!]";
+                    else if (RepairError != null)
+                        result += $" [repair failed: {RepairError}]";
                 return result;
             }
         }
