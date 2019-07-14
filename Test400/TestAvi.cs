@@ -6,7 +6,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtAvi
+    public class TestAvi
     {
         [TestMethod]
         public void UnitAvi_1()

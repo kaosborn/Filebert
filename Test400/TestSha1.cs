@@ -6,7 +6,7 @@ using KaosIssue;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtSha1
+    public class TestSha1
     {
         [TestMethod]
         public void UnitSha1_OK()

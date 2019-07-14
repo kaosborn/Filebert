@@ -7,7 +7,7 @@ using AppViewModel;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitMvvm
+    public class TestMvvm
     {
         [AssemblyInitialize()]
         public static void AssemblyInit (TestContext context)

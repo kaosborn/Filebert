@@ -6,7 +6,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtIco
+    public class TestIco
     {
         [TestMethod]
         public void UnitIco_1()

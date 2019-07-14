@@ -3,11 +3,11 @@ using System.IO;
 
 namespace KaosFormat
 {
-    public class Mpeg1Format : RiffContainer
+    public class Mpeg1Format : IffContainer
     {
         public override string[] Names => Mpeg2Format.SNames;
 
-        public new class Model : RiffContainer.Model
+        public new class Model : IffContainer.Model
         {
             public new readonly Mpeg1Format Data;
 

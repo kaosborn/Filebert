@@ -6,7 +6,7 @@ using KaosIssue;
 
 namespace KaosFormat
 {
-    public class AviFormat : RiffContainer
+    public class AviFormat : IffContainer
     {
         public static string[] SNames => new string[] { "avi", "divx" };
         public override string[] Names => SNames;
@@ -21,7 +21,7 @@ namespace KaosFormat
         }
 
 
-        public new class Model : RiffContainer.Model
+        public new class Model : IffContainer.Model
         {
             public new readonly AviFormat Data;
 

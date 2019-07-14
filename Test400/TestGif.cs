@@ -6,7 +6,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtGif
+    public class TestGif
     {
         [TestMethod]
         public void UnitGif_1()

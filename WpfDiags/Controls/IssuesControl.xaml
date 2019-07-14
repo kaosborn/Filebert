@@ -31,7 +31,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <TextBlock Text="{Binding Path=FixedMessage}"/>
+                    <TextBlock Text="{Binding Path=LongMessage}"/>
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>

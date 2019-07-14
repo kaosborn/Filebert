@@ -6,7 +6,7 @@ using KaosIssue;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtMp3
+    public class TestMp3
     {
         [TestMethod]
         public void UnitMp3_1()

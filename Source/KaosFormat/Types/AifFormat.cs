@@ -10,7 +10,7 @@ namespace KaosFormat
     // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/AIFF/Samples.html
     // http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/AIFF/AIFF.html
 
-    public class AifFormat : RiffContainer
+    public class AifFormat : IffContainer
     {
         public static string[] SNames => new string[] { "aif", "aiff", "aifc" };
         public override string[] Names => SNames;
@@ -24,7 +24,7 @@ namespace KaosFormat
             return null;
         }
 
-        public new class Model : RiffContainer.Model
+        public new class Model : IffContainer.Model
         {
             public new readonly AifFormat Data;
 
@@ -74,8 +74,8 @@ namespace KaosFormat
                 Data.ChannelCount = ConvertTo.FromBig16ToInt32 (hdr, hPos + 8);
                 Data.SampleSize = ConvertTo.FromBig16ToInt32 (hdr, hPos + 14);
 
-                ++Data.RiffChunkCount;
-                Data.RiffSize = gSize;
+                ++Data.IffChunkCount;
+                Data.IffSize = gSize;
                 Data.mediaPosition = 0;
                 Data.MediaCount = gSize + 8;
                 Data.ValidSize = hPos + cSize + 8;

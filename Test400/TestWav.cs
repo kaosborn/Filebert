@@ -6,7 +6,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtWav
+    public class TestWav
     {
         [TestMethod]
         public void UnitWav_1()

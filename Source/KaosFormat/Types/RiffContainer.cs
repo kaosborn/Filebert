@@ -4,11 +4,11 @@ using KaosIssue;
 
 namespace KaosFormat
 {
-    public abstract class RiffContainer : FormatBase
+    public abstract class IffContainer : FormatBase
     {
         public abstract new class Model : FormatBase.Model
         {
-            public new RiffContainer Data => (RiffContainer) _data;
+            public new IffContainer Data => (IffContainer) _data;
 
             protected void ParseRiff (byte[] hdr)
             {
@@ -26,8 +26,8 @@ namespace KaosFormat
                         return;
                     }
 
-                    ++Data.RiffChunkCount;
-                    Data.RiffSize = Data.ValidSize = Data.ValidSize + chunkSize;
+                    ++Data.IffChunkCount;
+                    Data.IffSize = Data.ValidSize = Data.ValidSize + chunkSize;
 
                     if (Data.ValidSize + 8 > Data.FileSize)
                         // Not enough bytes for a header.
@@ -65,9 +65,9 @@ namespace KaosFormat
                 }
             }
 
-            protected void GetRiffDiagnostics()
+            protected void GetIffDiagnostics()
             {
-                if (Data.RiffSize <= 12)
+                if (Data.IffSize <= 12)
                     IssueModel.Add ("Missing data", Severity.Error);
 
                 long unparsedSize = Data.FileSize - Data.ValidSize - Data.ExcessSize;
@@ -77,7 +77,7 @@ namespace KaosFormat
 
             protected void GetDiagsForMarkable()
             {
-                if (Data.RiffSize <= 12)
+                if (Data.IffSize <= 12)
                     IssueModel.Add ("Missing data", Severity.Error);
 
                 if (Data.ExcessSize == 0)
@@ -89,24 +89,24 @@ namespace KaosFormat
             }
         }
 
-        public long RiffSize { get; protected set; }
-        public int RiffChunkCount { get; protected set; }
+        public long IffSize { get; protected set; }
+        public int IffChunkCount { get; protected set; }
         public long JunkSize { get; private set; }
 
         public long ExpectedPaddedSize => ((ValidSize - JunkSize + 2048 + 8) / 2048) * 2048;
 
-        protected RiffContainer (Model model, Stream stream, string path) : base (model, stream, path)
+        protected IffContainer (Model model, Stream stream, string path) : base (model, stream, path)
         { }
 
         public override void GetReportDetail (IList<string> report)
         {
-            report.Add ($"RIFF size = {RiffSize}");
+            report.Add ($"RIFF size = {IffSize}");
 
             if (JunkSize > 0)
                 report.Add ($"JUNK size = {JunkSize}");
 
-            if (RiffChunkCount != 1)
-                report.Add ($"RIFF chunks = {RiffChunkCount}");
+            if (IffChunkCount != 1)
+                report.Add ($"RIFF chunks = {IffChunkCount}");
         }
     }
 }

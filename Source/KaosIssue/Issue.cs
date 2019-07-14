@@ -49,7 +49,7 @@ namespace KaosIssue
                     if (Data.MaxSeverity < level)
                         Data.MaxSeverity = level;
 
-                    Data.RaisePropertyChanged (nameof (FixedMessage));
+                    Data.RaisePropertyChanged (nameof (LongMessage));
                     return issue;
                 }
 
@@ -162,7 +162,7 @@ namespace KaosIssue
             }
         }
 
-        public string FixedMessage
+        public string LongMessage
         {
             get
             {
@@ -185,6 +185,6 @@ namespace KaosIssue
         public bool IsNoise => Level <= Severity.Noise;
         public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
         public string RepairQuestion => RepairPrompt + "?";
-        public override string ToString() => FixedMessage;
+        public override string ToString() => LongMessage;
     }
 }

@@ -5,7 +5,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtCue
+    public class TestCue
     {
         [TestMethod]
         public void UnitCue_Rip1()

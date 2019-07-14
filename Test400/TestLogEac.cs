@@ -7,7 +7,7 @@ using KaosIssue;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtLogEac
+    public class TestLogEac
     {
         [TestMethod]
         public void UnitLogEac_OK1()

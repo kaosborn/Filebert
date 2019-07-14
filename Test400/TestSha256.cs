@@ -6,7 +6,7 @@ using KaosIssue;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtSha256
+    public class TestSha256
     {
         [TestMethod]
         public void UnitSha256_OK3()

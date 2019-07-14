@@ -6,7 +6,7 @@ using KaosIssue;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtPng
+    public class TestPng
     {
         [TestMethod]
         public void UnitPng_1()

@@ -11,7 +11,7 @@ namespace KaosFormat
 
     // www.sonicspot.com/guide/wavefiles.html (broken?)
     // wiki.audacityteam.org/wiki/WAV
-    public sealed class WavFormat : RiffContainer
+    public sealed class WavFormat : IffContainer
     {
         public static string[] SNames => new string[] { "wav" };
         public override string[] Names => SNames;
@@ -25,7 +25,7 @@ namespace KaosFormat
         }
 
 
-        public new class Model : RiffContainer.Model
+        public new class Model : IffContainer.Model
         {
             public new readonly WavFormat Data;
 
@@ -46,7 +46,7 @@ namespace KaosFormat
                     return;
                 }
 
-                if (Data.RiffChunkCount > 1)
+                if (Data.IffChunkCount > 1)
                 {
                     IssueModel.Add ("Contains multiple RIFF chunks", Severity.Fatal);
                     return;
@@ -91,19 +91,19 @@ namespace KaosFormat
 
                 Data.mediaPosition = dataPos + 8;
                 Data.MediaCount = ConvertTo.FromLit32ToUInt32 (dHdr, 4);
-                if (Data.mediaPosition + Data.MediaCount > Data.RiffSize)
+                if (Data.mediaPosition + Data.MediaCount > Data.IffSize)
                 {
                     IssueModel.Add ("Invalid data size", Severity.Fatal);
                     return;
                 }
 
-                Data.HasTags = Data.mediaPosition + Data.MediaCount < Data.RiffSize;
+                Data.HasTags = Data.mediaPosition + Data.MediaCount < Data.IffSize;
                 GetDiagnostics();
             }
 
             protected void GetDiagnostics()
             {
-                GetRiffDiagnostics();
+                GetIffDiagnostics();
 
                 if (Data.CompCode != (int) WaveCompression.PCM)
                     IssueModel.Add ("Data is not PCM", Severity.Trivia, IssueTags.Substandard);

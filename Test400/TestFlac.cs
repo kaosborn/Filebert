@@ -6,7 +6,7 @@ using KaosFormat;
 namespace TestDiags
 {
     [TestClass]
-    public class UnitFmtFlac
+    public class TestFlac
     {
         [TestMethod]
         public void UnitFlac_1()
