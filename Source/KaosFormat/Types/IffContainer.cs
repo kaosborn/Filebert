@@ -100,13 +100,13 @@ namespace KaosFormat
 
         public override void GetReportDetail (IList<string> report)
         {
-            report.Add ($"RIFF size = {IffSize}");
+            report.Add ($"IFF size = {IffSize}");
 
             if (JunkSize > 0)
                 report.Add ($"JUNK size = {JunkSize}");
 
             if (IffChunkCount != 1)
-                report.Add ($"RIFF chunks = {IffChunkCount}");
+                report.Add ($"IFF chunk count = {IffChunkCount}");
         }
     }
 }
