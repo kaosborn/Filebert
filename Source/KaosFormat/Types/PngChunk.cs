@@ -21,6 +21,7 @@ namespace KaosFormat
                  => Data.items[index].ActualCRC = crc;
             }
 
+
             private readonly ObservableCollection<PngChunk> items;
             public ReadOnlyObservableCollection<PngChunk> Items { get; private set; }
 

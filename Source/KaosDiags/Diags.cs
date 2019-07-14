@@ -68,8 +68,9 @@ namespace KaosDiags
         protected Diags()
          => this.QuestionAsk = QuestionAskDefault;
 
-        public bool IsDigestForm => Scope != Granularity.Detail
-                    && (hashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0;
+        public bool IsDigestForm
+         => Scope != Granularity.Detail
+            && (hashFlags & (Hashes.FileMD5|Hashes.FileSHA1|Hashes.FileSHA256|Hashes.MetaSHA1|Hashes.MediaSHA1)) != 0;
 
         protected Hashes hashFlags = Hashes.Intrinsic;
         public Hashes HashFlags

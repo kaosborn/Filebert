@@ -273,7 +273,7 @@ namespace AppViewModel
 
         private readonly List<TabInfo.Model> tiModels = new List<TabInfo.Model>();
 
-        public int JobCounter { get; private set; } = 0;  // For test.
+        public int JobCounter { get; private set; }=0;  // For test.
 
         public TabInfo TabAif { get; private set; }
         public TabInfo TabApe { get; private set; }
@@ -307,11 +307,7 @@ namespace AppViewModel
         public int TagHelpHits
         {
             get => tagHelpHits;
-            set
-            {
-                tagHelpHits = value;
-                RaisePropertyChanged (nameof (TagHelpHits));
-            }
+            set { tagHelpHits = value; RaisePropertyChanged (nameof (TagHelpHits)); }
         }
 
         public FormatBase baseFormat=null;
@@ -321,14 +317,14 @@ namespace AppViewModel
           private set { baseFormat = value; RaisePropertyChanged (nameof (BaseFormat)); }
         }
 
-        private double progressFactor = 0;
+        private double progressFactor=0;
         public double ProgressFactor
         {
             get => progressFactor;
             private set { progressFactor = value; RaisePropertyChanged (nameof (ProgressFactor)); }
         }
 
-        private int progressPercent = 0;
+        private int progressPercent=0;
         public int ProgressPercent
         {
             get => progressPercent;

@@ -103,8 +103,7 @@ namespace KaosFormat
             {
                 actualFlacs = flacs;
 
-                if (
-                    flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
+                if (flacs == null || flacs.Count == 0 || flacs.Max (s => s.Issues.MaxSeverity) >= Severity.Error)
                     GetDiagnostics();
                 else if (flacs.Count == Data.Files.Items.Count)
                 {

@@ -33,6 +33,7 @@ namespace KaosFormat
             }
         }
 
+
         public LogXldTrack (int number, string fileName, uint? testCRC, uint? copyCRC)
             : base (number, fileName, testCRC, copyCRC)
         { }

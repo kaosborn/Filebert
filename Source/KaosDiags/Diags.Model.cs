@@ -158,7 +158,7 @@ namespace KaosDiags
                         {
                             SetCurrentFile (Path.GetDirectoryName (fInfo.FullName), Path.GetFileName (fInfo.FullName));
 
-                            // Unsetting _FlacMatch will optimize away unused PCM-32 calculations.
+                            // Clearing _FlacMatch will optimize away unused PCM-32 calculations.
                             Hashes hFlags = Data.HashFlags | Hashes._DirCheck;
                             if ((hFlags & Hashes._FlacMatch) != 0 && logCount == 0)
                                 hFlags &= ~ Hashes._FlacMatch;

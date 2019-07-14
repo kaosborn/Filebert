@@ -95,6 +95,7 @@ namespace KaosFormat
             public int? RipMismatchCount { get; private set; } = null;
         }
 
+
         public int Number { get; private set; }
         public string FileName { get; private set; }
         public UInt32? TestCRC { get; private set; }
