@@ -102,7 +102,7 @@ namespace KaosFormat
                         hasSSND = true;
                     }
                     else if (id != "(c) " && id != "ANNO" && id != "AUTH" && id != "NAME")
-                    { IssueModel.Add ($"Unexpected '{id}' chunk."); return; }
+                    { IssueModel.Add($"Unexpected '{id}' chunk.", Severity.Trivia, IssueTags.StrictWarn); return; }
 
                     Data.ValidSize += cSize + 8;
                     if ((cSize & 1) != 0)
