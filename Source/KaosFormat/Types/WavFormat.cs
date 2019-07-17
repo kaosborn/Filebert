@@ -11,7 +11,7 @@ namespace KaosFormat
 
     // www.sonicspot.com/guide/wavefiles.html (broken?)
     // wiki.audacityteam.org/wiki/WAV
-    public sealed class WavFormat : IffContainer
+    public class WavFormat : IffContainer
     {
         public static string[] SNames => new string[] { "wav" };
         public override string[] Names => SNames;
