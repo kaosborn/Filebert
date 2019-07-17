@@ -4,7 +4,6 @@
     <Position X="0.5" Y="0.5" Width="2" />
     <Members>
       <Property Name="Failure" Hidden="true" />
-      <Property Name="FixedMessage" Hidden="true" />
       <Property Name="HasRepairer" Hidden="true" />
       <Property Name="IsFinalRepairer" Hidden="true" />
       <Property Name="IsNoise" Hidden="true" />
@@ -73,7 +72,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAECCAEAgQAAEAAoAAAiAggACAACBQAEAIAAIIAA=</HashCode>
+      <HashCode>AAAAAECCAEAgAAAEgAoAAAiAggACAACBQAEAIAAIIAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -119,6 +118,11 @@
         </TypeIdentifier>
       </Class>
     </NestedTypes>
+    <AssociationLine Name="ModelFactory" Type="KaosFormat.FormatModelFactory">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.054" Y="0.157" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAgAAAcAEAAAAgAAAAAAAQBAAAAAAAAAAAAAAEAIA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FileFormat.cs</FileName>
@@ -174,21 +178,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.StringBuilderExtensions" Collapsed="true">
-    <Position X="7.75" Y="3" Width="2" />
+    <Position X="9.5" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Extensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.StreamExtensions" Collapsed="true">
-    <Position X="7.75" Y="3.75" Width="1.5" />
+    <Position X="10" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Extensions.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.ConvertTo" Collapsed="true">
-    <Position X="7.75" Y="4.5" Width="1.5" />
+    <Position X="10" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAMAAQIAABAAAASAAAAAAAAIAAQAAEAgAACAACQAAg=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Extensions.cs</FileName>
@@ -333,17 +337,24 @@
   <Class Name="KaosFormat.FormatBase" Collapsed="true">
     <Position X="0.5" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAGEiABSIAVgAoJAAAQGAAQg5AEgyCAAYiQgAEJghEA=</HashCode>
+      <HashCode>AAGEiABSIAVgAoJAAAYGAAQg5AEgyCAAQiQgAEJghEA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="KaosFormat.CueFormat" Collapsed="true">
-    <Position X="7.75" Y="8" Width="1.5" />
+    <Position X="3.25" Y="8" Width="1.25" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
+    <InheritanceLine Type="KaosFormat.FilesContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.125" Y="7.691" />
+        <Point X="3.125" Y="8.312" />
+        <Point X="3.25" Y="8.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAABAgAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\CueFormat.cs</FileName>
@@ -399,10 +410,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.M3uFormat" Collapsed="true">
-    <Position X="7.75" Y="9" Width="1.5" />
+    <Position X="3.25" Y="9" Width="1.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
+    <InheritanceLine Type="KaosFormat.FilesContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.125" Y="7.691" />
+        <Point X="3.125" Y="9.312" />
+        <Point X="3.25" Y="9.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\M3uFormat.cs</FileName>
@@ -458,19 +476,19 @@
       <Path>
         <Point X="1.25" Y="6.562" />
         <Point X="1.25" Y="6.812" />
-        <Point X="2.903" Y="6.812" />
-        <Point X="2.903" Y="11.51" />
+        <Point X="2.736" Y="6.812" />
+        <Point X="2.736" Y="11.51" />
         <Point X="4" Y="11.51" />
         <Point X="4" Y="11.75" />
       </Path>
     </InheritanceLine>
     <AssociationLine Name="Blocks" Type="KaosFormat.FlacBlockList">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.046" Y="0.068" Height="0.182" Width="0.67" />
+        <Position X="0.032" Y="0.207" Height="0.182" Width="0.67" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>BgKG1MlGLAgQWCAgAABACAEQQhAABsAYoAAAiCIgKBA=</HashCode>
+      <HashCode>BwOG1MlGLAgQWCAgAABACAEQQhAABsAYoAAAiCIgKBA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\FlacFormat.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -499,9 +517,9 @@
       <Path>
         <Point X="1.25" Y="6.562" />
         <Point X="1.25" Y="6.812" />
-        <Point X="0.75" Y="6.812" />
-        <Point X="0.75" Y="8.375" />
-        <Point X="1" Y="8.375" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="8.312" />
+        <Point X="1" Y="8.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -511,6 +529,15 @@
   </Class>
   <Class Name="KaosFormat.FlvFormat" Collapsed="true">
     <Position X="1" Y="11" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="11.312" />
+        <Point X="1" Y="11.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAAAAggAACABAAAAAAIAAAQ=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\FlvFormat.cs</FileName>
@@ -523,8 +550,8 @@
         <Point X="1.25" Y="6.562" />
         <Point X="1.25" Y="6.812" />
         <Point X="0.76" Y="6.812" />
-        <Point X="0.76" Y="9.375" />
-        <Point X="1" Y="9.375" />
+        <Point X="0.76" Y="9.312" />
+        <Point X="1" Y="9.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -534,6 +561,15 @@
   </Class>
   <Class Name="KaosFormat.DbOtherFormat" Collapsed="true">
     <Position X="1" Y="10" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="10.312" />
+        <Point X="1" Y="10.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAQAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\DbFormat.cs</FileName>
@@ -541,6 +577,15 @@
   </Class>
   <Class Name="KaosFormat.GifFormat" Collapsed="true">
     <Position X="1" Y="12" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="12.312" />
+        <Point X="1" Y="12.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>IgAAgAAABAAAAAAAAAAAAEIAAgAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\GifFormat.cs</FileName>
@@ -548,13 +593,29 @@
   </Class>
   <Class Name="KaosFormat.IcoFormat" Collapsed="true">
     <Position X="1" Y="13" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="13.312" />
+        <Point X="1" Y="13.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAIAAAACAAAAAAAAQAAgAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\IcoFormat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.M3u8Format" Collapsed="true">
-    <Position X="7.75" Y="10" Width="1.5" />
+    <Position X="3.25" Y="10" Width="1.25" />
+    <InheritanceLine Type="KaosFormat.FilesContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.125" Y="7.691" />
+        <Point X="3.125" Y="10.25" />
+        <Point X="3.25" Y="10.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\M3u8Format.cs</FileName>
@@ -562,6 +623,15 @@
   </Class>
   <Class Name="KaosFormat.OggFormat" Collapsed="true">
     <Position X="1" Y="16" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="16.312" />
+        <Point X="1" Y="16.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAACAAAAEAAAAAAQgAABAAAAAAAAAIQAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\OggFormat.cs</FileName>
@@ -631,20 +701,19 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacBlockItem" Collapsed="true">
-    <Position X="3.25" Y="13.75" Width="1.5" />
+    <Position X="3.25" Y="14" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAEAAAAAAQAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAAAAAAAAgAAkAAAAAAQAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\FlacBlockList.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacPadBlock" Collapsed="true">
-    <Position X="3.75" Y="14.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="15" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="14.51" />
-        <Point X="4.625" Y="14.51" />
-        <Point X="4.625" Y="14.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="15.312" />
+        <Point X="3.75" Y="15.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -653,13 +722,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacAppBlock" Collapsed="true">
-    <Position X="3.75" Y="15.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="16" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="15.596" />
-        <Point X="4.625" Y="15.596" />
-        <Point X="4.625" Y="15.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="16.312" />
+        <Point X="3.75" Y="16.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -668,13 +736,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacSeekTableBlock" Collapsed="true">
-    <Position X="3.75" Y="16.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="17" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="16.596" />
-        <Point X="4.625" Y="16.596" />
-        <Point X="4.625" Y="16.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="17.312" />
+        <Point X="3.75" Y="17.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -683,13 +750,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacTagsBlock" Collapsed="true">
-    <Position X="3.75" Y="17.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="18" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="17.596" />
-        <Point X="4.625" Y="17.596" />
-        <Point X="4.625" Y="17.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="18.312" />
+        <Point X="3.75" Y="18.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -698,13 +764,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacCuesheetBlock" Collapsed="true">
-    <Position X="3.75" Y="18.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="19" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="18.596" />
-        <Point X="4.625" Y="18.596" />
-        <Point X="4.625" Y="18.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="19.312" />
+        <Point X="3.75" Y="19.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -713,13 +778,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacPicBlock" Collapsed="true">
-    <Position X="3.75" Y="19.75" Width="1.75" />
-    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true">
+    <Position X="3.75" Y="20" Width="1.75" />
+    <InheritanceLine Type="KaosFormat.FlacBlockItem" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.438" Y="14.312" />
-        <Point X="3.438" Y="19.596" />
-        <Point X="4.625" Y="19.596" />
-        <Point X="4.625" Y="19.75" />
+        <Point X="3.438" Y="14.562" />
+        <Point X="3.438" Y="20.312" />
+        <Point X="3.75" Y="20.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -728,9 +792,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FlacBlockList" Collapsed="true">
-    <Position X="3.25" Y="12.75" Width="1.5" />
+    <Position X="3.25" Y="13" Width="1.5" />
+    <AssociationLine Name="Items" Type="KaosFormat.FlacBlockItem">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.102" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAABAAACAAHAAEAAgAAAAAAAAAAEAAgAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAABAAACAAHAAEAAgAAAAAIAAAAEAggAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\FlacBlockList.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -738,13 +807,12 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="KaosFormat.Mp4Format" Collapsed="true">
-    <Position X="3.25" Y="10" Width="1.5" />
-    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true">
+    <Position X="5.25" Y="10" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.125" Y="7.691" />
-        <Point X="3.125" Y="9.846" />
-        <Point X="4" Y="9.846" />
-        <Point X="4" Y="10" />
+        <Point X="5.125" Y="7.691" />
+        <Point X="5.125" Y="10.312" />
+        <Point X="5.25" Y="10.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -753,7 +821,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.Mpeg4Container" Collapsed="true">
-    <Position X="3" Y="7" Width="1.75" />
+    <Position X="5" Y="7" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAgAIAAIBAAI=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\Mpeg4Container.cs</FileName>
@@ -761,19 +829,27 @@
   </Class>
   <Class Name="KaosFormat.MovFormat" Collapsed="true">
     <Position X="1" Y="14" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="14.312" />
+        <Point X="1" Y="14.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>BgAAgAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\MovFormat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.M4aFormat" Collapsed="true">
-    <Position X="3.25" Y="8" Width="1.5" />
-    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true">
+    <Position X="5.25" Y="8" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.125" Y="7.691" />
-        <Point X="3.125" Y="7.846" />
-        <Point X="4" Y="7.846" />
-        <Point X="4" Y="8" />
+        <Point X="5.125" Y="7.691" />
+        <Point X="5.125" Y="8.312" />
+        <Point X="5.25" Y="8.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -782,13 +858,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.MovFormat2" Collapsed="true">
-    <Position X="3.25" Y="9" Width="1.5" />
-    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true">
+    <Position X="5.25" Y="9" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.Mpeg4Container" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="3.125" Y="7.691" />
-        <Point X="3.125" Y="8.846" />
-        <Point X="4" Y="8.846" />
-        <Point X="4" Y="9" />
+        <Point X="5.125" Y="7.691" />
+        <Point X="5.125" Y="9.312" />
+        <Point X="5.25" Y="9.312" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -796,29 +871,43 @@
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\MovFormat.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="KaosFormat.RiffContainer" Collapsed="true">
-    <Position X="5.25" Y="7" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAIAAAAAAAACAAAAAAAAAAAAAAECAAAAIAAAA=</HashCode>
-      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\RiffContainer.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="KaosFormat.Mpeg1Format" Collapsed="true">
-    <Position X="5.5" Y="9" Width="1.5" />
+    <Position X="7.5" Y="10" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.IffContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="7.691" />
+        <Point X="7.375" Y="10.312" />
+        <Point X="7.5" Y="10.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\Mpeg1Format.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.WavFormat" Collapsed="true">
-    <Position X="5.5" Y="10" Width="1.5" />
+    <Position X="7.5" Y="11" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.IffContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="7.691" />
+        <Point X="7.375" Y="11.312" />
+        <Point X="7.5" Y="11.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>BgCAoAgAAAAAAAUAAAAAAAAAAiAQAgAYAgAACAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\WavFormat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.AviFormat" Collapsed="true">
-    <Position X="5.5" Y="8" Width="1.5" />
+    <Position X="7.5" Y="9" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.IffContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="7.691" />
+        <Point X="7.375" Y="9.25" />
+        <Point X="7.5" Y="9.25" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAABQAAAAAAAAAAAEIAIgAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\AviFormat.cs</FileName>
@@ -826,6 +915,15 @@
   </Class>
   <Class Name="KaosFormat.JpegFormat" Collapsed="true">
     <Position X="1" Y="17" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="17.312" />
+        <Point X="1" Y="17.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AwAAgAEAAAAAAABAAgAAAAAAgggAQAAAEEAAQAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\JpegFormat.cs</FileName>
@@ -833,9 +931,19 @@
   </Class>
   <Class Name="KaosFormat.Mp3Format" Collapsed="true">
     <Position X="5.5" Y="11.75" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" ManuallyRouted="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="2.75" Y="6.812" />
+        <Point X="2.75" Y="11.51" />
+        <Point X="6.25" Y="11.51" />
+        <Point X="6.25" Y="11.75" />
+      </Path>
+    </InheritanceLine>
     <AssociationLine Name="Lame" Type="KaosFormat.Mp3LameBlock">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.116" Y="0.054" Height="0.182" Width="0.614" />
+        <Position X="0.033" Y="0.221" Height="0.182" Width="0.614" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
@@ -847,7 +955,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="KaosFormat.Mp3LameBlock" Collapsed="true">
-    <Position X="5.5" Y="12.75" Width="1.5" />
+    <Position X="5.5" Y="13" Width="1.5" />
     <TypeIdentifier>
       <HashCode>JAAAAEAAAwkRACAAQMEmAAAAAAIAEAAEABABQyAAgAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\Mp3LameBlock.cs</FileName>
@@ -855,6 +963,15 @@
   </Class>
   <Class Name="KaosFormat.Mpeg2Format" Collapsed="true">
     <Position X="1" Y="15" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="15.312" />
+        <Point X="1" Y="15.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAIAAAAAAAABAAAAAgAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\Mpeg2Format.cs</FileName>
@@ -862,6 +979,15 @@
   </Class>
   <Class Name="KaosFormat.PngFormat" Collapsed="true">
     <Position X="1" Y="18" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="18.312" />
+        <Point X="1" Y="18.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>GgIAgFAEBgAAAAAAEEQAAEIEQgAABAABEAAAiAMBAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\PngFormat.cs</FileName>
@@ -869,6 +995,15 @@
   </Class>
   <Class Name="KaosFormat.UnknownFormat" Collapsed="true">
     <Position X="1" Y="19" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="19.312" />
+        <Point X="1" Y="19.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\UnknownFormat.cs</FileName>
@@ -876,17 +1011,55 @@
   </Class>
   <Class Name="KaosFormat.MkvFormat" Collapsed="true">
     <Position X="1" Y="20" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.FormatBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="6.562" />
+        <Point X="1.25" Y="6.812" />
+        <Point X="0.76" Y="6.812" />
+        <Point X="0.76" Y="20.312" />
+        <Point X="1" Y="20.312" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>EgBCgAgACQIABQAAAyAgAQAJYgEoBAAIAAAACAoAAAI=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\MkvFormat.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosFormat.FilesContainer" Collapsed="true">
-    <Position X="7.5" Y="7" Width="1.75" />
+    <Position X="3" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAgIAAAAAAAAAAAAAAAAAAAIAAAAQAAIAAIA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\FilesContainer.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="KaosFormat.IffContainer" Collapsed="true">
+    <Position X="7.25" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIABAAAAAAAAAAAAAAAAAAECAAAAIAAAA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\IffContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KaosFormat.AifFormat" Collapsed="true">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <InheritanceLine Type="KaosFormat.IffContainer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.375" Y="7.691" />
+        <Point X="7.375" Y="8.312" />
+        <Point X="7.5" Y="8.312" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AgCAgCAEAAAACAAAAAIAAAAAAgAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\Types\AifFormat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KaosSysIo.DirTraverser" Collapsed="true">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosSysIo\DirTraverser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Enum Name="KaosIssue.Severity" Collapsed="true">
     <Position X="3.5" Y="0.5" Width="1.25" />
@@ -926,7 +1099,7 @@
   <Enum Name="KaosFormat.Hashes" Collapsed="true">
     <Position X="7.75" Y="2" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAEAAAAABAQEAAAAhBAAAIAAAAAAAAkgAAA=</HashCode>
+      <HashCode>AAAAAEgAAAEAAAAABAQEAAAAhBAAAIAAAAAAAAkgBAA=</HashCode>
       <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
   </Enum>

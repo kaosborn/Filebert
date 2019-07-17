@@ -3,6 +3,20 @@
   <Class Name="AppViewModel.DiagsPresenter">
     <Position X="3.75" Y="3" Width="1.5" />
     <Members>
+      <Field Name="baseFormat" Hidden="true" />
+      <Property Name="BaseFormat" Hidden="true" />
+      <Property Name="CanSeekFirst" Hidden="true" />
+      <Property Name="CanSeekFirstError" Hidden="true" />
+      <Property Name="CanSeekFirstRepairable" Hidden="true" />
+      <Property Name="CanSeekLast" Hidden="true" />
+      <Property Name="CanSeekLastError" Hidden="true" />
+      <Property Name="CanSeekLastRepairable" Hidden="true" />
+      <Property Name="CanSeekNext" Hidden="true" />
+      <Property Name="CanSeekNextError" Hidden="true" />
+      <Property Name="CanSeekNextRepairable" Hidden="true" />
+      <Property Name="CanSeekPrev" Hidden="true" />
+      <Property Name="CanSeekPrevError" Hidden="true" />
+      <Property Name="CanSeekPrevRepairable" Hidden="true" />
       <Field Name="consoleZoom" Hidden="true" />
       <Property Name="ConsoleZoom" Hidden="true" />
       <Field Name="currentTabNumber" Hidden="true" />
@@ -21,6 +35,7 @@
       <Property Name="HashToggle" Hidden="true" />
       <Property Name="IsRepairEnabled" Hidden="true" />
       <Property Name="JobCounter" Hidden="true" />
+      <Property Name="NavContents" Hidden="true" />
       <Property Name="NavFirst" Hidden="true" />
       <Property Name="NavFirstError" Hidden="true" />
       <Property Name="NavFirstRepair" Hidden="true" />
@@ -40,6 +55,7 @@
       <Property Name="ProgressFactor" Hidden="true" />
       <Field Name="progressPercent" Hidden="true" />
       <Property Name="ProgressPercent" Hidden="true" />
+      <Property Name="TabAif" Hidden="true" />
       <Property Name="TabApe" Hidden="true" />
       <Property Name="TabAsf" Hidden="true" />
       <Property Name="TabAvi" Hidden="true" />
@@ -88,8 +104,8 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>oGgAmqB2GIUgRYgIIAQgQAEQKECAIgIAQQgQkAEiQjA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\AppViewModel\DiagsPresenter.cs</FileName>
+      <HashCode>oGgCmqR2GYWkRYgYOIQgQAGQaECAIgIAQQwQkAGiQjA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\AppViewModel\DiagsPresenter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -97,7 +113,7 @@
     <Position X="1.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAABAAAAQAAAAAEAAiAQAAAAAAAAQIAAAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosViewModel\FileDragDropper.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosViewModel\FileDragDropper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KaosDiags.Diags">
@@ -142,6 +158,7 @@
       <Field Name="root" Hidden="true" />
       <Property Name="Root" Hidden="true" />
       <Property Name="Scope" Hidden="true" />
+      <Method Name="SetResponse" Hidden="true" />
       <Property Name="TotalErrors" Hidden="true" />
       <Property Name="TotalFiles" Hidden="true" />
       <Property Name="TotalRepairable" Hidden="true" />
@@ -163,8 +180,8 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>BEEQBAAjgABgACgkAAAycAQhgBgAEAEAAQgAEEIgABU=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosDiags\Diags.cs</FileName>
+      <HashCode>BEEQBABjgABgACgkAAAycAQhgBgAEAEAAQgAEEIgABU=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosDiags\Diags.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -202,13 +219,29 @@
     <Members>
       <Property Name="Count" Hidden="true" />
       <Property Name="ErrorCount" Hidden="true" />
+      <Field Name="firstError" Hidden="true" />
+      <Field Name="firstRepairable" Hidden="true" />
       <Method Name="GetIsRepairable" Hidden="true" />
       <Method Name="GetMaxSeverity" Hidden="true" />
       <Property Name="HasError" Hidden="true" />
       <Property Name="HasRepairables" Hidden="true" />
       <Property Name="Index" Hidden="true" />
       <Method Name="IndexOf" Hidden="true" />
+      <Property Name="IsFirstErrorSeekable" Hidden="true" />
+      <Property Name="IsFirstRepairableSeekable" Hidden="true" />
+      <Property Name="IsFirstSeekable" Hidden="true" />
+      <Property Name="IsLastErrorSeekable" Hidden="true" />
+      <Property Name="IsLastRepairableSeekable" Hidden="true" />
+      <Property Name="IsLastSeekable" Hidden="true" />
+      <Property Name="IsNextErrorSeekable" Hidden="true" />
+      <Property Name="IsNextRepairableSeekable" Hidden="true" />
+      <Property Name="IsNextSeekable" Hidden="true" />
+      <Property Name="IsPrevErrorSeekable" Hidden="true" />
+      <Property Name="IsPrevRepairableSeekable" Hidden="true" />
+      <Property Name="IsPrevSeekable" Hidden="true" />
       <Field Name="items" Hidden="true" />
+      <Field Name="lastError" Hidden="true" />
+      <Field Name="lastRepairable" Hidden="true" />
       <Property Name="LongName" Hidden="true" />
       <Property Name="MaxSeverity" Hidden="true" />
       <Property Name="RepairableCount" Hidden="true" />
@@ -233,8 +266,8 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAABEAAAAIEAiAAAQAAAAAAAAIAAEAAAAEgAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\AppViewModel\TabInfo.cs</FileName>
+      <HashCode>AFAgAAgAABMkAAQIFAiAABQACgAAAAAMAAEAAAAFgQA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\AppViewModel\TabInfo.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Current" />
@@ -243,6 +276,9 @@
   <Class Name="KaosFormat.FormatBase">
     <Position X="6.25" Y="6.5" Width="1.5" />
     <Members>
+      <Property Name="Codepage" Hidden="true" />
+      <Field Name="contentText" Hidden="true" />
+      <Property Name="ContentText" Hidden="true" />
       <Field Name="Cp1252" Hidden="true" />
       <Field Name="excess" Hidden="true" />
       <Property Name="ExcessSize" Hidden="true" />
@@ -304,8 +340,8 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAGEiABSIAVgAIJAAAQGAAQg5AEgyCAAQCQgAEJghEA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
+      <HashCode>AAGEiABSIAVgAoJAAAYGAAQg5AEgyCAAQiQgAEJghEA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -313,15 +349,14 @@
     <Position X="3.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAACAARAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosViewModel\RelayCommand.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosViewModel\RelayCommand.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="KaosIssue.Issue">
     <Position X="1.25" Y="8.75" Width="1.75" />
     <Members>
       <Property Name="Failure" Hidden="true" />
-      <Property Name="FixedMessage" Hidden="true" />
       <Property Name="HasRepairer" Hidden="true" />
       <Property Name="Index" Hidden="true" />
       <Property Name="IsFinalRepairer" Hidden="true" />
@@ -331,6 +366,7 @@
       <Method Name="IsReportable" Hidden="true" />
       <Method Name="Issue" Hidden="true" />
       <Property Name="Level" Hidden="true" />
+      <Property Name="LongMessage" Hidden="true" />
       <Property Name="Message" Hidden="true" />
       <Field Name="model" Hidden="true" />
       <Event Name="PropertyChanged" Hidden="true" />
@@ -341,6 +377,7 @@
       <Method Name="ToString" Hidden="true" />
     </Members>
     <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
@@ -379,12 +416,12 @@
         <Point X="3.75" Y="9.062" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.234" Y="0.112" />
+        <Position X="-0.172" Y="0.122" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Tag" Type="KaosIssue.IssueTags">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="0.027" Y="0.081" />
+        <Position X="0.1" Y="0.06" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Repairer" Type="System.Func&lt;T, TResult&gt;" FixedToPoint="true">
@@ -393,12 +430,12 @@
         <Point X="3.75" Y="10.938" />
       </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.192" Y="-0.315" />
+        <Position X="-0.025" Y="0.185" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAECCAEAgQAAEAAoAAAiAggACAACBQAEAIAAIIAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
+      <HashCode>AAAAAECCAEAgAAAEgAoAAAiAggACAACBQAEAIAAIIAA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="BaseLevel" />
@@ -445,9 +482,18 @@
         </TypeIdentifier>
       </Class>
     </NestedTypes>
+    <AssociationLine Name="ModelFactory" Type="KaosFormat.FormatModelFactory" FixedFromPoint="true">
+      <Path>
+        <Point X="7.75" Y="8.938" />
+        <Point X="8.75" Y="8.938" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.025" Y="0.154" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAgAAAcAEAAAAgAAAAAAAQBAAAAAAAAAAAAAAEAIA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FileFormat.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FileFormat.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ModelFactory" />
@@ -457,74 +503,74 @@
     <Position X="3.75" Y="1.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosViewModel\IFileDragDropTarget.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosViewModel\IFileDragDropTarget.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="AppViewModel.IDiagsUi" Collapsed="true">
     <Position X="1.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAACAAAAAAAAAAAAAAEAgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\AppViewModel\IDiagsUi.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\AppViewModel\IDiagsUi.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="KaosDiags.Interaction" Collapsed="true">
     <Position X="8.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosDiags\Diags.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosDiags\Diags.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosFormat.Validations" Collapsed="true">
     <Position X="8.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosFormat.Hashes" Collapsed="true">
     <Position X="8.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAEAAAAABAQEAAAAhBAAAIAAAAAAAAkgAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
+      <HashCode>AAAAAEgAAAEAAAAABAQEAAAAhBAAAIAAAAAAAAkgBAA=</HashCode>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosFormat.Likeliness" Collapsed="true">
     <Position X="8.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAABAAAAAAEAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FormatBase.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosIssue.Severity" Collapsed="true">
     <Position X="3.75" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAABAAAAAAAAQAAAAAAABAAAAAABAAAAAAAAAAEACA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosIssue.IssueTags" Collapsed="true">
     <Position X="3.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAQABAAAAAAAAAAAAAAAgAAABiAAAAgAMEAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="KaosIssue.Granularity" Collapsed="true">
     <Position X="3.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIgAAAAAEAAACAAAAAAAAAAAAAAAAAAACAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosIssue\Issue.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Delegate Name="System.Func&lt;T, TResult&gt;" Collapsed="true">
-    <Position X="3.75" Y="10.5" Width="1.5" />
+    <Position X="3.75" Y="10.75" Width="1.5" />
     <TypeIdentifier />
   </Delegate>
   <Delegate Name="KaosFormat.FormatModelFactory" Collapsed="true">
-    <Position X="9" Y="8.75" Width="1.75" />
+    <Position X="8.75" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
-      <FileName>T:\Dev\VS2017\KaosDiags\Source\KaosFormat\FileFormat.cs</FileName>
+      <FileName>K:\Dev\KaosDiags\Source\KaosFormat\FileFormat.cs</FileName>
     </TypeIdentifier>
   </Delegate>
   <Font Name="Segoe UI" Size="9" />
