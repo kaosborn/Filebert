@@ -79,7 +79,7 @@ namespace AppView
                 if (severity <= Severity.Advisory)
                     consoleBox.AppendText ("  ");
                 else
-                    consoleBox.AppendText (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
+                    consoleBox.AppendText (severity <= Severity.Warning ? "- " : "* ");
             }
             consoleBox.AppendText (message);
             consoleBox.AppendText (Environment.NewLine);

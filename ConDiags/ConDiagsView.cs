@@ -96,7 +96,7 @@ namespace AppView
                 if (severity <= Severity.Advisory)
                     Trace.Write ("  ");
                 else
-                    Trace.Write (severity <= Severity.Warning ? "- Warning: " : "* Error: ");
+                    Trace.Write (severity <= Severity.Warning ? "- " : "* ");
             }
             Trace.WriteLine (message);
 
