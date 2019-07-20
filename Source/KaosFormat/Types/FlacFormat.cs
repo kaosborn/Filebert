@@ -60,7 +60,6 @@ namespace KaosFormat
                 Data.BitsPerSample = (((bb[12] & 1) << 4) | (bb[13] >> 4)) + 1;
                 Data.TotalSamples = ((bb[13] & 0x0F) << 32) | bb[14] << 24 | bb[15] << 16 | bb[16] << 8 | bb[17];
 
-                Data.mHdr = bb;
                 Data.storedAudioDataMD5 = new byte[16];
                 Array.Copy (bb, 18, Data.storedAudioDataMD5, 0, 16);
 
@@ -352,7 +351,7 @@ namespace KaosFormat
                 int bloat = picPlusPadSize - MaxPicPlusPadSize;
                 if (bloat > 0)
                 {
-                    var msg = $"Artwork/padding consume {picPlusPadSize} bytes.";
+                    var msg = $"Artwork+padding consume {picPlusPadSize} bytes.";
 
                     repairPadSize = Data.Blocks.PadBlock.Size - bloat;
                     if (repairPadSize < 0)
@@ -369,41 +368,40 @@ namespace KaosFormat
             }
 
             private int repairPadSize=-1;
-
             public string RepairArtPadBloat (bool isFinalRepair)
             {
                 if (Data.fbs == null || Data.Issues.MaxSeverity >= Severity.Error || repairPadSize < 0)
                     return "Invalid attempt";
 
                 string err = null;
+                var padBlock = Data.Blocks.PadBlock;
+                var delCount = padBlock.Size - repairPadSize;
+
                 try
                 {
-                    int squeeze = Data.Blocks.PadBlock.Size - repairPadSize;
-                    int padPosition = Data.Blocks.PadBlock.Position;
-                    int nextPosition = Data.Blocks.PadBlock.NextPosition;
-
                     var padHdr = new byte[3];
                     padHdr[0] = (byte) (repairPadSize >> 16);
                     padHdr[1] = (byte) ((repairPadSize >> 8) & 0xFF);
                     padHdr[2] = (byte) (repairPadSize & 0xFF);
 
-                    var part2 = new byte[(int) Data.FileSize - nextPosition];
-                    Data.fbs.Position = nextPosition;
+                    var part2 = new byte[(int) Data.FileSize - padBlock.NextPosition];
+                    Data.fbs.Position = padBlock.NextPosition;
                     int got = Data.fbs.Read (part2, 0, part2.Length);
                     if (got != part2.Length)
-                        return "Read error";
+                        return "Read error.";
 
-                    Data.fbs.Position = padPosition - 3;
+                    Data.fbs.Position = padBlock.Position - 3;
                     Data.fbs.Write (padHdr, 0, 3);
-                    Data.fbs.Position = padPosition + repairPadSize;
+                    Data.fbs.Position = padBlock.Position + repairPadSize;
                     Data.fbs.Write (part2, 0, part2.Length);
-                    Data.fbs.SetLength (Data.FileSize - squeeze);
+                    Data.fbs.SetLength (Data.FileSize - delCount);
 
                     if (isFinalRepair)
                         CloseFile();
                 }
                 catch (Exception ex) when (ex is UnauthorizedAccessException || ex is IOException)
                 { err = ex.Message.TrimEnd(null); }
+
                 return err;
             }
 
@@ -594,14 +592,13 @@ namespace KaosFormat
             "R1011", "R1100", "R1101", "R1111"
         };
 
-        static public int MaxPicPlusPadSize { get; private set; } = 1024*1024;
+        static public int MaxPicPlusPadSize { get; private set; } = 1024 * 1024;
         static public void SetMaxPicPlusPadSize (int maxSize)
         {
             if (maxSize >= 0)
                 MaxPicPlusPadSize = maxSize;
         }
 
-        private byte[] mHdr = null;
         private byte[] aHdr = null;
 
         public FlacBlockList Blocks { get; private set; } = new FlacBlockList();
