@@ -273,7 +273,7 @@ namespace AppViewModel
 
         private readonly List<TabInfo.Model> tiModels = new List<TabInfo.Model>();
 
-        public int JobCounter { get; private set; }=0;  // For test.
+        public int JobCounter { get; private set; } = 0;  // For test.
 
         public TabInfo TabAif { get; private set; }
         public TabInfo TabApe { get; private set; }
@@ -340,7 +340,7 @@ namespace AppViewModel
             }
         }
 
-        private int currentTabNumber;
+        private int currentTabNumber=0;
         public int CurrentTabNumber
         {
             get => currentTabNumber;
@@ -354,23 +354,13 @@ namespace AppViewModel
             {
                 if (CurrentTabNumber == 0)
                     return null;
-                var ti = tiModels[CurrentTabNumber];
-                return (ti.Data.Index+1).ToString() + " of " + ti.Data.Count + " ." + tiModels[CurrentTabNumber].Data.LongName;
+                TabInfo ti = tiModels[CurrentTabNumber].Data;
+                return (ti.Index+1).ToString() + " of " + ti.Count + " ." + ti.LongName;
             }
         }
 
         public bool TabHasErrors => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.ErrorCount > 0;
-        public string TabErrorText
-        {
-            get
-            {
-                if (CurrentTabNumber == 0)
-                    return null;
-                var ti = tiModels[CurrentTabNumber];
-                return ti.Data.ErrorCount.ToString() + " failed";
-            }
-        }
-
+        public string TabErrorText => CurrentTabNumber > 0 ? tiModels[CurrentTabNumber].Data.ErrorCount.ToString() + " failed" : null;
         public bool CanSeekFirst => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsFirstSeekable;
         public bool CanSeekLast => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsLastSeekable;
         public bool CanSeekPrev => CurrentTabNumber > 0 && tiModels[CurrentTabNumber].Data.IsPrevSeekable;
@@ -391,9 +381,9 @@ namespace AppViewModel
             {
                 if (CurrentTabNumber == 0)
                     return null;
-                var ti = tiModels[CurrentTabNumber];
-                var result = ti.Data.RepairableCount.ToString();
-                return result + (ti.Data.RepairableCount == 1 ? " repairable" : " repairables");
+                TabInfo ti = tiModels[CurrentTabNumber].Data;
+                var result = ti.RepairableCount.ToString();
+                return result + (ti.RepairableCount == 1 ? " repairable" : " repairables");
             }
         }
 
@@ -502,8 +492,7 @@ namespace AppViewModel
             DoRepair = new RelayCommand<object>(
             (object obj) =>
             {
-                TabInfo.Model tiModel = tiModels[CurrentTabNumber];
-                if (tiModel.Repair ((int) obj))
+                if (tiModels[CurrentTabNumber].Repair ((int) obj))
                     RaisePropertyChanged (null);
             });
 
