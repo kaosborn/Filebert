@@ -71,7 +71,8 @@ namespace KaosFormat
                         FlacFormat flac = flacs[fx];
                         if (baddest < flac.Issues.MaxSeverity)
                             baddest = flac.Issues.MaxSeverity;
-                        if (flac.Issues.Items.Any (i => i.Level >= Severity.Error && (i.Tag & IssueTags.BadTag) != 0))
+                        var level = flac.Issues.MaxLevelWhereAny (IssueTags.BadTag);
+                        if (level >= Severity.Error)
                         {
                             if (warnCount < 2)
                             {
@@ -82,7 +83,7 @@ namespace KaosFormat
                                 errs += ", ";
                             errs = errs + flac.GetTagValue ("TRACKNUMBER");
                         }
-                        if (flac.Issues.Items.Any (i => i.Level == Severity.Warning && (i.Tag & IssueTags.BadTag) != 0))
+                        else if (level == Severity.Warning)
                         {
                             if (warnCount < 2)
                             {

@@ -29,7 +29,7 @@ namespace KaosIssue
                 public Model (IssueTags warnEscalator=IssueTags.None, IssueTags errEscalator=IssueTags.None)
                  => Data = new Issue.Vector (warnEscalator, errEscalator);
 
-                public Issue Add (string message, Severity severity=Severity.Error, IssueTags tag=IssueTags.None,
+                public Issue Add (string message, Severity baseLevel=Severity.Error, IssueTags tags=IssueTags.None,
                                   string prompt=null, Func<bool,string> repairer=null, bool isFinalRepairer=false)
                 {
                     System.Diagnostics.Debug.Assert ((prompt==null) == (repairer==null));
@@ -37,15 +37,15 @@ namespace KaosIssue
                     if (repairer != null)
                     {
                         // Force Warning as minimum for repairables.
-                        if (severity < Severity.Warning)
-                            severity = Severity.Warning;
+                        if (baseLevel < Severity.Warning)
+                            baseLevel = Severity.Warning;
                         ++Data.RepairableCount;
                     }
 
-                    var issue = new Issue (this, message, severity, tag, prompt, repairer, isFinalRepairer);
+                    var issue = new Issue (Data, message, baseLevel, tags, prompt, repairer, isFinalRepairer);
                     Data.items.Add (issue);
 
-                    Severity level = issue.Level;
+                    Severity level = Data.GetLevel (issue.BaseLevel, issue.Tag);
                     if (Data.MaxSeverity < level)
                         Data.MaxSeverity = level;
 
@@ -61,7 +61,7 @@ namespace KaosIssue
 
                     foreach (var issue in Data.items)
                     {
-                        Severity level = issue.Level;
+                        Severity level = Data.GetLevel (issue.BaseLevel, issue.Tag);
                         if (Data.MaxSeverity < level)
                             Data.MaxSeverity = level;
                     }
@@ -105,6 +105,33 @@ namespace KaosIssue
             public Severity MaxSeverity { get; private set; }
             public int RepairableCount { get; private set; }
 
+            public Severity GetLevel (Severity baseLevel, IssueTags tags)
+            {
+                if (baseLevel < Severity.Warning)
+                {
+                    if ((tags & ErrEscalator) != 0)
+                        return Severity.Error;
+                    if ((tags & WarnEscalator) != 0)
+                        return Severity.Warning;
+                }
+                else if (baseLevel == Severity.Warning && (tags & (ErrEscalator)) != 0)
+                    return Severity.Error;
+                return baseLevel;
+            }
+
+            public Severity MaxLevelWhereAny (IssueTags tags)
+            {
+                var result = Severity.NoIssue;
+                foreach (Issue issue in items)
+                    if ((issue.Tag & tags) != 0)
+                    {
+                        Severity level = GetLevel (issue.BaseLevel, issue.Tag);
+                        if (result < level)
+                            result = level;
+                    }
+                return result;
+            }
+
             public bool HasError => MaxSeverity >= Severity.Error;
             public bool HasFatal => MaxSeverity >= Severity.Fatal;
 
@@ -119,7 +146,7 @@ namespace KaosIssue
         }
 
 
-        private readonly Vector.Model model;
+        private readonly Vector vector;
 
         public int Index { get; private set; }
         public string Message { get; private set; }
@@ -135,11 +162,11 @@ namespace KaosIssue
         public void RaisePropertyChanged (string propName)
         { if (PropertyChanged != null) PropertyChanged (this, new PropertyChangedEventArgs (propName)); }
 
-        private Issue (Vector.Model owner, string message, Severity level=Severity.Advisory, IssueTags tag=IssueTags.None,
+        private Issue (Vector owner, string message, Severity level=Severity.Advisory, IssueTags tag=IssueTags.None,
                       string prompt=null, Func<bool,string> repairer=null, bool isFinalRepairer=false)
         {
-            this.model = owner;
-            this.Index = owner.Data.Items.Count;
+            this.vector = owner;
+            this.Index = owner.Items.Count;
             this.Message = message;
             this.BaseLevel = level;
             this.Tag = tag;
@@ -148,37 +175,24 @@ namespace KaosIssue
             this.IsFinalRepairer = isFinalRepairer;
         }
 
-        public Severity Level
-        {
-            get
-            {
-                Severity result = BaseLevel;
-                if (result < Severity.Error)
-                    if ((Tag & model.Data.ErrEscalator) != 0)
-                        result = Severity.Error;
-                    else if ((Tag & model.Data.WarnEscalator) != 0)
-                        result = Severity.Warning;
-                return result;
-            }
-        }
+        public Severity Level => vector.GetLevel (BaseLevel, Tag);
 
         public string LongMessage
         {
             get
             {
                 string result = Message;
-
-                if (Level >= Severity.Warning)
-                    if (Level >= Severity.Error)
+                Severity level = vector.GetLevel (BaseLevel, Tag);
+                if (level >= Severity.Warning)
+                    if (level >= Severity.Error)
                         result = "Error: " + result;
                     else
                     {
                         result = "Warning: " + result;
-
                         if (Repairer != null)
                             if (IsRepairSuccessful == null)
                                 result += " [repairable]";
-                            else if (IsRepairSuccessful == true)
+                            else if (IsRepairSuccessful.Value == true)
                                 result += " [repaired!]";
                             else if (RepairError != null)
                                 result += $" [repair failed: {RepairError}]";
@@ -190,9 +204,9 @@ namespace KaosIssue
         public bool Failure => (Tag & IssueTags.Failure) != 0;
         public bool Success => (Tag & IssueTags.Success) != 0;
         public bool HasRepairer => Repairer != null;
-        public bool IsRepairable => model.Data.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null && Level < Severity.Error;
-        public bool IsNoise => Level <= Severity.Noise;
-        public bool IsReportable (Granularity granularity) => (int) Level >= (int) granularity;
+        public bool IsRepairable => vector.RepairableCount > 0 && Repairer != null && IsRepairSuccessful == null && vector.GetLevel (BaseLevel, Tag) < Severity.Error;
+        public bool IsNoise => vector.GetLevel (BaseLevel, Tag) <= Severity.Noise;
+        public bool IsReportable (Granularity granularity) => (int) vector.GetLevel (BaseLevel, Tag) >= (int) granularity;
         public string RepairQuestion => RepairPrompt + "?";
         public override string ToString() => LongMessage;
     }

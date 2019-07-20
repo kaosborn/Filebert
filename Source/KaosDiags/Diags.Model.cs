@@ -387,13 +387,13 @@ namespace KaosDiags
                 while (reportIssueIndex < issues.Items.Count)
                 {
                     Issue item = issues.Items[reportIssueIndex];
-                    Severity severity = item.Level;
-                    if (severity == Severity.Warning)
+                    Severity level = item.Level;
+                    if (level == Severity.Warning)
                     {
                         if (! reportHasWarn)
                         { reportHasWarn = true; ++Data.TotalWarnings; }
                     }
-                    else if (severity >= Severity.Error)
+                    else if (level >= Severity.Error)
                         if (! reportHasErr)
                         { reportHasErr = true; ++Data.TotalErrors; }
 
@@ -403,7 +403,7 @@ namespace KaosDiags
                             if (reportScope <= Granularity.Detail)
                             { Data.OnMessageSend (String.Empty); Data.OnMessageSend ("Diagnostics:"); }
 
-                        Data.OnMessageSend (item.LongMessage, severity);
+                        Data.OnMessageSend (item.LongMessage, level);
                     }
                     ++reportIssueIndex;
                 }
