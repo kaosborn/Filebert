@@ -9,146 +9,127 @@ namespace TestDiags
     public class TestFlac
     {
         [TestMethod]
-        public void UnitFlac_1()
+        public void UnitFlac_BadCRC()
         {
-            var fName1 = @"Targets\Singles\03-Silence.flac";
+            var f4 = @"Targets\Singles\04-BadCRC.flac";
 
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fName1, FileMode.Open))
+            using (Stream fs = new FileStream (f4, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
 
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fName1);
-                flac = flacModel.Data;
-
-                var isBadHdr = flacModel.Data.IsBadHeader;
-                Assert.IsFalse (isBadHdr);
-
-                var isBadData = flacModel.Data.IsBadData;
-                Assert.IsFalse (isBadData);
-            }
-
-            Assert.AreEqual (Severity.NoIssue, flac.Issues.MaxSeverity);
-        }
-
-
-        [TestMethod]
-        public void UnitFlac_2()
-        {
-            var fName1 = @"Targets\Singles\04-BadCRC.flac";
-
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fName1, FileMode.Open))
-            {
-                var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
-
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fName1);
-                flac = flacModel.Data;
-
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f4);
                 flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
 
-                var isBadHdr = flacModel.Data.IsBadHeader;
-                Assert.IsFalse (isBadHdr);
+                bool isBadHdr = flacModel.Data.IsBadHeader;
+                bool isBadData = flacModel.Data.IsBadData;
 
-                var isBadData = flacModel.Data.IsBadData;
+                Assert.IsFalse (isBadHdr);
                 Assert.IsTrue (isBadData);
-            }
-
-            Assert.IsTrue (flac.Issues.MaxSeverity == Severity.Error);
-        }
-
-        [TestMethod]
-        public void UnitFlac_OverPad()
-        {
-            var fn = @"Targets\Singles\05-OverPad.flac";
-
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fn, FileMode.Open))
-            {
-                var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
-
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fn);
-                flac = flacModel.Data;
-
-                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
-
-                Assert.AreEqual (Severity.Warning, flac.Issues.MaxSeverity);
-                Assert.AreEqual (1, flac.Issues.RepairableCount);
-
-                string repairErr = flacModel.RepairArtPadBloat (true);
-                Assert.IsNull (repairErr);
+                Assert.AreEqual (Severity.Error, flacModel.Data.Issues.MaxSeverity);
             }
         }
 
         [TestMethod]
-        public void UnitFlac_OverArt()
+        public void UnitFlac_NoPadNoArt()
         {
-            var fn = @"Targets\Singles\06-OverArt.flac";
+            var f5 = @"Targets\Singles\05-NoPadNoArt.flac";
 
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fn, FileMode.Open))
+            using (Stream fs = new FileStream (f5, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
 
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fn);
-                flac = flacModel.Data;
-
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f5);
                 flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
-
-                Assert.AreEqual (Severity.Warning, flac.Issues.MaxSeverity);
-                Assert.AreEqual (1, flac.Issues.RepairableCount);
-
-                string repairErr = flacModel.RepairArtPadBloat (true);
-                Assert.IsNull (repairErr);
+                Assert.AreEqual (Severity.Noise, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (0, flacModel.Data.Issues.RepairableCount);
             }
         }
 
         [TestMethod]
-        public void UnitFlac_OverArtPad()
+        public void UnitFlac_ZeroPadHugeArt()
         {
-            var fn = @"Targets\Singles\07-OverPadArt.flac";
+            var f6 = @"Targets\Singles\06-ZeroPadHugeArt.flac";
 
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fn, FileMode.Open))
+            using (Stream fs = new FileStream (f6, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
 
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fn);
-                flac = flacModel.Data;
-
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f6);
                 flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Trivia, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (0, flacModel.Data.Issues.RepairableCount);
 
-                Assert.AreEqual (Severity.Warning, flac.Issues.MaxSeverity);
-                Assert.AreEqual (1, flac.Issues.RepairableCount);
-
-                string repairErr = flacModel.RepairArtPadBloat (true);
-                Assert.IsNull (repairErr);
+                string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
+                Assert.IsNotNull (err);
             }
         }
 
         [TestMethod]
-        public void UnitFlac_NoPadArt()
+        public void UnitFlac_ExcessPadNoArt()
         {
-            var fn = @"Targets\Singles\08-NoPadArt.flac";
+            var f7 = @"Targets\Singles\07-ExcessPadNoArt.flac";
 
-            FlacFormat flac;
-            using (Stream s1 = new FileStream (fn, FileMode.Open))
+            using (Stream fs = new FileStream (f7, FileMode.Open))
             {
                 var hdr = new byte[0x2C];
-                s1.Read (hdr, 0, hdr.Length);
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
 
-                FlacFormat.Model flacModel = FlacFormat.CreateModel (s1, hdr, fn);
-                flac = flacModel.Data;
-
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f7);
                 flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Warning, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (1, flacModel.Data.Issues.RepairableCount);
 
-                Assert.AreEqual (Severity.Noise, flac.Issues.MaxSeverity);
-                Assert.AreEqual (0, flac.Issues.RepairableCount);
+                string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
+                Assert.IsNull (err);
+            }
+        }
+
+        [TestMethod]
+        public void UnitFlac_FencePadHasArt()
+        {
+            var f8 = @"Targets\Singles\08-FencePadHasArt.flac";
+
+            using (Stream fs = new FileStream (f8, FileMode.Open))
+            {
+                var hdr = new byte[0x2C];
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
+
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f8);
+                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Warning, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (1, flacModel.Data.Issues.RepairableCount);
+
+                string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
+                Assert.IsNull (err);
+            }
+        }
+
+        [TestMethod]
+        public void UnitFlac_ExcessPadHasArt()
+        {
+            var f9 = @"Targets\Singles\09-ExcessPadHasArt.flac";
+
+            using (Stream fs = new FileStream (f9, FileMode.Open))
+            {
+                var hdr = new byte[0x2C];
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
+
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f9);
+                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Warning, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (1, flacModel.Data.Issues.RepairableCount);
+
+                string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
+                Assert.IsNull (err);
             }
         }
     }

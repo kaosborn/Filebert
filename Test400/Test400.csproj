@@ -109,6 +109,21 @@
     <Content Include="Targets\Rips\Tester - 2000 - FLAC Silence OK1\Tester - 2000 - FLAC Silence OK1.log">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Targets\Singles\05-NoPadNoArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\06-ZeroPadHugeArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\07-ExcessPadNoArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\08-FencePadHasArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Targets\Singles\09-ExcessPadHasArt.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Targets\Singles\EAC1NoHashOrCT.log">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -163,18 +178,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Singles\04-BadCRC.flac">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Targets\Singles\05-OverPad.flac">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Targets\Singles\06-OverArt.flac">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Targets\Singles\07-OverPadArt.flac">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Targets\Singles\08-NoPadArt.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Targets\Singles\DutchIco.jpeg">
