@@ -22,13 +22,14 @@ Filebert is freeware with complete source available for inspection at GitHub.
 ## Repository layout
 
 This Git repository is organized as a single Visual Studio solution with additional documentation files in the root.
-These are the top-level folders:
+Here are the top-level folders:
 
 * `ConDiags` - Builds the console front end.
 * `Harness400` - Builds the domain. For test and development only.
+* `Images` - SVG files with renderings.
 * `Install` - Builds the `Filebert.msi` installer.
 * `Source` - Shared projects by namespace.
-* `TestFull` - MSTest unit tests with mock. Code coverage is pitiful.
+* `Test400` - MSTest unit tests with mock. Code coverage is pitiful.
 * `WpfDiags` - Builds the WPF front end.
 
 ## Build requirements
