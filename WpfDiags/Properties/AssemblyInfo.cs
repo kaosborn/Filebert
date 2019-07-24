@@ -9,4 +9,4 @@ using System.Windows;
 [assembly: AssemblyTrademark ("freeware")]
 [assembly: ComVisible (false)]
 [assembly: ThemeInfo (ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: AssemblyVersion ("2.0.0.3")]
+[assembly: AssemblyVersion ("3.0.0.0")]
