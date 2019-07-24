@@ -89,6 +89,18 @@ namespace TestDiags
                 string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
                 Assert.IsNull (err);
             }
+
+            using (Stream fs = new FileStream (f7, FileMode.Open))
+            {
+                var hdr = new byte[0x2C];
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
+
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f7);
+                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Noise, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (0, flacModel.Data.Issues.RepairableCount);
+            }
         }
 
         [TestMethod]
@@ -110,6 +122,18 @@ namespace TestDiags
                 string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
                 Assert.IsNull (err);
             }
+
+            using (Stream fs = new FileStream (f8, FileMode.Open))
+            {
+                var hdr = new byte[0x2C];
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
+
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f8);
+                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Noise, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (0, flacModel.Data.Issues.RepairableCount);
+            }
         }
 
         [TestMethod]
@@ -130,6 +154,18 @@ namespace TestDiags
 
                 string err = flacModel.RepairArtPadBloat (isFinalRepair:true);
                 Assert.IsNull (err);
+            }
+
+            using (Stream fs = new FileStream (f9, FileMode.Open))
+            {
+                var hdr = new byte[0x2C];
+                int got = fs.Read (hdr, 0, hdr.Length);
+                Assert.AreEqual (hdr.Length, got);
+
+                FlacFormat.Model flacModel = FlacFormat.CreateModel (fs, hdr, f9);
+                flacModel.CalcHashes (Hashes.Intrinsic, Validations.None);
+                Assert.AreEqual (Severity.Noise, flacModel.Data.Issues.MaxSeverity);
+                Assert.AreEqual (0, flacModel.Data.Issues.RepairableCount);
             }
         }
     }
