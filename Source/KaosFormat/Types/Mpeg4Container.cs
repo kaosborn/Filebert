@@ -29,7 +29,7 @@ namespace KaosFormat
                 {
                     if (BitConverter.IsLittleEndian)
                         Array.Reverse (buf, 0, 4);
-                    long size = BitConverter.ToInt32 (buf, 0);
+                    long size = BitConverter.ToUInt32 (buf, 0);
 
                     if (size == 1)
                     {
