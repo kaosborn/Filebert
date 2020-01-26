@@ -240,15 +240,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Filebert"
-        "ProductCode" = "8:{FF91CA64-FD17-4F1E-B33B-4C6DD37846D4}"
-        "PackageCode" = "8:{4AA80F2F-9D6A-4541-AE6B-98D61549AA54}"
+        "ProductCode" = "8:{95DA238F-7212-4D22-AB83-337513554530}"
+        "PackageCode" = "8:{3CEF0351-1334-480A-BAAF-A6E279C67F20}"
         "UpgradeCode" = "8:{74E5A7D7-99FC-4D68-B4B9-935D9F83B166}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:3.0.0"
+        "ProductVersion" = "8:3.0.101"
         "Manufacturer" = "8: "
         "ARPHELPTELEPHONE" = "8:1-800-555-1212"
         "ARPHELPLINK" = "8:https://github.com/kaosborn/Filebert/issues"
@@ -1561,7 +1561,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_93AAEF2F5ED94C10B9EDF1B7F61B666B"
             {
-            "SourcePath" = "8:..\\WpfDiags\\obj\\Release\\FilebertWin.exe"
+            "SourcePath" = "8:..\\WpfDiags\\obj\\Debug\\FilebertWin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
@@ -1589,7 +1589,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E86DE964AEED4318B1C471BC4DE25581"
             {
-            "SourcePath" = "8:..\\ConDiags\\obj\\Release\\Filebert.exe"
+            "SourcePath" = "8:..\\ConDiags\\obj\\Debug\\Filebert.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_3FC69840993F4E349BC22679BDD2604D"
