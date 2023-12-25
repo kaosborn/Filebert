@@ -1,8 +1,8 @@
 ﻿//
 // Product: Filebert
-// File:    ConDiagsController.cs
+// File: ConDiagsController.cs
 //
-// Copyright © 2015-2019 github.com/kaosborn
+// Copyright © 2015-2024 github.com/kaosborn
 // MIT License - Use and redistribute freely
 //
 
