@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfDiags", "WpfDiags\WpfDiags.csproj", "{69262B82-195C-4784-9591-AFCAA0921FC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConDiags", "ConDiags\ConDiags.csproj", "{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness400", "Harness400\Harness400.csproj", "{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Install", "Install\Install.vdproj", "{28EACC5E-E859-4C4B-8301-F257C2F1F646}"
 EndProject
@@ -27,9 +25,50 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosFormat", "Source\KaosFo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KaosIssue", "Source\KaosIssue\KaosIssue.shproj", "{ACB707F0-86A6-49D8-9CB3-0AF81E838B6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test400", "Test400\Test400.csproj", "{080CE209-E01A-4955-B364-289356E9F6E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harness480", "Harness480\Harness480.csproj", "{A540B8B4-6F80-4D38-9F3F-74CBAE5590DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test480", "Test480\Test480.csproj", "{3A96B1B0-4B51-468D-9375-F7DA1F3DFD57}"
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Debug|Any CPU.ActiveCfg = Debug
+		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Release|Any CPU.ActiveCfg = Release
+		{A540B8B4-6F80-4D38-9F3F-74CBAE5590DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A540B8B4-6F80-4D38-9F3F-74CBAE5590DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A540B8B4-6F80-4D38-9F3F-74CBAE5590DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A540B8B4-6F80-4D38-9F3F-74CBAE5590DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A96B1B0-4B51-468D-9375-F7DA1F3DFD57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A96B1B0-4B51-468D-9375-F7DA1F3DFD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A96B1B0-4B51-468D-9375-F7DA1F3DFD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A96B1B0-4B51-468D-9375-F7DA1F3DFD57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1066D891-6990-4E15-9E3D-BE06F1B9AA06} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{91550135-6EB8-41D9-A67D-79A9D4F2F84C} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{E96BF7C1-A0C2-449E-98D8-09839B14EED1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{5EAEE967-89EF-4E0B-B0E2-46546B81228D} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{0BFEA52C-8D91-4BB3-9AC8-39A246FC14A3} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{DAB51A5A-2DD3-41B5-BC35-09825F0185F1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+		{ACB707F0-86A6-49D8-9CB3-0AF81E838B6D} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A78269A7-58AF-4709-835E-CA6CC1AE5647}
+	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Source\KaosDiags\KaosDiags.projitems*{0bfea52c-8d91-4bb3-9ac8-39a246fc14a3}*SharedItemsImports = 13
 		Source\AppViewModel\AppViewModel.projitems*{1066d891-6990-4e15-9e3d-be06f1b9aa06}*SharedItemsImports = 13
@@ -47,54 +86,15 @@ Global
 		Source\KaosIssue\KaosIssue.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
 		Source\KaosSysIo\KaosSysIo.projitems*{736be776-a8b4-47c6-94cc-6e1a6ce88b6a}*SharedItemsImports = 4
 		Source\KaosViewModel\KaosViewModel.projitems*{91550135-6eb8-41d9-a67d-79a9d4f2f84c}*SharedItemsImports = 13
+		Source\AppViewModel\AppViewModel.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosCrypto\KaosCrypto.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosDiags\KaosDiags.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosFormat\KaosFormat.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosIssue\KaosIssue.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosSysIo\KaosSysIo.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
+		Source\KaosViewModel\KaosViewModel.projitems*{a540b8b4-6f80-4d38-9f3f-74cbae5590db}*SharedItemsImports = 4
 		Source\KaosIssue\KaosIssue.projitems*{acb707f0-86a6-49d8-9cb3-0af81e838b6d}*SharedItemsImports = 13
 		Source\KaosFormat\KaosFormat.projitems*{dab51a5a-2dd3-41b5-bc35-09825f0185f1}*SharedItemsImports = 13
-		Source\AppViewModel\AppViewModel.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosCrypto\KaosCrypto.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosDiags\KaosDiags.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosFormat\KaosFormat.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosIssue\KaosIssue.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosSysIo\KaosSysIo.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
-		Source\KaosViewModel\KaosViewModel.projitems*{e03a1bb0-38ec-48c2-94fa-e13b78a99a53}*SharedItemsImports = 4
 		Source\KaosSysIo\KaosSysIo.projitems*{e96bf7c1-a0c2-449e-98d8-09839b14eed1}*SharedItemsImports = 13
-	EndGlobalSection
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69262B82-195C-4784-9591-AFCAA0921FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69262B82-195C-4784-9591-AFCAA0921FC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{736BE776-A8B4-47C6-94CC-6E1A6CE88B6A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E03A1BB0-38EC-48C2-94FA-E13B78A99A53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Debug|Any CPU.ActiveCfg = Debug
-		{28EACC5E-E859-4C4B-8301-F257C2F1F646}.Release|Any CPU.ActiveCfg = Release
-		{080CE209-E01A-4955-B364-289356E9F6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{080CE209-E01A-4955-B364-289356E9F6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{080CE209-E01A-4955-B364-289356E9F6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{080CE209-E01A-4955-B364-289356E9F6E5}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1066D891-6990-4E15-9E3D-BE06F1B9AA06} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{91550135-6EB8-41D9-A67D-79A9D4F2F84C} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{E96BF7C1-A0C2-449E-98D8-09839B14EED1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{5EAEE967-89EF-4E0B-B0E2-46546B81228D} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{0BFEA52C-8D91-4BB3-9AC8-39A246FC14A3} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{DAB51A5A-2DD3-41B5-BC35-09825F0185F1} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-		{ACB707F0-86A6-49D8-9CB3-0AF81E838B6D} = {0910FB46-9898-4B9E-9DAC-B6E9168A4C5D}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A78269A7-58AF-4709-835E-CA6CC1AE5647}
 	EndGlobalSection
 EndGlobal
