@@ -163,9 +163,7 @@ namespace KaosDiags
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged (string propertyName)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler (this, new PropertyChangedEventArgs (propertyName));
+            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propertyName));
         }
 
         public IList<string> GetReportRollups (string verb)
@@ -269,8 +267,7 @@ namespace KaosDiags
         public void OnMessageSend (string message, Severity severity=Severity.NoIssue)
         {
             ++ConsoleLinesReported;
-            if (MessageSend != null)
-                MessageSend (message, severity);
+            MessageSend?.Invoke (message, severity);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TestDiags
 {
     public class MockDiagsView : IDiagsUi
     {
-        private StringBuilder console = new StringBuilder();
+        private readonly StringBuilder console = new StringBuilder();
         public DiagsPresenter ViewModel { get; private set; }
 
         public MockDiagsView()

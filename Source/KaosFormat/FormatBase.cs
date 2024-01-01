@@ -395,8 +395,7 @@ namespace KaosFormat
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaisePropertyChanged (string propName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged (this, new PropertyChangedEventArgs (propName));
+            PropertyChanged?.Invoke (this, new PropertyChangedEventArgs (propName));
         }
 
         public long ExcessSize => excess == null ? 0 : excess.Length;

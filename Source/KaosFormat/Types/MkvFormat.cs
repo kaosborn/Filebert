@@ -129,7 +129,7 @@ namespace KaosFormat
 
     public class EbmlNodeMaster : EbmlNode
     {
-        private List<EbmlNode> nodes;
+        private readonly List<EbmlNode> nodes;
         public IList<EbmlNode> Nodes => nodes;
 
         public EbmlNodeMaster (EbmlSig element, long size) : base (element)
@@ -151,8 +151,7 @@ namespace KaosFormat
 
         public String SeekForASCII (ulong sig32)
         {
-            var node = Seek (sig32) as EbmlNodeLeaf;
-            if (node == null || node.payload==null)
+            if (! (Seek (sig32) is EbmlNodeLeaf node) || node.payload == null)
                 return null;
             System.Diagnostics.Debug.Assert (node.Element.Type == EbmlType.Ascii);
             return Encoding.ASCII.GetString (node.payload, 0, node.payload.Length);
@@ -160,8 +159,7 @@ namespace KaosFormat
 
         public long SeekForUnsigned (ulong sig32)
         {
-            var node = Seek (sig32) as EbmlNodeLeaf;
-            if (node == null || node.payload==null || node.payload.Length==0)
+            if (! (Seek (sig32) is EbmlNodeLeaf node) || node.payload == null || node.payload.Length == 0)
                 return -1;
             System.Diagnostics.Debug.Assert (node.Element.Type == EbmlType.Unsigned);
             long result = node.payload[0];
@@ -363,7 +361,7 @@ namespace KaosFormat
                     {
                         if (mstr.SigIsStartOf (bb))
                         {
-                            Data.fbs.Position = Data.ValidSize = Data.ValidSize + 4;
+                            Data.fbs.Position = Data.ValidSize += 4;
 
                             if ((mstr.Flag & ParseFlag.PrunePayload) != 0)
                             {
@@ -433,7 +431,7 @@ namespace KaosFormat
                     foreach (var item in masterSigs)
                         if (item.SigIsStartOf (buf))
                         {
-                            Data.fbs.Position = Data.ValidSize = Data.ValidSize + item.Signature.Count;
+                            Data.fbs.Position = Data.ValidSize += item.Signature.Count;
                             newNode = ParseTree (item);
                             if (IssueModel.Data.HasFatal)
                             {
@@ -447,7 +445,7 @@ namespace KaosFormat
                     {
                         if (item.SigIsStartOf (buf))
                         {
-                            Data.fbs.Position = Data.ValidSize = Data.ValidSize + item.Signature.Count;
+                            Data.fbs.Position = Data.ValidSize += item.Signature.Count;
 
                             byte[] payload = null;
                             byte[] payloadHdr = ReadMTF (Data.fbs, out long payloadLen);
@@ -599,13 +597,13 @@ namespace KaosFormat
             return 0;
         }
 
-        private static EbmlSig rootSig    = new EbmlSig (new byte[] { 0x1A, 0x45, 0xDF, 0xA3 }, "EBML",    ParseFlag.L0);
-        private static EbmlSig segmentSig = new EbmlSig (new byte[] { 0x18, 0x53, 0x80, 0x67 }, "Segment", ParseFlag.L0);
-        private static EbmlSig attachSig  = new EbmlSig (new byte[] { 0x19, 0x41, 0xA4, 0x69 }, "Attachments");
-        private static EbmlSig voidSig    = new EbmlSig (new byte[] { 0xEC }, EbmlType.Binary,  "Void");
-        private static EbmlSig CrcSig     = new EbmlSig (new byte[] { 0xBF }, EbmlType.Binary,  "CRC-32", ParseFlag.Persist);
+        private static readonly EbmlSig rootSig    = new EbmlSig (new byte[] { 0x1A, 0x45, 0xDF, 0xA3 }, "EBML",    ParseFlag.L0);
+        private static readonly EbmlSig segmentSig = new EbmlSig (new byte[] { 0x18, 0x53, 0x80, 0x67 }, "Segment", ParseFlag.L0);
+        private static readonly EbmlSig attachSig  = new EbmlSig (new byte[] { 0x19, 0x41, 0xA4, 0x69 }, "Attachments");
+        private static readonly EbmlSig voidSig    = new EbmlSig (new byte[] { 0xEC }, EbmlType.Binary,  "Void");
+        private static readonly EbmlSig CrcSig     = new EbmlSig (new byte[] { 0xBF }, EbmlType.Binary,  "CRC-32", ParseFlag.Persist);
 
-        private static EbmlSig[] topSigs =
+        private static readonly EbmlSig[] topSigs =
         {
             new EbmlSig (new byte[] { 0x1F, 0x43, 0xB6, 0x75 }, "Cluster", ParseFlag.PrunePayload),
             new EbmlSig (new byte[] { 0x11, 0x4D, 0x9B, 0x74 }, "SeekHead"),
@@ -804,7 +802,7 @@ namespace KaosFormat
         public long DocTypeReadVersion => root.SeekForUnsigned (0x4285);
         public string Codec => segment.SeekForASCII (0x86);
 
-        private List<EbmlNodeMaster> layout = new List<EbmlNodeMaster>();
+        private readonly List<EbmlNodeMaster> layout = new List<EbmlNodeMaster>();
         private EbmlNodeMaster root = null, segment = null;
         public int CrcCount { get; private set; }
         private int? badCrcCount = null;
