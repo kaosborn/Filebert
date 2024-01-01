@@ -344,7 +344,7 @@ namespace KaosDiags
                 }
 
                 Data.CurrentFile = fileName;
-                Data.CurrentDirectory = directoryName;
+                Data.CurrentDirectory = String.IsNullOrEmpty (directoryName) ? "." : directoryName;
             }
 
             public void ResetTotals()
