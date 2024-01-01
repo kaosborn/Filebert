@@ -649,6 +649,7 @@ namespace KaosFormat
 
             // Chapters:
             new EbmlSig (new byte[] { 0x45, 0xB9 }, "EditionEntry"),
+            new EbmlSig (new byte[] { 0x45, 0xDD }, "EditionFlagOrdered"),
             new EbmlSig (new byte[] { 0xB6 },       "ChapterAtom"),
 
             // Attachments:
@@ -719,6 +720,7 @@ namespace KaosFormat
             new EbmlSig (new byte[] { 0x55, 0xEE }, EbmlType.Unsigned, "MaxBlockAdditionID"),
             new EbmlSig (new byte[] { 0x53, 0x6E }, EbmlType.Utf8,     "Name",              ParseFlag.Persist),
             new EbmlSig (new byte[] { 0x22, 0xB5, 0x9C }, EbmlType.Ascii, "Language",       ParseFlag.Persist),
+            new EbmlSig (new byte[] { 0x22, 0xB5, 0x9D }, EbmlType.Ascii, "LanguageBcp47",  ParseFlag.Persist),
             new EbmlSig (new byte[] { 0x86       }, EbmlType.Ascii,    "CodecID",           ParseFlag.Persist),
             new EbmlSig (new byte[] { 0x63, 0xA2 }, EbmlType.Binary,   "CodecPrivate"),
             new EbmlSig (new byte[] { 0x25, 0x86, 0x88 }, EbmlType.Utf8, "CodecName"),
@@ -748,6 +750,7 @@ namespace KaosFormat
             new EbmlSig (new byte[] { 0x2E, 0xB5, 0x24 }, EbmlType.Binary, "ColourSpace"),
             new EbmlSig (new byte[] { 0x55, 0xB7 }, EbmlType.Unsigned, "ChromaSitingHorz"),
             new EbmlSig (new byte[] { 0x55, 0xB8 }, EbmlType.Unsigned, "ChromaSitingVert"),
+            new EbmlSig (new byte[] { 0x55, 0xB9 }, EbmlType.Unsigned, "Range"),
 
             new EbmlSig (new byte[] { 0xB5       }, EbmlType.Float,    "SamplingFrequency", ParseFlag.Persist),
             new EbmlSig (new byte[] { 0x78, 0xB5 }, EbmlType.Float,    "OutputSamplingFrequency"),
