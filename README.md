@@ -1,19 +1,24 @@
 ![logo](Images/FirstAidWin256.png)
 # Filebert
 
-Filebert is a Windows .NET 4.0 program that performs media file diagnostics.
-Windows XP thru 10 are supported with limited support for other operating systems.
+[![Test](https://github.com/kaosborn/KaosDiags/workflows/Test/badge.svg)](https://github.com/kaosborn/KaosDiags/blob/master/.github/workflows/Test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/KaosDiags/blob/master/LICENSE)
 
-An installer is provided although a portable install may be performed by copying either of the standalone `.exe` files.
+Filebert is a .NET 4.8 program that performs media file diagnostics.
+Windows XP thru 11 are supported with limited support for other operating systems.
+
+An installer is provided although a portable install may be performed by copying either of the standalone `.exe` files:
+* `filebert.exe` - console interface
+* `filebertWin.exe` - GUI interface
+
 The installer makes no registry changes other than what is needed for basic installation.
-Settings are configured by supplying command-line arguments only.
 Full functionality requires that `flac.exe` is available to the command line.
 
-A console version of Filebert is available as well as a windowed version.
-The console version allows batch operation, advanced logging, and cross-platform usage.
-Otherwise, its behavior is consistent with the windowed version.
+A console version of Filebert is available as well as a Windows GUI version.
+The console version allows batch operation, advanced logging, and cross-platform use.
+The behavior of the two executables is identical since they reference the same domain codebase.
 
-Filebert is freeware with complete source available for inspection at GitHub.
+Filebert is freeware with complete source and build available for inspection at GitHub.
 
 ## [** DOWNLOAD **](https://github.com/kaosborn/Filebert/releases/)
 
@@ -21,23 +26,22 @@ Filebert is freeware with complete source available for inspection at GitHub.
 
 ## Repository layout
 
-This Git repository is organized as a single Visual Studio solution with additional documentation files in the root.
-Here are the top-level folders:
+This Git repository is organized as a single Visual Studio solution plus some accessories in the root.
+Here are the solution's projects:
 
-* `ConDiags` - Builds the console front end.
-* `Harness400` - Builds the domain. For test and development only.
-* `Images` - SVG files with renderings.
-* `Install` - Builds the `Filebert.msi` installer.
-* `Source` - Shared projects by namespace.
-* `Test400` - MSTest unit tests with mock. Code coverage is pitiful.
-* `WpfDiags` - Builds the WPF front end.
+* `Source` - codebase in shared projects by namespace.
+* `ConDiags` - Builds the console executable. Architecture is MVC.
+* `Harness480` - Builds the domain. For test and development only.
+* `Test480` - MSTest unit tests with mock. Code coverage is pitiful.
+* `WpfDiags` - Builds the WPF executable. Architecture is MVVM.
+* `Install` - Builds the entirely optional installer.
 
 ## Build requirements
 
-* Visual Studio Community 2019 (or 2017) including .NET Framework 4 tools.
+* Visual Studio Community 2022. Earlier versions might work too.
 * Microsoft Visual Studio Installer Projects extension.
 * Release configuration, F6 key.
 
-For additional developer notes:
+Developer notes at:
 
 https://github.com/kaosborn/Filebert/wiki/Developer-notes

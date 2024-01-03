@@ -1,0 +1,17 @@
+name: Test
+on: push
+jobs:
+  Job1:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Initialize
+      run: msbuild Test480 /p:Configuration=Debug
+    - name: Run standard suite
+      run: VSTest.Console.exe Test480\bin\Debug\Test480.dll --ResultsDirectory:TestResults
+    - uses: actions/upload-artifact@v1
+      with:
+        name: KaosDiags-Test
+        path: .\TestResults
