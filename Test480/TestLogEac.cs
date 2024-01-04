@@ -9,6 +9,7 @@ namespace TestDiags
     [TestClass]
     public class TestLogEac
     {
+        [TestCategory ("RequiresFlac")]
         [TestMethod]
         public void UnitLogEac_OK1()
         {
