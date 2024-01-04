@@ -1,8 +1,8 @@
 ![logo](Images/FirstAidWin256.png)
 # Filebert
 
-[![Test](https://github.com/kaosborn/KaosDiags/workflows/Test/badge.svg)](https://github.com/kaosborn/KaosDiags/blob/master/.github/workflows/Test.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/KaosDiags/blob/master/LICENSE)
+[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)](https://github.com/kaosborn/Filebert/blob/master/.github/workflows/Test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/Filebert/blob/master/LICENSE)
 
 Filebert is a .NET 4.8 program that performs media file diagnostics.
 Windows XP thru 11 are supported with limited support for other operating systems.
@@ -27,7 +27,7 @@ Filebert is freeware with complete source and build available for inspection at 
 ## Repository layout
 
 This Git repository is organized as a single Visual Studio solution plus some accessories in the root.
-Here are the solution's projects:
+These are the solution's projects:
 
 * `Source` - codebase in shared projects by namespace.
 * `ConDiags` - Builds the console executable. Architecture is MVC.
@@ -36,7 +36,7 @@ Here are the solution's projects:
 * `WpfDiags` - Builds the WPF executable. Architecture is MVVM.
 * `Install` - Builds the entirely optional installer.
 
-## Build requirements
+## Minimum build requirements
 
 * Visual Studio Community 2022. Earlier versions might work too.
 * Microsoft Visual Studio Installer Projects extension.
