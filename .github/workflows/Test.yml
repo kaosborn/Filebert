@@ -18,7 +18,7 @@ jobs:
     - name: Build test suite
       run: msbuild Test480 /p:Configuration=Debug
     - name: Run test suite where no flac.exe
-      run: VSTest.Console.exe Test480\bin\Debug\Test480.dll --TestCaseFilter:"RequiresFlac!=1" --ResultsDirectory:TestResults
+      run: VSTest.Console.exe Test480\bin\Debug\Test480.dll --TestCaseFilter:"Name!~UnitLogEac_OK1" --ResultsDirectory:TestResults
     - uses: actions/upload-artifact@v1
       with:
         name: KaosDiags-Test
