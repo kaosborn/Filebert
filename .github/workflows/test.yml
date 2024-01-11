@@ -1,0 +1,21 @@
+name: Test
+on: push
+jobs:
+  Job1:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1.2
+    - name: Build test suite
+      run: msbuild Test480 /p:Configuration=Debug /restore
+    - name: Run test suite where no flac.exe
+      run: VSTest.Console.exe Test480\bin\Debug\Test480.dll /TestCaseFilter:"Name!~UnitLogEac_OK1" /ResultsDirectory:TestResults
+    - uses: actions/upload-artifact@v1
+      with:
+        name: KaosDiags-Test
+        path: TestResults
