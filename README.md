@@ -1,8 +1,10 @@
 ![logo](Images/FirstAidWin256.png)
 # Filebert
 
-[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)](https://github.com/kaosborn/Filebert/blob/master/.github/workflows/Test.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/Filebert/blob/master/LICENSE)
+[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)]
+(https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]
+(https://github.com/kaosborn/Filebert/blob/master/LICENSE)
 
 Filebert is a .NET 4.8 program that performs media file diagnostics.
 Windows XP thru 11 are supported with limited support for other operating systems.
@@ -29,7 +31,7 @@ Filebert is freeware with complete source and build available for inspection at 
 This Git repository is organized as a single Visual Studio solution plus some accessories in the root.
 These are the solution's projects:
 
-* `Source` - codebase in shared projects by namespace.
+* `Source` - Codebase in shared projects by namespace.
 * `ConDiags` - Builds the console executable. Architecture is MVC.
 * `Harness480` - Builds the domain. For test and development only.
 * `Test480` - MSTest unit tests with mock. Code coverage is pitiful.
