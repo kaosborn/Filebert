@@ -1,10 +1,8 @@
 ![logo](Images/FirstAidWin256.png)
 # Filebert
 
-[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)]
-(https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]
-(https://github.com/kaosborn/Filebert/blob/master/LICENSE)
+[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)](https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/Filebert/blob/master/LICENSE)
 
 Filebert is a .NET 4.8 program that performs media file diagnostics.
 Windows XP thru 11 are supported with limited support for other operating systems.
