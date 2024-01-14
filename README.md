@@ -1,22 +1,23 @@
 ![logo](Images/FirstAidWin256.png)
 # Filebert
 
-[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test.yml/badge.svg)](https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
+[![Test](https://github.com/kaosborn/Filebert/actions/workflows/Test/badge.svg)](https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/Filebert/blob/master/LICENSE)
 
-Filebert is a .NET 4.8 program that performs media file diagnostics.
+Filebert is a .NET-based program that performs media file diagnostics.
 Windows XP thru 11 are supported with limited support for other operating systems.
 
-An installer is provided although a portable install may be performed by copying either of the standalone `.exe` files:
-* `filebert.exe` - console interface
-* `filebertWin.exe` - GUI interface
+A portable install may be performed by copying either of the standalone `.exe` files:
 
-The installer makes no registry changes other than what is needed for basic installation.
-Full functionality requires that `flac.exe` is available to the command line.
+* `filebert.exe` - Console interface
+* `filebertWin.exe` - Graphical interface for Windows only
 
-A console version of Filebert is available as well as a Windows GUI version.
 The console version allows batch operation, advanced logging, and cross-platform use.
-The behavior of the two executables is identical since they reference the same domain codebase.
+The behavior of the two executables is otherwise identical.
+Full functionality for either requires that `flac.exe` is available to the command line.
+
+An installer is also provided for both executables.
+The installer makes no registry changes other than what is needed for basic installation.
 
 Filebert is freeware with complete source and build available for inspection at GitHub.
 
