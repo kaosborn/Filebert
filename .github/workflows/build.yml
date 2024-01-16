@@ -1,0 +1,23 @@
+name: Build
+on: push
+jobs:
+  J1:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Initialize
+      run: md RunResults
+    - name: Build executables
+      run: |
+        dotnet build -c Release ConDiags
+        msbuild WpfDiags /p:Configuration=Release
+    - name: Copy build artifacts
+      run: |
+        copy ConDiags\bin\Release\Filebert.exe RunResults\Filebert.exe
+        copy WpfDiags\bin\Release\FilebertWin.exe RunResults\FilebertWin.exe
+    - uses: actions/upload-artifact@v1
+      with:
+        name: KaosDiags-RunResults
+        path: RunResults
