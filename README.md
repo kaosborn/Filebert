@@ -2,6 +2,7 @@
 # Filebert
 
 [![Test](https://github.com/kaosborn/Filebert/actions/workflows/test.yml/badge.svg)](https://github.com/kaosborn/Filebert/actions/workflows/test.yml)
+[![Build](https://github.com/kaosborn/Filebert/actions/workflows/build.yml/badge.svg)](https://github.com/kaosborn/Filebert/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kaosborn/Filebert/blob/master/LICENSE)
 
 Filebert is a .NET-based program that performs media file diagnostics.
