@@ -19,7 +19,7 @@ jobs:
       run: |
         copy ConDiags\bin\Release\Filebert.exe RunResults\Filebert.exe
         copy WpfDiags\bin\Release\FilebertWin.exe RunResults\FilebertWin.exe
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: KaosDiags-RunResults
         path: RunResults
