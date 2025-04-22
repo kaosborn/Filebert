@@ -8,7 +8,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
     - name: Initialize
       run: md RunResults
     - name: Build executables
