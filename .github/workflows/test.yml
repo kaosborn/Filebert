@@ -4,13 +4,13 @@ jobs:
   Job1:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
-      uses: nuget/setup-nuget@v1.2
+      uses: nuget/setup-nuget@v2
     - name: Setup VSTest
       uses: darenm/Setup-VSTest@v1.2
     - name: Restore packages
@@ -19,7 +19,7 @@ jobs:
       run: msbuild Test480 /p:Configuration=Debug
     - name: Run test suite where no flac.exe
       run: VSTest.Console.exe Test480\bin\Debug\Test480.dll /TestCaseFilter:"Name!~UnitLogEac_OK1" /ResultsDirectory:TestResults
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: KaosDiags-Test
         path: TestResults
